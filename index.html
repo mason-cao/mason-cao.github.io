@@ -2,21 +2,210 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mason Cao's Website</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* A little extra style for smooth transitions on the tab underlines */
+        .tab-link {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
-<body>
-    <h1>Welcome to My Page 🚀</h1>
-    <p>This is my personal website hosted on GitHub Pages.</p>
+<body class="bg-gray-100 text-gray-800 font-sans">
 
-    <p>My name is Mason Cao, and I am currently a junior at Lambert High School.</p>
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+             <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Mason Cao</h1>
+             <p class="text-md md:text-lg text-gray-600 mt-2">Student at Lambert High School</p>
+        </header>
 
-    <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1752256094/forsythk12gaus/hdquirwrljzvvgjo9sa1/LamertLogo.png" alt="Lambert High School Logo" width="150">
+        <!-- Navigation Tabs -->
+        <div class="mb-8">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex justify-center space-x-4 md:space-x-8" aria-label="Tabs">
+                    <!-- Tab buttons -->
+                    <button data-tab-target="#home" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Home
+                    </button>
+                    <button data-tab-target="#extracurriculars" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Extracurriculars
+                    </button>
+                    <button data-tab-target="#accomplishments" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Accomplishments
+                    </button>
+                </nav>
+            </div>
+        </div>
 
-    <p>
-        <a href="https://www.swimcloud.com/swimmer/2684384/" target="_blank" rel="noopener noreferrer">
-            View my swim stats on SwimCloud
-        </a>
-    </p>
+        <!-- Main Content Area -->
+        <main>
+            <!-- Home Tab Content -->
+            <div id="home" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold mb-4 text-gray-900">About Me</h2>
+                <div class="space-y-4">
+                    <p class="text-gray-700 leading-relaxed">
+                        Mason Cao is a dedicated and multifaceted junior at Lambert High School with a passion for leadership, athletics, and the fine arts. He consistently seeks opportunities to challenge himself and contribute positively to his community through a wide range of activities.
+                    </p>
+                </div>
+                
+                <!-- GPA and Class Rank Stats -->
+                <div class="mt-8 border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:justify-around text-center">
+                    <div class="mb-6 sm:mb-0">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">GPA</h3>
+                        <p class="text-4xl font-bold text-gray-900">4.44</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Class Rank</h3>
+                        <p class="text-4xl font-bold text-gray-900">28 <span class="text-xl text-gray-500 font-medium">/ 847</span></p>
+                        <p class="text-xs text-gray-500">(97th Percentile)</p>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Extracurriculars Tab Content (Initially Hidden) -->
+            <div id="extracurriculars" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden">
+                <div class="space-y-8">
+                    <!-- Leadership Section -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Leadership</h3>
+                        <div class="space-y-4 pl-4">
+                            <div>
+                                <h4 class="font-semibold">Founder, Heads Up Club (Nonprofit Organization)</h4>
+                                <p class="text-gray-600">Initiated a student-led club focusing on helping young students excel in athletics, fine arts, and academics.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Secretary, <a href="https://www.firststepteam.org/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">First Step (Nonprofit Organization)</a></h4>
+                                <p class="text-gray-600">Organized and participated in events and meetings to support the community.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Head Lifeguard, Laurel Springs</h4>
+                                <p class="text-gray-600">1 of 2 Head Lifeguards, oversaw training, staff coordination between 22 lifeguards, and pool operations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Athletics Section -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Athletics</h3>
+                        <div class="space-y-6 pl-4">
+                             <div>
+                                <h4 class="font-semibold">High School Swim Team</h4>
+                                <p class="text-gray-600 mb-2">Varsity and State team member. Swam at the Forsyth County Championship 2025, contributing points to the Lambert Boys Team for winning 1st place. Selected for the elite state-level competitive team, representing Lambert in the GHSA State swimming & diving championship for the 100-yard breaststroke.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Club Swimming (Swim Atlanta)</h4>
+                                <p class="text-gray-600 mb-2">Ranked 38th in Georgia and 33rd in Swim Atlanta. Qualified for and competed at the Senior State Championships in the 200-yard breaststroke.</p>
+                                <a href="https://www.swimcloud.com/swimmer/2684384/" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 hover:underline">
+                                    View Swim Stats on SwimCloud &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fine Arts Section -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Fine Arts</h3>
+                        <div class="space-y-4 pl-4">
+                            <div>
+                                <h4 class="font-semibold">Wind Ensemble - Lambert High School</h4>
+                                <p class="text-gray-600">Member of the highest-level band, demonstrating musical excellence, and as the only bass clarinetist, leadership in performance.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Georgia Music Education Association (GMEA) All-State Band</h4>
+                                <p class="text-gray-600">Selected for All-State Band four consecutive years since 7th grade based on rigorous audition standards; demonstrates select musicianship and dedication to instrumental performance.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- School Clubs Section -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">School Clubs</h3>
+                        <div class="space-y-4 pl-4">
+                            <div>
+                                <h4 class="font-semibold">Key Club</h4>
+                                <p class="text-gray-600">Active volunteer; contributed over 10 hours to community service events, helping various elementary, middle, and high schools in the Forsyth County area.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">FBLA (Future Business Leaders of America)</h4>
+                                <p class="text-gray-600">2024-2025 school year Social Media Concepts Regional qualifier; participated in business-oriented competitions and leadership development.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Spanish Honor Society</h4>
+                                <p class="text-gray-600">Recognized for academic excellence in Spanish and commitment to Spanish cultural enrichment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accomplishments Tab Content (Initially Hidden) -->
+            <div id="accomplishments" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden">
+                <h2 class="text-2xl font-bold mb-4 text-gray-900">Accomplishments</h2>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li>
+                        <span class="font-semibold">AP Scholar with Distinction (2025):</span> Recognized for achieving 4s or 5s on six AP exams.
+                    </li>
+                    <li>
+                        <span class="font-semibold">The College Board National Recognition Award (2025)</span>
+                    </li>
+                    <li>
+                        <span class="font-semibold">Presidential Volunteer Service Award:</span> Gold (2023) and Bronze (2024) recipient for over 300 collective service hours.
+                    </li>
+                    <li>
+                       <span class="font-semibold">Georgia State University President's List:</span> Awarded for achieving a 5.0 GPA in two dual enrollment classes with no incompletes.
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- JavaScript to handle tab switching -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Function to set the active tab
+            const setActiveTab = (tab) => {
+                // Deactivate all tabs
+                tabs.forEach(t => {
+                    t.classList.remove('border-blue-500', 'text-blue-600');
+                    t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                });
+
+                // Hide all content panels
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Activate the clicked tab and its corresponding content
+                tab.classList.add('border-blue-500', 'text-blue-600');
+                tab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                
+                const target = document.querySelector(tab.dataset.tabTarget);
+                if (target) {
+                    target.classList.remove('hidden');
+                }
+            };
+
+            // Add a click event listener to each tab
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    setActiveTab(tab);
+                });
+            });
+
+            // Set the "Home" tab as the active one on initial page load
+            const initialTab = document.querySelector('[data-tab-target="#home"]');
+            if (initialTab) {
+                setActiveTab(initialTab);
+            }
+        });
+    </script>
 </body>
 </html>
+
