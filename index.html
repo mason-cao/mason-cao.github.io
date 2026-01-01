@@ -11,6 +11,12 @@
         .tab-link {
             transition: all 0.3s ease-in-out;
         }
+        /* Style for highlighted search results */
+        .highlight {
+            background-color: #fde047; /* yellow-300 */
+            border-radius: 0.25rem;
+            padding: 0 0.125rem;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
@@ -18,9 +24,22 @@
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
         
         <!-- Header Section -->
-        <header class="text-center mb-8">
-             <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Mason Cao</h1>
-             <p class="text-md md:text-lg text-gray-600 mt-2">Student at Lambert High School</p>
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 w-full">
+            <!-- Title section -->
+             <div class="text-center sm:text-left">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Mason Cao</h1>
+                <p class="text-md md:text-lg text-gray-600 mt-2">Student at Lambert High School | C/O 27</p>
+             </div>
+             
+            <!-- Search Bar -->
+            <div class="relative mt-4 sm:mt-0">
+                <input type="search" id="site-search" placeholder="Search..." class="w-full sm:w-auto pl-10 pr-4 py-2 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
         </header>
 
         <!-- Navigation Tabs -->
@@ -40,9 +59,15 @@
                 </nav>
             </div>
         </div>
+        
+        <!-- Search Results Message -->
+        <div id="search-results-message" class="hidden text-center bg-white p-4 rounded-lg shadow-md mb-6">
+            <p class="text-gray-600">No results found.</p>
+        </div>
+
 
         <!-- Main Content Area -->
-        <main>
+        <main id="searchable-content">
             <!-- Home Tab Content -->
             <div id="home" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md">
                 <h2 class="text-2xl font-bold mb-4 text-gray-900">About Me</h2>
@@ -56,12 +81,12 @@
                 <div class="mt-8 border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:justify-around text-center">
                     <div class="mb-6 sm:mb-0">
                         <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">GPA</h3>
-                        <p class="text-4xl font-bold text-gray-900">4.44</p>
+                        <p class="text-4xl font-bold text-gray-900">4.48</p>
                     </div>
                     <div>
                         <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Class Rank</h3>
-                        <p class="text-4xl font-bold text-gray-900">28 <span class="text-xl text-gray-500 font-medium">/ 847</span></p>
-                        <p class="text-xs text-gray-500">(97th Percentile)</p>
+                        <p class="text-4xl font-bold text-gray-900">11 <span class="text-xl text-gray-500 font-medium">/ 846</span></p>
+                        <p class="text-xs text-gray-500">(99th Percentile)</p>
                     </div>
                 </div>
             </div>
@@ -73,6 +98,10 @@
                     <div>
                         <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Leadership</h3>
                         <div class="space-y-4 pl-4">
+                            <div>
+                                <h4 class="font-semibold">Team Captain, Lambert High School Swim Team</h4>
+                                <p class="text-gray-600">Led the varsity team, fostering a supportive environment and driving team excellence.</p>
+                            </div>
                             <div>
                                 <h4 class="font-semibold">Founder, Heads Up Club (Nonprofit Organization)</h4>
                                 <p class="text-gray-600">Initiated a student-led club focusing on helping young students excel in athletics, fine arts, and academics.</p>
@@ -111,11 +140,11 @@
                         <div class="space-y-4 pl-4">
                             <div>
                                 <h4 class="font-semibold">Wind Ensemble - Lambert High School</h4>
-                                <p class="text-gray-600">Member of the highest-level band, demonstrating musical excellence, and as the only bass clarinetist, leadership in performance.</p>
+                                <p class="text-gray-600">Member of the highest-level band, demonstrating musical excellence; performed as bass clarinetist for 1 year and soprano clarinetist for 3 years, demonstrating leadership in performance.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold">Georgia Music Education Association (GMEA) All-State Band</h4>
-                                <p class="text-gray-600">Selected for All-State Band four consecutive years since 7th grade based on rigorous audition standards; demonstrates select musicianship and dedication to instrumental performance.</p>
+                                <p class="text-gray-600">Selected for All-State Band four consecutive years since 7th grade based on rigorous audition standards; made it on both soprano and bass clarinet, demonstrating select musicianship and dedication to instrumental performance.</p>
                             </div>
                         </div>
                     </div>
@@ -124,12 +153,16 @@
                         <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">School Clubs</h3>
                         <div class="space-y-4 pl-4">
                             <div>
-                                <h4 class="font-semibold">Key Club</h4>
-                                <p class="text-gray-600">Active volunteer; contributed over 10 hours to community service events, helping various elementary, middle, and high schools in the Forsyth County area.</p>
+                                <h4 class="font-semibold">FBLA & DECA</h4>
+                                <p class="text-gray-600">Active member of both business-oriented organizations, participating in competitions and leadership development.</p>
                             </div>
                             <div>
-                                <h4 class="font-semibold">FBLA (Future Business Leaders of America)</h4>
-                                <p class="text-gray-600">2024-2025 school year Social Media Concepts Regional qualifier; participated in business-oriented competitions and leadership development.</p>
+                                <h4 class="font-semibold">National Technical Honor Society</h4>
+                                <p class="text-gray-600">Member recognized for outstanding student achievement in career and technical education.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Key Club</h4>
+                                <p class="text-gray-600">Active volunteer; contributed over 10 hours to community service events, helping various elementary, middle, and high schools in the Forsyth County area.</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold">Spanish Honor Society</h4>
@@ -144,6 +177,12 @@
             <div id="accomplishments" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden">
                 <h2 class="text-2xl font-bold mb-4 text-gray-900">Accomplishments</h2>
                 <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li>
+                        <span class="font-semibold">DECA Regions:</span> 2nd Place, Entrepreneurship Team Decision Making Event.
+                    </li>
+                    <li>
+                        <span class="font-semibold">FBLA Regional Qualifier (2024-2025):</span> Social Media Concepts.
+                    </li>
                     <li>
                         <span class="font-semibold">AP Scholar with Distinction (2025):</span> Recognized for achieving 4s or 5s on six AP exams.
                     </li>
@@ -162,50 +201,91 @@
 
     </div>
 
-    <!-- JavaScript to handle tab switching -->
+    <!-- JavaScript to handle tab switching and search functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.tab-link');
-            const tabContents = document.querySelectorAll('.tab-content');
+            const searchInput = document.getElementById('site-search');
+            const searchableContent = document.getElementById('searchable-content');
+            const searchResultsMessage = document.getElementById('search-results-message');
+            const originalContent = searchableContent.innerHTML;
 
-            // Function to set the active tab
             const setActiveTab = (tab) => {
-                // Deactivate all tabs
-                tabs.forEach(t => {
+                document.querySelectorAll('.tab-link').forEach(t => {
                     t.classList.remove('border-blue-500', 'text-blue-600');
                     t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
                 });
-
-                // Hide all content panels
-                tabContents.forEach(content => {
-                    content.classList.add('hidden');
-                });
-
-                // Activate the clicked tab and its corresponding content
-                tab.classList.add('border-blue-500', 'text-blue-600');
-                tab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
                 
-                const target = document.querySelector(tab.dataset.tabTarget);
-                if (target) {
-                    target.classList.remove('hidden');
+                if (tab) {
+                    tab.classList.add('border-blue-500', 'text-blue-600');
+                    tab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                    const target = document.querySelector(tab.dataset.tabTarget);
+                    if (target) {
+                        target.classList.remove('hidden');
+                    }
                 }
             };
 
-            // Add a click event listener to each tab
-            tabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    setActiveTab(tab);
+            const initializeTabs = () => {
+                document.querySelectorAll('.tab-link').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        setActiveTab(tab);
+                    });
                 });
-            });
+            };
 
-            // Set the "Home" tab as the active one on initial page load
-            const initialTab = document.querySelector('[data-tab-target="#home"]');
-            if (initialTab) {
-                setActiveTab(initialTab);
-            }
+            const performSearch = () => {
+                const query = searchInput.value.trim();
+                searchableContent.innerHTML = originalContent; // Restore original content
+                initializeTabs(); // Re-attach listeners since they were removed
+                searchResultsMessage.classList.add('hidden');
+
+                if (query.length < 2) {
+                    setActiveTab(document.querySelector('.tab-link[data-tab-target="#home"]'));
+                    return;
+                }
+
+                // Escape special characters for regex
+                const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(`(${escapedQuery})`, 'gi');
+                let matchFound = false;
+
+                const textElements = searchableContent.querySelectorAll('p, h4, span, li');
+                textElements.forEach(node => {
+                    if (node.closest('a')) return; // Don't search inside links
+                    if (node.children.length === 0 && node.textContent.match(regex)) {
+                        matchFound = true;
+                        node.innerHTML = node.innerHTML.replace(regex, `<span class="highlight">$1</span>`);
+                    }
+                });
+
+                if (matchFound) {
+                    const firstMatch = searchableContent.querySelector('.highlight');
+                    if (firstMatch) {
+                        const parentTab = firstMatch.closest('.tab-content');
+                        if (parentTab) {
+                            if (parentTab.classList.contains('hidden')) {
+                                const tabButton = document.querySelector(`[data-tab-target="#${parentTab.id}"]`);
+                                setActiveTab(tabButton);
+                            }
+                            // Scroll the element into view after a short delay
+                            setTimeout(() => {
+                                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 100);
+                        }
+                    }
+                } else {
+                    searchResultsMessage.classList.remove('hidden');
+                    setActiveTab(document.querySelector('.tab-link[data-tab-target="#home"]'));
+                }
+            };
+
+            // Initial setup
+            initializeTabs();
+            setActiveTab(document.querySelector('.tab-link[data-tab-target="#home"]'));
+            searchInput.addEventListener('input', performSearch);
         });
     </script>
 </body>
 </html>
-
