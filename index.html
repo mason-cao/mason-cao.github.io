@@ -271,9 +271,11 @@
                 const regex = new RegExp(`(${escapedQuery})`, 'gi');
                 let matchFound = false;
 
-                const textElements = searchableContent.querySelectorAll('p, h4, span, li');
+                // Added h1, h2, h3, h5, h6 to the selector so headers are searchable
+                const textElements = searchableContent.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, li');
                 textElements.forEach(node => {
                     if (node.closest('a')) return; // Don't search inside links
+                    // Only search nodes with no children to avoid breaking HTML structure of complex elements
                     if (node.children.length === 0 && node.textContent.match(regex)) {
                         matchFound = true;
                         node.innerHTML = node.innerHTML.replace(regex, `<span class="highlight">$1</span>`);
