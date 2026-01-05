@@ -38,18 +38,35 @@
         <!-- Header Section -->
         <header class="flex flex-col sm:flex-row justify-between items-center mb-8 w-full">
             <!-- Title section -->
-             <div class="text-center sm:text-left">
+             <div class="text-center sm:text-left mb-4 sm:mb-0">
                 <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Mason Cao</h1>
                 <p class="text-md md:text-lg text-gray-600 mt-2">Student at Lambert High School | C/O 27</p>
              </div>
              
-            <!-- Search Bar -->
-            <div class="relative mt-4 sm:mt-0">
-                <input type="search" id="site-search" placeholder="Search..." class="w-full sm:w-auto pl-10 pr-4 py-2 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                    </svg>
+            <!-- Right Side: Socials + Search -->
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                
+                <!-- Social Icons -->
+                <div class="flex space-x-3">
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/mason-cao-7a3760390" target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75" aria-label="LinkedIn">
+                        <img src="linkedin.png" alt="LinkedIn" class="w-6 h-6 object-contain">
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/m.zcao/" target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75" aria-label="Instagram">
+                        <img src="instagram.png" alt="Instagram" class="w-6 h-6 object-contain">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="relative w-full sm:w-auto">
+                    <input type="search" id="site-search" placeholder="Search..." class="w-full sm:w-auto pl-10 pr-4 py-2 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
                 </div>
             </div>
         </header>
