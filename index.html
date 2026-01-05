@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mason Cao's Website</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Mason Cao | Lambert High School Student Portfolio</title>
+    <meta name="description" content="Personal portfolio of Mason Cao, a student at Lambert High School (C/O 27). Exploring Computer Science, Swimming, and Leadership. View achievements, GPA, and extracurriculars.">
+    <meta name="keywords" content="Mason Cao, Lambert High School, Student Portfolio, Computer Science, Swimmer, Heads Up Club, FBLA, DECA, Georgia">
+    <meta name="author" content="Mason Cao">
+    
+    <!-- Open Graph / Social Media Tags -->
+    <meta property="og:title" content="Mason Cao | Student Portfolio">
+    <meta property="og:description" content="Junior at Lambert High School. AP Scholar with Distinction, Varsity Swim Captain, and Computer Science aspirant.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mason-cao.github.io/">
+    
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -139,7 +151,7 @@
                         <div class="space-y-6 pl-4">
                              <div>
                                 <h4 class="font-semibold">High School Swim Team</h4>
-                                <p class="text-gray-600 mb-2">Varsity and State team member. Was the 5th top contributor in points for the Lambert Boys Team winning 1st place at the Forysth County swimming & diving championship. Qualified for the elite state-level competitive team, representing Lambert in the GHSA State swimming & diving championship for the 100-yard breaststroke and 200-yard IM.
+                                <p class="text-gray-600 mb-2">Varsity and State team member. Swam at the Forsyth County Championship 2025, contributing points to the Lambert Boys Team for winning 1st place. Selected for the elite state-level competitive team, representing Lambert in the GHSA State swimming & diving championship for the 100-yard breaststroke and 200-yard IM.
                                 </p>
                             </div>
                             <div>
@@ -271,11 +283,10 @@
                 const regex = new RegExp(`(${escapedQuery})`, 'gi');
                 let matchFound = false;
 
-                // Added h1, h2, h3, h5, h6 to the selector so headers are searchable
+                // ADDED HEADERS HERE: Now searches h1, h2, h3, h4, h5, h6
                 const textElements = searchableContent.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, li');
                 textElements.forEach(node => {
                     if (node.closest('a')) return; // Don't search inside links
-                    // Only search nodes with no children to avoid breaking HTML structure of complex elements
                     if (node.children.length === 0 && node.textContent.match(regex)) {
                         matchFound = true;
                         node.innerHTML = node.innerHTML.replace(regex, `<span class="highlight">$1</span>`);
