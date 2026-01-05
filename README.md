@@ -34,3 +34,5 @@ index.html: The main file containing all HTML, CSS (in <style>), and JavaScript 
 Mason Cao
 
 Lambert High School | C/O 27
+
+[GitHub Profile]([url](https://github.com/mason-cao))
