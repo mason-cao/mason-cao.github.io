@@ -35,4 +35,5 @@ Mason Cao
 
 Lambert High School | C/O 27
 
-GitHub Profile
+[GitHub Profile
+](https://github.com/mason-cao)
