@@ -1,39 +1,19 @@
-# mason-cao.github.io
-Mason Cao's Personal Portfolio Website
+Mason Cao | Personal Portfolio 🚀
 
-This repository contains the source code for my personal portfolio website, hosted on GitHub Pages. It showcases my academic achievements, extracurricular activities, leadership roles, and awards as a student at Lambert High School (Class of 2027).
+My personal portfolio website and digital resume.
 
-🚀 Live Demo
+🔗 Live Website: mason-cao.github.io
 
-Visit the live website here: https://mason-cao.github.io/
+🛠️ Built With
 
-🌟 Features
+HTML5 & Vanilla JavaScript
 
-Responsive Design: Looks great on desktops, tablets, and mobile devices thanks to Tailwind CSS.
+Tailwind CSS
 
-Tabbed Navigation: Easily switch between "Home," "Extracurriculars," and "Awards" without reloading the page.
+✨ Key Features
 
-Real-time Search: A functional search bar that highlights keywords across all tabs and automatically navigates to the results.
+Interactive Tabs: Single-page navigation between Home, Extracurriculars, and Honors.
 
-Clean UI: Modern, minimalist interface with smooth transitions.
+Dynamic Search: Custom JS search that highlights keywords and auto-navigates.
 
-🛠️ Technologies Used
-
-HTML5: Structure of the website.
-
-Tailwind CSS (via CDN): For styling and responsive layout.
-
-JavaScript (Vanilla): Handles tab switching and the search functionality.
-
-📂 Project Structure
-
-index.html: The main file containing all HTML, CSS (in <style>), and JavaScript (in <script>).
-
-👤 Author
-
-Mason Cao
-
-Lambert High School | C/O 27
-
-[GitHub Profile
-](https://github.com/mason-cao)
+Fully Responsive: Mobile-first design for all devices.
