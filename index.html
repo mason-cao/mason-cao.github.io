@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO Meta Tags -->
     <title>Mason Cao | Lambert High School Student Portfolio</title>
     <meta
       name="description"
@@ -16,7 +15,6 @@
     />
     <meta name="author" content="Mason Cao" />
 
-    <!-- Open Graph / Social Media Tags -->
     <meta property="og:title" content="Mason Cao | Student Portfolio" />
     <meta
       property="og:description"
@@ -25,7 +23,6 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mason-cao.github.io/" />
 
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* A little extra style for smooth transitions on the tab underlines */
@@ -42,11 +39,9 @@
   </head>
   <body class="bg-gray-100 text-gray-800 font-sans">
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
-      <!-- Header Section -->
       <header
         class="flex flex-col sm:flex-row justify-between items-center mb-8 w-full"
       >
-        <!-- Title section -->
         <div class="text-center sm:text-left mb-4 sm:mb-0">
           <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
             Mason Cao
@@ -56,11 +51,8 @@
           </p>
         </div>
 
-        <!-- Right Side: Socials + Search -->
         <div class="flex flex-col sm:flex-row items-center gap-4">
-          <!-- Social Icons -->
           <div class="flex space-x-3">
-            <!-- LinkedIn -->
             <a
               href="https://www.linkedin.com/in/mason-cao-7a3760390"
               target="_blank"
@@ -75,7 +67,6 @@
               />
             </a>
 
-            <!-- Instagram -->
             <a
               href="https://www.instagram.com/m.zcao/"
               target="_blank"
@@ -91,7 +82,6 @@
             </a>
           </div>
 
-          <!-- Search Bar -->
           <div class="relative w-full sm:w-auto">
             <input
               type="search"
@@ -119,14 +109,12 @@
         </div>
       </header>
 
-      <!-- Navigation Tabs -->
       <div class="mb-8">
         <div class="border-b border-gray-200">
           <nav
             class="-mb-px flex justify-center space-x-4 md:space-x-8"
             aria-label="Tabs"
           >
-            <!-- Tab buttons -->
             <button
               data-tab-target="#home"
               class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
@@ -155,7 +143,6 @@
         </div>
       </div>
 
-      <!-- Search Results Message -->
       <div
         id="search-results-message"
         class="hidden text-center bg-white p-4 rounded-lg shadow-md mb-6"
@@ -163,9 +150,7 @@
         <p class="text-gray-600">No results found.</p>
       </div>
 
-      <!-- Main Content Area -->
       <main id="searchable-content">
-        <!-- Home Tab Content -->
         <div
           id="home"
           class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md"
@@ -182,7 +167,6 @@
             </p>
           </div>
 
-          <!-- Stats Section -->
           <div
             class="mt-8 border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:justify-between text-center gap-6"
           >
@@ -217,7 +201,6 @@
           </div>
         </div>
 
-        <!-- Projects Tab Content (Initially Hidden) -->
         <div
           id="projects"
           class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden"
@@ -226,7 +209,6 @@
             Technical Projects
           </h2>
           <div class="space-y-8">
-            <!-- Github Link Section -->
             <div class="border-b border-gray-100 pb-6">
               <a
                 href="https://github.com/mason-cao"
@@ -253,12 +235,17 @@
               </a>
             </div>
 
-            <!-- Anchor for You -->
             <div class="border-b border-gray-100 pb-6">
               <h3 class="text-xl font-bold text-gray-900 mb-2">
-                Anchor for You
+                <a
+                  href="https://anchorforyou.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-blue-600 transition-colors"
+                  >Anchor for You</a
+                >
                 <span
-                  class="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2"
+                  class="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2 align-middle"
                   >Single-Page Application (SPA)</span
                 >
               </h3>
@@ -278,14 +265,43 @@
                   subscription checkout.
                 </li>
               </ul>
+              <div class="mt-4">
+                <a
+                  href="https://anchorforyou.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center transition-colors"
+                >
+                  View Live Project
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    ></path>
+                  </svg>
+                </a>
+              </div>
             </div>
 
-            <!-- Textris Pro -->
             <div class="border-b border-gray-100 pb-6">
               <h3 class="text-xl font-bold text-gray-900 mb-2">
-                Textris Pro
+                <a
+                  href="https://mason-cao.github.io/textris-game/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-blue-600 transition-colors"
+                  >Textris Pro</a
+                >
                 <span
-                  class="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2"
+                  class="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2 align-middle"
                   >Browser-Based Game Engine</span
                 >
               </h3>
@@ -305,14 +321,43 @@
                   constant-time lookup for string validation.
                 </li>
               </ul>
+              <div class="mt-4">
+                <a
+                  href="https://mason-cao.github.io/textris-game/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center transition-colors"
+                >
+                  Play Live Demo
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    ></path>
+                  </svg>
+                </a>
+              </div>
             </div>
 
-            <!-- Personal Portfolio -->
             <div>
               <h3 class="text-xl font-bold text-gray-900 mb-2">
-                Personal Portfolio Website
+                <a
+                  href="https://mason-cao.github.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-blue-600 transition-colors"
+                  >Personal Portfolio Website</a
+                >
                 <span
-                  class="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2"
+                  class="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2 align-middle"
                   >Digital Resume</span
                 >
               </h3>
@@ -328,17 +373,39 @@
                   navigation to the relevant content tab.
                 </li>
               </ul>
+              <div class="mt-4">
+                <a
+                  href="https://mason-cao.github.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center transition-colors"
+                >
+                  View Live Project
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    ></path>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Extracurriculars Tab Content (Initially Hidden) -->
         <div
           id="extracurriculars"
           class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden"
         >
           <div class="space-y-8">
-            <!-- Leadership Section -->
             <div>
               <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
                 Leadership
@@ -396,7 +463,6 @@
                 </div>
               </div>
             </div>
-            <!-- Athletics Section -->
             <div>
               <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
                 Athletics
@@ -430,7 +496,6 @@
                 </div>
               </div>
             </div>
-            <!-- Fine Arts Section -->
             <div>
               <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
                 Fine Arts
@@ -467,7 +532,6 @@
                 </div>
               </div>
             </div>
-            <!-- School Clubs Section -->
             <div>
               <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
                 School Clubs
@@ -511,14 +575,12 @@
           </div>
         </div>
 
-        <!-- Honors Tab Content (Initially Hidden) -->
         <div
           id="awards"
           class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden"
         >
           <h2 class="text-2xl font-bold mb-4 text-gray-900">Honors</h2>
 
-          <!-- Advanced Coursework Section -->
           <div class="mb-8 pb-6 border-b border-gray-100">
             <h3 class="text-lg font-bold text-gray-900 mb-3">
               Advanced Technical Coursework
@@ -589,7 +651,6 @@
       </main>
     </div>
 
-    <!-- JavaScript to handle tab switching and search functionality -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const searchInput = document.getElementById("site-search");
