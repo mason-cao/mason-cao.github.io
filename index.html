@@ -1,342 +1,621 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- SEO Meta Tags -->
-    <meta name="google-site-verification" content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw" />
     <title>Mason Cao | Lambert High School Student Portfolio</title>
-    <meta name="description" content="Personal portfolio of Mason Cao, a student at Lambert High School (C/O 27). Exploring Computer Science, Swimming, and Leadership. View achievements, GPA, and extracurriculars.">
-    <meta name="keywords" content="Mason Cao, Lambert High School, Student Portfolio, Computer Science, Swimmer, Heads Up Club, FBLA, DECA, Georgia">
-    <meta name="author" content="Mason Cao">
-    
+    <meta
+      name="google-site-verification"
+      content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw"
+    />
+    <meta
+      name="description"
+      content="Personal portfolio of Mason Cao, a student at Lambert High School (C/O 27). Exploring Computer Science, Swimming, and Leadership. View achievements, GPA, and extracurriculars."
+    />
+    <meta
+      name="keywords"
+      content="Mason Cao, Lambert High School, Student Portfolio, Computer Science, Swimmer, Heads Up Club, FBLA, DECA, Georgia"
+    />
+    <meta name="author" content="Mason Cao" />
+
     <!-- Open Graph / Social Media Tags -->
-    <meta property="og:title" content="Mason Cao | Student Portfolio">
-    <meta property="og:description" content="Junior at Lambert High School. AP Scholar with Distinction, Varsity Swim Captain, and Computer Science aspirant.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mason-cao.github.io/">
-    
+    <meta property="og:title" content="Mason Cao | Student Portfolio" />
+    <meta
+      property="og:description"
+      content="Junior at Lambert High School. FBLA National Qualifier, DECA State Champion, Varsity Swim Captain, and Computer Science aspirant."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mason-cao.github.io/" />
+
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* A little extra style for smooth transitions on the tab underlines */
-        .tab-link {
-            transition: all 0.3s ease-in-out;
-        }
-        /* Style for highlighted search results */
-        .highlight {
-            background-color: #fde047; /* yellow-300 */
-            border-radius: 0.25rem;
-            padding: 0 0.125rem;
-        }
+      /* A little extra style for smooth transitions on the tab underlines */
+      .tab-link {
+        transition: all 0.3s ease-in-out;
+      }
+      /* Style for highlighted search results */
+      .highlight {
+        background-color: #fde047; /* yellow-300 */
+        border-radius: 0.25rem;
+        padding: 0 0.125rem;
+      }
     </style>
-</head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-
+  </head>
+  <body class="bg-gray-100 text-gray-800 font-sans">
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
-        
-        <!-- Header Section -->
-        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 w-full">
-            <!-- Title section -->
-             <div class="text-center sm:text-left mb-4 sm:mb-0">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Mason Cao</h1>
-                <p class="text-md md:text-lg text-gray-600 mt-2">Student at Lambert High School | C/O 27</p>
-             </div>
-             
-            <!-- Right Side: Socials + Search -->
-            <div class="flex flex-col sm:flex-row items-center gap-4">
-                
-                <!-- Social Icons -->
-                <div class="flex space-x-3">
-                    <!-- LinkedIn -->
-                    <a href="https://www.linkedin.com/in/mason-cao-7a3760390" target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75" aria-label="LinkedIn">
-                        <img src="linkedin.png" alt="LinkedIn" class="w-6 h-6 object-contain">
-                    </a>
-
-                    <!-- Instagram -->
-                    <a href="https://www.instagram.com/m.zcao/" target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75" aria-label="Instagram">
-                        <img src="instagram.png" alt="Instagram" class="w-6 h-6 object-contain">
-                    </a>
-                </div>
-
-                <!-- Search Bar -->
-                <div class="relative w-full sm:w-auto">
-                    <input type="search" id="site-search" placeholder="Search..." class="w-full sm:w-auto pl-10 pr-4 py-2 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Navigation Tabs -->
-        <div class="mb-8">
-            <div class="border-b border-gray-200">
-                <nav class="-mb-px flex justify-center space-x-4 md:space-x-8" aria-label="Tabs">
-                    <!-- Tab buttons -->
-                    <button data-tab-target="#home" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                        Home
-                    </button>
-                    <button data-tab-target="#extracurriculars" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                        Extracurriculars
-                    </button>
-                    <button data-tab-target="#awards" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                        Awards
-                    </button>
-                </nav>
-            </div>
-        </div>
-        
-        <!-- Search Results Message -->
-        <div id="search-results-message" class="hidden text-center bg-white p-4 rounded-lg shadow-md mb-6">
-            <p class="text-gray-600">No results found.</p>
+      <!-- Header Section -->
+      <header
+        class="flex flex-col sm:flex-row justify-between items-center mb-8 w-full"
+      >
+        <!-- Title section -->
+        <div class="text-center sm:text-left mb-4 sm:mb-0">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+            Mason Cao
+          </h1>
+          <p class="text-md md:text-lg text-gray-600 mt-2">
+            Student at Lambert High School, Suwanee, GA | C/O 27
+          </p>
         </div>
 
+        <!-- Right Side: Socials + Search -->
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <!-- Social Icons -->
+          <div class="flex space-x-3">
+            <!-- LinkedIn -->
+            <a
+              href="https://www.linkedin.com/in/mason-cao-7a3760390"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-opacity hover:opacity-75"
+              aria-label="LinkedIn"
+            >
+              <img
+                src="linkedin.png"
+                alt="LinkedIn"
+                class="w-6 h-6 object-contain"
+              />
+            </a>
 
-        <!-- Main Content Area -->
-        <main id="searchable-content">
-            <!-- Home Tab Content -->
-            <div id="home" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900">About Me</h2>
-                <div class="space-y-4">
-                    <p class="text-gray-700 leading-relaxed">
-                        Mason Cao is a dedicated and multifaceted junior at Lambert High School with a passion for leadership, athletics, and the fine arts. He consistently seeks opportunities to challenge himself and contribute positively to his community through a wide range of activities. He is currently looking to pursue a major in Computer Science or Computer Engineering.
-                    </p>
-                </div>
-                
-                <!-- Stats Section -->
-                <div class="mt-8 border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:justify-between text-center gap-6">
-                    <div class="flex-1">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">GPA</h3>
-                        <p class="text-4xl font-bold text-gray-900">4.48</p>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Class Rank</h3>
-                        <p class="text-4xl font-bold text-gray-900">11 <span class="text-xl text-gray-500 font-medium">/ 846</span></p>
-                        <p class="text-xs text-gray-500">(99th Percentile)</p>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">SAT Score</h3>
-                        <p class="text-4xl font-bold text-gray-900">1540</p>
-                        <p class="text-xs text-gray-500">740 Reading | 800 Math</p>
-                    </div>
-                </div>
+            <!-- Instagram -->
+            <a
+              href="https://www.instagram.com/m.zcao/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-opacity hover:opacity-75"
+              aria-label="Instagram"
+            >
+              <img
+                src="instagram.png"
+                alt="Instagram"
+                class="w-6 h-6 object-contain"
+              />
+            </a>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="relative w-full sm:w-auto">
+            <input
+              type="search"
+              id="site-search"
+              placeholder="Search..."
+              class="w-full sm:w-auto pl-10 pr-4 py-2 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+            />
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="h-5 w-5 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
+          </div>
+        </div>
+      </header>
 
-            <!-- Extracurriculars Tab Content (Initially Hidden) -->
-            <div id="extracurriculars" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden">
-                
-                <!-- Github Link Section -->
-                <div class="mb-8 border-b border-gray-100 pb-6">
-                    <a href="https://github.com/mason-cao" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-800 hover:text-blue-600 transition-colors group">
-                        <svg class="w-8 h-8 mr-3 text-gray-800 group-hover:text-blue-600 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
-                        <div>
-                            <h3 class="text-xl font-bold">Coding Portfolio</h3>
-                            <p class="text-sm text-gray-500">View my projects on GitHub</p>
-                        </div>
-                    </a>
-                </div>
+      <!-- Navigation Tabs -->
+      <div class="mb-8">
+        <div class="border-b border-gray-200">
+          <nav
+            class="-mb-px flex justify-center space-x-4 md:space-x-8"
+            aria-label="Tabs"
+          >
+            <!-- Tab buttons -->
+            <button
+              data-tab-target="#home"
+              class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+            >
+              Home
+            </button>
+            <button
+              data-tab-target="#extracurriculars"
+              class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+            >
+              Extracurriculars
+            </button>
+            <button
+              data-tab-target="#awards"
+              class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+            >
+              Honors
+            </button>
+          </nav>
+        </div>
+      </div>
 
-                <div class="space-y-8">
-                    <!-- Leadership Section -->
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Leadership</h3>
-                        <div class="space-y-4 pl-4">
-                            <div>
-                                <h4 class="font-semibold">Team Captain, Lambert High School Swim Team</h4>
-                                <p class="text-gray-600">Led the varsity team, fostering a supportive environment and driving team excellence.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Founder, Heads Up Club (Nonprofit Organization)</h4>
-                                <p class="text-gray-600">Initiated a student-led club focusing on helping young students excel in athletics, fine arts, and academics.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Secretary, <a href="https://www.firststepteam.org/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">First Step (Nonprofit Organization)</a></h4>
-                                <p class="text-gray-600">Organized and participated in events and meetings to support the community for this Asian community-oriented organization.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Head Lifeguard, Laurel Springs (<a href="https://amspools.com/commercial-lifeguard-staffing/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">AMS Pools</a>)</h4>
-                                <p class="text-gray-600">1 of 2 Head Lifeguards, oversaw training, staff coordination between 22 lifeguards, and pool operations.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Athletics Section -->
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Athletics</h3>
-                        <div class="space-y-6 pl-4">
-                             <div>
-                                <h4 class="font-semibold">High School Swim Team</h4>
-                                <p class="text-gray-600 mb-2">Varsity and State team member. Swam at the Forsyth County Championship 2025, contributing points to the Lambert Boys Team for winning 1st place. Selected for the elite state-level competitive team, representing Lambert in the GHSA State swimming & diving championship for the 100-yard breaststroke and 200-yard IM.
-                                </p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Club Swimming (Swim Atlanta)</h4>
-                                <p class="text-gray-600 mb-2">Ranked 38th in Georgia. Qualified for and competed at the Senior State Championships in the 100-yard and 200-yard breaststroke.</p>
-                                <a href="https://www.swimcloud.com/swimmer/2684384/" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 hover:underline">
-                                    View Swim Stats on SwimCloud &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Fine Arts Section -->
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Fine Arts</h3>
-                        <div class="space-y-4 pl-4">
-                            <div>
-                                <h4 class="font-semibold">Wind Ensemble - <a href="https://www.lambertbands.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Lambert High School</a></h4>
-                                <p class="text-gray-600">Member of the highest-level band, demonstrating musical excellence; performed as Principal Bass Clarinetist for 1 year and soprano clarinetist for 3 years, demonstrating leadership in performance.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Georgia Music Education Association (GMEA) All-State Band</h4>
-                                <p class="text-gray-600">Selected for All-State Band four consecutive years since 7th grade based on rigorous audition standards; made it on both soprano and bass clarinet, demonstrating select musicianship and dedication to instrumental performance.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- School Clubs Section -->
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">School Clubs</h3>
-                        <div class="space-y-4 pl-4">
-                            <div>
-                                <h4 class="font-semibold">FBLA & DECA</h4>
-                                <p class="text-gray-600">Active member of both business-oriented organizations, participating in competitions and leadership development.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">National Technical Honor Society</h4>
-                                <p class="text-gray-600">Member recognized for outstanding student achievement in career and technical education.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Key Club</h4>
-                                <p class="text-gray-600">Active volunteer; contributed over 10 hours to community service events, helping various elementary, middle, and high schools in the Forsyth County area.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold">Spanish Honor Society</h4>
-                                <p class="text-gray-600">Recognized for academic excellence in Spanish and commitment to Spanish cultural enrichment.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Search Results Message -->
+      <div
+        id="search-results-message"
+        class="hidden text-center bg-white p-4 rounded-lg shadow-md mb-6"
+      >
+        <p class="text-gray-600">No results found.</p>
+      </div>
+
+      <!-- Main Content Area -->
+      <main id="searchable-content">
+        <!-- Home Tab Content -->
+        <div
+          id="home"
+          class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md"
+        >
+          <h2 class="text-2xl font-bold mb-4 text-gray-900">About Me</h2>
+          <div class="space-y-4">
+            <p class="text-gray-700 leading-relaxed">
+              Mason Cao is a dedicated and multifaceted junior at Lambert High
+              School with a passion for computer science, business strategy,
+              athletics, and the fine arts. He consistently seeks opportunities
+              to challenge himself and contribute positively to his community.
+              He is currently looking to pursue a major in Computer Science or
+              Computer Engineering.
+            </p>
+          </div>
+
+          <!-- Github Link Section (Moved to Home) -->
+          <div class="mt-8 border-t border-gray-200 pt-6">
+            <a
+              href="https://github.com/mason-cao"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center text-gray-800 hover:text-blue-600 transition-colors group"
+            >
+              <svg
+                class="w-8 h-8 mr-3 text-gray-800 group-hover:text-blue-600 transition-colors"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <div>
+                <h3 class="text-xl font-bold">Coding Portfolio</h3>
+                <p class="text-sm text-gray-500">View my projects on GitHub</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Stats Section -->
+          <div
+            class="mt-8 border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:justify-between text-center gap-6"
+          >
+            <div class="flex-1">
+              <h3
+                class="text-sm font-semibold text-gray-500 uppercase tracking-wider"
+              >
+                GPA
+              </h3>
+              <p class="text-4xl font-bold text-gray-900">4.48</p>
             </div>
-
-            <!-- Awards Tab Content (Initially Hidden) -->
-            <div id="awards" class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900">Awards</h2>
-                <ul class="list-disc list-inside space-y-3 text-gray-700">
-                    <li>
-                        <span class="font-semibold">Georgia DECA Region 6:</span> 2nd Place, Entrepreneurship Team Decision Making Event.
-                    </li>
-                    <li>
-                        <span class="font-semibold">FBLA Regional Qualifier (2025-2026):</span> Data Science and AI.
-                    </li>
-                    <li>
-                        <span class="font-semibold">FBLA Regional Qualifier (2024-2025):</span> Social Media Concepts.
-                    </li>
-                    <li>
-                        <span class="font-semibold">AP Scholar with Distinction (2025):</span> Recognized for achieving 4s or 5s on six AP exams.
-                    </li>
-                    <li>
-                        <span class="font-semibold">The College Board National Recognition Award (2025)</span>
-                    </li>
-                    <li>
-                        <span class="font-semibold">Presidential Volunteer Service Award:</span> Gold (2023) and Bronze (2024) recipient for over 300 collective service hours.
-                    </li>
-                    <li>
-                       <span class="font-semibold">Georgia State University President's List:</span> Awarded for achieving a 5.0 GPA in two dual enrollment classes with no incompletes.
-                    </li>
-                </ul>
+            <div class="flex-1">
+              <h3
+                class="text-sm font-semibold text-gray-500 uppercase tracking-wider"
+              >
+                Class Rank
+              </h3>
+              <p class="text-4xl font-bold text-gray-900">
+                11 <span class="text-xl text-gray-500 font-medium">/ 846</span>
+              </p>
+              <p class="text-xs text-gray-500">(99th Percentile)</p>
             </div>
-        </main>
+            <div class="flex-1">
+              <h3
+                class="text-sm font-semibold text-gray-500 uppercase tracking-wider"
+              >
+                SAT Score
+              </h3>
+              <p class="text-4xl font-bold text-gray-900">1540</p>
+              <p class="text-xs text-gray-500">740 Reading | 800 Math</p>
+            </div>
+          </div>
+        </div>
 
+        <!-- Extracurriculars Tab Content (Initially Hidden) -->
+        <div
+          id="extracurriculars"
+          class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden"
+        >
+          <div class="space-y-8">
+            <!-- Leadership Section -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
+                Leadership
+              </h3>
+              <div class="space-y-4 pl-4">
+                <div>
+                  <h4 class="font-semibold">
+                    Team Captain, Lambert High School Swim Team
+                  </h4>
+                  <p class="text-gray-600">
+                    Led the varsity team, fostering a supportive environment and
+                    driving team excellence.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">
+                    Founder, Heads Up Club (Nonprofit Organization)
+                  </h4>
+                  <p class="text-gray-600">
+                    Initiated a student-led club focusing on helping young
+                    students excel in athletics, fine arts, and academics.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">
+                    Secretary,
+                    <a
+                      href="https://www.firststepteam.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-blue-600 hover:underline"
+                      >First Step (Nonprofit Organization)</a
+                    >
+                  </h4>
+                  <p class="text-gray-600">
+                    Organized and participated in events and meetings to support
+                    the community for this Asian community-oriented
+                    organization.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">
+                    Head Lifeguard, Laurel Springs (<a
+                      href="https://amspools.com/commercial-lifeguard-staffing/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-blue-600 hover:underline"
+                      >AMS Pools</a
+                    >)
+                  </h4>
+                  <p class="text-gray-600">
+                    1 of 2 Head Lifeguards, oversaw training, staff coordination
+                    between 22 lifeguards, and pool operations.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Athletics Section -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
+                Athletics
+              </h3>
+              <div class="space-y-6 pl-4">
+                <div>
+                  <h4 class="font-semibold">High School Swim Team</h4>
+                  <p class="text-gray-600 mb-2">
+                    Varsity Team Captain and State team member. Swam at the
+                    Forsyth County Championship 2025, contributing points to the
+                    Lambert Boys Team for winning 1st place. GHSA State
+                    Qualifier for the 100-yard breaststroke and 200-yard IM.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Club Swimming (Swim Atlanta)</h4>
+                  <p class="text-gray-600 mb-2">
+                    Ranked 38th in Georgia. Qualified for and competed at the
+                    Senior State Championships in the 100-yard and 200-yard
+                    breaststroke. Qualified for the prestigious Best of the
+                    South swim meet.
+                  </p>
+                  <a
+                    href="https://www.swimcloud.com/swimmer/2684384/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sm font-medium text-blue-600 hover:underline"
+                  >
+                    View Swim Stats on SwimCloud &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Fine Arts Section -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
+                Fine Arts
+              </h3>
+              <div class="space-y-4 pl-4">
+                <div>
+                  <h4 class="font-semibold">
+                    Wind Ensemble -
+                    <a
+                      href="https://www.lambertbands.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-blue-600 hover:underline"
+                      >Lambert High School</a
+                    >
+                  </h4>
+                  <p class="text-gray-600">
+                    Member of the highest-level band, demonstrating musical
+                    excellence; performed as Principal Bass Clarinetist for 1
+                    year and soprano clarinetist for 3 years, demonstrating
+                    leadership in performance.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">
+                    Georgia Music Education Association (GMEA) All-State Band
+                  </h4>
+                  <p class="text-gray-600">
+                    Selected for All-State Band 5 times since 7th grade based on
+                    rigorous audition standards; made it on both soprano and
+                    bass clarinet, demonstrating select musicianship and
+                    dedication to instrumental performance.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- School Clubs Section -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">
+                School Clubs
+              </h3>
+              <div class="space-y-4 pl-4">
+                <div>
+                  <h4 class="font-semibold">FBLA & DECA</h4>
+                  <p class="text-gray-600">
+                    Active member participating in highly technical, computer
+                    science, and entrepreneurial competitive events at the State
+                    and National levels.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">
+                    National Technical Honor Society
+                  </h4>
+                  <p class="text-gray-600">
+                    Member recognized for outstanding student achievement in
+                    career and technical education.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Key Club</h4>
+                  <p class="text-gray-600">
+                    Active volunteer; contributed over 20 hours to community
+                    service events, helping various elementary, middle, and high
+                    schools in the Forsyth County area.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Spanish Honor Society</h4>
+                  <p class="text-gray-600">
+                    Recognized for academic excellence in Spanish and commitment
+                    to Spanish cultural enrichment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Honors Tab Content (Initially Hidden) -->
+        <div
+          id="awards"
+          class="tab-content bg-white p-6 sm:p-8 rounded-xl shadow-md hidden"
+        >
+          <h2 class="text-2xl font-bold mb-4 text-gray-900">Honors</h2>
+
+          <!-- Advanced Coursework Section -->
+          <div class="mb-8 pb-6 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">
+              Advanced Technical Coursework
+            </h3>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+              <li>
+                <span class="font-semibold">Harvard University CS50:</span>
+                Introduction to the intellectual enterprises of computer science
+                and the art of programming.
+              </li>
+              <li>
+                <span class="font-semibold">MIT BWSIX:</span> Completed the
+                rigorous Computer Science and Systems program.
+              </li>
+              <li>
+                <span class="font-semibold"
+                  >Georgia State University Dual Enrollment:</span
+                >
+                President's List recipient (achieved a 5.0 GPA with no
+                incompletes).
+              </li>
+            </ul>
+          </div>
+
+          <h3 class="text-lg font-bold text-gray-900 mb-3">
+            Awards & Competitions
+          </h3>
+          <ul class="list-disc list-inside space-y-3 text-gray-700">
+            <li>
+              <span class="font-semibold">DECA State Champion:</span> 1st Place,
+              Entrepreneurship Team Decision Making Event (and 2nd Place Region
+              6).
+            </li>
+            <li>
+              <span class="font-semibold"
+                >FBLA National Qualifier & 4th Place State:</span
+              >
+              Networking Infrastructures.
+            </li>
+            <li>
+              <span class="font-semibold">FBLA 3rd Place State:</span> Data
+              Science and AI.
+            </li>
+            <li>
+              <span class="font-semibold"
+                >AP Scholar with Distinction (2025):</span
+              >
+              Recognized for achieving 4s or 5s on six AP exams.
+            </li>
+            <li>
+              <span class="font-semibold"
+                >The College Board National Recognition Award (2025)</span
+              >
+            </li>
+            <li>
+              <span class="font-semibold"
+                >FBLA Regional Qualifier (2024-2025):</span
+              >
+              Social Media Concepts.
+            </li>
+            <li>
+              <span class="font-semibold"
+                >Presidential Volunteer Service Award:</span
+              >
+              Gold (2023) and Bronze (2024) recipient for over 300 collective
+              service hours.
+            </li>
+          </ul>
+        </div>
+      </main>
     </div>
 
     <!-- JavaScript to handle tab switching and search functionality -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('site-search');
-            const searchableContent = document.getElementById('searchable-content');
-            const searchResultsMessage = document.getElementById('search-results-message');
-            const originalContent = searchableContent.innerHTML;
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("site-search");
+        const searchableContent = document.getElementById("searchable-content");
+        const searchResultsMessage = document.getElementById(
+          "search-results-message",
+        );
+        const originalContent = searchableContent.innerHTML;
 
-            const setActiveTab = (tab) => {
-                document.querySelectorAll('.tab-link').forEach(t => {
-                    t.classList.remove('border-blue-500', 'text-blue-600');
-                    t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-                });
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-                
-                if (tab) {
-                    tab.classList.add('border-blue-500', 'text-blue-600');
-                    tab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-                    const target = document.querySelector(tab.dataset.tabTarget);
-                    if (target) {
-                        target.classList.remove('hidden');
-                    }
+        const setActiveTab = (tab) => {
+          document.querySelectorAll(".tab-link").forEach((t) => {
+            t.classList.remove("border-blue-500", "text-blue-600");
+            t.classList.add(
+              "border-transparent",
+              "text-gray-500",
+              "hover:text-gray-700",
+              "hover:border-gray-300",
+            );
+          });
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((content) => content.classList.add("hidden"));
+
+          if (tab) {
+            tab.classList.add("border-blue-500", "text-blue-600");
+            tab.classList.remove(
+              "border-transparent",
+              "text-gray-500",
+              "hover:text-gray-700",
+              "hover:border-gray-300",
+            );
+            const target = document.querySelector(tab.dataset.tabTarget);
+            if (target) {
+              target.classList.remove("hidden");
+            }
+          }
+        };
+
+        const initializeTabs = () => {
+          document.querySelectorAll(".tab-link").forEach((tab) => {
+            tab.addEventListener("click", (e) => {
+              e.preventDefault();
+              setActiveTab(tab);
+            });
+          });
+        };
+
+        const performSearch = () => {
+          const query = searchInput.value.trim();
+          searchableContent.innerHTML = originalContent; // Restore original content
+          initializeTabs(); // Re-attach listeners since they were removed
+          searchResultsMessage.classList.add("hidden");
+
+          if (query.length < 2) {
+            setActiveTab(
+              document.querySelector('.tab-link[data-tab-target="#home"]'),
+            );
+            return;
+          }
+
+          // Escape special characters for regex
+          const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+          const regex = new RegExp(`(${escapedQuery})`, "gi");
+          let matchFound = false;
+
+          // Searches h1, h2, h3, h4, h5, h6, span, li
+          const textElements = searchableContent.querySelectorAll(
+            "p, h1, h2, h3, h4, h5, h6, span, li",
+          );
+          textElements.forEach((node) => {
+            if (node.closest("a")) return; // Don't search inside links
+            if (node.children.length === 0 && node.textContent.match(regex)) {
+              matchFound = true;
+              node.innerHTML = node.innerHTML.replace(
+                regex,
+                `<span class="highlight">$1</span>`,
+              );
+            }
+          });
+
+          if (matchFound) {
+            const firstMatch = searchableContent.querySelector(".highlight");
+            if (firstMatch) {
+              const parentTab = firstMatch.closest(".tab-content");
+              if (parentTab) {
+                if (parentTab.classList.contains("hidden")) {
+                  const tabButton = document.querySelector(
+                    `[data-tab-target="#${parentTab.id}"]`,
+                  );
+                  setActiveTab(tabButton);
                 }
-            };
+                // Scroll the element into view after a short delay
+                setTimeout(() => {
+                  firstMatch.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                }, 100);
+              }
+            }
+          } else {
+            searchResultsMessage.classList.remove("hidden");
+            setActiveTab(
+              document.querySelector('.tab-link[data-tab-target="#home"]'),
+            );
+          }
+        };
 
-            const initializeTabs = () => {
-                document.querySelectorAll('.tab-link').forEach(tab => {
-                    tab.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        setActiveTab(tab);
-                    });
-                });
-            };
-
-            const performSearch = () => {
-                const query = searchInput.value.trim();
-                searchableContent.innerHTML = originalContent; // Restore original content
-                initializeTabs(); // Re-attach listeners since they were removed
-                searchResultsMessage.classList.add('hidden');
-
-                if (query.length < 2) {
-                    setActiveTab(document.querySelector('.tab-link[data-tab-target="#home"]'));
-                    return;
-                }
-
-                // Escape special characters for regex
-                const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                const regex = new RegExp(`(${escapedQuery})`, 'gi');
-                let matchFound = false;
-
-                // ADDED HEADERS HERE: Now searches h1, h2, h3, h4, h5, h6
-                const textElements = searchableContent.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, li');
-                textElements.forEach(node => {
-                    if (node.closest('a')) return; // Don't search inside links
-                    if (node.children.length === 0 && node.textContent.match(regex)) {
-                        matchFound = true;
-                        node.innerHTML = node.innerHTML.replace(regex, `<span class="highlight">$1</span>`);
-                    }
-                });
-
-                if (matchFound) {
-                    const firstMatch = searchableContent.querySelector('.highlight');
-                    if (firstMatch) {
-                        const parentTab = firstMatch.closest('.tab-content');
-                        if (parentTab) {
-                            if (parentTab.classList.contains('hidden')) {
-                                const tabButton = document.querySelector(`[data-tab-target="#${parentTab.id}"]`);
-                                setActiveTab(tabButton);
-                            }
-                            // Scroll the element into view after a short delay
-                            setTimeout(() => {
-                                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            }, 100);
-                        }
-                    }
-                } else {
-                    searchResultsMessage.classList.remove('hidden');
-                    setActiveTab(document.querySelector('.tab-link[data-tab-target="#home"]'));
-                }
-            };
-
-            // Initial setup
-            initializeTabs();
-            setActiveTab(document.querySelector('.tab-link[data-tab-target="#home"]'));
-            searchInput.addEventListener('input', performSearch);
-        });
+        // Initial setup
+        initializeTabs();
+        setActiveTab(
+          document.querySelector('.tab-link[data-tab-target="#home"]'),
+        );
+        searchInput.addEventListener("input", performSearch);
+      });
     </script>
-</body>
+  </body>
 </html>
