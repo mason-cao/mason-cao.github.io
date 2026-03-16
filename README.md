@@ -2,7 +2,7 @@ Mason Cao | Personal Portfolio 🚀
 
 My personal portfolio website and digital resume.
 
-<p align="center">
+<p align="left">
   <a href="https://mason-cao.github.io/">🔗 Live Website</a>
 
 🛠️ Built With
