@@ -1,20 +1,27 @@
-Mason Cao | Personal Portfolio 🚀
+# Mason Cao Portfolio
 
-My personal portfolio website and digital resume.
+A modern, single-page personal portfolio for showcasing academics, leadership, projects, athletics, and honors.
 
-<p align="left">
-  <a href="https://mason-cao.github.io/">🔗 Live Website</a>
+## Live Site
+- https://mason-cao.github.io/
 
-🛠️ Built With
+## Tech Stack
+- HTML5
+- CSS3 (`style.css`)
+- Vanilla JavaScript (`app.js`)
+- Tailwind CSS (CDN utilities)
 
-HTML5 & Vanilla JavaScript
+## Features
+- Sticky section navigation with active state tracking
+- Client-side search with inline highlighting
+- Responsive, card-based layout with glassmorphism styling
+- Social profile links and external project references
 
-Tailwind CSS
+## Local Development
+Open `index.html` directly in your browser:
 
-✨ Key Features
+```bash
+open index.html
+```
 
-Interactive Tabs: Single-page navigation between Home, Extracurriculars, and Honors.
-
-Dynamic Search: Custom JS search that highlights keywords and auto-navigates.
-
-Fully Responsive: Mobile-first design for all devices.
+(Or use any static file server if preferred.)
