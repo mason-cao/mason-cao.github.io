@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Map Initialization (Leaflet.js)
-  // Coordinates for Suwanee, GA
   const mapContainer = document.getElementById("background-map");
+
+  // Safety check to ensure Leaflet loaded properly
   if (mapContainer && typeof L !== "undefined") {
     const map = L.map("background-map", {
-      center: [34.0515, -84.0714],
+      center: [34.0515, -84.0714], // Suwanee, GA
       zoom: 12,
       zoomControl: false, // Hide zoom controls
       dragging: false, // Prevent panning
@@ -23,12 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     ).addTo(map);
 
-    // Trigger fade-in and CSS zoom animation shortly after load
+    // THE FIX: Wait a tiny fraction of a second, force the map to recalculate
+    // its exact size, and then trigger the fade-in and CSS zoom animation.
     setTimeout(() => {
+      map.invalidateSize(); // This forces Leaflet to draw the tiles!
       mapContainer.classList.remove("opacity-0");
-      mapContainer.classList.add("opacity-40"); // Keep it slightly transparent
+      mapContainer.classList.add("opacity-40");
       mapContainer.classList.add("animate-map-zoom");
-    }, 500);
+    }, 250);
+  } else {
+    console.warn("Leaflet library failed to load or map container is missing.");
   }
 
   // 2. Real-Time Clock Logic
