@@ -1,3 +1,25 @@
+// Global Contact Modal Functions (Attached directly to HTML)
+window.openContactModal = function (e) {
+  if (e) e.preventDefault();
+  const modal = document.getElementById("contact-modal");
+  const box = document.getElementById("contact-box");
+  if (modal && box) {
+    modal.classList.remove("opacity-0", "pointer-events-none");
+    box.classList.remove("scale-95");
+    box.classList.add("scale-100");
+  }
+};
+
+window.closeContactModal = function () {
+  const modal = document.getElementById("contact-modal");
+  const box = document.getElementById("contact-box");
+  if (modal && box) {
+    modal.classList.add("opacity-0", "pointer-events-none");
+    box.classList.remove("scale-100");
+    box.classList.add("scale-95");
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Map Initialization (Leaflet.js)
   const mapContainer = document.getElementById("background-map");
@@ -25,7 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       map.invalidateSize();
       mapContainer.classList.remove("opacity-0");
-      mapContainer.classList.add("opacity-70");
+      // Brightened the map significantly
+      mapContainer.classList.add("opacity-100");
       mapContainer.classList.add("animate-map-zoom");
     }, 250);
   } else {
@@ -71,31 +94,4 @@ document.addEventListener("DOMContentLoaded", () => {
   fadeElements.forEach((element) => {
     observer.observe(element);
   });
-
-  // 4. Contact Modal Logic
-  const contactBtn = document.getElementById("open-contact-modal");
-  const contactModal = document.getElementById("contact-modal");
-  const closeModal = document.getElementById("close-modal");
-  const contactBackdrop = document.getElementById("contact-backdrop");
-  const contactBox = document.getElementById("contact-box");
-
-  // Open Modal function
-  function openModal(e) {
-    e.preventDefault();
-    contactModal.classList.remove("opacity-0", "pointer-events-none");
-    contactBox.classList.remove("scale-95");
-    contactBox.classList.add("scale-100");
-  }
-
-  // Close Modal function
-  function hideModal() {
-    contactModal.classList.add("opacity-0", "pointer-events-none");
-    contactBox.classList.remove("scale-100");
-    contactBox.classList.add("scale-95");
-  }
-
-  // Event Listeners
-  if (contactBtn) contactBtn.addEventListener("click", openModal);
-  if (closeModal) closeModal.addEventListener("click", hideModal);
-  if (contactBackdrop) contactBackdrop.addEventListener("click", hideModal); // Click outside to close
 });

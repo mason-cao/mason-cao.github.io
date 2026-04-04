@@ -44,7 +44,7 @@
         class="w-full h-full opacity-0 transition-opacity duration-1000"
       ></div>
       <div
-        class="absolute inset-0 bg-gradient-to-b from-dark-900/10 via-dark-900/50 to-dark-900 z-10 pointer-events-none"
+        class="absolute inset-0 bg-gradient-to-b from-transparent via-dark-900/40 to-dark-900 z-10 pointer-events-none"
       ></div>
     </div>
 
@@ -54,7 +54,7 @@
       >
         <div class="md:w-3/5 fade-element">
           <p
-            class="text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/30 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
+            class="text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/50 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@
             <span id="live-time">Loading time...</span>
           </p>
           <p
-            class="mt-2 text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/30 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
+            class="mt-2 text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/50 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +144,9 @@
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
                 Platform with
-                <span class="text-slate-200">8 coordinated AI agents</span>
+                <span class="text-slate-200 font-medium"
+                  >8 coordinated AI agents</span
+                >
                 processing synthetic behavioral events. Built with React 19,
                 TypeScript, FastAPI, and a GradientBoosting churn model.
               </p>
@@ -179,7 +181,7 @@
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
                 Pantry dashboard using
-                <span class="text-slate-200"
+                <span class="text-slate-200 font-medium"
                   >Next.js 15, TypeScript, and Tailwind</span
                 >
                 to track inventory and visualize waste patterns. Managed dynamic
@@ -218,7 +220,7 @@
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
                 macOS screen time tracker using a
-                <span class="text-slate-200"
+                <span class="text-slate-200 font-medium"
                   >Python/Flask backend and SQLite</span
                 >
                 in WAL mode. Uses an AppleScript background daemon to safely
@@ -281,9 +283,9 @@
                 <p class="text-sm text-slate-400 leading-relaxed">
                   Direct operations for 300+ volunteers; organized 240+
                   initiatives and raised
-                  <strong class="text-slate-200">$17,890+</strong> for local
-                  NGOs. Co-led a microplastics research project backed by a
-                  $5,000 Bloomberg grant.
+                  <strong class="text-slate-200 font-bold">$17,890+</strong> for
+                  local NGOs. Co-led a microplastics research project backed by
+                  a $5,000 Bloomberg grant.
                 </p>
               </li>
               <li>
@@ -378,7 +380,11 @@
                 >
               </div>
               <p class="text-sm text-slate-400 leading-relaxed">
-                Harvard University CS50 & MIT Beaver Works Summer Institute
+                <strong class="text-slate-200">Harvard University CS50</strong>
+                &
+                <strong class="text-slate-200"
+                  >MIT Beaver Works Summer Institute</strong
+                >
                 (Computer Science and Systems, Python Core).
               </p>
             </div>
@@ -401,15 +407,19 @@
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200">DECA State Champion:</strong>
+                  <strong class="text-slate-200 font-bold"
+                    >DECA State Champion:</strong
+                  >
                   Ranked 1st in GA for Entrepreneurship Team Decision Making;
-                  International ICDC Qualifier.
+                  <strong class="text-slate-200"
+                    >International ICDC Qualifier</strong
+                  >.
                 </div>
               </li>
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200"
+                  <strong class="text-slate-200 font-bold"
                     >FBLA National Qualifier:</strong
                   >
                   Dual state medalist (3rd in Data Science & AI, 4th in
@@ -419,20 +429,22 @@
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200">Academic Excellence:</strong>
-                  Dual enrollment President’s List (5.0 GPA), AP Scholar with
-                  Distinction, College Board National Recognition.
+                  <strong class="text-slate-200 font-bold"
+                    >Presidential Volunteer Service Award:</strong
+                  >
+                  Two-time recipient (Gold & Bronze) for dedicating
+                  <strong class="text-slate-200">300+ hours</strong> to
+                  community initiatives.
                 </div>
               </li>
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200"
-                    >Presidential Volunteer Service Award:</strong
+                  <strong class="text-slate-200 font-bold"
+                    >Academic Excellence:</strong
                   >
-                  Two-time recipient (Gold & Bronze) for dedicating
-                  <span class="text-slate-200">300+ hours</span> to community
-                  initiatives.
+                  Dual enrollment President’s List (5.0 GPA), AP Scholar with
+                  Distinction, College Board National Recognition.
                 </div>
               </li>
             </ul>
@@ -447,36 +459,58 @@
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200">Varsity Swim Captain:</strong>
-                  GHSA State Qualifier. Led team to 2025 County Championship;
-                  Top 40 club swimmer in Georgia.
+                  <strong class="text-slate-200 font-bold"
+                    >Varsity Swim Captain:</strong
+                  >
+                  GHSA State Qualifier (<strong class="text-slate-200"
+                    >Breaststroke & IM</strong
+                  >). Top 40 club swimmer in Georgia; competed at elite
+                  invitational meets including
+                  <strong class="text-slate-200"
+                    >Senior State Championships</strong
+                  >
+                  and
+                  <strong class="text-slate-200">Best of the South</strong>
+                  (100y/200y Breaststroke, 200y IM).
                 </div>
               </li>
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200"
+                  <strong class="text-slate-200 font-bold"
                     >5x GMEA All-State Musician:</strong
                   >
-                  Selected on both soprano and bass clarinet. Principal Bass
-                  Clarinetist for Lambert Wind Ensemble.
+                  Selected on soprano and bass clarinet. Principal Bass
+                  Clarinetist for Lambert Wind Ensemble, performing at
+                  prestigious events like
+                  <strong class="text-slate-200">The Midwest Clinic</strong> and
+                  the
+                  <strong class="text-slate-200"
+                    >National Concert Band Festival</strong
+                  >.
                 </div>
               </li>
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200">Community Educator:</strong>
+                  <strong class="text-slate-200 font-bold"
+                    >Community Educator:</strong
+                  >
                   Tutored 50+ local youth in Mathematics, English, and
-                  foundational programming (Scratch) within the Chinese
+                  foundational programming (Scratch) within my local Chinese
                   community.
                 </div>
               </li>
               <li class="flex items-start gap-2">
                 ✦
                 <div>
-                  <strong class="text-slate-200">Honor Societies:</strong>
-                  Active member of National Technical Honor Society and Spanish
-                  Honor Society (Peer Tutor).
+                  <strong class="text-slate-200 font-bold"
+                    >Clubs & Societies:</strong
+                  >
+                  Active volunteer in
+                  <strong class="text-slate-200">Key Club</strong>, National
+                  Technical Honor Society, and Spanish Honor Society (Peer
+                  Tutor).
                 </div>
               </li>
             </ul>
@@ -491,6 +525,7 @@
     >
       <div
         id="contact-backdrop"
+        onclick="closeContactModal()"
         class="absolute inset-0 bg-dark-900/80 backdrop-blur-md cursor-pointer"
       ></div>
 
@@ -499,7 +534,7 @@
         class="glass-card relative z-10 w-full max-w-sm rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300"
       >
         <button
-          id="close-modal"
+          onclick="closeContactModal()"
           class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
         >
           <svg
@@ -656,7 +691,7 @@
         </a>
 
         <button
-          id="open-contact-modal"
+          onclick="openContactModal(event)"
           class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-indigo-400 transition-colors"
         >
           <svg
