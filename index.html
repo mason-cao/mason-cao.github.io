@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mason Cao | Student Portfolio</title>
 
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
     <link rel="stylesheet" href="style.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,17 +29,33 @@
       };
     </script>
 
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      defer
+    ></script>
     <script src="app.js" defer></script>
   </head>
 
-  <body class="font-sans">
-    <div class="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-16">
+  <body class="font-sans relative">
+    <div
+      class="absolute top-0 left-0 w-full h-[600px] md:h-[700px] z-[-1] overflow-hidden"
+    >
+      <div
+        id="background-map"
+        class="w-full h-full opacity-0 transition-opacity duration-1000"
+      ></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-dark-900/40 via-dark-900/80 to-dark-900 z-10 pointer-events-none"
+      ></div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-20">
       <header
-        class="mb-16 md:mb-28 text-center md:text-left flex flex-col md:flex-row md:items-start md:justify-between gap-6"
+        class="mb-20 md:mb-32 text-center md:text-left flex flex-col md:flex-row md:items-start md:justify-between gap-6 relative z-20"
       >
         <div class="md:w-3/5 fade-element">
           <p
-            class="text-sm font-medium text-slate-500 flex items-center gap-1.5 justify-center md:justify-start"
+            class="text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/30 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +72,7 @@
             <span id="live-time">Loading time...</span>
           </p>
           <p
-            class="mt-1 text-sm font-medium text-slate-500 flex items-center gap-1.5 justify-center md:justify-start"
+            class="mt-2 text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/30 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -68,36 +89,37 @@
             Suwanee, GA
           </p>
           <h1
-            class="mt-6 text-5xl font-extrabold tracking-tighter text-slate-200"
+            class="mt-8 text-5xl font-extrabold tracking-tighter text-slate-100 drop-shadow-md"
           >
             Hello, I'm Mason Cao.
           </h1>
           <p
-            class="mt-8 leading-relaxed max-w-xl mx-auto md:mx-0 text-slate-400"
+            class="mt-6 leading-relaxed max-w-xl mx-auto md:mx-0 text-slate-300 drop-shadow"
           >
-            I'm a high schooler and a full-stack developer. My passion is
-            building robust applications, designing AI agent pipelines, and
-            creating tools to streamline developer workflows (DX).
+            I'm a junior at Lambert High School and a full-stack developer. My
+            passion is building robust applications, designing AI agent
+            pipelines, and creating tools to streamline developer workflows
+            (DX).
           </p>
         </div>
 
         <div
-          class="glass-card rounded-xl p-6 flex flex-col gap-3 w-max mx-auto md:mx-0 md:mt-16 fade-element delay-100"
+          class="glass-card rounded-xl p-6 flex flex-col gap-3 w-max mx-auto md:mx-0 md:mt-16 fade-element delay-100 border-slate-600/50"
         >
           <div class="flex items-center gap-3">
             <span class="text-4xl font-extrabold text-indigo-400">4.48</span>
-            <span class="text-slate-500">GPA</span>
+            <span class="text-slate-300">GPA</span>
           </div>
           <div class="w-full h-px bg-slate-700"></div>
           <div class="flex items-center gap-3">
             <span class="text-4xl font-extrabold text-indigo-400">300+</span>
-            <span class="text-slate-500">Vol. Hours</span>
+            <span class="text-slate-300">Vol. Hours</span>
           </div>
         </div>
       </header>
 
-      <section id="projects" class="mb-20 md:mb-36">
-        <h2 class="mb-10 text-2xl font-semibold text-slate-300 fade-element">
+      <section id="projects" class="mb-24 md:mb-36">
+        <h2 class="mb-8 text-2xl font-semibold text-slate-200 fade-element">
           Featured Projects
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -125,14 +147,12 @@
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
                 Platform with
                 <span class="text-slate-200">8 coordinated AI agents</span>
-                processing synthetic behavioral events. Built with
-                <span class="text-slate-200"
-                  >React 19, TypeScript, and FastAPI.</span
-                >
+                processing synthetic behavioral events. Built with React 19,
+                TypeScript, FastAPI, and a GradientBoosting churn model.
               </p>
             </div>
             <p
-              class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-700 italic"
+              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800"
             >
               750K+ synthetic events processed
             </p>
@@ -162,14 +182,14 @@
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
                 Pantry dashboard using
                 <span class="text-slate-200"
-                  >Next.js 15, TypeScript, and Tailwind CSS</span
+                  >Next.js 15, TypeScript, and Tailwind</span
                 >
-                to visualize waste patterns. Local
-                <span class="text-slate-200">SQLite with Drizzle ORM.</span>
+                to track inventory and visualize waste patterns. Managed dynamic
+                data via SQLite and Drizzle ORM.
               </p>
             </div>
             <p
-              class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-700 italic"
+              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800"
             >
               Dynamic REST API integration
             </p>
@@ -182,91 +202,288 @@
               <div class="flex items-center gap-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
+                  viewBox="0 0 20 20"
                   fill="currentColor"
                   class="h-8 w-8 text-indigo-400"
                 >
                   <path
-                    d="M12.5 3a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM12 9a1 1 0 011 1v2a1 1 0 01-1 1H8v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2a1 1 0 011-1h3v-2a1 1 0 011-1h3zM10.5 3.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
-                  ></path>
+                    fill-rule="evenodd"
+                    d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
-                <a
-                  href="https://anchorforyou.com/"
-                  target="_blank"
-                  class="absolute inset-0 z-10"
-                ></a>
                 <h3
                   class="font-semibold text-slate-200 text-lg group-hover:text-indigo-400 transition-colors"
                 >
-                  Anchor for You
+                  Detox
                 </h3>
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
-                Cycle-aware micronutrient decision engine for female athletes.
-                Features hash-based routing and
-                <span class="text-slate-200">Stripe integration.</span>
+                macOS screen time tracker using a
+                <span class="text-slate-200"
+                  >Python/Flask backend and SQLite</span
+                >
+                in WAL mode. Uses an AppleScript background daemon to safely
+                poll data and Chart.js for visualization.
               </p>
             </div>
             <p
-              class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-700 italic"
+              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800"
             >
-              Live SPA in production
+              Concurrent local daemon
             </p>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center md:text-left fade-element delay-300">
+          <a
+            href="https://github.com/mason-cao"
+            target="_blank"
+            class="inline-flex items-center gap-2 text-slate-400 hover:text-indigo-400 font-medium transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+              ></path>
+            </svg>
+            Explore all repositories and contributions on GitHub &rarr;
+          </a>
+        </div>
+      </section>
+
+      <section id="about" class="mb-24 md:mb-36 fade-element">
+        <h2 class="mb-8 text-2xl font-semibold text-slate-200">
+          Experience & Skills
+        </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass-card rounded-xl p-6">
+            <h3
+              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+            >
+              Leadership & Work
+            </h3>
+            <ul class="space-y-6">
+              <li>
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="font-semibold text-indigo-400">
+                    First Step (Nonprofit)
+                  </h4>
+                  <span class="text-xs text-slate-500 uppercase"
+                    >Aug 2023 – Present</span
+                  >
+                </div>
+                <div class="text-sm font-medium text-slate-300 mb-2">
+                  Secretary & Project Lead
+                </div>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                  Direct operations for 300+ volunteers; organized 240+
+                  initiatives removing 2,500+ lbs of trash and raising $17,890+.
+                  Co-led a microplastics research project backed by a $5,000
+                  Bloomberg grant.
+                </p>
+              </li>
+              <li>
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="font-semibold text-indigo-400">AMS Pools</h4>
+                  <span class="text-xs text-slate-500 uppercase"
+                    >May 2024 – Present</span
+                  >
+                </div>
+                <div class="text-sm font-medium text-slate-300 mb-2">
+                  Head Lifeguard
+                </div>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                  Serve as 1 of 2 Head Lifeguards, managing daily pool
+                  operations, coordinating schedules, overseeing emergency
+                  training, and managing 22 lifeguards.
+                </p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-xl p-6 flex flex-col gap-6">
+            <div>
+              <h3
+                class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+              >
+                Technical Arsenal
+              </h3>
+              <div class="mb-2">
+                <strong class="text-slate-300 text-sm">Languages:</strong>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  >Python</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  >TypeScript / JS</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  >Java</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  >C</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  >SQL</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  >HTML/CSS</span
+                >
+              </div>
+            </div>
+            <div>
+              <div class="mb-2">
+                <strong class="text-slate-300 text-sm"
+                  >Tools & Frameworks:</strong
+                >
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  >React & Next.js</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  >FastAPI & Flask</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  >SQLite & SQLAlchemy</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  >Tailwind CSS</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  >scikit-learn & pandas</span
+                >
+              </div>
+            </div>
+            <div>
+              <div class="mb-2">
+                <strong class="text-slate-300 text-sm"
+                  >Advanced Coursework:</strong
+                >
+              </div>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Harvard University CS50 & MIT Beaver Works Summer Institute
+                (Computer Science and Systems, Python Core).
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       <section id="honors" class="mb-32 fade-element">
-        <h2 class="mb-10 text-2xl font-semibold text-slate-300">
-          Honors & Clubs
+        <h2 class="mb-8 text-2xl font-semibold text-slate-200">
+          Honors & Extracurriculars
         </h2>
-        <div class="glass-card rounded-xl p-6">
-          <ul class="space-y-4 text-sm text-slate-400">
-            <li class="flex items-start gap-3">
-              ✦
-              <div>
-                <strong class="text-slate-200">DECA:</strong> State Champion &
-                International Qualifier (ICDC) - 1st Place, Entrepreneurship
-                Team Decision Making.
-              </div>
-            </li>
-            <li class="flex items-start gap-3">
-              ✦
-              <div>
-                <strong class="text-slate-200">FBLA:</strong> State Placements &
-                National Qualifier - 4th in Networking Infrastructures; 3rd in
-                Data Science & AI.
-              </div>
-            </li>
-            <li class="flex items-start gap-3">
-              ✦
-              <div>
-                <strong class="text-slate-200">Extracurriculars:</strong>
-                Varsity Swim Captain, wind ensemble (bass & soprano clarinet),
-                and over
-                <span class="text-slate-200">300 volunteer hours</span>.
-              </div>
-            </li>
-          </ul>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="glass-card rounded-xl p-6">
+            <h3
+              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+            >
+              Awards & Recognition
+            </h3>
+            <ul class="space-y-3 text-sm text-slate-400">
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">DECA:</strong> State Champion &
+                  International Qualifier (1st Place, Entrepreneurship Team
+                  Decision).
+                </div>
+              </li>
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">FBLA:</strong> State Placements
+                  & National Qualifier (4th Networking Infrastructures; 3rd Data
+                  Science & AI).
+                </div>
+              </li>
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">Academics:</strong> Georgia
+                  State President’s List (5.0 GPA), AP Scholar with Distinction,
+                  College Board Recognition Award.
+                </div>
+              </li>
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">Service:</strong> Presidential
+                  Volunteer Service Award — Gold & Bronze.
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3
+              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+            >
+              Activities
+            </h3>
+            <ul class="space-y-3 text-sm text-slate-400">
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">Athletics (Swimming):</strong>
+                  Varsity Team Captain. GHSA State Qualifier (100y breaststroke,
+                  200y IM). Club swimmer (Swim Atlanta), ranked 38th in GA.
+                </div>
+              </li>
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">Fine Arts (Music):</strong> 5x
+                  GMEA All-State Band selection on soprano and bass clarinet.
+                  Principal Bass Clarinetist, Lambert Wind Ensemble.
+                </div>
+              </li>
+              <li class="flex items-start gap-2">
+                ✦
+                <div>
+                  <strong class="text-slate-200">Clubs:</strong> National
+                  Technical Honor Society, Spanish Honor Society (Peer Tutor),
+                  Key Club.
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
     </div>
 
     <nav
-      class="fixed bottom-0 left-0 w-full glass-card border-t border-slate-700/50 p-3 z-50"
+      class="fixed bottom-0 left-0 w-full glass-card border-t border-slate-800 p-3 z-50"
     >
       <div
-        class="mx-auto max-w-sm flex items-center justify-around gap-1 text-sm font-medium text-slate-500"
+        class="mx-auto max-w-sm flex items-center justify-around gap-1 text-sm font-medium text-slate-400"
       >
         <a
           href="#"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-slate-800 transition-colors text-slate-300"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-indigo-400 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            class="h-6 w-6"
+            class="h-5 w-5"
           >
             <path
               d="M8 0a8 8 0 100 16A8 8 0 008 0zM4 9a1 1 0 112 0 1 1 0 01-2 0zm5.5-1.5a.5.5 0 01.5.5v2.5a.5.5 0 01-1 0v-2.5a.5.5 0 01.5-.5zM7.5 5.5a.5.5 0 011 0v4.5a.5.5 0 01-1 0v-4.5z"
@@ -276,13 +493,13 @@
         </a>
         <a
           href="#projects"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-slate-800 transition-colors"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-indigo-400 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            class="h-6 w-6"
+            class="h-5 w-5"
           >
             <path
               d="M13 13.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM3.5 13.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM13 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM3.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
@@ -292,13 +509,13 @@
         </a>
         <a
           href="mailto:masoncao7@gmail.com"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-slate-800 transition-colors"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-indigo-400 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            class="h-6 w-6"
+            class="h-5 w-5"
           >
             <path
               d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2 0v1.17l6 3.75 6-3.75V4H2zm0 3.17v4.83h12V7.17L8 10.92 2 7.17z"

@@ -19,19 +19,20 @@ body {
 
 /* Glassmorphism Cards */
 .glass-card {
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(10px);
+  background: rgba(22, 25, 28, 0.6);
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease-out;
 }
 
 /* Project Card Hover Effects */
 .project-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(99, 102, 241, 0.4);
   box-shadow:
-    0 0 20px rgba(99, 102, 241, 0.2),
-    0 0 30px rgba(99, 102, 241, 0.1);
-  transform: translateY(-2px);
+    0 0 20px rgba(99, 102, 241, 0.15),
+    0 0 40px rgba(99, 102, 241, 0.05);
+  transform: translateY(-3px);
+  background: rgba(30, 35, 45, 0.8);
 }
 
 /* --- Fade In Animations --- */
@@ -49,7 +50,6 @@ body {
   transform: translateY(0);
 }
 
-/* Staggered delays for a smoother loading feel */
 .delay-100 {
   transition-delay: 100ms;
 }
@@ -58,4 +58,17 @@ body {
 }
 .delay-300 {
   transition-delay: 300ms;
+}
+
+/* --- Map Zoom Animation --- */
+@keyframes map-zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.15);
+  }
+}
+.animate-map-zoom {
+  animation: map-zoom 40s ease-in-out infinite alternate;
 }
