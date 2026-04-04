@@ -5,7 +5,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -17,7 +16,6 @@ body {
   border-radius: 3px;
 }
 
-/* Glassmorphism Cards */
 .glass-card {
   background: rgba(22, 25, 28, 0.6);
   backdrop-filter: blur(16px);
@@ -25,7 +23,6 @@ body {
   transition: all 0.3s ease-out;
 }
 
-/* Project Card Hover Effects */
 .project-card:hover {
   border-color: rgba(99, 102, 241, 0.4);
   box-shadow:
@@ -35,7 +32,6 @@ body {
   background: rgba(30, 35, 45, 0.8);
 }
 
-/* --- Fade In Animations --- */
 .fade-element {
   opacity: 0;
   transform: translateY(20px);
@@ -60,7 +56,6 @@ body {
   transition-delay: 300ms;
 }
 
-/* --- Map Zoom Animation --- */
 @keyframes map-zoom {
   0% {
     transform: scale(1);
@@ -71,4 +66,21 @@ body {
 }
 .animate-map-zoom {
   animation: map-zoom 40s ease-in-out infinite alternate;
+}
+
+/* --- New Infinite Marquee Animation --- */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  /* Adjust the 30s to make it scroll faster or slower */
+  animation: marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }

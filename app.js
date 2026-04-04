@@ -25,10 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       map.invalidateSize();
       mapContainer.classList.remove("opacity-0");
-      // Set to 100% opacity for maximum visibility
       mapContainer.classList.add("opacity-100");
       mapContainer.classList.add("animate-map-zoom");
     }, 250);
+  } else {
+    console.warn("Leaflet library failed to load or map container is missing.");
   }
 
   // 2. Real-Time Clock Logic
@@ -52,7 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. Scroll Animation Logic
   const fadeElements = document.querySelectorAll(".fade-element");
-  const observerOptions = { root: null, rootMargin: "0px", threshold: 0.15 };
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.15
+  };
 
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
@@ -67,28 +72,28 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(element);
   });
 
-  // 4. Contact Modal Logic
-  const openBtn = document.getElementById("open-contact-btn");
-  const modal = document.getElementById("contact-modal");
-  const backdrop = document.getElementById("contact-backdrop");
-  const closeBtn = document.getElementById("close-modal-btn");
-  const modalBox = document.getElementById("contact-box");
+  // 4. Contact Modal Logic - Fully Bound in JS
+  const openContactBtn = document.getElementById("open-contact-btn");
+  const contactModal = document.getElementById("contact-modal");
+  const contactBackdrop = document.getElementById("contact-backdrop");
+  const closeModalBtn = document.getElementById("close-modal-btn");
+  const contactBox = document.getElementById("contact-box");
 
   function openModal(e) {
     e.preventDefault();
-    modal.classList.remove("opacity-0", "pointer-events-none");
-    modalBox.classList.remove("scale-95");
-    modalBox.classList.add("scale-100");
+    contactModal.classList.remove("opacity-0", "pointer-events-none");
+    contactBox.classList.remove("scale-95");
+    contactBox.classList.add("scale-100");
   }
 
   function closeModal() {
-    modal.classList.add("opacity-0", "pointer-events-none");
-    modalBox.classList.remove("scale-100");
-    modalBox.classList.add("scale-95");
+    contactModal.classList.add("opacity-0", "pointer-events-none");
+    contactBox.classList.remove("scale-100");
+    contactBox.classList.add("scale-95");
   }
 
-  // Safely attach event listeners
-  if (openBtn) openBtn.addEventListener("click", openModal);
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
-  if (backdrop) backdrop.addEventListener("click", closeModal);
+  // Bind the events safely
+  if (openContactBtn) openContactBtn.addEventListener("click", openModal);
+  if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+  if (contactBackdrop) contactBackdrop.addEventListener("click", closeModal);
 });
