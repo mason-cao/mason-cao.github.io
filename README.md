@@ -1,20 +1,19 @@
-Mason Cao | Personal Portfolio 🚀
+# Mason Cao - Personal Portfolio
 
-My personal portfolio website and digital resume.
+A sleek, dark-themed personal portfolio designed to showcase my full-stack development projects, AI implementations, and professional background. 
 
-<p align="left">
-  <a href="https://mason-cao.github.io/">🔗 Live Website</a>
+**Live Site:** [mason-cao.github.io](https://mason-cao.github.io/)
 
-🛠️ Built With
+## Built With
+- HTML5
+- Vanilla JavaScript
+- Tailwind CSS
+- Leaflet.js
+- Devicon
 
-HTML5 & Vanilla JavaScript
+## Local Setup
+This is a lightweight static site with no build steps required.
 
-Tailwind CSS
-
-✨ Key Features
-
-Interactive Tabs: Single-page navigation between Home, Extracurriculars, and Honors.
-
-Dynamic Search: Custom JS search that highlights keywords and auto-navigates.
-
-Fully Responsive: Mobile-first design for all devices.
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/mason-cao/mason-cao.github.io.git](https://github.com/mason-cao/mason-cao.github.io.git)
