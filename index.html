@@ -10,18 +10,10 @@
     <title>Mason Cao | Student Portfolio</title>
     <meta
       name="description"
-      content="Personal portfolio of Mason Cao, Lambert High School Class of 2027. Computer science, leadership, athletics, and impact-focused achievements."
-    />
-    <meta
-      name="keywords"
-      content="Mason Cao, Lambert High School, student portfolio, computer science, FBLA, DECA, swim captain, leadership"
+      content="Portfolio of Mason Cao: technical projects, leadership, athletics, and impact."
     />
     <meta name="author" content="Mason Cao" />
     <meta property="og:title" content="Mason Cao | Student Portfolio" />
-    <meta
-      property="og:description"
-      content="Ambitious high school student in CS, leadership, and athletics."
-    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mason-cao.github.io/" />
 
@@ -30,33 +22,29 @@
   </head>
 
   <body>
-    <div class="aurora aurora-a"></div>
-    <div class="aurora aurora-b"></div>
-
     <div class="site-shell">
       <header class="hero glass-panel">
         <div class="hero-copy">
-          <p class="kicker">Lambert High School • Class of 2027</p>
+          <p class="kicker">Lambert High School · Class of 2027</p>
           <h1>Mason Cao</h1>
           <p class="intro">
-            Future computer scientist and systems builder. Competitive swimmer,
-            nonprofit project lead, and student leader focused on high-impact
-            execution.
+            I build thoughtful technical systems, lead high-performing teams,
+            and execute projects that produce measurable community impact.
           </p>
           <div class="cta-row">
-            <a href="#projects" class="btn btn-primary">Explore Projects</a>
-            <a href="#awards" class="btn btn-secondary">View Honors</a>
+            <a href="#projects" class="btn btn-primary">Technical Projects</a>
+            <a href="#awards" class="btn btn-secondary">Honors</a>
           </div>
         </div>
 
         <aside class="hero-side">
           <div class="quick-facts">
-            <h2>At a Glance</h2>
+            <h2>Core Themes</h2>
             <ul>
-              <li>FBLA National Qualifier</li>
-              <li>DECA State Champion</li>
-              <li>Varsity Swim Captain</li>
-              <li>Nonprofit Operations Lead</li>
+              <li>Systems-oriented engineering mindset</li>
+              <li>Leadership in nonprofit and athletics</li>
+              <li>Data-backed decision making</li>
+              <li>High academic and extracurricular rigor</li>
             </ul>
           </div>
 
@@ -98,7 +86,7 @@
               <input
                 id="site-search"
                 type="search"
-                placeholder="Search anything in portfolio..."
+                placeholder="Search portfolio"
               />
             </label>
             <p id="search-status" class="search-status hidden"></p>
@@ -118,17 +106,18 @@
 
       <main id="searchable-content" class="content-grid">
         <section id="about" class="content-card glass-panel">
-          <h2>About Me</h2>
+          <h2>About</h2>
           <p>
-            I am a dedicated and multifaceted junior at Lambert High School with
-            a strong focus on computer science, engineering, athletics, and fine
-            arts. I pursue rigorous opportunities that combine technical depth,
-            leadership, and service to build measurable impact.
+            I am a junior focused on computer science and engineering with a
+            deep interest in backend systems, algorithmic thinking, and product
+            execution. Across school, athletics, and service organizations, I
+            prioritize disciplined process, measurable outcomes, and long-term
+            impact.
           </p>
           <div class="chips">
-            <span>Computer Science + Systems</span>
-            <span>Leadership at Scale</span>
-            <span>Athletics + Discipline</span>
+            <span>Backend + Systems</span>
+            <span>Leadership</span>
+            <span>Execution</span>
             <span>Community Impact</span>
           </div>
         </section>
@@ -140,10 +129,11 @@
               href="https://github.com/mason-cao"
               target="_blank"
               rel="noopener noreferrer"
-              >GitHub Portfolio →</a
+              >GitHub →</a
             >
           </div>
-          <article class="mini-card">
+
+          <article class="mini-card project-spotlight">
             <h3>
               <a
                 href="https://anchorforyou.com/"
@@ -151,33 +141,67 @@
                 rel="noopener noreferrer"
                 >Anchor for You</a
               >
-              <span class="tag">SPA</span>
+              <span class="tag">Production SPA</span>
             </h3>
+            <p>
+              A web application that delivers personalized micronutrient
+              recommendations for female athletes based on training cycle and
+              symptom patterns.
+            </p>
             <ul>
               <li>
-                Engineered a cycle-aware micronutrient decision engine for
-                female athletes using Vanilla JavaScript, HTML5, and CSS3.
+                <strong>Architecture:</strong> Built a client-side, route-driven
+                SPA using hash-based navigation and modular JS views for
+                low-latency page transitions.
               </li>
               <li>
-                Designed a rules-based algorithm to parse training load,
-                intensity, and symptoms into phase-aligned dosage plans.
+                <strong>Decision Engine:</strong> Designed a rules engine that
+                maps training volume, intensity, and symptom input into
+                phase-aligned recommendations.
               </li>
               <li>
-                Implemented hash routing, local storage persistence, and Stripe
-                Payment Links for subscription checkout.
+                <strong>State Strategy:</strong> Implemented browser storage
+                persistence to preserve user context and reduce re-entry
+                friction.
+              </li>
+              <li>
+                <strong>Checkout Flow:</strong> Integrated Stripe Payment Links
+                for streamlined subscription conversion without backend
+                overhead.
+              </li>
+              <li>
+                <strong>Quality Focus:</strong> Iterated copy and interaction
+                states for clarity, trust, and high completion rate through
+                user-guided flows.
               </li>
             </ul>
           </article>
-          <article class="mini-card">
+
+          <article class="mini-card project-spotlight">
             <h3>
-              Upcoming Summer Systems/Backend Capstone
+              Summer Systems/Backend Capstone
               <span class="tag tag-warn">In Development</span>
             </h3>
             <p>
-              Data-heavy engineering project (distributed systems, networking
-              protocol, or IoT integration) targeted for launch before Fall 2026
-              admissions.
+              A rigorous engineering capstone targeting systems-level depth for
+              2026 release.
             </p>
+            <ul>
+              <li>
+                <strong>Scope:</strong> Candidate directions include distributed
+                data pipelines, custom protocol design, or edge/IoT telemetry
+                processing.
+              </li>
+              <li>
+                <strong>Design Goals:</strong> Reliability, observability, and
+                performance benchmarking under realistic load constraints.
+              </li>
+              <li>
+                <strong>Deliverables:</strong> Technical write-up, reproducible
+                architecture diagrams, and deployable public demo with
+                documentation.
+              </li>
+            </ul>
           </article>
         </section>
 
@@ -194,17 +218,17 @@
               >
             </h3>
             <p>
-              Directed operations for 300+ volunteers across 240+ initiatives;
-              helped remove 2,500+ lbs of trash and raise $17,890+ for local
-              NGOs. Co-led a watershed microplastics research initiative backed
-              by a $5,000 Bloomberg grant with GA Tech collaboration.
+              Directed operations for 300+ volunteers across 240+ initiatives,
+              removing 2,500+ lbs of waste and raising $17,890+ for local NGOs.
+              Co-led a watershed microplastics project supported by a $5,000
+              Bloomberg grant.
             </p>
           </article>
           <article class="mini-card">
             <h3>Team Captain, Lambert High School Swim Team</h3>
             <p>
-              Led culture and accountability at the varsity level while
-              balancing elite athletics and advanced coursework.
+              Led team culture, standards, and performance accountability for
+              varsity athletes.
             </p>
           </article>
           <article class="mini-card">
@@ -218,8 +242,8 @@
               >)
             </h3>
             <p>
-              One of two head lifeguards responsible for training and
-              coordinating 22 guards while managing day-to-day operations.
+              Managed training and staffing for 22 lifeguards while overseeing
+              daily operations.
             </p>
           </article>
         </section>
@@ -230,23 +254,22 @@
             <article class="mini-card">
               <h3>High School Swim Team</h3>
               <p>
-                Varsity Captain and state-team member. Competed at Forsyth
-                County Championship 2025, contributing to Lambert Boys Team’s
-                1st-place finish. GHSA State Qualifier: 100 breaststroke and 200
-                IM.
+                Varsity Captain and state-team member. Contributed to Lambert’s
+                1st-place county finish and qualified for GHSA state events in
+                breaststroke and IM.
               </p>
             </article>
             <article class="mini-card">
               <h3>Club Swimming (Swim Atlanta)</h3>
               <p>
-                Ranked 38th in Georgia. Qualified for Senior State Championships
-                in 100 and 200 breaststroke plus the Best of the South meet.
+                Ranked 38th in Georgia; qualified for Senior State Championships
+                and Best of the South.
               </p>
               <a
                 href="https://www.swimcloud.com/swimmer/2684384/"
                 target="_blank"
                 rel="noopener noreferrer"
-                >View SwimCloud Stats →</a
+                >SwimCloud Stats →</a
               >
             </article>
           </div>
@@ -265,65 +288,61 @@
               >
             </h3>
             <p>
-              Member of top ensemble; served as Principal Bass Clarinetist for 1
-              year and soprano clarinetist for 3 years.
+              Principal Bass Clarinetist (1 year) and soprano clarinetist (3
+              years).
             </p>
           </article>
           <article class="mini-card">
             <h3>GMEA All-State Band</h3>
-            <p>
-              Selected 5 times since 7th grade on both soprano and bass clarinet
-              through highly competitive statewide auditions.
-            </p>
+            <p>Selected 5 times through competitive statewide auditions.</p>
           </article>
         </section>
 
         <section id="clubs" class="content-card glass-panel">
-          <h2>School Clubs</h2>
+          <h2>Clubs</h2>
           <div class="two-col">
             <article class="mini-card">
               <h3>FBLA & DECA</h3>
               <p>
-                Active competitor in high-level technical and entrepreneurship
-                events at state and national levels.
+                State and national competition in technical and entrepreneurial
+                events.
               </p>
             </article>
             <article class="mini-card">
               <h3>National Technical Honor Society</h3>
               <p>
-                Recognized for outstanding achievement in career and technical
-                education.
+                Recognized for achievement in career and technical education.
               </p>
             </article>
             <article class="mini-card">
               <h3>Key Club</h3>
               <p>
-                Contributed 20+ community service hours supporting schools
-                across Forsyth County.
+                20+ volunteer hours serving schools and local programs in
+                Forsyth County.
               </p>
             </article>
             <article class="mini-card">
               <h3>Spanish Honor Society</h3>
               <p>
-                Recognized for academic excellence in Spanish; served as a peer
-                tutor for younger students.
+                Peer tutoring and academic excellence in Spanish language
+                coursework.
               </p>
             </article>
           </div>
         </section>
 
         <section id="awards" class="content-card glass-panel">
-          <h2>Honors & Distinctions</h2>
+          <h2>Honors</h2>
           <article class="mini-card">
-            <h3>Advanced Technical Coursework</h3>
+            <h3>Advanced Coursework</h3>
             <ul>
               <li>
-                <strong>Harvard CS50:</strong> Rigorous foundations in CS and
-                programming.
+                <strong>Harvard CS50:</strong> Foundations in CS and
+                problem-solving.
               </li>
               <li>
                 <strong>MIT BWSIX:</strong> Intensive computer science and
-                systems study.
+                systems program.
               </li>
             </ul>
           </article>
@@ -331,38 +350,24 @@
             <h3>Awards & Competitions</h3>
             <ul>
               <li>
-                <strong>Georgia State President's List:</strong> Dual enrollment
-                recipient with top academic standing.
-              </li>
-              <li>
                 <strong
-                  >DECA State Champion & ICDC International Qualifier:</strong
-                >
-                1st Place, Entrepreneurship Team Decision Making.
-              </li>
-              <li>
-                <strong>FBLA National Qualifier & 4th Place State:</strong>
-                Networking Infrastructures.
-              </li>
-              <li>
-                <strong>FBLA 3rd Place State:</strong> Data Science and AI.
-              </li>
-              <li>
-                <strong>AP Scholar with Distinction (2025):</strong> Six AP
-                scores of 4 or 5.
-              </li>
-              <li>
-                <strong
-                  >College Board National Recognition Award (2025).</strong
+                  >DECA State Champion & ICDC International Qualifier</strong
                 >
               </li>
               <li>
-                <strong>FBLA Regional Qualifier (2024–2025):</strong> Social
-                Media Concepts.
+                <strong>FBLA National Qualifier</strong> — Networking
+                Infrastructures
               </li>
               <li>
-                <strong>Presidential Volunteer Service Award:</strong> Gold
-                (2023) and Bronze (2024), 300+ service hours.
+                <strong>FBLA 3rd Place State</strong> — Data Science and AI
+              </li>
+              <li><strong>AP Scholar with Distinction (2025)</strong></li>
+              <li>
+                <strong>College Board National Recognition Award (2025)</strong>
+              </li>
+              <li>
+                <strong>Presidential Volunteer Service Award</strong> — Gold &
+                Bronze
               </li>
             </ul>
           </article>
