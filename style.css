@@ -56,6 +56,7 @@ body {
   transition-delay: 300ms;
 }
 
+/* Map Animations */
 @keyframes map-zoom {
   0% {
     transform: scale(1);
@@ -68,7 +69,13 @@ body {
   animation: map-zoom 40s ease-in-out infinite alternate;
 }
 
-/* --- New Infinite Marquee Animation --- */
+/* Icon Marquee Animations */
+.hover-pause:hover {
+  animation-play-state: paused;
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -76,11 +83,4 @@ body {
   100% {
     transform: translateX(-50%);
   }
-}
-.animate-marquee {
-  /* Adjust the 30s to make it scroll faster or slower */
-  animation: marquee 30s linear infinite;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
 }

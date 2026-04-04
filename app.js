@@ -28,8 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
       mapContainer.classList.add("opacity-100");
       mapContainer.classList.add("animate-map-zoom");
     }, 250);
-  } else {
-    console.warn("Leaflet library failed to load or map container is missing.");
   }
 
   // 2. Real-Time Clock Logic
@@ -37,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (timeElement) {
     function updateTime() {
       const now = new Date();
-      const timeString = now.toLocaleTimeString("en-US", {
+      timeElement.textContent = now.toLocaleTimeString("en-US", {
         timeZone: "America/New_York",
         hour: "numeric",
         minute: "2-digit",
@@ -45,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hour12: true,
         timeZoneName: "short"
       });
-      timeElement.textContent = timeString;
     }
     updateTime();
     setInterval(updateTime, 1000);
@@ -53,17 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. Scroll Animation Logic
   const fadeElements = document.querySelectorAll(".fade-element");
-  const observerOptions = {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.15
-  };
+  const observerOptions = { root: null, rootMargin: "0px", threshold: 0.15 };
 
-  const observer = new IntersectionObserver((entries, observer) => {
+  const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
+        obs.unobserve(entry.target);
       }
     });
   }, observerOptions);
@@ -72,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(element);
   });
 
-  // 4. Contact Modal Logic - Fully Bound in JS
+  // 4. Contact Modal Logic
   const openContactBtn = document.getElementById("open-contact-btn");
   const contactModal = document.getElementById("contact-modal");
   const contactBackdrop = document.getElementById("contact-backdrop");

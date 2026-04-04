@@ -9,6 +9,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
+
     <link rel="stylesheet" href="style.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -54,7 +55,7 @@
       >
         <div class="md:w-3/5 fade-element">
           <p
-            class="text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/50 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
+            class="text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/80 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +72,7 @@
             <span id="live-time">Loading time...</span>
           </p>
           <p
-            class="mt-2 text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/50 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
+            class="mt-2 text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/80 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +248,7 @@
         </div>
       </section>
 
-      <section id="about" class="mb-24 md:mb-36 fade-element">
+      <section id="about" class="mb-12 md:mb-16 fade-element">
         <h2 class="mb-8 text-2xl font-semibold text-slate-200">
           Experience & Skills
         </h2>
@@ -375,7 +376,7 @@
       </section>
 
       <section
-        class="mb-24 md:mb-36 relative overflow-hidden py-4 fade-element flex border-y border-slate-800 bg-dark-900/50 backdrop-blur-sm"
+        class="mb-16 md:mb-24 relative overflow-hidden py-4 fade-element flex border-y border-slate-800 bg-dark-900/50 backdrop-blur-sm"
       >
         <div
           class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#0F1113] to-transparent z-10 pointer-events-none"
@@ -384,110 +385,110 @@
           class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#0F1113] to-transparent z-10 pointer-events-none"
         ></div>
 
-        <div class="flex animate-marquee w-max items-center">
-          <div class="flex items-center space-x-6 px-3">
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Python
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              TypeScript
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              React 19
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Next.js
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              FastAPI
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              SQLite
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Tailwind CSS
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Scikit-Learn
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Pandas
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Chart.js
-            </div>
+        <div class="flex animate-marquee hover-pause w-max items-center">
+          <div class="flex items-center space-x-12 px-6">
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="Python"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="TypeScript"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="React"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 invert opacity-80 transition-transform hover:scale-110"
+              title="Next.js"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="FastAPI"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="SQLite"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="Tailwind CSS"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="Java"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="C"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="HTML5"
+            />
           </div>
-          <div class="flex items-center space-x-6 px-3">
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Python
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              TypeScript
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              React 19
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Next.js
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              FastAPI
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              SQLite
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Tailwind CSS
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Scikit-Learn
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Pandas
-            </div>
-            <div
-              class="glass-card px-6 py-2.5 rounded-full text-slate-300 text-sm font-semibold tracking-wide border border-slate-700/50"
-            >
-              Chart.js
-            </div>
+          <div class="flex items-center space-x-12 px-6">
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="Python"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="TypeScript"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="React"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 invert opacity-80 transition-transform hover:scale-110"
+              title="Next.js"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="FastAPI"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="SQLite"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="Tailwind CSS"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="Java"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="C"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              title="HTML5"
+            />
           </div>
         </div>
       </section>
