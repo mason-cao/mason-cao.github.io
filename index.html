@@ -1,380 +1,312 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="google-site-verification"
-      content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw"
-    />
     <title>Mason Cao | Student Portfolio</title>
-    <meta
-      name="description"
-      content="Portfolio of Mason Cao: technical projects, leadership, athletics, and impact."
-    />
-    <meta name="author" content="Mason Cao" />
-    <meta property="og:title" content="Mason Cao | Student Portfolio" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mason-cao.github.io/" />
+
+    <link rel="stylesheet" href="style.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["SF Pro Display", "Inter", "system-ui", "sans-serif"]
+            },
+            colors: {
+              dark: { 800: "#16191C", 900: "#0F1113" },
+              indigo: { 300: "#A5B4FC", 400: "#818CF8", 500: "#6366F1" }
+            }
+          }
+        }
+      };
+    </script>
+
+    <script src="app.js" defer></script>
   </head>
 
-  <body>
-    <div class="site-shell">
-      <header class="hero glass-panel">
-        <div class="hero-copy">
-          <p class="kicker">Lambert High School · Class of 2027</p>
-          <h1>Mason Cao</h1>
-          <p class="intro">
-            I build thoughtful technical systems, lead high-performing teams,
-            and execute projects that produce measurable community impact.
+  <body class="font-sans">
+    <div class="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-16">
+      <header
+        class="mb-16 md:mb-28 text-center md:text-left flex flex-col md:flex-row md:items-start md:justify-between gap-6"
+      >
+        <div class="md:w-3/5 fade-element">
+          <p
+            class="text-sm font-medium text-slate-500 flex items-center gap-1.5 justify-center md:justify-start"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span id="live-time">Loading time...</span>
           </p>
-          <div class="cta-row">
-            <a href="#projects" class="btn btn-primary">Technical Projects</a>
-            <a href="#awards" class="btn btn-secondary">Honors</a>
-          </div>
+          <p
+            class="mt-1 text-sm font-medium text-slate-500 flex items-center gap-1.5 justify-center md:justify-start"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a19.494 19.494 0 00.307-.154 20.94 20.94 0 003.01-1.683c1.863-1.188 3.93-2.744 3.93-5.592 0-2.754-2.27-5-5-5v-1a1 1 0 10-2 0v1a5 5 0 00-5 5c0 2.848 2.067 4.404 3.93 5.592.83.529 1.632 1.01 2.31 1.453l.231.151.018.008.006.003zm0 0l.003.001-.003-.001zm0 0l-.003-.001.003.001z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Suwanee, GA
+          </p>
+          <h1
+            class="mt-6 text-5xl font-extrabold tracking-tighter text-slate-200"
+          >
+            Hello, I'm Mason Cao.
+          </h1>
+          <p
+            class="mt-8 leading-relaxed max-w-xl mx-auto md:mx-0 text-slate-400"
+          >
+            I'm a high schooler and a full-stack developer. My passion is
+            building robust applications, designing AI agent pipelines, and
+            creating tools to streamline developer workflows (DX).
+          </p>
         </div>
 
-        <aside class="hero-side">
-          <div class="quick-facts">
-            <h2>Core Themes</h2>
-            <ul>
-              <li>Systems-oriented engineering mindset</li>
-              <li>Leadership in nonprofit and athletics</li>
-              <li>Data-backed decision making</li>
-              <li>High academic and extracurricular rigor</li>
-            </ul>
+        <div
+          class="glass-card rounded-xl p-6 flex flex-col gap-3 w-max mx-auto md:mx-0 md:mt-16 fade-element delay-100"
+        >
+          <div class="flex items-center gap-3">
+            <span class="text-4xl font-extrabold text-indigo-400">4.48</span>
+            <span class="text-slate-500">GPA</span>
           </div>
-
-          <div class="social-search">
-            <div class="socials">
-              <a
-                href="https://www.linkedin.com/in/mason-cao-7a3760390"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                class="social-icon"
-              >
-                <img src="linkedin.png" alt="LinkedIn" />
-              </a>
-              <a
-                href="https://www.instagram.com/m.zcao/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                class="social-icon"
-              >
-                <img src="instagram.png" alt="Instagram" />
-              </a>
-            </div>
-
-            <label class="search-wrap" for="site-search">
-              <svg
-                class="search-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <input
-                id="site-search"
-                type="search"
-                placeholder="Search portfolio"
-              />
-            </label>
-            <p id="search-status" class="search-status hidden"></p>
+          <div class="w-full h-px bg-slate-700"></div>
+          <div class="flex items-center gap-3">
+            <span class="text-4xl font-extrabold text-indigo-400">300+</span>
+            <span class="text-slate-500">Vol. Hours</span>
           </div>
-        </aside>
+        </div>
       </header>
 
-      <nav id="section-nav" class="section-nav glass-panel">
-        <button class="nav-pill active" data-section="about">Overview</button>
-        <button class="nav-pill" data-section="projects">Projects</button>
-        <button class="nav-pill" data-section="leadership">Leadership</button>
-        <button class="nav-pill" data-section="athletics">Athletics</button>
-        <button class="nav-pill" data-section="arts">Fine Arts</button>
-        <button class="nav-pill" data-section="clubs">Clubs</button>
-        <button class="nav-pill" data-section="awards">Honors</button>
-      </nav>
-
-      <main id="searchable-content" class="content-grid">
-        <section id="about" class="content-card glass-panel">
-          <h2>About</h2>
-          <p>
-            I am a junior focused on computer science and engineering with a
-            deep interest in backend systems, algorithmic thinking, and product
-            execution. Across school, athletics, and service organizations, I
-            prioritize disciplined process, measurable outcomes, and long-term
-            impact.
-          </p>
-          <div class="chips">
-            <span>Backend + Systems</span>
-            <span>Leadership</span>
-            <span>Execution</span>
-            <span>Community Impact</span>
-          </div>
-        </section>
-
-        <section id="projects" class="content-card glass-panel">
-          <div class="card-title-row">
-            <h2>Technical Projects</h2>
-            <a
-              href="https://github.com/mason-cao"
-              target="_blank"
-              rel="noopener noreferrer"
-              >GitHub →</a
-            >
-          </div>
-
-          <article class="mini-card project-spotlight">
-            <h3>
-              <a
-                href="https://anchorforyou.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Anchor for You</a
-              >
-              <span class="tag">Production SPA</span>
-            </h3>
-            <p>
-              A web application that delivers personalized micronutrient
-              recommendations for female athletes based on training cycle and
-              symptom patterns.
-            </p>
-            <ul>
-              <li>
-                <strong>Architecture:</strong> Built a client-side, route-driven
-                SPA using hash-based navigation and modular JS views for
-                low-latency page transitions.
-              </li>
-              <li>
-                <strong>Decision Engine:</strong> Designed a rules engine that
-                maps training volume, intensity, and symptom input into
-                phase-aligned recommendations.
-              </li>
-              <li>
-                <strong>State Strategy:</strong> Implemented browser storage
-                persistence to preserve user context and reduce re-entry
-                friction.
-              </li>
-              <li>
-                <strong>Checkout Flow:</strong> Integrated Stripe Payment Links
-                for streamlined subscription conversion without backend
-                overhead.
-              </li>
-              <li>
-                <strong>Quality Focus:</strong> Iterated copy and interaction
-                states for clarity, trust, and high completion rate through
-                user-guided flows.
-              </li>
-            </ul>
-          </article>
-
-          <article class="mini-card project-spotlight">
-            <h3>
-              Summer Systems/Backend Capstone
-              <span class="tag tag-warn">In Development</span>
-            </h3>
-            <p>
-              A rigorous engineering capstone targeting systems-level depth for
-              2026 release.
-            </p>
-            <ul>
-              <li>
-                <strong>Scope:</strong> Candidate directions include distributed
-                data pipelines, custom protocol design, or edge/IoT telemetry
-                processing.
-              </li>
-              <li>
-                <strong>Design Goals:</strong> Reliability, observability, and
-                performance benchmarking under realistic load constraints.
-              </li>
-              <li>
-                <strong>Deliverables:</strong> Technical write-up, reproducible
-                architecture diagrams, and deployable public demo with
-                documentation.
-              </li>
-            </ul>
-          </article>
-        </section>
-
-        <section id="leadership" class="content-card glass-panel">
-          <h2>Leadership & Civic Impact</h2>
-          <article class="mini-card">
-            <h3>
-              Secretary & Project Lead,
-              <a
-                href="https://www.firststepteam.org/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >First Step (Nonprofit)</a
-              >
-            </h3>
-            <p>
-              Directed operations for 300+ volunteers across 240+ initiatives,
-              removing 2,500+ lbs of waste and raising $17,890+ for local NGOs.
-              Co-led a watershed microplastics project supported by a $5,000
-              Bloomberg grant.
-            </p>
-          </article>
-          <article class="mini-card">
-            <h3>Team Captain, Lambert High School Swim Team</h3>
-            <p>
-              Led team culture, standards, and performance accountability for
-              varsity athletes.
-            </p>
-          </article>
-          <article class="mini-card">
-            <h3>
-              Head Lifeguard, Laurel Springs (
-              <a
-                href="https://amspools.com/commercial-lifeguard-staffing/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >AMS Pools</a
-              >)
-            </h3>
-            <p>
-              Managed training and staffing for 22 lifeguards while overseeing
-              daily operations.
-            </p>
-          </article>
-        </section>
-
-        <section id="athletics" class="content-card glass-panel">
-          <h2>Athletics</h2>
-          <div class="two-col">
-            <article class="mini-card">
-              <h3>High School Swim Team</h3>
-              <p>
-                Varsity Captain and state-team member. Contributed to Lambert’s
-                1st-place county finish and qualified for GHSA state events in
-                breaststroke and IM.
-              </p>
-            </article>
-            <article class="mini-card">
-              <h3>Club Swimming (Swim Atlanta)</h3>
-              <p>
-                Ranked 38th in Georgia; qualified for Senior State Championships
-                and Best of the South.
-              </p>
-              <a
-                href="https://www.swimcloud.com/swimmer/2684384/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >SwimCloud Stats →</a
-              >
-            </article>
-          </div>
-        </section>
-
-        <section id="arts" class="content-card glass-panel">
-          <h2>Fine Arts</h2>
-          <article class="mini-card">
-            <h3>
-              Wind Ensemble —
-              <a
-                href="https://www.lambertbands.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Lambert High School</a
-              >
-            </h3>
-            <p>
-              Principal Bass Clarinetist (1 year) and soprano clarinetist (3
-              years).
-            </p>
-          </article>
-          <article class="mini-card">
-            <h3>GMEA All-State Band</h3>
-            <p>Selected 5 times through competitive statewide auditions.</p>
-          </article>
-        </section>
-
-        <section id="clubs" class="content-card glass-panel">
-          <h2>Clubs</h2>
-          <div class="two-col">
-            <article class="mini-card">
-              <h3>FBLA & DECA</h3>
-              <p>
-                State and national competition in technical and entrepreneurial
-                events.
-              </p>
-            </article>
-            <article class="mini-card">
-              <h3>National Technical Honor Society</h3>
-              <p>
-                Recognized for achievement in career and technical education.
-              </p>
-            </article>
-            <article class="mini-card">
-              <h3>Key Club</h3>
-              <p>
-                20+ volunteer hours serving schools and local programs in
-                Forsyth County.
-              </p>
-            </article>
-            <article class="mini-card">
-              <h3>Spanish Honor Society</h3>
-              <p>
-                Peer tutoring and academic excellence in Spanish language
-                coursework.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section id="awards" class="content-card glass-panel">
-          <h2>Honors</h2>
-          <article class="mini-card">
-            <h3>Advanced Coursework</h3>
-            <ul>
-              <li>
-                <strong>Harvard CS50:</strong> Foundations in CS and
-                problem-solving.
-              </li>
-              <li>
-                <strong>MIT BWSIX:</strong> Intensive computer science and
-                systems program.
-              </li>
-            </ul>
-          </article>
-          <article class="mini-card">
-            <h3>Awards & Competitions</h3>
-            <ul>
-              <li>
-                <strong
-                  >DECA State Champion & ICDC International Qualifier</strong
+      <section id="projects" class="mb-20 md:mb-36">
+        <h2 class="mb-10 text-2xl font-semibold text-slate-300 fade-element">
+          Featured Projects
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="glass-card project-card rounded-xl p-6 relative group flex flex-col justify-between fade-element delay-100"
+          >
+            <div>
+              <div class="flex items-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="h-8 w-8 text-indigo-400"
                 >
-              </li>
-              <li>
-                <strong>FBLA National Qualifier</strong> — Networking
-                Infrastructures
-              </li>
-              <li>
-                <strong>FBLA 3rd Place State</strong> — Data Science and AI
-              </li>
-              <li><strong>AP Scholar with Distinction (2025)</strong></li>
-              <li>
-                <strong>College Board National Recognition Award (2025)</strong>
-              </li>
-              <li>
-                <strong>Presidential Volunteer Service Award</strong> — Gold &
-                Bronze
-              </li>
-            </ul>
-          </article>
-        </section>
-      </main>
+                  <path
+                    d="M8 0a8 8 0 100 16A8 8 0 008 0zM4 9a1 1 0 112 0 1 1 0 01-2 0zm5.5-1.5a.5.5 0 01.5.5v2a.5.5 0 01-1 0V8a.5.5 0 01.5-.5zM7.5 5.5a.5.5 0 011 0v4a.5.5 0 01-1 0v-4z"
+                  ></path>
+                </svg>
+                <h3
+                  class="font-semibold text-slate-200 text-lg group-hover:text-indigo-400 transition-colors"
+                >
+                  Luminosity Intelligence
+                </h3>
+              </div>
+              <p class="text-sm leading-relaxed mt-4 text-slate-400">
+                Platform with
+                <span class="text-slate-200">8 coordinated AI agents</span>
+                processing synthetic behavioral events. Built with
+                <span class="text-slate-200"
+                  >React 19, TypeScript, and FastAPI.</span
+                >
+              </p>
+            </div>
+            <p
+              class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-700 italic"
+            >
+              750K+ synthetic events processed
+            </p>
+          </div>
+
+          <div
+            class="glass-card project-card rounded-xl p-6 relative group flex flex-col justify-between fade-element delay-200"
+          >
+            <div>
+              <div class="flex items-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="h-8 w-8 text-indigo-400"
+                >
+                  <path
+                    d="M12.5 3a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM12 9a1 1 0 011 1v2a1 1 0 01-1 1H8v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2a1 1 0 011-1h3v-2a1 1 0 011-1h3zM10.5 3.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
+                  ></path>
+                </svg>
+                <h3
+                  class="font-semibold text-slate-200 text-lg group-hover:text-indigo-400 transition-colors"
+                >
+                  FreshTrack
+                </h3>
+              </div>
+              <p class="text-sm leading-relaxed mt-4 text-slate-400">
+                Pantry dashboard using
+                <span class="text-slate-200"
+                  >Next.js 15, TypeScript, and Tailwind CSS</span
+                >
+                to visualize waste patterns. Local
+                <span class="text-slate-200">SQLite with Drizzle ORM.</span>
+              </p>
+            </div>
+            <p
+              class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-700 italic"
+            >
+              Dynamic REST API integration
+            </p>
+          </div>
+
+          <div
+            class="glass-card project-card rounded-xl p-6 relative group flex flex-col justify-between fade-element delay-300"
+          >
+            <div>
+              <div class="flex items-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="h-8 w-8 text-indigo-400"
+                >
+                  <path
+                    d="M12.5 3a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM12 9a1 1 0 011 1v2a1 1 0 01-1 1H8v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2a1 1 0 011-1h3v-2a1 1 0 011-1h3zM10.5 3.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
+                  ></path>
+                </svg>
+                <a
+                  href="https://anchorforyou.com/"
+                  target="_blank"
+                  class="absolute inset-0 z-10"
+                ></a>
+                <h3
+                  class="font-semibold text-slate-200 text-lg group-hover:text-indigo-400 transition-colors"
+                >
+                  Anchor for You
+                </h3>
+              </div>
+              <p class="text-sm leading-relaxed mt-4 text-slate-400">
+                Cycle-aware micronutrient decision engine for female athletes.
+                Features hash-based routing and
+                <span class="text-slate-200">Stripe integration.</span>
+              </p>
+            </div>
+            <p
+              class="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-700 italic"
+            >
+              Live SPA in production
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="honors" class="mb-32 fade-element">
+        <h2 class="mb-10 text-2xl font-semibold text-slate-300">
+          Honors & Clubs
+        </h2>
+        <div class="glass-card rounded-xl p-6">
+          <ul class="space-y-4 text-sm text-slate-400">
+            <li class="flex items-start gap-3">
+              ✦
+              <div>
+                <strong class="text-slate-200">DECA:</strong> State Champion &
+                International Qualifier (ICDC) - 1st Place, Entrepreneurship
+                Team Decision Making.
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              ✦
+              <div>
+                <strong class="text-slate-200">FBLA:</strong> State Placements &
+                National Qualifier - 4th in Networking Infrastructures; 3rd in
+                Data Science & AI.
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              ✦
+              <div>
+                <strong class="text-slate-200">Extracurriculars:</strong>
+                Varsity Swim Captain, wind ensemble (bass & soprano clarinet),
+                and over
+                <span class="text-slate-200">300 volunteer hours</span>.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
     </div>
 
-    <script src="app.js"></script>
+    <nav
+      class="fixed bottom-0 left-0 w-full glass-card border-t border-slate-700/50 p-3 z-50"
+    >
+      <div
+        class="mx-auto max-w-sm flex items-center justify-around gap-1 text-sm font-medium text-slate-500"
+      >
+        <a
+          href="#"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-slate-800 transition-colors text-slate-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-6 w-6"
+          >
+            <path
+              d="M8 0a8 8 0 100 16A8 8 0 008 0zM4 9a1 1 0 112 0 1 1 0 01-2 0zm5.5-1.5a.5.5 0 01.5.5v2.5a.5.5 0 01-1 0v-2.5a.5.5 0 01.5-.5zM7.5 5.5a.5.5 0 011 0v4.5a.5.5 0 01-1 0v-4.5z"
+            ></path>
+          </svg>
+          Home
+        </a>
+        <a
+          href="#projects"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-slate-800 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-6 w-6"
+          >
+            <path
+              d="M13 13.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM3.5 13.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM13 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM3.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
+            ></path>
+          </svg>
+          Projects
+        </a>
+        <a
+          href="mailto:masoncao7@gmail.com"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-slate-800 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-6 w-6"
+          >
+            <path
+              d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2 0v1.17l6 3.75 6-3.75V4H2zm0 3.17v4.83h12V7.17L8 10.92 2 7.17z"
+            ></path>
+          </svg>
+          Contact
+        </a>
+      </div>
+    </nav>
   </body>
 </html>

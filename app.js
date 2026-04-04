@@ -1,100 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("site-search");
-  const nav = document.getElementById("section-nav");
-  const navButtons = nav.querySelectorAll("button[data-section]");
-  const sections = document.querySelectorAll("main section");
-  const searchStatus = document.getElementById("search-status");
+  // 1. Real-Time Clock Logic (Set to Eastern Time for Georgia)
+  const timeElement = document.getElementById("live-time");
 
-  const setActivePill = (sectionId) => {
-    navButtons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.section === sectionId);
+  function updateTime() {
+    const now = new Date();
+
+    // Format the time to Eastern Time (EST/EDT)
+    const timeString = now.toLocaleTimeString("en-US", {
+      timeZone: "America/New_York",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+      timeZoneName: "short" // Will output EST or EDT depending on daylight saving
     });
+
+    timeElement.textContent = timeString;
+  }
+
+  // Run immediately, then update every second
+  updateTime();
+  setInterval(updateTime, 1000);
+
+  // 2. Scroll Animation Logic (Intersection Observer)
+  const fadeElements = document.querySelectorAll(".fade-element");
+
+  const observerOptions = {
+    root: null, // Viewport
+    rootMargin: "0px",
+    threshold: 0.15 // Triggers when 15% of the element is visible
   };
 
-  navButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const target = document.getElementById(btn.dataset.section);
-      if (!target) return;
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActivePill(btn.dataset.section);
-    });
-  });
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActivePill(entry.target.id);
-        }
-      });
-    },
-    { threshold: 0.35 }
-  );
-
-  sections.forEach((section) => observer.observe(section));
-
-  const clearHighlights = () => {
-    document.querySelectorAll("mark").forEach((markNode) => {
-      const parent = markNode.parentNode;
-      parent.replaceChild(
-        document.createTextNode(markNode.textContent),
-        markNode
-      );
-      parent.normalize();
-    });
-  };
-
-  const highlightMatches = (query) => {
-    clearHighlights();
-    searchStatus.classList.add("hidden");
-
-    if (query.length < 2) {
-      sections.forEach((s) => s.classList.remove("dimmed"));
-      return;
-    }
-
-    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(`(${escaped})`, "gi");
-    let matches = 0;
-
-    sections.forEach((section) => {
-      const nodes = section.querySelectorAll("p, li, h2, h3, h4, span");
-      let sectionHasMatch = false;
-
-      nodes.forEach((node) => {
-        if (node.closest("a")) return;
-        if (node.children.length > 0) return;
-
-        if (regex.test(node.textContent)) {
-          sectionHasMatch = true;
-          matches += (node.textContent.match(regex) || []).length;
-          node.innerHTML = node.textContent.replace(regex, "<mark>$1</mark>");
-        }
-      });
-
-      section.classList.toggle("dimmed", !sectionHasMatch);
-    });
-
-    if (matches > 0) {
-      const firstMatch = document.querySelector("mark");
-      if (firstMatch) {
-        const parentSection = firstMatch.closest("section");
-        if (parentSection) {
-          parentSection.scrollIntoView({ behavior: "smooth", block: "center" });
-          setActivePill(parentSection.id);
-        }
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Add the 'visible' class to trigger the CSS transition
+        entry.target.classList.add("visible");
+        // Unobserve once it's visible so it doesn't animate out/in again
+        observer.unobserve(entry.target);
       }
+    });
+  }, observerOptions);
 
-      searchStatus.textContent = `${matches} match${matches === 1 ? "" : "es"} found for “${query}”.`;
-    } else {
-      sections.forEach((s) => s.classList.remove("dimmed"));
-      searchStatus.textContent = `No matches found for “${query}”. Try a broader keyword.`;
-    }
-
-    searchStatus.classList.remove("hidden");
-  };
-
-  searchInput.addEventListener("input", (event) => {
-    highlightMatches(event.target.value.trim());
+  // Attach observer to all elements with the 'fade-element' class
+  fadeElements.forEach((element) => {
+    observer.observe(element);
   });
 });
