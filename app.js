@@ -1,25 +1,3 @@
-// Global Contact Modal Functions (Attached directly to HTML)
-window.openContactModal = function (e) {
-  if (e) e.preventDefault();
-  const modal = document.getElementById("contact-modal");
-  const box = document.getElementById("contact-box");
-  if (modal && box) {
-    modal.classList.remove("opacity-0", "pointer-events-none");
-    box.classList.remove("scale-95");
-    box.classList.add("scale-100");
-  }
-};
-
-window.closeContactModal = function () {
-  const modal = document.getElementById("contact-modal");
-  const box = document.getElementById("contact-box");
-  if (modal && box) {
-    modal.classList.add("opacity-0", "pointer-events-none");
-    box.classList.remove("scale-100");
-    box.classList.add("scale-95");
-  }
-};
-
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Map Initialization (Leaflet.js)
   const mapContainer = document.getElementById("background-map");
@@ -47,12 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       map.invalidateSize();
       mapContainer.classList.remove("opacity-0");
-      // Brightened the map significantly
+      // Set to 100% opacity for maximum visibility
       mapContainer.classList.add("opacity-100");
       mapContainer.classList.add("animate-map-zoom");
     }, 250);
-  } else {
-    console.warn("Leaflet library failed to load or map container is missing.");
   }
 
   // 2. Real-Time Clock Logic
@@ -76,11 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. Scroll Animation Logic
   const fadeElements = document.querySelectorAll(".fade-element");
-  const observerOptions = {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.15
-  };
+  const observerOptions = { root: null, rootMargin: "0px", threshold: 0.15 };
 
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
@@ -94,4 +66,29 @@ document.addEventListener("DOMContentLoaded", () => {
   fadeElements.forEach((element) => {
     observer.observe(element);
   });
+
+  // 4. Contact Modal Logic
+  const openBtn = document.getElementById("open-contact-btn");
+  const modal = document.getElementById("contact-modal");
+  const backdrop = document.getElementById("contact-backdrop");
+  const closeBtn = document.getElementById("close-modal-btn");
+  const modalBox = document.getElementById("contact-box");
+
+  function openModal(e) {
+    e.preventDefault();
+    modal.classList.remove("opacity-0", "pointer-events-none");
+    modalBox.classList.remove("scale-95");
+    modalBox.classList.add("scale-100");
+  }
+
+  function closeModal() {
+    modal.classList.add("opacity-0", "pointer-events-none");
+    modalBox.classList.remove("scale-100");
+    modalBox.classList.add("scale-95");
+  }
+
+  // Safely attach event listeners
+  if (openBtn) openBtn.addEventListener("click", openModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (backdrop) backdrop.addEventListener("click", closeModal);
 });
