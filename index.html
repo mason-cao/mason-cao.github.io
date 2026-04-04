@@ -1,260 +1,375 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw" />
-    <title>Mason Cao | Full-Stack Developer & Student</title>
-    <meta name="description" content="Personal portfolio of Mason Cao, a student at Lambert High School (C/O 27). Exploring Computer Science, Full-Stack AI Development, Athletics, and Leadership." />
+    <meta
+      name="google-site-verification"
+      content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw"
+    />
+    <title>Mason Cao | Student Portfolio</title>
+    <meta
+      name="description"
+      content="Personal portfolio of Mason Cao, Lambert High School Class of 2027. Computer science, leadership, athletics, and impact-focused achievements."
+    />
+    <meta
+      name="keywords"
+      content="Mason Cao, Lambert High School, student portfolio, computer science, FBLA, DECA, swim captain, leadership"
+    />
+    <meta name="author" content="Mason Cao" />
+    <meta property="og:title" content="Mason Cao | Student Portfolio" />
+    <meta
+      property="og:description"
+      content="Ambitious high school student in CS, leadership, and athletics."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mason-cao.github.io/" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'system-ui', 'sans-serif'],
-            },
-            colors: {
-              slate: {
-                850: '#151e2e',
-                900: '#0f172a',
-                950: '#020617',
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-      
-      body {
-        background-color: #0f172a; /* Slate 900 */
-        color: #94a3b8; /* Slate 400 */
-        -webkit-font-smoothing: antialiased;
-      }
-      
-      /* Custom Scrollbar for a premium feel */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #0f172a;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #475569;
-      }
-
-      /* Glowing Card Effect */
-      .glass-card {
-        background: rgba(30, 41, 59, 0.4);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.3s ease;
-      }
-      .glass-card:hover {
-        border-color: rgba(99, 102, 241, 0.4); /* Indigo glow */
-        background: rgba(30, 41, 59, 0.6);
-        transform: translateY(-2px);
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
-  
-  <body class="antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
-    <div class="fixed inset-0 z-[-1] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
 
-    <div class="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
-      <div class="lg:flex lg:justify-between lg:gap-4">
-        
-        <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:flex-col lg:justify-between lg:py-24">
-          <div>
-            <h1 class="text-4xl font-bold tracking-tight text-slate-200 sm:text-5xl">Mason Cao</h1>
-            <h2 class="mt-3 text-lg font-medium tracking-tight text-indigo-400 sm:text-xl">Full-Stack Developer & AI Enthusiast</h2>
-            <p class="mt-4 max-w-xs leading-normal text-slate-400">
-              Lambert High School (C/O 2027). Building intelligent web applications, leading community initiatives, and competing at the state level.
-            </p>
-            
-            <div class="mt-6 flex gap-4 text-sm font-medium text-slate-300">
-              <div class="flex flex-col"><span class="text-indigo-400 font-bold text-xl">4.48</span> GPA</div>
-              <div class="w-px bg-slate-700"></div>
-              <div class="flex flex-col"><span class="text-indigo-400 font-bold text-xl">300+</span> Vol. Hours</div>
-            </div>
+  <body>
+    <div class="aurora aurora-a"></div>
+    <div class="aurora aurora-b"></div>
 
-            <nav class="nav hidden lg:block mt-16">
-              <ul class="w-max space-y-4">
-                <li><a class="group flex items-center py-2 hover:text-slate-200 transition-colors" href="#about"><span class="mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>About</a></li>
-                <li><a class="group flex items-center py-2 hover:text-slate-200 transition-colors" href="#projects"><span class="mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>Projects</a></li>
-                <li><a class="group flex items-center py-2 hover:text-slate-200 transition-colors" href="#experience"><span class="mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>Experience & Leadership</a></li>
-                <li><a class="group flex items-center py-2 hover:text-slate-200 transition-colors" href="#extracurriculars"><span class="mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>Extracurriculars</a></li>
-              </ul>
-            </nav>
+    <div class="site-shell">
+      <header class="hero glass-panel">
+        <div class="hero-copy">
+          <p class="kicker">Lambert High School • Class of 2027</p>
+          <h1>Mason Cao</h1>
+          <p class="intro">
+            Future computer scientist and systems builder. Competitive swimmer,
+            nonprofit project lead, and student leader focused on high-impact
+            execution.
+          </p>
+          <div class="cta-row">
+            <a href="#projects" class="btn btn-primary">Explore Projects</a>
+            <a href="#awards" class="btn btn-secondary">View Honors</a>
+          </div>
+        </div>
+
+        <aside class="hero-side">
+          <div class="quick-facts">
+            <h2>At a Glance</h2>
+            <ul>
+              <li>FBLA National Qualifier</li>
+              <li>DECA State Champion</li>
+              <li>Varsity Swim Captain</li>
+              <li>Nonprofit Operations Lead</li>
+            </ul>
           </div>
 
-          <ul class="mt-8 flex items-center gap-5 lg:mt-0">
-            <li>
-              <a href="https://github.com/mason-cao" target="_blank" class="block text-slate-400 hover:text-slate-200 transition-colors">
-                <span class="sr-only">GitHub</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-6 w-6"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          <div class="social-search">
+            <div class="socials">
+              <a
+                href="https://www.linkedin.com/in/mason-cao-7a3760390"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                class="social-icon"
+              >
+                <img src="linkedin.png" alt="LinkedIn" />
               </a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/mason-cao-7a3760390" target="_blank" class="block text-slate-400 hover:text-slate-200 transition-colors">
-                <span class="sr-only">LinkedIn</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+              <a
+                href="https://www.instagram.com/m.zcao/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                class="social-icon"
+              >
+                <img src="instagram.png" alt="Instagram" />
               </a>
-            </li>
-            <li>
-              <a href="mailto:masoncao7@gmail.com" class="block text-slate-400 hover:text-slate-200 transition-colors">
-                <span class="sr-only">Email</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
-              </a>
-            </li>
-          </ul>
-        </header>
-
-        <main id="content" class="pt-24 lg:w-1/2 lg:py-24">
-          
-          <section id="about" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 lg:hidden mb-6">About</h2>
-            <div class="space-y-4 text-slate-400 leading-relaxed">
-              <p>
-                I am a dedicated and multifaceted junior at Lambert High School with a deep passion for <strong class="font-medium text-slate-200">computer science, athletics, and the fine arts</strong>. Currently, I am focused on building robust full-stack applications, designing AI agent pipelines, and exploring complex backend systems. 
-              </p>
-              <p>
-                My technical foundation is built on rigorous coursework, including the <strong class="font-medium text-slate-200">Harvard CS50</strong> curriculum and the <strong class="font-medium text-slate-200">MIT Beaver Works Summer Institute (Python Core)</strong>. Beyond the screen, I am heavily involved in civic impact—having dedicated over 300 hours to community service—and competitive environments through Varsity Swimming and the GMEA All-State Band.
-              </p>
             </div>
-            
-            <ul class="mt-6 flex flex-wrap gap-2">
-              <li class="flex items-center rounded-full bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-300">Python</li>
-              <li class="flex items-center rounded-full bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-300">TypeScript / React</li>
-              <li class="flex items-center rounded-full bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-300">FastAPI & Flask</li>
-              <li class="flex items-center rounded-full bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-300">SQL & Drizzle ORM</li>
+
+            <label class="search-wrap" for="site-search">
+              <svg
+                class="search-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <input
+                id="site-search"
+                type="search"
+                placeholder="Search anything in portfolio..."
+              />
+            </label>
+            <p id="search-status" class="search-status hidden"></p>
+          </div>
+        </aside>
+      </header>
+
+      <nav id="section-nav" class="section-nav glass-panel">
+        <button class="nav-pill active" data-section="about">Overview</button>
+        <button class="nav-pill" data-section="projects">Projects</button>
+        <button class="nav-pill" data-section="leadership">Leadership</button>
+        <button class="nav-pill" data-section="athletics">Athletics</button>
+        <button class="nav-pill" data-section="arts">Fine Arts</button>
+        <button class="nav-pill" data-section="clubs">Clubs</button>
+        <button class="nav-pill" data-section="awards">Honors</button>
+      </nav>
+
+      <main id="searchable-content" class="content-grid">
+        <section id="about" class="content-card glass-panel">
+          <h2>About Me</h2>
+          <p>
+            I am a dedicated and multifaceted junior at Lambert High School with
+            a strong focus on computer science, engineering, athletics, and fine
+            arts. I pursue rigorous opportunities that combine technical depth,
+            leadership, and service to build measurable impact.
+          </p>
+          <div class="chips">
+            <span>Computer Science + Systems</span>
+            <span>Leadership at Scale</span>
+            <span>Athletics + Discipline</span>
+            <span>Community Impact</span>
+          </div>
+        </section>
+
+        <section id="projects" class="content-card glass-panel">
+          <div class="card-title-row">
+            <h2>Technical Projects</h2>
+            <a
+              href="https://github.com/mason-cao"
+              target="_blank"
+              rel="noopener noreferrer"
+              >GitHub Portfolio →</a
+            >
+          </div>
+          <article class="mini-card">
+            <h3>
+              <a
+                href="https://anchorforyou.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Anchor for You</a
+              >
+              <span class="tag">SPA</span>
+            </h3>
+            <ul>
+              <li>
+                Engineered a cycle-aware micronutrient decision engine for
+                female athletes using Vanilla JavaScript, HTML5, and CSS3.
+              </li>
+              <li>
+                Designed a rules-based algorithm to parse training load,
+                intensity, and symptoms into phase-aligned dosage plans.
+              </li>
+              <li>
+                Implemented hash routing, local storage persistence, and Stripe
+                Payment Links for subscription checkout.
+              </li>
             </ul>
-          </section>
+          </article>
+          <article class="mini-card">
+            <h3>
+              Upcoming Summer Systems/Backend Capstone
+              <span class="tag tag-warn">In Development</span>
+            </h3>
+            <p>
+              Data-heavy engineering project (distributed systems, networking
+              protocol, or IoT integration) targeted for launch before Fall 2026
+              admissions.
+            </p>
+          </article>
+        </section>
 
-          <section id="projects" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-6">Featured Projects</h2>
-            
-            <div class="space-y-6">
-              <div class="glass-card rounded-xl p-6 relative group">
-                <h3 class="font-bold text-slate-200 text-lg">Luminosity Intelligence</h3>
-                <p class="text-sm text-slate-400 mt-2 mb-4">Multi-Agent Customer Intelligence Platform</p>
-                <p class="text-sm leading-relaxed">Engineered a full-stack analytics platform using <span class="text-slate-200">React 19, TypeScript, FastAPI, and SQLite</span> with 8 coordinated AI agents processing 750K+ synthetic events. Built a custom agent orchestration pipeline (no LangChain) with a GradientBoosting churn prediction model using SHAP.</p>
-              </div>
+        <section id="leadership" class="content-card glass-panel">
+          <h2>Leadership & Civic Impact</h2>
+          <article class="mini-card">
+            <h3>
+              Secretary & Project Lead,
+              <a
+                href="https://www.firststepteam.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >First Step (Nonprofit)</a
+              >
+            </h3>
+            <p>
+              Directed operations for 300+ volunteers across 240+ initiatives;
+              helped remove 2,500+ lbs of trash and raise $17,890+ for local
+              NGOs. Co-led a watershed microplastics research initiative backed
+              by a $5,000 Bloomberg grant with GA Tech collaboration.
+            </p>
+          </article>
+          <article class="mini-card">
+            <h3>Team Captain, Lambert High School Swim Team</h3>
+            <p>
+              Led culture and accountability at the varsity level while
+              balancing elite athletics and advanced coursework.
+            </p>
+          </article>
+          <article class="mini-card">
+            <h3>
+              Head Lifeguard, Laurel Springs (
+              <a
+                href="https://amspools.com/commercial-lifeguard-staffing/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >AMS Pools</a
+              >)
+            </h3>
+            <p>
+              One of two head lifeguards responsible for training and
+              coordinating 22 guards while managing day-to-day operations.
+            </p>
+          </article>
+        </section>
 
-              <div class="glass-card rounded-xl p-6 relative group">
-                <h3 class="font-bold text-slate-200 text-lg">FreshTrack</h3>
-                <p class="text-sm text-slate-400 mt-2 mb-4">Pantry Management Dashboard</p>
-                <p class="text-sm leading-relaxed">Built a full-stack web application using <span class="text-slate-200">Next.js 15, TypeScript, and Tailwind CSS</span> to track food inventory, visualize waste patterns, and suggest recipes. Managed dynamic data relationships via a local SQLite database with Drizzle ORM.</p>
-              </div>
+        <section id="athletics" class="content-card glass-panel">
+          <h2>Athletics</h2>
+          <div class="two-col">
+            <article class="mini-card">
+              <h3>High School Swim Team</h3>
+              <p>
+                Varsity Captain and state-team member. Competed at Forsyth
+                County Championship 2025, contributing to Lambert Boys Team’s
+                1st-place finish. GHSA State Qualifier: 100 breaststroke and 200
+                IM.
+              </p>
+            </article>
+            <article class="mini-card">
+              <h3>Club Swimming (Swim Atlanta)</h3>
+              <p>
+                Ranked 38th in Georgia. Qualified for Senior State Championships
+                in 100 and 200 breaststroke plus the Best of the South meet.
+              </p>
+              <a
+                href="https://www.swimcloud.com/swimmer/2684384/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View SwimCloud Stats →</a
+              >
+            </article>
+          </div>
+        </section>
 
-              <div class="glass-card rounded-xl p-6 relative group">
-                <a href="https://anchorforyou.com/" target="_blank" class="absolute inset-0"></a>
-                <h3 class="font-bold text-slate-200 text-lg group-hover:text-indigo-400 flex items-center gap-2">
-                  Anchor for You 
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" /></svg>
-                </h3>
-                <p class="text-sm text-slate-400 mt-2 mb-4">Cycle-Aware Micronutrient Engine</p>
-                <p class="text-sm leading-relaxed">Designed a custom rules-based algorithm parsing user intake to generate phase-aligned dosage plans for female athletes. Implemented hash-based routing and Stripe integration.</p>
-              </div>
-            </div>
-          </section>
+        <section id="arts" class="content-card glass-panel">
+          <h2>Fine Arts</h2>
+          <article class="mini-card">
+            <h3>
+              Wind Ensemble —
+              <a
+                href="https://www.lambertbands.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Lambert High School</a
+              >
+            </h3>
+            <p>
+              Member of top ensemble; served as Principal Bass Clarinetist for 1
+              year and soprano clarinetist for 3 years.
+            </p>
+          </article>
+          <article class="mini-card">
+            <h3>GMEA All-State Band</h3>
+            <p>
+              Selected 5 times since 7th grade on both soprano and bass clarinet
+              through highly competitive statewide auditions.
+            </p>
+          </article>
+        </section>
 
-          <section id="experience" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-6">Experience & Leadership</h2>
-            
-            <ol class="space-y-8">
-              <li class="relative">
-                <div class="glass-card rounded-xl p-6">
-                  <header class="flex justify-between items-start mb-2">
-                    <h3 class="font-bold text-slate-200">Secretary & Project Lead</h3>
-                    <span class="text-xs font-medium text-slate-500 uppercase">Aug 2023 - Present</span>
-                  </header>
-                  <div class="text-indigo-400 text-sm mb-3">First Step (Nonprofit)</div>
-                  <ul class="text-sm text-slate-400 space-y-2 list-disc list-outside ml-4">
-                    <li>Direct administrative operations for <strong class="text-slate-200">300+ volunteers</strong> across 240+ community initiatives, resulting in 2,500+ lbs of trash removed and $17,890+ raised for NGOs.</li>
-                    <li>Co-led a watershed microplastics research project backed by a <strong class="text-slate-200">$5,000 Bloomberg grant</strong>, collaborating with GA Tech faculty to train 20 students.</li>
-                    <li>Spearheaded the "One Degree" energy campaign, securing 80 pledges and cutting event deficits by 50%.</li>
-                  </ul>
-                </div>
+        <section id="clubs" class="content-card glass-panel">
+          <h2>School Clubs</h2>
+          <div class="two-col">
+            <article class="mini-card">
+              <h3>FBLA & DECA</h3>
+              <p>
+                Active competitor in high-level technical and entrepreneurship
+                events at state and national levels.
+              </p>
+            </article>
+            <article class="mini-card">
+              <h3>National Technical Honor Society</h3>
+              <p>
+                Recognized for outstanding achievement in career and technical
+                education.
+              </p>
+            </article>
+            <article class="mini-card">
+              <h3>Key Club</h3>
+              <p>
+                Contributed 20+ community service hours supporting schools
+                across Forsyth County.
+              </p>
+            </article>
+            <article class="mini-card">
+              <h3>Spanish Honor Society</h3>
+              <p>
+                Recognized for academic excellence in Spanish; served as a peer
+                tutor for younger students.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="awards" class="content-card glass-panel">
+          <h2>Honors & Distinctions</h2>
+          <article class="mini-card">
+            <h3>Advanced Technical Coursework</h3>
+            <ul>
+              <li>
+                <strong>Harvard CS50:</strong> Rigorous foundations in CS and
+                programming.
               </li>
-              
-              <li class="relative">
-                <div class="glass-card rounded-xl p-6">
-                  <header class="flex justify-between items-start mb-2">
-                    <h3 class="font-bold text-slate-200">Head Lifeguard</h3>
-                    <span class="text-xs font-medium text-slate-500 uppercase">May 2024 - Present</span>
-                  </header>
-                  <div class="text-indigo-400 text-sm mb-3">AMS Pools (Laurel Springs)</div>
-                  <p class="text-sm text-slate-400">Serve as 1 of 2 Head Lifeguards, managing daily pool operations, emergency protocol training, and coordinating a staff of 22 lifeguards.</p>
-                </div>
+              <li>
+                <strong>MIT BWSIX:</strong> Intensive computer science and
+                systems study.
               </li>
-            </ol>
-          </section>
-
-          <section id="extracurriculars" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-6">Extracurriculars</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="glass-card p-5 rounded-xl border-t-2 border-t-blue-500">
-                <h3 class="text-slate-200 font-bold mb-2">Athletics (Swimming)</h3>
-                <ul class="text-sm text-slate-400 space-y-2">
-                  <li><strong class="text-slate-200">Varsity Team Captain:</strong> Contributed to Boys Team 1st place win at 2025 Forsyth County Championship.</li>
-                  <li><strong class="text-slate-200">GHSA State Qualifier:</strong> 100-yard breaststroke, 200-yard IM.</li>
-                  <li><strong class="text-slate-200">Club Swimmer:</strong> Swim Atlanta, ranked 38th in Georgia.</li>
-                </ul>
-              </div>
-
-              <div class="glass-card p-5 rounded-xl border-t-2 border-t-purple-500">
-                <h3 class="text-slate-200 font-bold mb-2">Fine Arts (Music)</h3>
-                <ul class="text-sm text-slate-400 space-y-2">
-                  <li><strong class="text-slate-200">GMEA All-State Band:</strong> Selected 5 times since 7th grade on both <span class="text-slate-200">soprano and bass clarinet</span>.</li>
-                  <li><strong class="text-slate-200">Wind Ensemble:</strong> Principal Bass Clarinetist for Lambert High School's highest-level band.</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section id="honors" class="mb-16 scroll-mt-16">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-6">Honors & Involvement</h2>
-            
-            <div class="glass-card rounded-xl p-6">
-              <ul class="space-y-4 text-sm text-slate-400">
-                <li class="flex items-start">
-                  <span class="text-indigo-400 mr-3">✦</span>
-                  <div><strong class="text-slate-200">DECA State Champion & International Qualifier (ICDC):</strong> 1st Place, Entrepreneurship Team Decision Making.</div>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-indigo-400 mr-3">✦</span>
-                  <div><strong class="text-slate-200">FBLA National Qualifier:</strong> 4th in Networking Infrastructures; 3rd in Data Science & AI.</div>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-indigo-400 mr-3">✦</span>
-                  <div><strong class="text-slate-200">Presidential Volunteer Service Award:</strong> Gold (2023) & Bronze (2024).</div>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-indigo-400 mr-3">✦</span>
-                  <div><strong class="text-slate-200">Academics:</strong> Georgia State President’s List (Dual enrollment, 5.0 GPA), AP Scholar with Distinction (2025), College Board National Recognition Award.</div>
-                </li>
-                <li class="flex items-start">
-                  <span class="text-indigo-400 mr-3">✦</span>
-                  <div><strong class="text-slate-200">School Clubs:</strong> National Technical Honor Society, Spanish Honor Society (Peer Tutor), Key Club.</div>
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          <footer class="mt-20 text-sm text-slate-500 pb-10">
-            <p>Designed and built for Mason Cao. Built with <span class="text-slate-300 font-medium">HTML5, Tailwind CSS</span>, and deployed on GitHub Pages.</p>
-          </footer>
-
-        </main>
-      </div>
+            </ul>
+          </article>
+          <article class="mini-card">
+            <h3>Awards & Competitions</h3>
+            <ul>
+              <li>
+                <strong>Georgia State President's List:</strong> Dual enrollment
+                recipient with top academic standing.
+              </li>
+              <li>
+                <strong
+                  >DECA State Champion & ICDC International Qualifier:</strong
+                >
+                1st Place, Entrepreneurship Team Decision Making.
+              </li>
+              <li>
+                <strong>FBLA National Qualifier & 4th Place State:</strong>
+                Networking Infrastructures.
+              </li>
+              <li>
+                <strong>FBLA 3rd Place State:</strong> Data Science and AI.
+              </li>
+              <li>
+                <strong>AP Scholar with Distinction (2025):</strong> Six AP
+                scores of 4 or 5.
+              </li>
+              <li>
+                <strong
+                  >College Board National Recognition Award (2025).</strong
+                >
+              </li>
+              <li>
+                <strong>FBLA Regional Qualifier (2024–2025):</strong> Social
+                Media Concepts.
+              </li>
+              <li>
+                <strong>Presidential Volunteer Service Award:</strong> Gold
+                (2023) and Bronze (2024), 300+ service hours.
+              </li>
+            </ul>
+          </article>
+        </section>
+      </main>
     </div>
+
+    <script src="app.js"></script>
   </body>
 </html>
