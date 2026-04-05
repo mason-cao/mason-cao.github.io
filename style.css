@@ -71,7 +71,7 @@ body {
 /* --- High-Contrast Dark Map Trick --- */
 .leaflet-layer {
   /* Inverts the light map into a crisp dark map with white text/lines */
-  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%) !important;
+  filter: invert(100%) hue-rotate(180deg) brightness(300%) contrast(90%) !important;
 }
 
 /* Icon Marquee Animations */
