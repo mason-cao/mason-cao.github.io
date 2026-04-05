@@ -68,6 +68,11 @@ body {
 .animate-map-zoom {
   animation: map-zoom 40s ease-in-out infinite alternate;
 }
+/* --- Map Tile High-Contrast Hack --- */
+.leaflet-tile {
+  /* Pushes the light greys to white, and keeps the darks dark */
+  filter: brightness(1.5) contrast(2) grayscale(1) !important;
+}
 
 /* Icon Marquee Animations */
 .hover-pause:hover {
