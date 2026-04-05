@@ -30,6 +30,35 @@ document.addEventListener("DOMContentLoaded", () => {
       mapContainer.classList.add("animate-map-zoom");
     }, 250);
   }
+  // Typewriter Effect
+  const typewriterElement = document.getElementById("typewriter");
+  if (typewriterElement) {
+    const textToType = "Hello, I'm Mason Cao.";
+
+    // Instantly clear the text so it can be typed out
+    typewriterElement.textContent = "";
+    typewriterElement.classList.add("typing-cursor");
+
+    let i = 0;
+    function typeWriter() {
+      if (i < textToType.length) {
+        typewriterElement.textContent += textToType.charAt(i);
+        i++;
+
+        // Randomize typing speed slightly (between 40ms and 90ms) for a human feel
+        const typingSpeed = Math.random() * 50 + 40;
+        setTimeout(typeWriter, typingSpeed);
+      } else {
+        // Stop the cursor from blinking 3 seconds after it finishes typing
+        setTimeout(() => {
+          typewriterElement.classList.remove("typing-cursor");
+        }, 3000);
+      }
+    }
+
+    // Wait 500ms before typing so the page's fade-in animation finishes first
+    setTimeout(typeWriter, 500);
+  }
 
   // 2. Real-Time Clock Logic
   const timeElement = document.getElementById("live-time");

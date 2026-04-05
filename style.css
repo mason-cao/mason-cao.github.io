@@ -89,3 +89,20 @@ body {
     transform: translateX(-50%);
   }
 }
+/* --- Typewriter Cursor --- */
+.typing-cursor::after {
+  content: "|";
+  color: #818cf8; /* Indigo-400 to match your theme accents */
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
