@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
       doubleClickZoom: false,
       boxZoom: false,
       keyboard: false,
-      attributionControl: false
+      attributionControl: false,
       fadeAnimation: false
     });
 
