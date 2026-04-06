@@ -106,3 +106,7 @@ body {
     opacity: 0;
   }
 }
+/* Prevents the map from flashing grey while zooming/loading tiles */
+.leaflet-container {
+  background: #000000 !important;
+}
