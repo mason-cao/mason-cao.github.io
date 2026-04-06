@@ -70,15 +70,16 @@ body {
 }
 
 /* --- High-Contrast Dark Map Fix --- */
-/* 1. Force the base background to black to prevent flashing while loading */
 .leaflet-container {
-  background: #000000 !important;
+  background: #0f1113 !important;
 }
 
-/* 2. Apply the high-contrast inversion ONLY to the map images to avoid browser bugs */
-.leaflet-layer {
-  filter: invert(100%) hue-rotate(180deg) contrast(180%) brightness(120%)
+/* Apply the filter to the master layer, NOT individual images */
+.leaflet-tile-pane {
+  filter: invert(100%) hue-rotate(180deg) brightness(300%) contrast(90%)
     grayscale(100%) !important;
+  /* Forces the graphics card to keep the filter active during animations */
+  will-change: filter;
 }
 
 /* Icon Marquee Animations */
