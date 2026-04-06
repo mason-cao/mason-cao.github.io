@@ -3,9 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapContainer = document.getElementById("background-map");
 
   if (mapContainer && typeof L !== "undefined") {
+    // Start zoomed out over the entire United States
     const map = L.map("background-map", {
-      center: [34.0515, -84.0714], // Suwanee, GA
-      zoom: 12,
+      center: [39.8283, -98.5795],
+      zoom: 4,
       zoomControl: false,
       dragging: false,
       scrollWheelZoom: false,
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
       attributionControl: false
     });
 
-    // Change 'dark_all' to 'light_all'
+    // Using the light map for the high-contrast dark CSS trick
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       {
@@ -24,10 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
     ).addTo(map);
 
     setTimeout(() => {
+      // 1. Fix the size and fade the map in
       map.invalidateSize();
       mapContainer.classList.remove("opacity-0");
       mapContainer.classList.add("opacity-100");
-      mapContainer.classList.add("animate-map-zoom");
+
+      // 2. Wait slightly, then execute the cinematic zoom to Suwanee
+      setTimeout(() => {
+        map.flyTo([34.0515, -84.0714], 12, {
+          animate: true,
+          duration: 3.5 // Duration of the zoom in seconds
+        });
+
+        // 3. Wait for the flight to finish, then start the infinite CSS pulse
+        setTimeout(() => {
+          mapContainer.classList.add("animate-map-zoom");
+        }, 3500);
+      }, 800); // 800ms delay before the flight starts
     }, 250);
   }
   // Typewriter Effect
@@ -52,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Stop the cursor from blinking 3 seconds after it finishes typing
         setTimeout(() => {
           typewriterElement.classList.remove("typing-cursor");
-        }, 3000);
+        }, 10000);
       }
     }
 
