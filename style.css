@@ -70,16 +70,15 @@ body {
 }
 
 /* --- High-Contrast Dark Map Fix --- */
+/* 1. Base map MUST be white so the wrapper inverts it to pitch black during loading */
 .leaflet-container {
-  background: #0f1113 !important;
+  background: #ffffff !important;
 }
 
-/* Apply the filter to the master layer, NOT individual images */
-.leaflet-tile-pane {
-  filter: invert(100%) hue-rotate(180deg) brightness(300%) contrast(90%)
-    grayscale(100%) !important;
-  /* Forces the graphics card to keep the filter active during animations */
-  will-change: filter;
+/* 2. Filter is applied to a static HTML wrapper, NOT the 3D moving map */
+.dark-map-wrapper {
+  filter: invert(100%) hue-rotate(180deg) brightness(200%) contrast(110%)
+    grayscale(100%);
 }
 
 /* Icon Marquee Animations */
@@ -101,7 +100,7 @@ body {
 /* --- Typewriter Cursor --- */
 .typing-cursor::after {
   content: "|";
-  color: #818cf8; /* Indigo-400 to match your theme accents */
+  color: #818cf8;
   animation: blink 1s step-end infinite;
   margin-left: 2px;
 }

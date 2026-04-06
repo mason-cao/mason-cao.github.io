@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Map Initialization (Leaflet.js)
   const mapContainer = document.getElementById("background-map");
+  const mapWrapper = document.getElementById("map-wrapper"); // New Target
 
   if (mapContainer && typeof L !== "undefined") {
     // Start zoomed out over the entire United States
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       boxZoom: false,
       keyboard: false,
       attributionControl: false,
-      fadeAnimation: false
+      fadeAnimation: false // Stops tile fading bugs
     });
 
     // Using the light map for the high-contrast dark CSS trick
@@ -26,10 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
     ).addTo(map);
 
     setTimeout(() => {
-      // 1. Fix the size and fade the map in
+      // 1. Fix the size and fade the WRAPPER in (not the map)
       map.invalidateSize();
-      mapContainer.classList.remove("opacity-0");
-      mapContainer.classList.add("opacity-100");
+      if (mapWrapper) {
+        mapWrapper.classList.remove("opacity-0");
+        mapWrapper.classList.add("opacity-100");
+      }
 
       // 2. Wait slightly, then execute the cinematic zoom to Suwanee
       setTimeout(() => {
@@ -38,19 +41,21 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: 3.5 // Duration of the zoom in seconds
         });
 
-        // 3. Wait for the flight to finish, then start the infinite CSS pulse
+        // 3. Wait for the flight to finish, then start the infinite CSS pulse on the wrapper
         setTimeout(() => {
-          mapContainer.classList.add("animate-map-zoom");
+          if (mapWrapper) {
+            mapWrapper.classList.add("animate-map-zoom");
+          }
         }, 3500);
       }, 800); // 800ms delay before the flight starts
     }, 250);
   }
+
   // Typewriter Effect
   const typewriterElement = document.getElementById("typewriter");
   if (typewriterElement) {
     const textToType = "Hello, I'm Mason Cao.";
 
-    // Instantly clear the text so it can be typed out
     typewriterElement.textContent = "";
     typewriterElement.classList.add("typing-cursor");
 
@@ -59,19 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (i < textToType.length) {
         typewriterElement.textContent += textToType.charAt(i);
         i++;
-
-        // Randomize typing speed slightly (between 40ms and 90ms) for a human feel
         const typingSpeed = Math.random() * 50 + 40;
         setTimeout(typeWriter, typingSpeed);
       } else {
-        // Stop the cursor from blinking 3 seconds after it finishes typing
         setTimeout(() => {
           typewriterElement.classList.remove("typing-cursor");
         }, 10000);
       }
     }
-
-    // Wait 500ms before typing so the page's fade-in animation finishes first
     setTimeout(typeWriter, 500);
   }
 
@@ -130,7 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     contactBox.classList.add("scale-95");
   }
 
-  // Bind the events safely
   if (openContactBtn) openContactBtn.addEventListener("click", openModal);
   if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
   if (contactBackdrop) contactBackdrop.addEventListener("click", closeModal);

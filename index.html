@@ -38,12 +38,14 @@
 
   <body class="font-sans relative">
     <div
-      class="absolute top-0 left-0 w-full h-[600px] md:h-[700px] z-[-1] overflow-hidden"
+      class="absolute top-0 left-0 w-full h-[600px] md:h-[700px] z-[-1] overflow-hidden bg-[#0F1113]"
     >
       <div
-        id="background-map"
-        class="w-full h-full opacity-0 transition-opacity duration-1000"
-      ></div>
+        id="map-wrapper"
+        class="w-full h-full opacity-0 transition-opacity duration-1000 dark-map-wrapper"
+      >
+        <div id="background-map" class="w-full h-full"></div>
+      </div>
       <div
         class="absolute inset-0 bg-gradient-to-b from-dark-900/40 via-dark-900/70 to-dark-900 z-10 pointer-events-none"
       ></div>
