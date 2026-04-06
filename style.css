@@ -68,10 +68,17 @@ body {
 .animate-map-zoom {
   animation: map-zoom 40s ease-in-out infinite alternate;
 }
-/* --- High-Contrast Dark Map Trick --- */
+
+/* --- High-Contrast Dark Map Fix --- */
+/* 1. Force the base background to black to prevent flashing while loading */
+.leaflet-container {
+  background: #000000 !important;
+}
+
+/* 2. Apply the high-contrast inversion ONLY to the map images to avoid browser bugs */
 .leaflet-layer {
-  /* Inverts the light map into a crisp dark map with white text/lines */
-  filter: invert(100%) hue-rotate(180deg) brightness(300%) contrast(90%) !important;
+  filter: invert(100%) hue-rotate(180deg) contrast(180%) brightness(120%)
+    grayscale(100%) !important;
 }
 
 /* Icon Marquee Animations */
@@ -89,6 +96,7 @@ body {
     transform: translateX(-50%);
   }
 }
+
 /* --- Typewriter Cursor --- */
 .typing-cursor::after {
   content: "|";
@@ -105,10 +113,4 @@ body {
   50% {
     opacity: 0;
   }
-}
-/* Applies the inversion to the entire map box to prevent flashing */
-.leaflet-container {
-  background: #ffffff !important; /* Inverts to pitch black */
-  filter: invert(100%) hue-rotate(180deg) contrast(200%) brightness(130%)
-    grayscale(100%) !important;
 }
