@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       boxZoom: false,
       keyboard: false,
       attributionControl: false
+      fadeAnimation: false
     });
 
     // Using the light map for the high-contrast dark CSS trick
