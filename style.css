@@ -106,7 +106,9 @@ body {
     opacity: 0;
   }
 }
-/* Prevents the map from flashing grey while zooming/loading tiles */
+/* Applies the inversion to the entire map box to prevent flashing */
 .leaflet-container {
-  background: #000000 !important;
+  background: #ffffff !important; /* Inverts to pitch black */
+  filter: invert(100%) hue-rotate(180deg) contrast(200%) brightness(130%)
+    grayscale(100%) !important;
 }
