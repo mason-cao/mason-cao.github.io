@@ -77,7 +77,7 @@ body {
 
 /* 2. Filter is applied to a static HTML wrapper, NOT the 3D moving map */
 .dark-map-wrapper {
-  filter: invert(100%) hue-rotate(180deg) brightness(200%) contrast(110%)
+  filter: invert(100%) hue-rotate(180deg) brightness(500%) contrast(110%)
     grayscale(100%);
 }
 
