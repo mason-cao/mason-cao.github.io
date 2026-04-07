@@ -81,19 +81,20 @@ body {
     grayscale(100%);
 }
 
-/* Icon Marquee Animations */
+/* --- Icon Marquee Animations --- */
 .hover-pause:hover {
   animation-play-state: paused;
 }
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 15s linear infinite;
 }
 @keyframes marquee {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    /* Shifts exactly one block across the 4-block track to loop perfectly */
+    transform: translateX(-25%);
   }
 }
 
