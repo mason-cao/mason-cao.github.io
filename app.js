@@ -51,38 +51,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 250);
   }
 
-  // 2. Smooth Character Fade-In Effect
+  // 2. Sophisticated Staggered Fade-In Effect
   const fadeTextElement = document.getElementById("typewriter");
   if (fadeTextElement) {
-    const textToType = "Hello, I'm Mason Cao.";
     fadeTextElement.textContent = ""; // Clear initial text
 
-    // Create individual spans for each character
-    const chars = textToType.split("").map((char) => {
-      const span = document.createElement("span");
-      // Preserve spaces, otherwise they collapse
-      span.textContent = char === " " ? "\u00A0" : char;
+    // Part 1: Create the "Hello," block
+    const helloSpan = document.createElement("span");
+    helloSpan.textContent = "Hello,";
+    // Inline-block allows it to slide up, adding a longer 1.2s duration for elegance
+    helloSpan.className =
+      "inline-block opacity-0 translate-y-3 transition-all duration-[1200ms] ease-out";
+    fadeTextElement.appendChild(helloSpan);
 
-      // Add Tailwind classes for a smooth opacity transition
+    // Part 2: Create the " I'm Mason Cao." character cascade
+    const nameText = " I'm Mason Cao.";
+    const chars = nameText.split("").map((char) => {
+      const span = document.createElement("span");
+      span.textContent = char === " " ? "\u00A0" : char;
       span.className = "opacity-0 transition-opacity duration-700 ease-out";
       fadeTextElement.appendChild(span);
       return span;
     });
 
-    let i = 0;
-    function fadeInNextChar() {
-      if (i < chars.length) {
-        chars[i].classList.remove("opacity-0");
-        chars[i].classList.add("opacity-100");
-        i++;
+    // Animation Timeline
+    setTimeout(() => {
+      // 1. Reveal "Hello," by removing the invisible/shifted classes
+      helloSpan.classList.remove("opacity-0", "translate-y-3");
+      helloSpan.classList.add("opacity-100", "translate-y-0");
 
-        // 40ms delay between each letter starting its fade-in
-        setTimeout(fadeInNextChar, 40);
-      }
-    }
-
-    // Start effect after a short delay so the page's main fade-in finishes first
-    setTimeout(fadeInNextChar, 500);
+      // 2. Wait for a natural beat (800ms), then cascade the rest of the sentence
+      setTimeout(() => {
+        let i = 0;
+        function fadeInNextChar() {
+          if (i < chars.length) {
+            chars[i].classList.remove("opacity-0");
+            chars[i].classList.add("opacity-100");
+            i++;
+            setTimeout(fadeInNextChar, 40);
+          }
+        }
+        fadeInNextChar();
+      }, 800); // The dramatic pause!
+    }, 400); // Initial delay before the whole animation starts
   }
 
   // 3. Real-Time Clock Logic
