@@ -51,25 +51,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 250);
   }
 
-  // 2. Sophisticated Staggered Fade-In Effect
+  // 2. Sophisticated Staggered Fade-In Effect (Mixed Font Weights)
   const fadeTextElement = document.getElementById("typewriter");
   if (fadeTextElement) {
     fadeTextElement.textContent = ""; // Clear initial text
 
-    // Part 1: Create the "Hello," block
+    // Part 1: Create the "Hello," block (Keeps the font-extrabold from the parent h1)
     const helloSpan = document.createElement("span");
     helloSpan.textContent = "Hello,";
-    // Inline-block allows it to slide up, adding a longer 1.2s duration for elegance
     helloSpan.className =
       "inline-block opacity-0 translate-y-3 transition-all duration-[1200ms] ease-out";
     fadeTextElement.appendChild(helloSpan);
 
-    // Part 2: Create the " I'm Mason Cao." character cascade
+    // Part 2: Create the " I'm Mason Cao." character cascade with a thinner font
     const nameText = " I'm Mason Cao.";
     const chars = nameText.split("").map((char) => {
       const span = document.createElement("span");
       span.textContent = char === " " ? "\u00A0" : char;
-      span.className = "opacity-0 transition-opacity duration-700 ease-out";
+
+      // Added 'font-normal' to contrast the extrabold Hello, and increased duration to 1000ms
+      span.className =
+        "font-normal opacity-0 transition-opacity duration-1000 ease-out";
       fadeTextElement.appendChild(span);
       return span;
     });
@@ -80,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
       helloSpan.classList.remove("opacity-0", "translate-y-3");
       helloSpan.classList.add("opacity-100", "translate-y-0");
 
-      // 2. Wait for a natural beat (800ms), then cascade the rest of the sentence
+      // 2. Wait for a natural beat, then cascade the rest of the sentence slowly
       setTimeout(() => {
         let i = 0;
         function fadeInNextChar() {
@@ -88,7 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
             chars[i].classList.remove("opacity-0");
             chars[i].classList.add("opacity-100");
             i++;
-            setTimeout(fadeInNextChar, 40);
+            // Slowed down from 40ms to 80ms for a much smoother, deliberate reveal
+            setTimeout(fadeInNextChar, 80);
           }
         }
         fadeInNextChar();
