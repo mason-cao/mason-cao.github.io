@@ -49,6 +49,19 @@
 
   <body class="font-sans relative bg-[#0F1113]">
     <div
+      id="scroll-progress"
+      class="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 z-[100] transition-all duration-150"
+      style="width: 0%"
+    ></div>
+
+    <div
+      class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/10 blur-[120px] pointer-events-none z-0"
+    ></div>
+    <div
+      class="fixed bottom-[10%] right-[-5%] w-[30%] h-[30%] rounded-full bg-blue-600/10 blur-[100px] pointer-events-none z-0"
+    ></div>
+
+    <div
       class="absolute top-0 left-0 w-full h-[600px] md:h-[700px] z-[-1] overflow-hidden bg-[#0F1113]"
     >
       <div
@@ -173,16 +186,18 @@
                 </h3>
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
-                Self-hosted environmental intelligence platform detecting
-                anomalies across 9 real-time APIs. Built with FastAPI,
-                TimescaleDB, and a custom local LLM RAG pipeline for causal
-                explanations.
+                A comprehensive environmental intelligence platform that
+                aggregates 9 real-time data streams (including NASA and the EPA)
+                onto a live, interactive map. It features a triple-consensus
+                anomaly detection engine, live WebSocket feeds, and a natural
+                language AI interface that generates fully sourced reports
+                explaining the root causes of climate events.
               </p>
             </div>
             <p
               class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700/50 font-mono"
             >
-              Local Llama 3 Inference
+              Local Llama 3 RAG • TimescaleDB • Mapbox GL JS • WebSockets
             </p>
           </div>
 
@@ -208,15 +223,18 @@
                 </h3>
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
-                Platform with 8 coordinated AI agents processing synthetic
-                behavioral events. Built with React 19, TypeScript, FastAPI, and
-                a GradientBoosting churn model.
+                A massive 8-page executive analytics dashboard powered by a
+                custom network of 8 specialized AI agents. It processes over
+                750,000 behavioral events to predict customer churn, offering
+                managers interactive risk explanations, deep-dive feature
+                attributions for individual users, and transparent audit logging
+                of the AI's reasoning.
               </p>
             </div>
             <p
               class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700/50 font-mono"
             >
-              750K+ synthetic events
+              Custom Agent Orchestration • GradientBoosting • SHAP • FastAPI
             </p>
           </div>
 
@@ -242,15 +260,17 @@
                 </h3>
               </div>
               <p class="text-sm leading-relaxed mt-4 text-slate-400">
-                Pantry dashboard using Next.js 15, TypeScript, and Tailwind to
-                track inventory and visualize waste patterns. Managed dynamic
-                data via SQLite and Drizzle ORM.
+                A full-stack pantry management dashboard designed to combat
+                household food waste. It tracks real-time inventory, suggests
+                custom recipes based on ingredients that are about to expire,
+                and provides dynamic, interactive charts to help users visualize
+                and improve their monthly consumption habits.
               </p>
             </div>
             <p
               class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700/50 font-mono"
             >
-              Dynamic REST API
+              Next.js 15 • SQLite + Drizzle ORM • REST API • Recharts
             </p>
           </div>
         </div>
@@ -303,9 +323,10 @@
                 </div>
                 <p class="text-sm text-slate-400 leading-relaxed">
                   Direct operations for 300+ volunteers; organized 240+
-                  initiatives and raised $17,890+ for local NGOs. Co-led a
-                  microplastics research project backed by a $5,000 Bloomberg
-                  grant.
+                  initiatives, removing 2,500+ lbs of trash and raising $17,890+
+                  for NGOs. Co-led a microplastics research project backed by a
+                  $5,000 Bloomberg grant alongside GA Tech faculty. Spearheaded
+                  the "One Degree" campaign to cut event energy costs by 50%.
                 </p>
               </li>
               <li>
@@ -317,12 +338,13 @@
                   >
                 </div>
                 <div class="text-sm font-medium text-slate-300 mb-2">
-                  Head Lifeguard
+                  Pool Manager
                 </div>
                 <p class="text-sm text-slate-400 leading-relaxed">
-                  Serve as 1 of 2 Head Lifeguards, managing daily pool
-                  operations, coordinating schedules, overseeing emergency
-                  training, and managing 22 lifeguards.
+                  Selected as 1 of 6 Pool Managers in the Fulton-Forsyth area.
+                  Manage daily operations, coordinate schedules, and oversee
+                  employee emergency training across 8 pools and 100+
+                  lifeguards.
                 </p>
               </li>
             </ul>
@@ -347,7 +369,7 @@
                 >
                 <span
                   class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                  >TypeScript / JS</span
+                  >JavaScript/TS</span
                 >
                 <span
                   class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
@@ -364,6 +386,10 @@
                 <span
                   class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >HTML/CSS</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
+                  >AppleScript</span
                 >
               </div>
             </div>
@@ -384,6 +410,10 @@
                 >
                 <span
                   class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
+                  >PostgreSQL & Timescale</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >SQLite & SQLAlchemy</span
                 >
                 <span
@@ -393,6 +423,22 @@
                 <span
                   class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >scikit-learn & pandas</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
+                  >SHAP & statsmodels</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
+                  >Vite & TanStack</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
+                  >ChromaDB & Ollama</span
+                >
+                <span
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
+                  >Mapbox GL JS</span
                 >
               </div>
             </div>
@@ -446,19 +492,34 @@
               title="Next.js"
             />
             <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="PostgreSQL"
+            />
+            <img
               src="https://cdn.simpleicons.org/fastapi"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="SQLite"
-            />
-            <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Git"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Pandas"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Vite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
@@ -469,11 +530,6 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="HTML5"
             />
           </div>
 
@@ -499,19 +555,34 @@
               title="Next.js"
             />
             <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="PostgreSQL"
+            />
+            <img
               src="https://cdn.simpleicons.org/fastapi"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="SQLite"
-            />
-            <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Git"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Pandas"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Vite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
@@ -522,11 +593,6 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="HTML5"
             />
           </div>
 
@@ -552,19 +618,34 @@
               title="Next.js"
             />
             <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="PostgreSQL"
+            />
+            <img
               src="https://cdn.simpleicons.org/fastapi"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="SQLite"
-            />
-            <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Git"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Pandas"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Vite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
@@ -575,11 +656,6 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="HTML5"
             />
           </div>
 
@@ -605,19 +681,34 @@
               title="Next.js"
             />
             <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="PostgreSQL"
+            />
+            <img
               src="https://cdn.simpleicons.org/fastapi"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="SQLite"
-            />
-            <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Git"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Pandas"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
+              title="Vite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
@@ -628,11 +719,6 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
               class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-              title="HTML5"
             />
           </div>
         </div>
@@ -708,7 +794,7 @@
                     >5.0</span
                   >
                   GPA), AP Scholar with Distinction, College Board National
-                  Recognition.
+                  Recognition (2025).
                 </div>
               </li>
             </ul>
@@ -727,10 +813,11 @@
                   <span class="text-slate-200 font-medium"
                     >Varsity Swim Captain:</span
                   >
-                  GHSA State Qualifier (Breaststroke & IM). Top 40 club swimmer
-                  in Georgia; competed at elite invitational meets including
-                  Senior State Championships and Best of the South (100y/200y
-                  Breaststroke, 200y IM).
+                  GHSA State Qualifier (100y Breaststroke, 200y IM). 5th highest
+                  contributor to 1st place win at 2025 Forsyth County
+                  Championship. Club swimmer (Swim Atlanta, 38th in GA);
+                  competed at elite invitationals like Senior State
+                  Championships and Best of the South.
                 </div>
               </li>
               <li class="flex items-start gap-2">
@@ -740,21 +827,9 @@
                     >5x GMEA All-State Musician:</span
                   >
                   Selected on soprano and bass clarinet. Principal Bass
-                  Clarinetist for Lambert Wind Ensemble, performing at
-                  prestigious events like The Midwest Clinic and the National
-                  Concert Band Festival.
-                </div>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-indigo-400 mt-0.5">✦</span>
-                <div>
-                  <span class="text-slate-200 font-medium"
-                    >Community Educator:</span
-                  >
-                  Tutored
-                  <span class="font-mono text-indigo-300">50+</span> local youth
-                  in Mathematics, English, and foundational programming
-                  (Scratch) within my local Chinese community.
+                  Clarinetist for Lambert Wind Ensemble, invited to perform at
+                  prestigious events including The Midwest Clinic and the
+                  National Concert Band Festival.
                 </div>
               </li>
               <li class="flex items-start gap-2">
@@ -763,8 +838,9 @@
                   <span class="text-slate-200 font-medium"
                     >Clubs & Societies:</span
                   >
-                  Active volunteer in Key Club, National Technical Honor
-                  Society, and Spanish Honor Society (Peer Tutor).
+                  National Technical Honor Society, Spanish Honor Society (15+
+                  hours as a peer tutor), and Key Club (20+ hours volunteering
+                  for local schools).
                 </div>
               </li>
             </ul>
