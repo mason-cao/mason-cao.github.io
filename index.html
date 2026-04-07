@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mason Cao | Student Portfolio</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-
     <link rel="stylesheet" href="style.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +24,8 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ["SF Pro Display", "Inter", "system-ui", "sans-serif"]
+              sans: ["Inter", "SF Pro Display", "system-ui", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"]
             },
             colors: {
               dark: { 800: "#16191C", 900: "#0F1113" },
@@ -30,13 +37,17 @@
     </script>
 
     <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"
+      defer
+    ></script>
+    <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       defer
     ></script>
     <script src="app.js" defer></script>
   </head>
 
-  <body class="font-sans relative">
+  <body class="font-sans relative bg-[#0F1113]">
     <div
       class="absolute top-0 left-0 w-full h-[600px] md:h-[700px] z-[-1] overflow-hidden bg-[#0F1113]"
     >
@@ -47,7 +58,7 @@
         <div id="background-map" class="w-full h-full"></div>
       </div>
       <div
-        class="absolute inset-0 bg-gradient-to-b from-dark-900/40 via-dark-900/70 to-dark-900 z-10 pointer-events-none"
+        class="absolute inset-0 bg-gradient-to-b from-dark-900/40 via-dark-900/80 to-dark-900 z-10 pointer-events-none"
       ></div>
     </div>
 
@@ -71,7 +82,9 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span id="live-time">Loading time...</span>
+            <span id="live-time" class="font-mono text-xs mt-[1px]"
+              >Loading time...</span
+            >
           </p>
           <p
             class="mt-2 text-sm font-medium text-slate-400 flex items-center gap-1.5 justify-center md:justify-start backdrop-blur-sm bg-dark-900/80 w-max mx-auto md:mx-0 px-3 py-1 rounded-full border border-slate-700/50"
@@ -92,12 +105,10 @@
           </p>
           <h1
             id="typewriter"
-            class="mt-8 text-5xl font-extrabold tracking-tighter text-slate-100 drop-shadow-md"
-          >
-            Hello, I'm Mason Cao.
-          </h1>
+            class="mt-8 text-5xl font-extrabold tracking-tight text-slate-100 drop-shadow-md min-h-[60px]"
+          ></h1>
           <p
-            class="mt-6 leading-relaxed max-w-xl mx-auto md:mx-0 text-slate-300 drop-shadow-lg font-medium backdrop-blur-sm bg-dark-900/40 p-4 rounded-xl border border-slate-700/30"
+            class="mt-6 leading-relaxed max-w-xl mx-auto md:mx-0 text-slate-300 drop-shadow-lg font-medium backdrop-blur-sm bg-dark-900/40 p-4 rounded-xl border border-slate-700/30 shadow-xl"
           >
             I'm a junior at Lambert High School and a full-stack developer. My
             passion is building robust applications, designing AI agent
@@ -106,21 +117,33 @@
         </div>
 
         <div
-          class="glass-card rounded-xl p-6 flex flex-col gap-3 w-max mx-auto md:mx-0 md:mt-16 fade-element delay-100 border-slate-600/50"
+          class="glass-card rounded-xl p-6 flex flex-col gap-4 w-max mx-auto md:mx-0 md:mt-16 fade-element delay-100 border-slate-600/50 relative z-20"
         >
-          <div class="flex items-center gap-3">
-            <span class="text-4xl font-extrabold text-indigo-400">200+</span>
-            <span class="text-slate-300">Commits</span>
+          <div class="flex items-end gap-3">
+            <span
+              class="text-4xl font-extrabold text-indigo-400 font-mono leading-none"
+              >200+</span
+            >
+            <span
+              class="text-slate-300 text-sm font-medium mb-1 uppercase tracking-wider"
+              >Commits</span
+            >
           </div>
-          <div class="w-full h-px bg-slate-700"></div>
-          <div class="flex items-center gap-3">
-            <span class="text-4xl font-extrabold text-indigo-400">$17.8K</span>
-            <span class="text-slate-300">Raised</span>
+          <div class="w-full h-px bg-slate-700/50"></div>
+          <div class="flex items-end gap-3">
+            <span
+              class="text-4xl font-extrabold text-indigo-400 font-mono leading-none"
+              >$17.8K</span
+            >
+            <span
+              class="text-slate-300 text-sm font-medium mb-1 uppercase tracking-wider"
+              >Raised</span
+            >
           </div>
         </div>
       </header>
 
-      <section id="projects" class="mb-24 md:mb-36">
+      <section id="projects" class="mb-24 md:mb-36 relative z-20">
         <h2 class="mb-8 text-2xl font-semibold text-slate-200 fade-element">
           Featured Projects
         </h2>
@@ -135,7 +158,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="h-8 w-8 text-indigo-400"
+                  class="h-8 w-8 text-indigo-400 drop-shadow-md group-hover:scale-110 transition-transform"
                 >
                   <path
                     fill-rule="evenodd"
@@ -157,7 +180,7 @@
               </p>
             </div>
             <p
-              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800"
+              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700/50 font-mono"
             >
               Local Llama 3 Inference
             </p>
@@ -172,7 +195,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
                   fill="currentColor"
-                  class="h-8 w-8 text-indigo-400"
+                  class="h-8 w-8 text-indigo-400 drop-shadow-md group-hover:scale-110 transition-transform"
                 >
                   <path
                     d="M8 0a8 8 0 100 16A8 8 0 008 0zM4 9a1 1 0 112 0 1 1 0 01-2 0zm5.5-1.5a.5.5 0 01.5.5v2a.5.5 0 01-1 0V8a.5.5 0 01.5-.5zM7.5 5.5a.5.5 0 011 0v4a.5.5 0 01-1 0v-4z"
@@ -191,9 +214,9 @@
               </p>
             </div>
             <p
-              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800"
+              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700/50 font-mono"
             >
-              750K+ synthetic events processed
+              750K+ synthetic events
             </p>
           </div>
 
@@ -206,7 +229,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
                   fill="currentColor"
-                  class="h-8 w-8 text-indigo-400"
+                  class="h-8 w-8 text-indigo-400 drop-shadow-md group-hover:scale-110 transition-transform"
                 >
                   <path
                     d="M12.5 3a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM12 9a1 1 0 011 1v2a1 1 0 01-1 1H8v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2a1 1 0 011-1h3v-2a1 1 0 011-1h3zM10.5 3.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
@@ -225,9 +248,9 @@
               </p>
             </div>
             <p
-              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800"
+              class="text-xs text-slate-500 mt-6 pt-4 border-t border-slate-700/50 font-mono"
             >
-              Dynamic REST API integration
+              Dynamic REST API
             </p>
           </div>
         </div>
@@ -236,13 +259,13 @@
           <a
             href="https://github.com/mason-cao"
             target="_blank"
-            class="inline-flex items-center gap-2 text-slate-400 hover:text-indigo-400 font-medium transition-colors"
+            class="inline-flex items-center gap-2 text-slate-400 hover:text-indigo-400 font-medium transition-colors group"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              class="w-5 h-5"
+              class="w-5 h-5 group-hover:scale-110 transition-transform"
             >
               <path
                 d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
@@ -253,14 +276,14 @@
         </div>
       </section>
 
-      <section id="about" class="mb-12 md:mb-16 fade-element">
+      <section id="about" class="mb-12 md:mb-16 fade-element relative z-20">
         <h2 class="mb-8 text-2xl font-semibold text-slate-200">
           Experience & Skills
         </h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div class="glass-card rounded-xl p-6">
             <h3
-              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
             >
               Leadership & Work
             </h3>
@@ -270,7 +293,8 @@
                   <h4 class="font-semibold text-indigo-400">
                     First Step (Nonprofit)
                   </h4>
-                  <span class="text-xs text-slate-500 uppercase"
+                  <span
+                    class="text-xs text-slate-500 uppercase font-mono tracking-wider"
                     >Aug 2023 – Present</span
                   >
                 </div>
@@ -287,7 +311,8 @@
               <li>
                 <div class="flex justify-between items-start mb-1">
                   <h4 class="font-semibold text-indigo-400">AMS Pools</h4>
-                  <span class="text-xs text-slate-500 uppercase"
+                  <span
+                    class="text-xs text-slate-500 uppercase font-mono tracking-wider"
                     >May 2024 – Present</span
                   >
                 </div>
@@ -306,70 +331,76 @@
           <div class="glass-card rounded-xl p-6 flex flex-col gap-6">
             <div>
               <h3
-                class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+                class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
               >
                 Technical Arsenal
               </h3>
               <div class="mb-2">
-                <span class="text-slate-300 text-sm">Languages:</span>
+                <span class="text-slate-300 text-sm font-medium"
+                  >Languages:</span
+                >
               </div>
               <div class="flex flex-wrap gap-2">
                 <span
-                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >Python</span
                 >
                 <span
-                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >TypeScript / JS</span
                 >
                 <span
-                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >Java</span
                 >
                 <span
-                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >C</span
                 >
                 <span
-                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >SQL</span
                 >
                 <span
-                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700"
+                  class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
                   >HTML/CSS</span
                 >
               </div>
             </div>
             <div>
               <div class="mb-2">
-                <span class="text-slate-300 text-sm">Tools & Frameworks:</span>
+                <span class="text-slate-300 text-sm font-medium"
+                  >Tools & Frameworks:</span
+                >
               </div>
               <div class="flex flex-wrap gap-2">
                 <span
-                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >React & Next.js</span
                 >
                 <span
-                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >FastAPI & Flask</span
                 >
                 <span
-                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >SQLite & SQLAlchemy</span
                 >
                 <span
-                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >Tailwind CSS</span
                 >
                 <span
-                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50"
+                  class="px-2 py-1 bg-indigo-900/30 text-indigo-300 text-xs rounded-md border border-indigo-800/50 font-mono shadow-sm"
                   >scikit-learn & pandas</span
                 >
               </div>
             </div>
             <div>
               <div class="mb-2">
-                <span class="text-slate-300 text-sm">Advanced Coursework:</span>
+                <span class="text-slate-300 text-sm font-medium"
+                  >Advanced Coursework:</span
+                >
               </div>
               <p class="text-sm text-slate-400 leading-relaxed">
                 Harvard University CS50 & MIT Beaver Works Summer Institute
@@ -381,7 +412,7 @@
       </section>
 
       <section
-        class="mb-16 md:mb-24 relative overflow-hidden py-4 fade-element flex border-y border-slate-800 bg-dark-900/50 backdrop-blur-sm"
+        class="mb-16 md:mb-24 relative overflow-hidden py-4 fade-element flex border-y border-slate-800 bg-dark-900/40 backdrop-blur-md shadow-xl z-20"
       >
         <div
           class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#0F1113] to-transparent z-10 pointer-events-none"
@@ -396,52 +427,52 @@
           <div class="flex items-center space-x-12 px-6 shrink-0">
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Python"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="TypeScript"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="React"
             />
             <img
               src="https://cdn.simpleicons.org/nextdotjs/000000"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Next.js"
             />
             <img
               src="https://cdn.simpleicons.org/fastapi"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="SQLite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Java"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="HTML5"
             />
           </div>
@@ -449,52 +480,52 @@
           <div class="flex items-center space-x-12 px-6 shrink-0">
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Python"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="TypeScript"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="React"
             />
             <img
               src="https://cdn.simpleicons.org/nextdotjs/000000"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Next.js"
             />
             <img
               src="https://cdn.simpleicons.org/fastapi"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="SQLite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Java"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="HTML5"
             />
           </div>
@@ -502,52 +533,52 @@
           <div class="flex items-center space-x-12 px-6 shrink-0">
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Python"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="TypeScript"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="React"
             />
             <img
               src="https://cdn.simpleicons.org/nextdotjs/000000"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Next.js"
             />
             <img
               src="https://cdn.simpleicons.org/fastapi"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="SQLite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Java"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="HTML5"
             />
           </div>
@@ -555,110 +586,129 @@
           <div class="flex items-center space-x-12 px-6 shrink-0">
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Python"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="TypeScript"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="React"
             />
             <img
               src="https://cdn.simpleicons.org/nextdotjs/000000"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Next.js"
             />
             <img
               src="https://cdn.simpleicons.org/fastapi"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="FastAPI"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="SQLite"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Tailwind CSS"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="Java"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="C"
             />
             <img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110"
+              class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
               title="HTML5"
             />
           </div>
         </div>
       </section>
 
-      <section id="honors" class="mb-32 fade-element">
+      <section id="honors" class="mb-32 fade-element relative z-20">
         <h2 class="mb-8 text-2xl font-semibold text-slate-200">
           Honors & Extracurriculars
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="glass-card rounded-xl p-6">
             <h3
-              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
             >
               Awards & Recognition
             </h3>
             <ul class="space-y-4 text-sm text-slate-400">
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">USACO Gold Division:</span>
-                  Promoted to the Gold tier after scoring a 708 in the 2026
+                  <span class="text-slate-200 font-medium"
+                    >USACO Gold Division:</span
+                  >
+                  Promoted to the Gold tier after scoring a
+                  <span class="font-mono text-indigo-300">708</span> in the 2026
                   Silver Contest.
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">DECA State Champion:</span>
-                  Ranked 1st in GA for Entrepreneurship Team Decision Making;
-                  International ICDC Qualifier.
+                  <span class="text-slate-200 font-medium"
+                    >DECA State Champion:</span
+                  >
+                  Ranked <span class="font-mono text-indigo-300">1st</span> in
+                  GA for Entrepreneurship Team Decision Making; International
+                  ICDC Qualifier.
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">FBLA National Qualifier:</span>
-                  Dual state medalist (3rd in Data Science & AI, 4th in
+                  <span class="text-slate-200 font-medium"
+                    >FBLA National Qualifier:</span
+                  >
+                  Dual state medalist (<span class="font-mono text-indigo-300"
+                    >3rd</span
+                  >
+                  in Data Science & AI,
+                  <span class="font-mono text-indigo-300">4th</span> in
                   Networking Infrastructures).
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200"
+                  <span class="text-slate-200 font-medium"
                     >Presidential Volunteer Service Award:</span
                   >
-                  Two-time recipient (Gold & Bronze) for dedicating 300+ hours
-                  to community initiatives.
+                  Two-time recipient (Gold & Bronze) for dedicating
+                  <span class="font-mono text-indigo-300">300+</span> hours to
+                  community initiatives.
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">Academic Excellence:</span> Dual
-                  enrollment President’s List (5.0 GPA), AP Scholar with
-                  Distinction, College Board National Recognition.
+                  <span class="text-slate-200 font-medium"
+                    >Academic Excellence:</span
+                  >
+                  Dual enrollment President’s List (<span
+                    class="font-mono text-indigo-300"
+                    >5.0</span
+                  >
+                  GPA), AP Scholar with Distinction, College Board National
+                  Recognition.
                 </div>
               </li>
             </ul>
@@ -666,25 +716,27 @@
 
           <div class="glass-card rounded-xl p-6">
             <h3
-              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700 pb-2"
+              class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
             >
               Activities
             </h3>
             <ul class="space-y-4 text-sm text-slate-400">
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">Varsity Swim Captain:</span> GHSA
-                  State Qualifier (Breaststroke & IM). Top 40 club swimmer in
-                  Georgia; competed at elite invitational meets including Senior
-                  State Championships and Best of the South (100y/200y
+                  <span class="text-slate-200 font-medium"
+                    >Varsity Swim Captain:</span
+                  >
+                  GHSA State Qualifier (Breaststroke & IM). Top 40 club swimmer
+                  in Georgia; competed at elite invitational meets including
+                  Senior State Championships and Best of the South (100y/200y
                   Breaststroke, 200y IM).
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200"
+                  <span class="text-slate-200 font-medium"
                     >5x GMEA All-State Musician:</span
                   >
                   Selected on soprano and bass clarinet. Principal Bass
@@ -694,20 +746,25 @@
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">Community Educator:</span>
-                  Tutored 50+ local youth in Mathematics, English, and
-                  foundational programming (Scratch) within my local Chinese
-                  community.
+                  <span class="text-slate-200 font-medium"
+                    >Community Educator:</span
+                  >
+                  Tutored
+                  <span class="font-mono text-indigo-300">50+</span> local youth
+                  in Mathematics, English, and foundational programming
+                  (Scratch) within my local Chinese community.
                 </div>
               </li>
               <li class="flex items-start gap-2">
-                ✦
+                <span class="text-indigo-400 mt-0.5">✦</span>
                 <div>
-                  <span class="text-slate-200">Clubs & Societies:</span> Active
-                  volunteer in Key Club, National Technical Honor Society, and
-                  Spanish Honor Society (Peer Tutor).
+                  <span class="text-slate-200 font-medium"
+                    >Clubs & Societies:</span
+                  >
+                  Active volunteer in Key Club, National Technical Honor
+                  Society, and Spanish Honor Society (Peer Tutor).
                 </div>
               </li>
             </ul>
@@ -727,7 +784,7 @@
 
       <div
         id="contact-box"
-        class="glass-card relative z-10 w-full max-w-sm rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300"
+        class="glass-card relative z-10 w-full max-w-sm rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
       >
         <button
           id="close-modal-btn"
@@ -756,7 +813,7 @@
         <div class="space-y-4">
           <a
             href="mailto:masoncao7@gmail.com"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-indigo-500/50 transition-all group"
+            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-indigo-500/50 transition-all group shadow-sm"
           >
             <div
               class="bg-indigo-500/20 p-3 rounded-lg text-indigo-400 group-hover:text-indigo-300 transition-colors"
@@ -787,7 +844,7 @@
           <a
             href="https://www.linkedin.com/in/mason-cao-7a3760390/"
             target="_blank"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-blue-500/50 transition-all group"
+            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-blue-500/50 transition-all group shadow-sm"
           >
             <div
               class="bg-blue-500/20 p-3 rounded-lg text-blue-400 group-hover:text-blue-300 transition-colors"
@@ -809,16 +866,14 @@
               >
                 LinkedIn
               </div>
-              <div class="font-medium text-slate-200 text-sm">
-                in/mason-cao-7a3760390
-              </div>
+              <div class="font-medium text-slate-200 text-sm">in/mason-cao</div>
             </div>
           </a>
 
           <a
             href="https://www.instagram.com/m.zcao/"
             target="_blank"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-pink-500/50 transition-all group"
+            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-pink-500/50 transition-all group shadow-sm"
           >
             <div
               class="bg-pink-500/20 p-3 rounded-lg text-pink-400 group-hover:text-pink-300 transition-colors"
@@ -848,7 +903,7 @@
     </div>
 
     <nav
-      class="fixed bottom-0 left-0 w-full glass-card border-t border-slate-800 p-3 z-50"
+      class="fixed bottom-0 left-0 w-full glass-card border-t border-slate-800/80 p-3 z-50"
     >
       <div
         class="mx-auto max-w-sm flex items-center justify-around gap-1 text-sm font-medium text-slate-400"
@@ -885,7 +940,6 @@
           </svg>
           Projects
         </a>
-
         <button
           id="open-contact-btn"
           class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-indigo-400 transition-colors"

@@ -28,7 +28,6 @@ body {
   box-shadow:
     0 0 20px rgba(99, 102, 241, 0.15),
     0 0 40px rgba(99, 102, 241, 0.05);
-  transform: translateY(-3px);
   background: rgba(30, 35, 45, 0.8);
 }
 
@@ -70,12 +69,10 @@ body {
 }
 
 /* --- High-Contrast Dark Map Fix --- */
-/* 1. Base map MUST be white so the wrapper inverts it to pitch black during loading */
 .leaflet-container {
   background: #ffffff !important;
 }
 
-/* 2. Filter is applied to a static HTML wrapper, NOT the 3D moving map */
 .dark-map-wrapper {
   filter: invert(100%) hue-rotate(180deg) brightness(500%) contrast(110%)
     grayscale(100%);
@@ -93,12 +90,11 @@ body {
     transform: translateX(0);
   }
   100% {
-    /* Shifts exactly one block across the 4-block track to loop perfectly */
     transform: translateX(-25%);
-  }
+  } /* Loops exactly 1/4 of the track */
 }
 
-/* --- Typewriter Cursor --- */
+/* --- Typewriter Cursor (Hidden but kept for safety) --- */
 .typing-cursor::after {
   content: "|";
   color: #818cf8;

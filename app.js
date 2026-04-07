@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapWrapper = document.getElementById("map-wrapper");
 
   if (mapContainer && typeof L !== "undefined") {
-    // Start zoomed out over the entire United States
     const map = L.map("background-map", {
       center: [39.8283, -98.5795],
       zoom: 4,
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
       fadeAnimation: false // Stops tile fading bugs
     });
 
-    // Using the light map for the high-contrast dark CSS trick
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       {
@@ -27,62 +25,54 @@ document.addEventListener("DOMContentLoaded", () => {
     ).addTo(map);
 
     setTimeout(() => {
-      // Fix the size and fade the WRAPPER in (not the map)
       map.invalidateSize();
       if (mapWrapper) {
         mapWrapper.classList.remove("opacity-0");
         mapWrapper.classList.add("opacity-100");
       }
 
-      // Wait slightly, then execute the cinematic zoom to Suwanee
       setTimeout(() => {
         map.flyTo([34.0515, -84.0714], 12, {
           animate: true,
-          duration: 3.5 // Duration of the zoom in seconds
+          duration: 3.5
         });
 
-        // Wait for the flight to finish, then start the infinite CSS pulse on the wrapper
         setTimeout(() => {
           if (mapWrapper) {
             mapWrapper.classList.add("animate-map-zoom");
           }
         }, 3500);
-      }, 800); // 800ms delay before the flight starts
+      }, 800);
     }, 250);
   }
 
   // 2. Sophisticated Staggered Fade-In Effect (Mixed Font Weights)
   const fadeTextElement = document.getElementById("typewriter");
   if (fadeTextElement) {
-    fadeTextElement.textContent = ""; // Clear initial text
+    fadeTextElement.textContent = "";
 
-    // Part 1: Create the "Hello," block (Keeps the font-extrabold from the parent h1)
+    // Part 1: "Hello," block
     const helloSpan = document.createElement("span");
     helloSpan.textContent = "Hello,";
     helloSpan.className =
       "inline-block opacity-0 translate-y-3 transition-all duration-[1200ms] ease-out";
     fadeTextElement.appendChild(helloSpan);
 
-    // Part 2: Create the " I'm Mason Cao." character cascade with a thinner font
+    // Part 2: " I'm Mason Cao." cascade
     const nameText = " I'm Mason Cao.";
     const chars = nameText.split("").map((char) => {
       const span = document.createElement("span");
       span.textContent = char === " " ? "\u00A0" : char;
-
-      // Added 'font-normal' to contrast the extrabold Hello, and increased duration to 1000ms
       span.className =
-        "font-normal opacity-0 transition-opacity duration-1000 ease-out";
+        "font-normal text-slate-200 opacity-0 transition-opacity duration-1000 ease-out";
       fadeTextElement.appendChild(span);
       return span;
     });
 
-    // Animation Timeline
     setTimeout(() => {
-      // 1. Reveal "Hello," by removing the invisible/shifted classes
       helloSpan.classList.remove("opacity-0", "translate-y-3");
       helloSpan.classList.add("opacity-100", "translate-y-0");
 
-      // 2. Wait for a natural beat, then cascade the rest of the sentence slowly
       setTimeout(() => {
         let i = 0;
         function fadeInNextChar() {
@@ -90,13 +80,12 @@ document.addEventListener("DOMContentLoaded", () => {
             chars[i].classList.remove("opacity-0");
             chars[i].classList.add("opacity-100");
             i++;
-            // Slowed down from 40ms to 80ms for a much smoother, deliberate reveal
             setTimeout(fadeInNextChar, 80);
           }
         }
         fadeInNextChar();
-      }, 800); // The dramatic pause!
-    }, 400); // Initial delay before the whole animation starts
+      }, 800);
+    }, 400);
   }
 
   // 3. Real-Time Clock Logic
@@ -157,4 +146,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (openContactBtn) openContactBtn.addEventListener("click", openModal);
   if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
   if (contactBackdrop) contactBackdrop.addEventListener("click", closeModal);
+
+  // 6. 3D Tilt Effect for Project Cards
+  if (typeof VanillaTilt !== "undefined") {
+    VanillaTilt.init(document.querySelectorAll(".project-card"), {
+      max: 5, // Maximum tilt rotation
+      speed: 400, // Speed of transition
+      glare: true, // Glass reflection effect
+      "max-glare": 0.15 // Reflection opacity
+    });
+  }
 });
