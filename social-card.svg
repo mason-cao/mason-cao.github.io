@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Mason Cao portfolio social card</title>
+  <desc id="desc">Dark map-inspired portfolio card for Mason Cao, AI systems and full-stack developer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101513"/>
+      <stop offset="0.55" stop-color="#0f1113"/>
+      <stop offset="1" stop-color="#15130d"/>
+    </linearGradient>
+    <radialGradient id="pulse" cx="50%" cy="45%" r="50%">
+      <stop offset="0" stop-color="#70d6a3" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#70d6a3" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#f4f2ec" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="840" cy="220" r="280" fill="url(#pulse)"/>
+  <path d="M150 410C320 260 440 360 572 248S790 140 1010 248" fill="none" stroke="#f6c86b" stroke-width="4" stroke-linecap="round" stroke-opacity="0.7"/>
+  <circle cx="572" cy="248" r="13" fill="#f6c86b"/>
+  <circle cx="840" cy="202" r="10" fill="#70d6a3"/>
+  <circle cx="1010" cy="248" r="9" fill="#5ac8c8"/>
+  <g transform="translate(88 88)">
+    <rect x="0" y="0" width="182" height="42" rx="21" fill="#f6c86b" fill-opacity="0.13" stroke="#f6c86b" stroke-opacity="0.35"/>
+    <text x="22" y="27" font-family="JetBrains Mono, Menlo, monospace" font-size="16" font-weight="800" fill="#f6c86b">LIVE SYSTEMS</text>
+  </g>
+  <text x="88" y="250" font-family="Chivo, Arial, sans-serif" font-size="78" font-weight="800" fill="#f4f2ec">Mason Cao</text>
+  <text x="88" y="326" font-family="Chivo, Arial, sans-serif" font-size="42" font-weight="700" fill="#d5ddd8">AI systems and full-stack developer</text>
+  <text x="90" y="402" font-family="JetBrains Mono, Menlo, monospace" font-size="24" font-weight="700" fill="#a9b4ad">AI agents / live data / geospatial tools</text>
+  <g transform="translate(88 474)">
+    <rect x="0" y="0" width="230" height="56" rx="16" fill="#f4f2ec" fill-opacity="0.06" stroke="#f4f2ec" stroke-opacity="0.12"/>
+    <text x="24" y="36" font-family="JetBrains Mono, Menlo, monospace" font-size="19" font-weight="800" fill="#f6c86b">500+ commits</text>
+  </g>
+  <g transform="translate(342 474)">
+    <rect x="0" y="0" width="210" height="56" rx="16" fill="#f4f2ec" fill-opacity="0.06" stroke="#f4f2ec" stroke-opacity="0.12"/>
+    <text x="24" y="36" font-family="JetBrains Mono, Menlo, monospace" font-size="19" font-weight="800" fill="#70d6a3">$17.8K raised</text>
+  </g>
+</svg>
