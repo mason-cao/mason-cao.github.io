@@ -182,7 +182,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 6. Contact Modal Logic
   const openContactBtn = document.getElementById("open-contact-btn");
-  const heroContactBtn = document.getElementById("hero-contact-btn");
   const contactModal = document.getElementById("contact-modal");
   const contactBackdrop = document.getElementById("contact-backdrop");
   const closeModalBtn = document.getElementById("close-modal-btn");
@@ -255,7 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (openContactBtn) openContactBtn.addEventListener("click", openModal);
-  if (heroContactBtn) heroContactBtn.addEventListener("click", openModal);
   if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
   if (contactBackdrop) contactBackdrop.addEventListener("click", closeModal);
   document.addEventListener("keydown", handleModalKeydown);
