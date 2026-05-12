@@ -71,8 +71,8 @@ assert.match(
 );
 assert.match(
   css,
-  /\.project-links\s*{[\s\S]*padding-top:\s*0\.55rem;/,
-  "live demo row should sit off the stats blocks instead of touching them"
+  /\.project-links\s*{[\s\S]*padding-top:\s*1rem;/,
+  "live demo row should sit clearly off the stats blocks instead of crowding them"
 );
 assert.match(
   css,
