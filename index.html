@@ -12,7 +12,7 @@
 
     <meta
       name="description"
-      content="Explore Mason Cao's portfolio of AI agent systems, geospatial data products, full-stack dashboards, competitive programming achievements, and technical leadership."
+      content="Explore Mason Cao's portfolio across AI agent systems, NASA mission data research, environmental intelligence, full-stack dashboards, competitive programming, technical leadership, and service impact."
     />
     <meta
       name="keywords"
@@ -34,7 +34,7 @@
     />
     <meta
       property="og:description"
-      content="AI agents, geospatial intelligence, full-stack dashboards, and technical leadership from Mason Cao."
+      content="AI agents, NASA mission data research, environmental intelligence, full-stack dashboards, and technical leadership from Mason Cao."
     />
     <meta property="og:url" content="https://mason-cao.github.io/" />
     <meta property="og:type" content="website" />
@@ -54,7 +54,7 @@
     />
     <meta
       name="twitter:description"
-      content="AI agents, geospatial intelligence, full-stack dashboards, and technical leadership from Mason Cao."
+      content="AI agents, NASA mission data research, environmental intelligence, full-stack dashboards, and technical leadership from Mason Cao."
     />
     <meta
       name="twitter:image"
@@ -72,7 +72,7 @@
             "url": "https://mason-cao.github.io/",
             "image": "https://mason-cao.github.io/social-card.svg",
             "jobTitle": "Student Full-Stack Developer",
-            "description": "Mason Cao builds AI agent pipelines, geospatial data products, and full-stack applications with real-world impact.",
+            "description": "Mason Cao builds AI agent pipelines, NASA mission data workflows, environmental intelligence products, and full-stack applications with real-world impact.",
             "affiliation": {
               "@type": "Organization",
               "name": "Lambert High School"
@@ -92,6 +92,8 @@
               "Full-Stack Development",
               "Artificial Intelligence",
               "AI Agents",
+              "Data Science Research",
+              "Environmental Science",
               "Geospatial Data",
               "Python",
               "React",
@@ -106,7 +108,7 @@
             "@id": "https://mason-cao.github.io/#profile",
             "url": "https://mason-cao.github.io/",
             "name": "Mason Cao Portfolio",
-            "description": "Portfolio of AI systems, full-stack products, research, and technical leadership by Mason Cao.",
+            "description": "Portfolio of AI systems, NASA mission data research, environmental intelligence products, and technical leadership by Mason Cao.",
             "mainEntity": {
               "@id": "https://mason-cao.github.io/#person"
             },
@@ -152,7 +154,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-    <link rel="stylesheet" href="style.css?v=20260511j" />
+    <link rel="stylesheet" href="style.css?v=20260512a" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -180,16 +182,11 @@
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       defer
     ></script>
-    <script src="app.js?v=20260503b" defer></script>
+    <script src="app.js?v=20260512a" defer></script>
   </head>
 
   <body class="font-sans relative bg-[#0b0d12]">
     <a href="#main-content" class="skip-link">Skip to portfolio content</a>
-    <div
-      id="scroll-progress"
-      class="fixed top-0 left-0 h-1 w-full z-[100] transition-transform duration-150"
-      style="transform: scaleX(0)"
-    ></div>
 
     <div
       class="absolute top-0 left-0 w-full h-[650px] md:h-[760px] z-[-1] overflow-hidden bg-[#0b0d12]"
@@ -265,9 +262,10 @@
             Hi, I'm Mason Cao.
           </h1>
           <p class="hero-summary">
-            I'm a junior at Lambert High School building AI agent pipelines,
-            real-time maps, and full-stack products that turn live data into
-            tools people can act on.
+            I'm a Lambert High School junior working at the intersection of
+            environmental science and computer science, building AI agents,
+            geospatial intelligence systems, and full-stack products that turn
+            messy real-world data into tools people can act on.
           </p>
         </div>
 
@@ -329,9 +327,11 @@
                   <span class="project-badge">Live signals</span>
                 </div>
                 <p class="project-copy">
-                  Self-hosted platform that ingests atmospheric data, detects
-                  anomalies via three independent methods, and explains causes
-                  with a local Llama 3 RAG pipeline.
+                  End-to-end environmental intelligence platform that ingests
+                  live atmospheric data, detects anomalies through three
+                  independent methods, and explains causes with a local Llama 3
+                  RAG pipeline developed under the mentorship of Dr. Annalisa
+                  Bracco.
                 </p>
                 <dl class="project-stats">
                   <div>
@@ -374,9 +374,9 @@
                   <span class="project-badge">Agent mesh</span>
                 </div>
                 <p class="project-copy">
-                  Analytics dashboard with 8 specialized agents processing 750K
-                  behavioral events, explaining churn risk through transparent
-                  audit trails for every decision.
+                  Multi-agent analytics dashboard where 8 specialized agents
+                  process 750K behavioral events and explain churn risk through
+                  transparent audit trails for every decision.
                 </p>
                 <dl class="project-stats">
                   <div>
@@ -445,9 +445,9 @@
                   <span class="project-badge">Household ops</span>
                 </div>
                 <p class="project-copy">
-                  Pantry dashboard that tracks inventory, surfaces expiring
-                  ingredients, suggests recipes, and charts consumption patterns
-                  over time.
+                  Full-stack household operations dashboard that tracks
+                  inventory, surfaces expiring ingredients, recommends recipes,
+                  and charts consumption patterns over time.
                 </p>
                 <dl class="project-stats">
                   <div>
@@ -514,9 +514,9 @@
                   <span class="project-badge">Local-first</span>
                 </div>
                 <p class="project-copy">
-                  macOS screen-time tracker that polls every two seconds,
-                  force-quits distractions on-device, and renders your habits as
-                  an isometric pixel-art island.
+                  Local-first macOS behavior tracker that polls every two
+                  seconds, force-quits distractions on-device, and visualizes
+                  habits as an isometric pixel-art island.
                 </p>
                 <dl class="project-stats">
                   <div>
@@ -573,22 +573,23 @@
                 <li>
                   <div class="flex justify-between items-start mb-1">
                     <h4 class="font-semibold text-slate-100">
-                      NASA Data Science & Scholarly Research
+                      NASA TESS Exoplanet Validation Research
                     </h4>
                     <span class="text-xs text-slate-500 uppercase font-mono"
                       >Summer 2026</span
                     >
                   </div>
                   <div class="text-sm font-medium text-slate-300 mb-2">
-                    Research Intern (Incoming)
+                    Incoming Research Intern
                   </div>
                   <p class="text-sm text-slate-400 leading-relaxed">
-                    Selected for a highly competitive 50-student cohort at
-                    George Mason University. Will be conducting time-series and
-                    Bayesian statistical analysis on raw NASA TESS and JWST
-                    datasets to validate exoplanet candidates. Working directly
-                    under a NASA Principal Investigator to write and publish a
-                    formal scholarly research paper.
+                    Under the guidance of a NASA principal investigator, I will
+                    build Python-based statistical workflows for
+                    publication-track astrophysics research. Utilizing
+                    AstroImageJ and Jupyter, I will analyze TESS and JWST remote
+                    sensing data using Bayesian inference to separate genuine
+                    planetary signals from background noise and map markers of
+                    habitability at scale.
                   </p>
                 </li>
                 <li>
@@ -604,7 +605,7 @@
                     Secretary & Project Lead
                   </div>
                   <p class="text-sm text-slate-400 leading-relaxed">
-                    Direct operations for 300+ volunteers; organized 240+
+                    Lead operations for 300+ volunteers across 240+ service
                     initiatives, removing 2,500+ lbs of trash and raising
                     $17,890+ for NGOs. Co-led a microplastics research project
                     backed by a $5,000 Bloomberg grant alongside GA Tech
@@ -626,8 +627,8 @@
                   <p class="text-sm text-slate-400 leading-relaxed">
                     Promoted twice and selected as 1 of 6 Pool Managers in the
                     Fulton-Forsyth area. Manage daily operations, coordinate
-                    schedules, and oversee employee emergency training across 8
-                    pools and 100+ lifeguards.
+                    staffing, and oversee emergency training across 8 pools and
+                    100+ lifeguards.
                   </p>
                 </li>
               </ul>
@@ -734,8 +735,7 @@
                 <div class="text-sm text-slate-400 leading-relaxed space-y-1.5">
                   <p>
                     <span class="text-slate-300 font-medium">Formal:</span>
-                    Harvard CS50 • MIT Beaver Works (CS Core) • Upcoming Georgia
-                    Tech (Dual Enrollment CS & Math)
+                    Harvard CS50 • MIT Beaver Works (CS Core)
                   </p>
                   <p>
                     <span class="text-slate-300 font-medium"
@@ -1022,9 +1022,9 @@
                     <span class="text-slate-200 font-medium"
                       >USACO Gold Division:</span
                     >
-                    Promoted to the Gold tier after scoring a
-                    <span class="font-mono text-slate-100">760</span> in the
-                    2026 Silver Contest.
+                    Earned Gold promotion after scoring a
+                    <span class="font-mono">760</span> in the 2026 Silver
+                    Contest.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
@@ -1033,10 +1033,9 @@
                     <span class="text-slate-200 font-medium"
                       >DECA State Champion:</span
                     >
-                    Ranked
-                    <span class="font-mono text-slate-100">1st</span> in GA for
-                    Entrepreneurship Team Decision Making; International ICDC
-                    Qualifier.
+                    Georgia state champion, ranked
+                    <span class="font-mono">1st</span> in Entrepreneurship Team
+                    Decision Making, and International ICDC Qualifier.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
@@ -1045,11 +1044,11 @@
                     <span class="text-slate-200 font-medium"
                       >FBLA National Qualifier:</span
                     >
-                    Dual state medalist (<span class="font-mono text-slate-100"
+                    National qualifier and dual state medalist (<span
+                      class="font-mono"
                       >5th</span
                     >
-                    in Data Science & AI,
-                    <span class="font-mono text-slate-100">4th</span> in
+                    in Data Science & AI, <span class="font-mono">4th</span> in
                     Networking Infrastructures).
                   </div>
                 </li>
@@ -1060,7 +1059,7 @@
                       >Presidential Volunteer Service Award:</span
                     >
                     Two-time recipient (Gold & Bronze) for dedicating
-                    <span class="font-mono text-slate-100">300+</span> hours to
+                    <span class="font-mono">300+</span> verified hours to
                     community initiatives.
                   </div>
                 </li>
@@ -1071,8 +1070,7 @@
                       >Academic Excellence:</span
                     >
                     Georgia Certificate of Merit (Top 5% of class), Dual
-                    enrollment President’s List (<span
-                      class="font-mono text-slate-100"
+                    enrollment President’s List (<span class="font-mono"
                       >5.0</span
                     >
                     GPA), AP Scholar with Distinction, College Board National
@@ -1095,22 +1093,24 @@
                     <span class="text-slate-200 font-medium"
                       >Varsity Swim Captain:</span
                     >
-                    GHSA State Qualifier (100y Breaststroke, 200y IM). 5th
-                    highest contributor to 1st place win at 2025 Forsyth County
-                    Championship. Club swimmer (Swim Atlanta, 38th in GA);
-                    competed at elite invitationals like Senior State
-                    Championships and Best of the South.
+                    GHSA State Qualifier in the 100y Breaststroke and 200y IM;
+                    5th-highest point contributor to Lambert's 2025 Forsyth
+                    County Championship title. Swim Atlanta club swimmer (Senior
+                    Select) with championship "A" qualifying times in the 100y
+                    Breaststroke, 200y Breaststroke, and 200y IM, including
+                    Senior State Championships and Speedo Best of the South
+                    Sectionals.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
-                      >5x GMEA All-State Musician:</span
+                      >GMEA All-State Musician:</span
                     >
-                    Selected on soprano and bass clarinet. Principal Bass
-                    Clarinetist for Lambert Wind Ensemble, invited to perform at
-                    prestigious events including The Midwest Clinic and the
+                    Five-time All-State selectee on soprano and bass clarinet.
+                    Principal Bass Clarinetist for Lambert Wind Ensemble, with
+                    invitations to perform at The Midwest Clinic and the
                     National Concert Band Festival.
                   </div>
                 </li>
@@ -1120,11 +1120,9 @@
                     <span class="text-slate-200 font-medium"
                       >Community Educator:</span
                     >
-                    Tutored
-                    <span class="font-mono text-slate-100">52</span> local youth
-                    in the span of 2 summers in Mathematics, English, and
-                    foundational programming (Scratch) within my local Chinese
-                    community.
+                    Taught <span class="font-mono">52</span> local youth across
+                    two summers in math and foundational programming (Scratch)
+                    within my local Chinese community.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
@@ -1134,7 +1132,7 @@
                       >Affiliations & Societies:</span
                     >
                     Google Developer Program, National Technical Honor Society,
-                    Spanish Honor Society (peer tutor), and Key Club.
+                    Spanish Honor Society, and Key Club.
                   </div>
                 </li>
               </ul>

@@ -105,8 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 4. Scroll Progress and Active Navigation
-  const scrollProgress = document.getElementById("scroll-progress");
+  // 4. Active Navigation
   const navLinks = document.querySelectorAll("[data-nav-link]");
   const sectionTargets = {
     projects: document.getElementById("projects"),
@@ -127,13 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateScrollState() {
-    const maxScroll =
-      document.documentElement.scrollHeight - window.innerHeight;
-    const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
-    if (scrollProgress) {
-      scrollProgress.style.transform = `scaleX(${Math.min(progress, 100) / 100})`;
-    }
-
     const readingLine = window.scrollY + window.innerHeight * 0.36;
     let activeId = "home";
     if (

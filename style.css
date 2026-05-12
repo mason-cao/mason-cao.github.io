@@ -30,12 +30,6 @@ body {
   overflow-x: hidden;
 }
 
-#scroll-progress {
-  background: linear-gradient(90deg, rgba(238, 241, 246, 0.35), var(--ink));
-  transform-origin: left center;
-  will-change: transform;
-}
-
 .skip-link {
   position: fixed;
   top: 0.75rem;
