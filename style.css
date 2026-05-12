@@ -8,6 +8,12 @@
   --accent: #eef1f6;
   --accent-soft: #c4cdda;
   --accent-deep: #6e7886;
+  --project-visual-row: 9.25rem;
+  --project-heading-row: 4.55rem;
+  --project-copy-row: 11.65rem;
+  --project-stats-row: 5.6rem;
+  --project-links-row: 3.35rem;
+  --project-stack-row: 5rem;
 }
 
 html {
@@ -254,6 +260,8 @@ a:focus-visible {
 }
 
 .project-card {
+  display: grid;
+  grid-template-rows: auto var(--project-links-row) var(--project-stack-row);
   min-height: 30rem;
   overflow: hidden;
   border: 1px solid rgba(238, 241, 246, 0.08);
@@ -307,9 +315,18 @@ a:focus-visible {
   background: radial-gradient(circle at 80% 78%, rgba(238, 241, 246, 0.1), transparent 16rem);
 }
 
+.project-card-main {
+  display: grid;
+  grid-template-rows:
+    var(--project-visual-row)
+    var(--project-heading-row)
+    var(--project-copy-row)
+    var(--project-stats-row);
+}
+
 .project-visual {
   position: relative;
-  height: 9.25rem;
+  height: var(--project-visual-row);
   overflow: hidden;
   border: 1px solid rgba(238, 241, 246, 0.08);
   border-radius: 0.95rem;
@@ -453,6 +470,15 @@ a:focus-visible {
 .usage-bar-four { width: 36%; }
 .usage-bar-five { width: 68%; }
 
+.project-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  min-height: calc(var(--project-heading-row) - 1.25rem);
+}
+
 .project-badge {
   flex: none;
   border: 1px solid rgba(238, 241, 246, 0.18);
@@ -462,11 +488,12 @@ a:focus-visible {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.76rem;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .project-copy {
   margin-top: 1.1rem;
-  min-height: 10.5rem;
+  min-height: 0;
   color: #c5cedb;
   font-size: 0.92rem;
   line-height: 1.65;
@@ -503,6 +530,8 @@ a:focus-visible {
 }
 
 .project-stack {
+  box-sizing: border-box;
+  height: var(--project-stack-row);
   padding-top: 1.25rem;
   border-top: 1px solid rgba(238, 241, 246, 0.08);
   color: #8a95a3;
@@ -515,9 +544,9 @@ a:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: auto;
+  height: calc(var(--project-links-row) - 1.1rem);
+  margin-top: 0;
   margin-bottom: 1.1rem;
-  min-height: 2.25rem;
   align-items: center;
 }
 
@@ -670,6 +699,13 @@ a:focus-visible {
   }
 }
 
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --project-copy-row: 13.75rem;
+    --project-stack-row: 7.25rem;
+  }
+}
+
 @media (max-width: 640px) {
   .status-pill {
     font-size: 0.78rem;
@@ -681,6 +717,24 @@ a:focus-visible {
 
   .project-card {
     min-height: auto;
+    grid-template-rows: auto auto auto;
+  }
+
+  .project-card-main {
+    display: block;
+  }
+
+  .project-heading {
+    min-height: 0;
+  }
+
+  .project-links {
+    height: auto;
+    min-height: 2.25rem;
+  }
+
+  .project-stack {
+    height: auto;
   }
 }
 
