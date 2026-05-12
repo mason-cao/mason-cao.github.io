@@ -12,7 +12,7 @@
   --project-heading-row: 4.55rem;
   --project-copy-row: 11.65rem;
   --project-stats-row: 5.6rem;
-  --project-links-row: 3.35rem;
+  --project-links-row: 4.6rem;
   --project-stack-row: 5rem;
 }
 
@@ -541,24 +541,27 @@ a:focus-visible {
 }
 
 .project-links {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  height: calc(var(--project-links-row) - 1.1rem);
+  height: var(--project-links-row);
   margin-top: 0;
-  margin-bottom: 1.1rem;
-  align-items: center;
+  margin-bottom: 0;
+  padding-top: 0.55rem;
+  align-items: flex-start;
 }
 
 .project-link {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  min-height: 2.5rem;
   border: 1px solid rgba(238, 241, 246, 0.14);
   border-radius: 999px;
   background: rgba(238, 241, 246, 0.04);
   color: #c5cedb;
-  padding: 0.4rem 0.8rem;
+  padding: 0.55rem 0.95rem;
   font-family: "JetBrains Mono", monospace;
   font-size: 0.72rem;
   font-weight: 700;
@@ -572,8 +575,8 @@ a:focus-visible {
 }
 
 .project-link svg {
-  width: 0.85rem;
-  height: 0.85rem;
+  width: 0.95rem;
+  height: 0.95rem;
 }
 
 .project-link:hover {
