@@ -16,12 +16,12 @@
     />
     <meta name="author" content="Mason Cao" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#0f1113" />
+    <meta name="theme-color" content="#0b0d12" />
 
     <link rel="canonical" href="https://mason-cao.github.io/" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1113'/%3E%3Cpath d='M15 42V18h7l10 15 10-15h7v24h-7V29L34 42h-4l-8-13v13z' fill='%23f8fafc'/%3E%3Ccircle cx='50' cy='14' r='5' fill='%23f59e0b'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d12'/%3E%3Cpath d='M15 42V18h7l10 15 10-15h7v24h-7V29L34 42h-4l-8-13v13z' fill='%23eef1f6'/%3E%3Ccircle cx='50' cy='14' r='5' fill='%23eef1f6' fill-opacity='0.7'/%3E%3C/svg%3E"
     />
 
     <meta
@@ -35,7 +35,10 @@
     <meta property="og:url" content="https://mason-cao.github.io/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Mason Cao Portfolio" />
-    <meta property="og:image" content="https://mason-cao.github.io/social-card.svg" />
+    <meta
+      property="og:image"
+      content="https://mason-cao.github.io/social-card.svg"
+    />
     <meta
       property="og:image:alt"
       content="Mason Cao portfolio card with AI systems, live data, and full-stack project highlights"
@@ -121,6 +124,12 @@
                 "name": "FreshTrack Pantry Management Dashboard",
                 "programmingLanguage": ["TypeScript", "SQL"],
                 "applicationCategory": "Full-stack web application"
+              },
+              {
+                "@type": "SoftwareSourceCode",
+                "name": "Detox macOS Screen-Time Tracker",
+                "programmingLanguage": ["Python", "JavaScript"],
+                "applicationCategory": "Productivity and behavior tracking"
               }
             ]
           }
@@ -139,7 +148,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-    <link rel="stylesheet" href="style.css?v=20260503c" />
+    <link rel="stylesheet" href="style.css?v=20260511h" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -152,7 +161,7 @@
               mono: ["JetBrains Mono", "monospace"]
             },
             colors: {
-              dark: { 800: "#16191C", 900: "#0F1113" }
+              dark: { 800: "#11141a", 900: "#0b0d12" }
             }
           }
         }
@@ -170,7 +179,7 @@
     <script src="app.js?v=20260503b" defer></script>
   </head>
 
-  <body class="font-sans relative bg-[#0F1113]">
+  <body class="font-sans relative bg-[#0b0d12]">
     <a href="#main-content" class="skip-link">Skip to portfolio content</a>
     <div
       id="scroll-progress"
@@ -179,7 +188,7 @@
     ></div>
 
     <div
-      class="absolute top-0 left-0 w-full h-[650px] md:h-[760px] z-[-1] overflow-hidden bg-[#0F1113]"
+      class="absolute top-0 left-0 w-full h-[650px] md:h-[760px] z-[-1] overflow-hidden bg-[#0b0d12]"
       aria-hidden="true"
     >
       <div
@@ -273,27 +282,23 @@
         <div
           class="signal-card rounded-xl p-6 flex flex-col gap-4 w-full max-w-xs mx-auto md:mx-0 md:mt-20 fade-element delay-100 relative z-20"
         >
-          <p class="text-xs uppercase text-amber-200/80">
-            Current signal
-          </p>
+          <p class="text-xs uppercase text-slate-400">Current signal</p>
           <div class="flex items-end gap-3">
             <span
-              class="text-4xl font-extrabold text-amber-200 font-mono leading-none"
-              >500+</span
+              class="text-4xl font-extrabold text-slate-100 font-mono leading-none"
+              >600+</span
             >
-            <span
-              class="text-slate-300 text-sm font-medium mb-1 uppercase"
+            <span class="text-slate-300 text-sm font-medium mb-1 uppercase"
               >Commits</span
             >
           </div>
           <div class="w-full h-px bg-slate-700/50"></div>
           <div class="flex items-end gap-3">
             <span
-              class="text-4xl font-extrabold text-amber-200 font-mono leading-none"
+              class="text-4xl font-extrabold text-slate-100 font-mono leading-none"
               >$17.8K</span
             >
-            <span
-              class="text-slate-300 text-sm font-medium mb-1 uppercase"
+            <span class="text-slate-300 text-sm font-medium mb-1 uppercase"
               >Raised</span
             >
           </div>
@@ -302,13 +307,15 @@
 
       <main id="main-content">
         <section id="projects" class="mb-24 md:mb-36 relative z-20">
-          <h2 class="section-title mb-8 text-2xl font-semibold text-slate-200 fade-element">
+          <h2
+            class="section-title mb-8 text-2xl font-semibold text-slate-200 fade-element"
+          >
             Featured Projects
           </h2>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7 xl:gap-8">
             <article
-              class="project-card project-card-aeris rounded-xl p-6 relative group flex flex-col justify-between fade-element delay-300"
+              class="project-card project-card-aeris rounded-2xl p-6 relative group flex flex-col fade-element delay-300"
               aria-labelledby="project-aeris"
             >
               <div>
@@ -321,39 +328,43 @@
                 <div class="flex items-center justify-between gap-3 mt-5">
                   <h3
                     id="project-aeris"
-                    class="font-semibold text-slate-100 text-xl transition-colors"
+                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
                   >
                     AERIS
                   </h3>
                   <span class="project-badge">Live signals</span>
                 </div>
                 <p class="project-copy">
-                  Environmental intelligence platform combining NASA, EPA, and
-                  live sensor streams on an interactive map with triple-consensus
-                  anomaly detection and sourced AI reports.
+                  Self-hosted platform that ingests atmospheric data, detects
+                  anomalies via three independent methods, and explains causes
+                  with a local Llama 3 RAG pipeline.
                 </p>
                 <dl class="project-stats">
                   <div>
-                    <dt>Streams</dt>
-                    <dd>9</dd>
+                    <dt>Sources</dt>
+                    <dd>4</dd>
                   </div>
                   <div>
-                    <dt>Mode</dt>
-                    <dd>RAG</dd>
+                    <dt>Detect</dt>
+                    <dd>3-way</dd>
                   </div>
                 </dl>
               </div>
+              <div class="project-links" aria-hidden="true"></div>
               <p class="project-stack">
-                Local Llama 3 RAG • TimescaleDB • Mapbox GL JS • WebSockets
+                Llama 3 8B + ChromaDB • TimescaleDB • FastAPI • Mapbox GL JS
               </p>
             </article>
 
             <article
-              class="project-card project-card-luminosity rounded-xl p-6 relative group flex flex-col justify-between fade-element delay-100"
+              class="project-card project-card-luminosity rounded-2xl p-6 relative group flex flex-col fade-element delay-100"
               aria-labelledby="project-luminosity"
             >
               <div>
-                <div class="project-visual luminosity-visual" aria-hidden="true">
+                <div
+                  class="project-visual luminosity-visual"
+                  aria-hidden="true"
+                >
                   <span></span>
                   <span></span>
                   <span></span>
@@ -362,16 +373,16 @@
                 <div class="flex items-center justify-between gap-3 mt-5">
                   <h3
                     id="project-luminosity"
-                    class="font-semibold text-slate-100 text-xl transition-colors"
+                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
                   >
                     Luminosity Intelligence
                   </h3>
                   <span class="project-badge">Agent mesh</span>
                 </div>
                 <p class="project-copy">
-                  Executive analytics dashboard powered by 8 specialized agents
-                  that process 750,000 behavioral events, explain churn risk,
-                  and expose transparent audit trails.
+                  Analytics dashboard with 8 specialized agents processing 750K
+                  behavioral events, explaining churn risk through transparent
+                  audit trails for every decision.
                 </p>
                 <dl class="project-stats">
                   <div>
@@ -384,17 +395,36 @@
                   </div>
                 </dl>
               </div>
+              <div class="project-links">
+                <a
+                  href="https://multi-agent-customer-intelligence-d.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-link project-link--primary"
+                  aria-label="Luminosity Intelligence live demo"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+                  </svg>
+                  Live demo
+                </a>
+              </div>
               <p class="project-stack">
                 Custom Agent Orchestration • GradientBoosting • SHAP • FastAPI
               </p>
             </article>
 
             <article
-              class="project-card project-card-freshtrack rounded-xl p-6 relative group flex flex-col justify-between fade-element delay-200"
+              class="project-card project-card-freshtrack rounded-2xl p-6 relative group flex flex-col fade-element delay-200"
               aria-labelledby="project-freshtrack"
             >
               <div>
-                <div class="project-visual freshtrack-visual" aria-hidden="true">
+                <div
+                  class="project-visual freshtrack-visual"
+                  aria-hidden="true"
+                >
                   <span class="pantry-item item-one"></span>
                   <span class="pantry-item item-two"></span>
                   <span class="pantry-item item-three"></span>
@@ -403,16 +433,16 @@
                 <div class="flex items-center justify-between gap-3 mt-5">
                   <h3
                     id="project-freshtrack"
-                    class="font-semibold text-slate-100 text-xl transition-colors"
+                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
                   >
                     FreshTrack
                   </h3>
                   <span class="project-badge">Household ops</span>
                 </div>
                 <p class="project-copy">
-                  Pantry management dashboard that tracks inventory, surfaces
-                  expiring ingredients, suggests recipes, and visualizes
-                  consumption patterns with interactive charts.
+                  Pantry dashboard that tracks inventory, surfaces expiring
+                  ingredients, suggests recipes, and charts consumption patterns
+                  over time.
                 </p>
                 <dl class="project-stats">
                   <div>
@@ -425,8 +455,67 @@
                   </div>
                 </dl>
               </div>
+              <div class="project-links">
+                <a
+                  href="https://freshtrack-production-290e.up.railway.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-link project-link--primary"
+                  aria-label="FreshTrack live demo"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+                  </svg>
+                  Live demo
+                </a>
+              </div>
               <p class="project-stack">
                 Next.js 15 • SQLite + Drizzle ORM • REST API • Recharts
+              </p>
+            </article>
+
+            <article
+              class="project-card project-card-detox rounded-2xl p-6 relative group flex flex-col fade-element delay-400"
+              aria-labelledby="project-detox"
+            >
+              <div>
+                <div class="project-visual detox-visual" aria-hidden="true">
+                  <span class="usage-bar usage-bar-one"></span>
+                  <span class="usage-bar usage-bar-two"></span>
+                  <span class="usage-bar usage-bar-three"></span>
+                  <span class="usage-bar usage-bar-four"></span>
+                  <span class="usage-bar usage-bar-five"></span>
+                </div>
+                <div class="flex items-center justify-between gap-3 mt-5">
+                  <h3
+                    id="project-detox"
+                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
+                  >
+                    Detox
+                  </h3>
+                  <span class="project-badge">Local-first</span>
+                </div>
+                <p class="project-copy">
+                  macOS screen-time tracker that polls every two seconds,
+                  force-quits distractions on-device, and renders your habits
+                  as an isometric pixel-art island.
+                </p>
+                <dl class="project-stats">
+                  <div>
+                    <dt>Poll</dt>
+                    <dd>2s</dd>
+                  </div>
+                  <div>
+                    <dt>Mode</dt>
+                    <dd>Local</dd>
+                  </div>
+                </dl>
+              </div>
+              <div class="project-links" aria-hidden="true"></div>
+              <p class="project-stack">
+                Python • Flask + FastAPI • SQLite • Chart.js • macOS native
               </p>
             </article>
           </div>
@@ -436,7 +525,7 @@
               href="https://github.com/mason-cao"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 text-slate-400 hover:text-amber-300 font-medium transition-colors group"
+              class="inline-flex items-center gap-2 text-slate-400 hover:text-slate-100 font-medium transition-colors group"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -467,11 +556,10 @@
               <ul class="space-y-6">
                 <li>
                   <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-semibold text-amber-300">
+                    <h4 class="font-semibold text-slate-100">
                       NASA Data Science & Scholarly Research
                     </h4>
-                    <span
-                      class="text-xs text-slate-500 uppercase font-mono"
+                    <span class="text-xs text-slate-500 uppercase font-mono"
                       >Summer 2026</span
                     >
                   </div>
@@ -489,11 +577,10 @@
                 </li>
                 <li>
                   <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-semibold text-amber-300">
+                    <h4 class="font-semibold text-slate-100">
                       First Step (Nonprofit)
                     </h4>
-                    <span
-                      class="text-xs text-slate-500 uppercase font-mono"
+                    <span class="text-xs text-slate-500 uppercase font-mono"
                       >Aug 2023 – Present</span
                     >
                   </div>
@@ -512,9 +599,8 @@
                 </li>
                 <li>
                   <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-semibold text-amber-300">AMS Pools</h4>
-                    <span
-                      class="text-xs text-slate-500 uppercase font-mono"
+                    <h4 class="font-semibold text-slate-100">AMS Pools</h4>
+                    <span class="text-xs text-slate-500 uppercase font-mono"
                       >May 2024 – Present</span
                     >
                   </div>
@@ -582,43 +668,43 @@
                 </div>
                 <div class="flex flex-wrap gap-2">
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >React & Next.js</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >FastAPI & Flask</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >PostgreSQL & Timescale</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >SQLite & SQLAlchemy</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >Tailwind CSS</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >scikit-learn & pandas</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >SHAP & statsmodels</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >Vite & TanStack</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >ChromaDB & Ollama</span
                   >
                   <span
-                    class="px-2 py-1 bg-emerald-950/40 text-emerald-200 text-xs rounded-md border border-emerald-700/40 font-mono shadow-sm"
+                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
                     >Mapbox GL JS</span
                   >
                 </div>
@@ -660,10 +746,10 @@
           class="mb-16 md:mb-24 relative overflow-hidden py-4 fade-element flex border-y border-slate-800 bg-dark-900/40 backdrop-blur-md shadow-xl z-20"
         >
           <div
-            class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#0F1113] to-transparent z-10 pointer-events-none"
+            class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#0b0d12] to-transparent z-10 pointer-events-none"
           ></div>
           <div
-            class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#0F1113] to-transparent z-10 pointer-events-none"
+            class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#0b0d12] to-transparent z-10 pointer-events-none"
           ></div>
 
           <div
@@ -692,7 +778,7 @@
                 alt="React framework icon"
               />
               <img
-                src="https://cdn.simpleicons.org/nextdotjs/white"
+                src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
                 class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
                 title="Next.js"
                 alt="Next.js framework icon"
@@ -770,7 +856,7 @@
                 alt="React framework icon"
               />
               <img
-                src="https://cdn.simpleicons.org/nextdotjs/white"
+                src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
                 class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
                 title="Next.js"
                 alt="Next.js framework icon"
@@ -845,7 +931,7 @@
                 alt="React framework icon"
               />
               <img
-                src="https://cdn.simpleicons.org/nextdotjs/white"
+                src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
                 class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
                 title="Next.js"
                 alt="Next.js framework icon"
@@ -915,61 +1001,63 @@
               </h3>
               <ul class="space-y-4 text-sm text-slate-400">
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >USACO Gold Division:</span
                     >
                     Promoted to the Gold tier after scoring a
-                    <span class="font-mono text-emerald-200">760</span> in the
+                    <span class="font-mono text-slate-100">760</span> in the
                     2026 Silver Contest.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >DECA State Champion:</span
                     >
-                    Ranked <span class="font-mono text-emerald-200">1st</span> in
-                    GA for Entrepreneurship Team Decision Making; International
+                    Ranked
+                    <span class="font-mono text-slate-100">1st</span> in GA
+                    for Entrepreneurship Team Decision Making; International
                     ICDC Qualifier.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >FBLA National Qualifier:</span
                     >
-                    Dual state medalist (<span class="font-mono text-emerald-200"
+                    Dual state medalist (<span
+                      class="font-mono text-slate-100"
                       >5th</span
                     >
                     in Data Science & AI,
-                    <span class="font-mono text-emerald-200">4th</span> in
+                    <span class="font-mono text-slate-100">4th</span> in
                     Networking Infrastructures).
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >Presidential Volunteer Service Award:</span
                     >
                     Two-time recipient (Gold & Bronze) for dedicating
-                    <span class="font-mono text-emerald-200">300+</span> hours to
-                    community initiatives.
+                    <span class="font-mono text-slate-100">300+</span> hours
+                    to community initiatives.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >Academic Excellence:</span
                     >
                     Georgia Certificate of Merit (Top 5% of class), Dual
                     enrollment President’s List (<span
-                      class="font-mono text-emerald-200"
+                      class="font-mono text-slate-100"
                       >5.0</span
                     >
                     GPA), AP Scholar with Distinction, College Board National
@@ -987,7 +1075,7 @@
               </h3>
               <ul class="space-y-4 text-sm text-slate-400">
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >Varsity Swim Captain:</span
@@ -1000,7 +1088,7 @@
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >5x GMEA All-State Musician:</span
@@ -1012,20 +1100,20 @@
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >Community Educator:</span
                     >
                     Tutored
-                    <span class="font-mono text-emerald-200">52</span> local
+                    <span class="font-mono text-slate-100">52</span> local
                     youth in the span of 2 summers in Mathematics, English, and
                     foundational programming (Scratch) within my local Chinese
                     community.
                   </div>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="text-amber-300 mt-0.5">✦</span>
+                  <span class="text-slate-300 mt-0.5">✦</span>
                   <div>
                     <span class="text-slate-200 font-medium"
                       >Affiliations & Societies:</span
@@ -1091,10 +1179,10 @@
         <div class="space-y-4">
           <a
             href="mailto:masoncao7@gmail.com"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-amber-300/50 transition-colors group shadow-sm"
+            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-slate-300/40 transition-colors group shadow-sm"
           >
             <div
-              class="bg-amber-300/15 p-3 rounded-lg text-amber-300 group-hover:text-emerald-200 transition-colors"
+              class="bg-slate-300/10 p-3 rounded-lg text-slate-100 group-hover:text-white transition-colors"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1108,9 +1196,7 @@
               </svg>
             </div>
             <div>
-              <div
-                class="text-xs text-slate-400 font-semibold uppercase"
-              >
+              <div class="text-xs text-slate-400 font-semibold uppercase">
                 Email
               </div>
               <div class="font-medium text-slate-200 text-sm">
@@ -1140,9 +1226,7 @@
               </svg>
             </div>
             <div>
-              <div
-                class="text-xs text-slate-400 font-semibold uppercase"
-              >
+              <div class="text-xs text-slate-400 font-semibold uppercase">
                 LinkedIn
               </div>
               <div class="font-medium text-slate-200 text-sm">in/mason-cao</div>
@@ -1153,10 +1237,10 @@
             href="https://www.instagram.com/m.zcao/"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-pink-500/50 transition-colors group shadow-sm"
+            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-slate-300/40 transition-colors group shadow-sm"
           >
             <div
-              class="bg-pink-500/20 p-3 rounded-lg text-pink-400 group-hover:text-pink-300 transition-colors"
+              class="bg-slate-700/40 p-3 rounded-lg text-slate-300 group-hover:text-slate-100 transition-colors"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1170,9 +1254,7 @@
               </svg>
             </div>
             <div>
-              <div
-                class="text-xs text-slate-400 font-semibold uppercase"
-              >
+              <div class="text-xs text-slate-400 font-semibold uppercase">
                 Instagram
               </div>
               <div class="font-medium text-slate-200 text-sm">@m.zcao</div>
@@ -1183,7 +1265,7 @@
     </div>
 
     <nav
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 w-max glass-card border border-slate-700/50 rounded-2xl px-6 py-2 z-50 shadow-2xl shadow-amber-500/10"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 w-max glass-card border border-slate-700/50 rounded-2xl px-6 py-2 z-50 shadow-2xl shadow-slate-500/10"
       aria-label="Portfolio sections"
     >
       <div
@@ -1192,7 +1274,7 @@
         <a
           href="#"
           data-nav-link="home"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-amber-300 transition-colors"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-slate-100 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1209,7 +1291,7 @@
         <a
           href="#projects"
           data-nav-link="projects"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-amber-300 transition-colors"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-slate-100 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1226,7 +1308,7 @@
         <a
           href="#about"
           data-nav-link="about"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-amber-300 transition-colors"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-slate-100 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1246,7 +1328,7 @@
           type="button"
           aria-haspopup="dialog"
           aria-controls="contact-modal"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-amber-300 transition-colors"
+          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-slate-100 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
