@@ -10,7 +10,7 @@
   --accent-deep: #6e7886;
   --project-visual-row: 9.25rem;
   --project-heading-row: 4.55rem;
-  --project-copy-row: 11.65rem;
+  --project-copy-row: 13.2rem;
   --project-stats-row: 5.6rem;
   --project-links-row: 4.6rem;
   --project-stack-row: 5rem;
@@ -256,7 +256,7 @@ a:focus-visible {
 .project-card {
   display: grid;
   grid-template-rows: auto var(--project-links-row) var(--project-stack-row);
-  min-height: 30rem;
+  min-height: 32rem;
   overflow: hidden;
   border: 1px solid rgba(238, 241, 246, 0.08);
   background:
@@ -698,7 +698,7 @@ a:focus-visible {
 
 @media (min-width: 1024px) and (max-width: 1279px) {
   :root {
-    --project-copy-row: 13.75rem;
+    --project-copy-row: 16.25rem;
     --project-stack-row: 7.25rem;
   }
 }
