@@ -327,6 +327,7 @@ a:focus-visible {
   display: flex;
   align-items: baseline;
   gap: 0.55rem;
+  min-width: 0;
 }
 
 .achievement-row dt {
@@ -345,11 +346,12 @@ a:focus-visible {
   background-size: 5px 1px;
   background-repeat: repeat-x;
   background-position: center;
-  min-width: 1.5rem;
+  min-width: 0.75rem;
 }
 
 .achievement-row dd {
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
   margin: 0;
   color: var(--accent-soft);
   font-family: "JetBrains Mono", monospace;
@@ -357,6 +359,7 @@ a:focus-visible {
   font-weight: 600;
   letter-spacing: 0.01em;
   text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .achievement-row--stacked {
