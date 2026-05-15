@@ -253,6 +253,148 @@ a:focus-visible {
   animation-delay: 1600ms;
 }
 
+.signal-trigger {
+  margin: -0.4rem -0.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.6rem;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background 220ms ease-out,
+    border-color 220ms ease-out,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.signal-trigger:hover,
+.signal-trigger:focus-visible {
+  background: rgba(238, 241, 246, 0.04);
+  border-color: rgba(238, 241, 246, 0.12);
+  transform: translateY(-1px);
+}
+
+.signal-trigger:focus-visible {
+  outline: none;
+}
+
+.signal-trigger-arrow {
+  color: var(--accent-deep);
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms ease-out;
+}
+
+.signal-trigger:hover .signal-trigger-arrow,
+.signal-trigger:focus-visible .signal-trigger-arrow {
+  color: var(--ink);
+  transform: translateX(3px);
+}
+
+.achievements-box {
+  font-family: system-ui, sans-serif;
+}
+
+.achievements-kicker {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--accent-deep);
+  margin: 0 0 0.4rem;
+}
+
+.achievements-title {
+  font-family: "Space Grotesk", "Chivo", system-ui, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 1.6rem;
+}
+
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 1.1rem 0;
+  border-top: 1px solid rgba(238, 241, 246, 0.08);
+  border-bottom: 1px solid rgba(238, 241, 246, 0.08);
+}
+
+.achievement-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.achievement-row dt {
+  flex: none;
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+}
+
+.achievement-row .leader {
+  flex: 1 1 auto;
+  height: 1px;
+  align-self: center;
+  background-image: radial-gradient(circle, rgba(238, 241, 246, 0.32) 0.8px, transparent 1px);
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+  background-position: center;
+  min-width: 1.5rem;
+}
+
+.achievement-row dd {
+  flex: none;
+  margin: 0;
+  color: var(--accent-soft);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: right;
+}
+
+.achievements-footer {
+  margin: 1.3rem 0 0;
+  color: #7e8896;
+  font-size: 0.78rem;
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 0.005em;
+}
+
+@media (max-width: 640px) {
+  .achievements-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .achievement-row {
+    flex-wrap: wrap;
+    gap: 0.25rem 0.55rem;
+  }
+
+  .achievement-row dt {
+    font-size: 0.88rem;
+  }
+
+  .achievement-row .leader {
+    display: none;
+  }
+
+  .achievement-row dd {
+    flex: 1 1 100%;
+    text-align: left;
+    color: #8a95a3;
+    font-size: 0.78rem;
+  }
+}
+
 .project-card {
   display: grid;
   grid-template-rows: auto var(--project-links-row) var(--project-stack-row);

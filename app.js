@@ -172,83 +172,97 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 6. Contact Modal Logic
-  const openContactBtn = document.getElementById("open-contact-btn");
-  const contactModal = document.getElementById("contact-modal");
-  const contactBackdrop = document.getElementById("contact-backdrop");
-  const closeModalBtn = document.getElementById("close-modal-btn");
-  const contactBox = document.getElementById("contact-box");
+  // 6. Modal Logic (shared by contact + achievements)
   const modalFocusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-  let lastFocusedElement = null;
 
-  function getModalFocusableElements() {
-    if (!contactModal) return [];
-    return Array.from(contactModal.querySelectorAll(modalFocusableSelector));
-  }
+  function setupModal({ openBtnId, modalId, boxId, backdropId, closeBtnId }) {
+    const openBtn = document.getElementById(openBtnId);
+    const modal = document.getElementById(modalId);
+    const box = document.getElementById(boxId);
+    const backdrop = document.getElementById(backdropId);
+    const closeBtn = document.getElementById(closeBtnId);
 
-  function openModal(e) {
-    e.preventDefault();
-    if (!contactModal || !contactBox) return;
-    lastFocusedElement = document.activeElement;
-    contactModal.setAttribute("aria-hidden", "false");
-    contactModal.removeAttribute("inert");
-    contactModal.classList.remove("opacity-0", "pointer-events-none");
-    contactBox.classList.remove("scale-95");
-    contactBox.classList.add("scale-100");
-    document.body.style.overflow = "hidden";
-    if (openContactBtn) openContactBtn.classList.add("active");
-    requestAnimationFrame(() => {
-      if (closeModalBtn) closeModalBtn.focus();
-    });
-  }
+    if (!openBtn || !modal || !box) return;
 
-  function closeModal() {
-    if (!contactModal || !contactBox) return;
-    contactModal.setAttribute("aria-hidden", "true");
-    contactModal.setAttribute("inert", "");
-    contactModal.classList.add("opacity-0", "pointer-events-none");
-    contactBox.classList.remove("scale-100");
-    contactBox.classList.add("scale-95");
-    document.body.style.overflow = "";
-    if (openContactBtn) openContactBtn.classList.remove("active");
-    if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
-      lastFocusedElement.focus();
-    }
-  }
+    let lastFocusedElement = null;
 
-  function trapModalFocus(e) {
-    const focusable = getModalFocusableElements();
-    if (focusable.length === 0) return;
-
-    const firstElement = focusable[0];
-    const lastElement = focusable[focusable.length - 1];
-
-    if (e.shiftKey && document.activeElement === firstElement) {
+    function open(e) {
       e.preventDefault();
-      lastElement.focus();
-    } else if (!e.shiftKey && document.activeElement === lastElement) {
-      e.preventDefault();
-      firstElement.focus();
+      lastFocusedElement = document.activeElement;
+      modal.setAttribute("aria-hidden", "false");
+      modal.removeAttribute("inert");
+      modal.classList.remove("opacity-0", "pointer-events-none");
+      box.classList.remove("scale-95");
+      box.classList.add("scale-100");
+      document.body.style.overflow = "hidden";
+      openBtn.classList.add("active");
+      requestAnimationFrame(() => {
+        if (closeBtn) closeBtn.focus();
+      });
     }
+
+    function close() {
+      modal.setAttribute("aria-hidden", "true");
+      modal.setAttribute("inert", "");
+      modal.classList.add("opacity-0", "pointer-events-none");
+      box.classList.remove("scale-100");
+      box.classList.add("scale-95");
+      document.body.style.overflow = "";
+      openBtn.classList.remove("active");
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
+    }
+
+    function trapFocus(e) {
+      const focusable = Array.from(
+        modal.querySelectorAll(modalFocusableSelector)
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function handleKeydown(e) {
+      if (modal.getAttribute("aria-hidden") === "true") return;
+      if (e.key === "Escape") {
+        close();
+      } else if (e.key === "Tab") {
+        trapFocus(e);
+      }
+    }
+
+    openBtn.addEventListener("click", open);
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    if (backdrop) backdrop.addEventListener("click", close);
+    document.addEventListener("keydown", handleKeydown);
   }
 
-  function handleModalKeydown(e) {
-    if (!contactModal || contactModal.getAttribute("aria-hidden") === "true") {
-      return;
-    }
+  setupModal({
+    openBtnId: "open-contact-btn",
+    modalId: "contact-modal",
+    boxId: "contact-box",
+    backdropId: "contact-backdrop",
+    closeBtnId: "close-modal-btn"
+  });
 
-    if (e.key === "Escape") {
-      closeModal();
-    } else if (e.key === "Tab") {
-      trapModalFocus(e);
-    }
-  }
-
-  if (openContactBtn) openContactBtn.addEventListener("click", openModal);
-  if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-  if (contactBackdrop) contactBackdrop.addEventListener("click", closeModal);
-  document.addEventListener("keydown", handleModalKeydown);
+  setupModal({
+    openBtnId: "open-achievements-btn",
+    modalId: "achievements-modal",
+    boxId: "achievements-box",
+    backdropId: "achievements-backdrop",
+    closeBtnId: "close-achievements-btn"
+  });
 
   // 7. 3D Tilt Effect for Project Cards
   if (!prefersReducedMotion && typeof VanillaTilt !== "undefined") {
