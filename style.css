@@ -359,6 +359,21 @@ a:focus-visible {
   text-align: right;
 }
 
+.achievement-row--stacked {
+  align-items: flex-start;
+}
+
+.achievement-row--stacked .leader {
+  margin-top: 0.55rem;
+}
+
+.achievement-row--stacked dd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  line-height: 1.4;
+}
+
 .achievements-footer {
   margin: 1.3rem 0 0;
   color: #7e8896;
