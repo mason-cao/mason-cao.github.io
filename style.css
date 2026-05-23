@@ -290,8 +290,30 @@ a:focus-visible {
   transform: translateX(3px);
 }
 
+.modal-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 1px solid rgba(238, 241, 246, 0.14);
+  border-radius: 999px;
+  background: rgba(11, 13, 18, 0.72);
+  touch-action: manipulation;
+  z-index: 2;
+}
+
+.modal-close-button svg {
+  pointer-events: none;
+}
+
 .achievements-box {
   font-family: system-ui, sans-serif;
+  max-height: calc(100vh - 2rem);
+  max-height: min(calc(100dvh - 2rem), 44rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .achievements-kicker {
