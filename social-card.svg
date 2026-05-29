@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">Mason Cao portfolio social card</title>
-  <desc id="desc">Monochrome portfolio card for Mason Cao, AI systems and full-stack developer.</desc>
+  <desc id="desc">Portfolio card for Mason Cao, a student developer building AI systems and data tools.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0d1018"/>
@@ -24,14 +24,14 @@
   <circle cx="1010" cy="248" r="9" fill="#8a95a3"/>
   <g transform="translate(88 88)">
     <rect x="0" y="0" width="182" height="42" rx="21" fill="#eef1f6" fill-opacity="0.08" stroke="#eef1f6" stroke-opacity="0.32"/>
-    <text x="22" y="27" font-family="JetBrains Mono, Menlo, monospace" font-size="16" font-weight="800" fill="#eef1f6">LIVE SYSTEMS</text>
+    <text x="22" y="27" font-family="JetBrains Mono, Menlo, monospace" font-size="16" font-weight="800" fill="#eef1f6">BUILDING NOW</text>
   </g>
   <text x="88" y="250" font-family="Chivo, Arial, sans-serif" font-size="78" font-weight="800" fill="#eef1f6">Mason Cao</text>
-  <text x="88" y="326" font-family="Chivo, Arial, sans-serif" font-size="42" font-weight="700" fill="#d8dee8">AI systems and full-stack developer</text>
-  <text x="90" y="402" font-family="JetBrains Mono, Menlo, monospace" font-size="24" font-weight="700" fill="#99a4b5">AI agents / live data / geospatial tools</text>
+  <text x="88" y="326" font-family="Chivo, Arial, sans-serif" font-size="42" font-weight="700" fill="#d8dee8">Student developer building useful systems</text>
+  <text x="90" y="402" font-family="JetBrains Mono, Menlo, monospace" font-size="24" font-weight="700" fill="#99a4b5">AI tools / climate data / productivity apps</text>
   <g transform="translate(88 474)">
     <rect x="0" y="0" width="230" height="56" rx="16" fill="#eef1f6" fill-opacity="0.05" stroke="#eef1f6" stroke-opacity="0.12"/>
-    <text x="24" y="36" font-family="JetBrains Mono, Menlo, monospace" font-size="19" font-weight="800" fill="#eef1f6">600+ commits</text>
+    <text x="24" y="36" font-family="JetBrains Mono, Menlo, monospace" font-size="19" font-weight="800" fill="#eef1f6">700+ commits</text>
   </g>
   <g transform="translate(342 474)">
     <rect x="0" y="0" width="210" height="56" rx="16" fill="#eef1f6" fill-opacity="0.05" stroke="#eef1f6" stroke-opacity="0.12"/>
