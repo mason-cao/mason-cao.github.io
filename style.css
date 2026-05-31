@@ -8,12 +8,11 @@
   --accent: #eef1f6;
   --accent-soft: #c4cdda;
   --accent-deep: #6e7886;
-  --project-visual-row: 9.25rem;
-  --project-heading-row: 4.55rem;
-  --project-copy-row: 15rem;
-  --project-stats-row: 5.6rem;
-  --project-links-row: 5.8rem;
-  --project-stack-row: 5rem;
+  --project-visual-row: 7.5rem;
+  --project-heading-row: 4.35rem;
+  --project-copy-row: 17.75rem;
+  --project-links-row: 3.75rem;
+  --project-stack-row: 4.3rem;
 }
 
 html {
@@ -185,15 +184,6 @@ a:focus-visible {
   outline-offset: 4px;
 }
 
-.signal-card {
-  border: 1px solid rgba(238, 241, 246, 0.12);
-  background:
-    linear-gradient(145deg, rgba(238, 241, 246, 0.06), transparent 42%),
-    rgba(15, 19, 26, 0.78);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
-  backdrop-filter: blur(16px);
-}
-
 .signal-field {
   position: absolute;
   inset: 0;
@@ -253,39 +243,90 @@ a:focus-visible {
   animation-delay: 1600ms;
 }
 
-.signal-trigger {
-  margin: -0.4rem -0.6rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.6rem;
-  background: transparent;
-  border: 1px solid transparent;
+.games-peaked-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3.5rem;
+}
+
+.games-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(100%, 27rem);
+  border: 1px solid rgba(238, 241, 246, 0.12);
+  border-radius: 1rem;
+  background:
+    linear-gradient(145deg, rgba(238, 241, 246, 0.055), transparent 52%),
+    rgba(15, 19, 26, 0.72);
+  padding: 1rem 1.1rem;
+  text-align: left;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
   cursor: pointer;
   transition:
     background 220ms ease-out,
     border-color 220ms ease-out,
+    box-shadow 220ms ease-out,
     transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.signal-trigger:hover,
-.signal-trigger:focus-visible {
-  background: rgba(238, 241, 246, 0.04);
-  border-color: rgba(238, 241, 246, 0.12);
-  transform: translateY(-1px);
+.games-trigger:hover,
+.games-trigger:focus-visible {
+  border-color: rgba(238, 241, 246, 0.24);
+  background:
+    linear-gradient(145deg, rgba(238, 241, 246, 0.085), transparent 52%),
+    rgba(15, 19, 26, 0.86);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
-.signal-trigger:focus-visible {
+.games-trigger:focus-visible {
   outline: none;
 }
 
-.signal-trigger-arrow {
+.games-trigger-number {
+  color: var(--ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 2.25rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.games-trigger-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.games-trigger-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #d9e0ea;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.games-trigger-note {
+  color: #7e8896;
+  font-size: 0.86rem;
+}
+
+.games-trigger-arrow {
+  width: 0.8rem;
+  height: 0.8rem;
   color: var(--accent-deep);
   transition:
     transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
     color 220ms ease-out;
 }
 
-.signal-trigger:hover .signal-trigger-arrow,
-.signal-trigger:focus-visible .signal-trigger-arrow {
+.games-trigger:hover .games-trigger-arrow,
+.games-trigger:focus-visible .games-trigger-arrow {
   color: var(--ink);
   transform: translateX(3px);
 }
@@ -438,7 +479,9 @@ a:focus-visible {
 .project-card {
   display: grid;
   grid-template-rows: auto var(--project-links-row) var(--project-stack-row);
-  min-height: 35rem;
+  width: 100%;
+  min-height: 0;
+  min-width: 0;
   overflow: hidden;
   border: 1px solid rgba(238, 241, 246, 0.08);
   background:
@@ -496,8 +539,7 @@ a:focus-visible {
   grid-template-rows:
     var(--project-visual-row)
     var(--project-heading-row)
-    var(--project-copy-row)
-    var(--project-stats-row);
+    var(--project-copy-row);
 }
 
 .project-visual {
@@ -505,7 +547,7 @@ a:focus-visible {
   height: var(--project-visual-row);
   overflow: hidden;
   border: 1px solid rgba(238, 241, 246, 0.08);
-  border-radius: 0.95rem;
+  border-radius: 0.85rem;
   background:
     linear-gradient(rgba(238, 241, 246, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(238, 241, 246, 0.06) 1px, transparent 1px),
@@ -530,8 +572,8 @@ a:focus-visible {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 4.25rem;
-  height: 4.25rem;
+  width: 3.6rem;
+  height: 3.6rem;
   transform: translate(-50%, -50%);
   border: 1px solid rgba(238, 241, 246, 0.7);
   border-radius: 999px;
@@ -540,8 +582,8 @@ a:focus-visible {
 
 .scan-node {
   position: absolute;
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.48rem;
+  height: 0.48rem;
   border-radius: 999px;
   background: var(--ink);
 }
@@ -565,8 +607,8 @@ a:focus-visible {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: end;
-  gap: 0.8rem;
-  padding: 1rem;
+  gap: 0.6rem;
+  padding: 0.85rem;
 }
 
 .luminosity-visual span {
@@ -593,12 +635,12 @@ a:focus-visible {
 .freshtrack-visual {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: 0.6rem;
+  padding: 0.85rem;
 }
 
 .pantry-item {
-  border-radius: 0.8rem;
+  border-radius: 0.7rem;
   background:
     linear-gradient(180deg, rgba(238, 241, 246, 0.14), transparent),
     rgba(238, 241, 246, 0.1);
@@ -629,12 +671,12 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.45rem;
-  padding: 0.95rem 1.1rem;
+  gap: 0.38rem;
+  padding: 0.85rem 1rem;
 }
 
 .usage-bar {
-  height: 0.55rem;
+  height: 0.48rem;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(238, 241, 246, 0.6), rgba(238, 241, 246, 0.14));
   border: 1px solid rgba(238, 241, 246, 0.16);
@@ -651,8 +693,12 @@ a:focus-visible {
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-top: 1.25rem;
-  min-height: calc(var(--project-heading-row) - 1.25rem);
+  margin-top: 0.95rem;
+  min-height: calc(var(--project-heading-row) - 0.95rem);
+}
+
+.project-heading h3 {
+  min-width: 0;
 }
 
 .project-badge {
@@ -660,60 +706,31 @@ a:focus-visible {
   border: 1px solid rgba(238, 241, 246, 0.18);
   border-radius: 999px;
   color: var(--accent-soft);
-  padding: 0.25rem 0.55rem;
+  padding: 0.22rem 0.5rem;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.76rem;
+  font-size: 0.68rem;
   font-weight: 800;
   white-space: nowrap;
 }
 
 .project-copy {
-  margin-top: 1.1rem;
+  margin-top: 0.65rem;
   min-height: 0;
   color: #c5cedb;
-  font-size: 0.92rem;
-  line-height: 1.65;
-}
-
-.project-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.7rem;
-  margin-top: 1.4rem;
-}
-
-.project-stats div {
-  border: 1px solid rgba(238, 241, 246, 0.08);
-  border-radius: 0.8rem;
-  background: rgba(238, 241, 246, 0.03);
-  padding: 0.7rem 0.8rem;
-}
-
-.project-stats dt {
-  color: #8a95a3;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.project-stats dd {
-  margin-top: 0.28rem;
-  color: var(--ink);
-  font-size: 0.98rem;
-  font-weight: 900;
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .project-stack {
   box-sizing: border-box;
   height: var(--project-stack-row);
-  padding-top: 1.25rem;
+  padding-top: 0.85rem;
   border-top: 1px solid rgba(238, 241, 246, 0.08);
   color: #8a95a3;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.76rem;
-  line-height: 1.6;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .project-links {
@@ -724,7 +741,7 @@ a:focus-visible {
   height: var(--project-links-row);
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 1rem;
+  padding-top: 0.65rem;
   align-items: flex-start;
 }
 
@@ -732,14 +749,14 @@ a:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  min-height: 2.5rem;
+  min-height: 2.2rem;
   border: 1px solid rgba(238, 241, 246, 0.14);
   border-radius: 999px;
   background: rgba(238, 241, 246, 0.04);
   color: #c5cedb;
-  padding: 0.55rem 0.95rem;
+  padding: 0.45rem 0.75rem;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.72rem;
+  font-size: 0.67rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -751,8 +768,8 @@ a:focus-visible {
 }
 
 .project-link svg {
-  width: 0.95rem;
-  height: 0.95rem;
+  width: 0.85rem;
+  height: 0.85rem;
 }
 
 .project-link:hover {
@@ -807,11 +824,11 @@ a:focus-visible {
     transform: scale(1);
   }
   100% {
-    transform: scale(1.15);
+    transform: scale(1.08);
   }
 }
 .animate-map-zoom {
-  animation: map-zoom 40s ease-in-out infinite alternate;
+  animation: map-zoom 72s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
 }
 
 /* --- High-Contrast Dark Map Fix --- */
@@ -822,6 +839,8 @@ a:focus-visible {
 .dark-map-wrapper {
   filter: invert(100%) hue-rotate(180deg) brightness(500%) contrast(110%)
     grayscale(100%);
+  transform-origin: center 42%;
+  will-change: transform;
 }
 
 /* --- Icon Marquee Animations --- */
@@ -880,9 +899,14 @@ a:focus-visible {
 
 @media (min-width: 1024px) and (max-width: 1279px) {
   :root {
-    --project-copy-row: 18.75rem;
-    --project-links-row: 6.4rem;
-    --project-stack-row: 7.25rem;
+    --project-heading-row: 5.85rem;
+    --project-copy-row: 21.25rem;
+    --project-stack-row: 5.15rem;
+  }
+
+  .project-heading {
+    flex-direction: column;
+    gap: 0.45rem;
   }
 }
 
@@ -905,7 +929,14 @@ a:focus-visible {
   }
 
   .project-heading {
+    flex-direction: column;
+    gap: 0.45rem;
     min-height: 0;
+  }
+
+  .project-badge {
+    max-width: 100%;
+    white-space: normal;
   }
 
   .project-links {

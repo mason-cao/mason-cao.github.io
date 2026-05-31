@@ -231,19 +231,6 @@
             class="flex flex-wrap items-center gap-2 justify-center md:justify-start"
           >
             <p class="status-pill">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="w-4 h-4"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
               <span id="live-time" class="font-mono text-xs mt-[1px]"
                 >Loading time...</span
               >
@@ -252,15 +239,16 @@
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
-                fill="currentColor"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
                 class="w-4 h-4"
                 aria-hidden="true"
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a19.494 19.494 0 00.307-.154 20.94 20.94 0 003.01-1.683c1.863-1.188 3.93-2.744 3.93-5.592 0-2.754-2.27-5-5-5v-1a1 1 0 10-2 0v1a5 5 0 00-5 5c0 2.848 2.067 4.404 3.93 5.592.83.529 1.632 1.01 2.31 1.453l.231.151.018.008.006.003zm0 0l.003.001-.003-.001zm0 0l-.003-.001.003.001z"
-                  clip-rule="evenodd"
-                />
+                <path d="M10 18s5.5-5.2 5.5-10a5.5 5.5 0 0 0-11 0C4.5 12.8 10 18 10 18z" />
+                <circle cx="10" cy="8" r="1.8" />
               </svg>
               Suwanee, GA
             </p>
@@ -279,64 +267,6 @@
             and tools people can actually use.
           </p>
         </div>
-
-        <div
-          class="signal-card rounded-xl p-6 flex flex-col gap-4 w-full max-w-xs mx-auto md:mx-0 md:mt-20 fade-element delay-100 relative z-20"
-        >
-          <p class="text-xs uppercase text-slate-400">Snapshot</p>
-          <div class="flex items-end gap-3">
-            <span
-              class="text-4xl font-extrabold text-slate-100 font-mono leading-none"
-              >800+</span
-            >
-            <span class="text-slate-300 text-sm font-medium mb-1 uppercase"
-              >Commits</span
-            >
-          </div>
-          <div class="w-full h-px bg-slate-700/50"></div>
-          <div class="flex items-end gap-3">
-            <span
-              class="text-4xl font-extrabold text-slate-100 font-mono leading-none"
-              >450+</span
-            >
-            <span class="text-slate-300 text-sm font-medium mb-1 uppercase"
-              >People Led or Mentored</span
-            >
-          </div>
-          <div class="w-full h-px bg-slate-700/50"></div>
-          <button
-            id="open-achievements-btn"
-            type="button"
-            aria-haspopup="dialog"
-            aria-controls="achievements-modal"
-            class="signal-trigger group text-left"
-          >
-            <div class="flex items-end gap-3">
-              <span
-                class="text-4xl font-extrabold text-slate-100 font-mono leading-none"
-                >17</span
-              >
-              <span
-                class="text-slate-300 text-sm font-medium mb-1 uppercase flex items-center gap-1.5"
-              >
-                Games Peaked
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="w-3 h-3 signal-trigger-arrow"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </span>
-            </div>
-          </button>
-        </div>
       </header>
 
       <main id="main-content">
@@ -344,14 +274,14 @@
           <h2
             class="section-title mb-8 text-2xl font-semibold text-slate-200 fade-element"
           >
-            Featured Products
+            Featured Projects
           </h2>
 
           <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7 xl:gap-8"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 xl:gap-7"
           >
             <article
-              class="project-card project-card-aeris rounded-2xl p-6 relative group fade-element delay-300"
+              class="project-card project-card-aeris rounded-2xl p-5 relative group fade-element delay-300"
               aria-labelledby="project-aeris"
             >
               <div class="project-card-main">
@@ -368,26 +298,16 @@
                   >
                     AERIS
                   </h3>
-                  <span class="project-badge">Live climatesignals</span>
+                  <span class="project-badge">Climate signals</span>
                 </div>
                 <p class="project-copy">
                   Environmental intelligence system that pulls NOAA GFS,
                   OpenWeather, Sentinel-5P, and OpenAQ into cross-checked
-                  Houston anomaly reports for localized cliamte research. This
+                  Houston anomaly reports for localized climate research. This
                   system models complex atmospheric systems and utilizes a
                   three-method detector and local Llama 3 RAG pipeline. Mentored
                   & developed under Dr. Annalisa Bracco.
                 </p>
-                <dl class="project-stats">
-                  <div>
-                    <dt>Sources</dt>
-                    <dd>4</dd>
-                  </div>
-                  <div>
-                    <dt>Detect</dt>
-                    <dd>3-way</dd>
-                  </div>
-                </dl>
               </div>
               <div class="project-links">
                 <a
@@ -422,7 +342,7 @@
             </article>
 
             <article
-              class="project-card project-card-luminosity rounded-2xl p-6 relative group fade-element delay-100"
+              class="project-card project-card-luminosity rounded-2xl p-5 relative group fade-element delay-100"
               aria-labelledby="project-luminosity"
             >
               <div class="project-card-main">
@@ -442,26 +362,15 @@
                   >
                     Luminosity Intelligence
                   </h3>
-                  <span class="project-badge">Complex systems mesh</span>
+                  <span class="project-badge">Agent mesh</span>
                 </div>
                 <p class="project-copy">
                   Capstone project providing a scalable blueprint adaptable for
-                  corporate ESG (Environmental, Social, Governance) tracking.
-                  Users generate synthetic workspaces to run 8 custom agents,
-                  inspecting SHAP-backed predictive risk, segments, and
-                  natural-language audit trails to explore resource
-                  optimization.
+                  corporate tracking. Users generate synthetic workspaces to run
+                  8 custom agents, inspecting SHAP-backed predictive risk,
+                  segments, and natural-language audit trails to explore
+                  resource optimization.
                 </p>
-                <dl class="project-stats">
-                  <div>
-                    <dt>Events</dt>
-                    <dd>~750K</dd>
-                  </div>
-                  <div>
-                    <dt>Agents</dt>
-                    <dd>8</dd>
-                  </div>
-                </dl>
               </div>
               <div class="project-links">
                 <a
@@ -497,7 +406,7 @@
             </article>
 
             <article
-              class="project-card project-card-freshtrack rounded-2xl p-6 relative group fade-element delay-200"
+              class="project-card project-card-freshtrack rounded-2xl p-5 relative group fade-element delay-200"
               aria-labelledby="project-freshtrack"
             >
               <div class="project-card-main">
@@ -517,25 +426,16 @@
                   >
                     FreshTrack
                   </h3>
-                  <span class="project-badge">Sustainable food systems</span>
+                  <span class="project-badge">Food systems</span>
                 </div>
                 <p class="project-copy">
-                  Web app designed to reduce food waste, a primary driver of
-                  greenhouse gas emissions and financial harm. Features Google
-                  sign-in, a barcode scanner for easy entry, expiration alerts,
-                  recipe suggestions for ingredients nearing expiration, and
-                  household waste analytics to track personal impact.
+                  Pantry management web app designed to reduce food waste, a
+                  primary driver of greenhouse gas emissions and financial harm.
+                  Features Google sign-in, a barcode scanner for easy entry,
+                  expiration alerts, recipe suggestions for ingredients nearing
+                  expiration, and household waste analytics to track personal
+                  impact.
                 </p>
-                <dl class="project-stats">
-                  <div>
-                    <dt>Stack</dt>
-                    <dd>Next 16</dd>
-                  </div>
-                  <div>
-                    <dt>Data</dt>
-                    <dd>Postgres</dd>
-                  </div>
-                </dl>
               </div>
               <div class="project-links">
                 <a
@@ -570,7 +470,7 @@
             </article>
 
             <article
-              class="project-card project-card-detox rounded-2xl p-6 relative group fade-element delay-400"
+              class="project-card project-card-detox rounded-2xl p-5 relative group fade-element delay-400"
               aria-labelledby="project-detox"
             >
               <div class="project-card-main">
@@ -596,16 +496,6 @@
                   app-name masking, and a game-like island dashboard that turns
                   habits into visible progress.
                 </p>
-                <dl class="project-stats">
-                  <div>
-                    <dt>Blocks</dt>
-                    <dd>On-device</dd>
-                  </div>
-                  <div>
-                    <dt>Sync</dt>
-                    <dd>Optional</dd>
-                  </div>
-                </dl>
               </div>
               <div class="project-links">
                 <a
@@ -1257,6 +1147,36 @@
         </section>
 
         <section class="mb-24 fade-element relative z-20">
+          <div class="games-peaked-section">
+            <button
+              id="open-achievements-btn"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="achievements-modal"
+              class="games-trigger group"
+            >
+              <span class="games-trigger-number">17</span>
+              <span class="games-trigger-body">
+                <span class="games-trigger-label">
+                  Games Peaked
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="games-trigger-arrow"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <span class="games-trigger-note">Open play log</span>
+              </span>
+            </button>
+          </div>
           <blockquote
             class="mx-auto max-w-2xl text-center text-base md:text-lg font-light italic text-slate-500 leading-relaxed"
           >
@@ -1557,7 +1477,7 @@
     </div>
 
     <nav
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 w-max glass-card border border-slate-700/50 rounded-2xl px-6 py-2 z-50 shadow-2xl shadow-slate-500/10"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 w-max glass-card border border-slate-700/50 rounded-2xl px-6 py-2 z-50"
       aria-label="Portfolio sections"
     >
       <div

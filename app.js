@@ -8,9 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapWrapper = document.getElementById("map-wrapper");
 
   if (mapContainer && typeof L !== "undefined") {
+    const homeCoordinates = [34.0515, -84.0714];
+    const flyDuration = 5.8;
+
     const map = L.map("background-map", {
-      center: [39.8283, -98.5795],
-      zoom: 4,
+      center: [36.9, -89.4],
+      zoom: 5,
       zoomControl: false,
       dragging: false,
       scrollWheelZoom: false,
@@ -36,22 +39,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (prefersReducedMotion) {
-        map.setView([34.0515, -84.0714], 12);
+        map.setView(homeCoordinates, 12);
         return;
       }
 
       setTimeout(() => {
-        map.flyTo([34.0515, -84.0714], 12, {
+        map.flyTo(homeCoordinates, 11.7, {
           animate: true,
-          duration: 3.5
+          duration: flyDuration,
+          easeLinearity: 0.18
         });
 
         setTimeout(() => {
           if (mapWrapper) {
             mapWrapper.classList.add("animate-map-zoom");
           }
-        }, 3500);
-      }, 800);
+        }, flyDuration * 1000 + 450);
+      }, 600);
     }, 250);
   }
 
