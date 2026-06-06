@@ -8,15 +8,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Mason Cao | Student Developer Building AI & Data Tools</title>
+    <title>Mason Cao | Software & Environmental-Intelligence Developer</title>
 
     <meta
       name="description"
-      content="Mason Cao is a Lambert High School student building AI systems, environmental data tools, productivity apps, and community projects with measurable results."
+      content="Mason Cao builds environmental-intelligence systems, multi-agent AI, and full-stack tools, from self-hosted climate anomaly detection to explainable ML dashboards."
     />
     <meta
       name="keywords"
-      content="Mason Cao, Lambert High School, Full-Stack Developer, AI pipelines, Suwanee GA, Student Portfolio, A.E.R.I.S, USACO Gold"
+      content="Mason Cao, Software Developer, Environmental Intelligence, AI Agents, Climate Data, AERIS, Full-Stack, Python, React, Suwanee GA"
     />
     <meta name="author" content="Mason Cao" />
     <meta name="robots" content="index, follow" />
@@ -30,11 +30,11 @@
 
     <meta
       property="og:title"
-      content="Mason Cao | Student Developer Building AI & Data Tools"
+      content="Mason Cao | Software & Environmental-Intelligence Developer"
     />
     <meta
       property="og:description"
-      content="AI systems, environmental data tools, productivity apps, competitive programming, and community work from Mason Cao."
+      content="Environmental-intelligence systems, multi-agent AI, and full-stack tools built by Mason Cao."
     />
     <meta property="og:url" content="https://mason-cao.github.io/" />
     <meta property="og:type" content="website" />
@@ -50,11 +50,11 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Mason Cao | Student Developer Building AI & Data Tools"
+      content="Mason Cao | Software & Environmental-Intelligence Developer"
     />
     <meta
       name="twitter:description"
-      content="AI systems, environmental data tools, productivity apps, competitive programming, and community work from Mason Cao."
+      content="Environmental-intelligence systems, multi-agent AI, and full-stack tools built by Mason Cao."
     />
     <meta
       name="twitter:image"
@@ -71,8 +71,8 @@
             "name": "Mason Cao",
             "url": "https://mason-cao.github.io/",
             "image": "https://mason-cao.github.io/social-card.svg",
-            "jobTitle": "Student Full-Stack Developer",
-            "description": "Mason Cao builds AI systems, environmental data tools, productivity apps, and full-stack projects as a Lambert High School student.",
+            "jobTitle": "Software & Environmental-Intelligence Developer",
+            "description": "Mason Cao builds environmental-intelligence systems, multi-agent AI, and full-stack tools as a Lambert High School student.",
             "affiliation": {
               "@type": "Organization",
               "name": "Lambert High School"
@@ -93,17 +93,15 @@
               "Full-Stack Development",
               "Artificial Intelligence",
               "AI Agents",
-              "Natural Language Processing",
-              "Data Science Research",
-              "Environmental Science",
+              "Retrieval-Augmented Generation",
+              "Environmental Intelligence",
               "Geospatial Data",
+              "Machine Learning",
               "Python",
               "React",
               "Next.js",
-              "Competitive Programming",
-              "Kaggle",
-              "USACO",
-              "DECA"
+              "FastAPI",
+              "PostgreSQL"
             ]
           },
           {
@@ -111,18 +109,18 @@
             "@id": "https://mason-cao.github.io/#profile",
             "url": "https://mason-cao.github.io/",
             "name": "Mason Cao Portfolio",
-            "description": "Portfolio of AI systems, environmental intelligence tools, productivity products, and technical projects by Mason Cao.",
+            "description": "Portfolio of environmental-intelligence systems, multi-agent AI, and full-stack products by Mason Cao.",
             "mainEntity": {
               "@id": "https://mason-cao.github.io/#person"
             },
             "hasPart": [
               {
                 "@type": "SoftwareSourceCode",
-                "name": "A.E.R.I.S. Environmental Intelligence System",
-                "url": "https://github.com/mason-cao/aeris/blob/main/docs/specs/2026-04-05-aeris-design.md",
+                "name": "AERIS Environmental Intelligence System",
+                "url": "https://github.com/mason-cao/aeris",
                 "codeRepository": "https://github.com/mason-cao/aeris",
                 "programmingLanguage": ["Python", "TypeScript"],
-                "applicationCategory": "Geospatial intelligence"
+                "applicationCategory": "Environmental intelligence"
               },
               {
                 "@type": "SoftwareSourceCode",
@@ -130,15 +128,15 @@
                 "url": "https://multi-agent-customer-intelligence-d.vercel.app",
                 "codeRepository": "https://github.com/mason-cao/multi-agent-customer-intelligence-dashboard",
                 "programmingLanguage": ["Python", "TypeScript"],
-                "applicationCategory": "Synthetic customer intelligence dashboard"
+                "applicationCategory": "Multi-agent intelligence dashboard"
               },
               {
                 "@type": "SoftwareSourceCode",
-                "name": "FreshTrack Pantry Management Dashboard",
+                "name": "FreshTrack Pantry Management",
                 "url": "https://freshtrack.up.railway.app",
                 "codeRepository": "https://github.com/mason-cao/freshtrack",
                 "programmingLanguage": ["TypeScript", "SQL"],
-                "applicationCategory": "Pantry and waste tracking web application"
+                "applicationCategory": "Food-waste tracking web application"
               },
               {
                 "@type": "SoftwareSourceCode",
@@ -158,7 +156,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&family=Space+Grotesk:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -166,7 +164,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-    <link rel="stylesheet" href="style.css?v=20260512a" />
+    <link rel="stylesheet" href="style.css?v=20260605f" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -187,21 +185,36 @@
     </script>
 
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"
-      defer
-    ></script>
-    <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       defer
     ></script>
-    <script src="app.js?v=20260512a" defer></script>
+    <script src="app.js?v=20260605f" defer></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="flow3d.js?v=20260605f"></script>
+    <script type="module" src="transit3d.js?v=20260605f"></script>
+    <script type="module" src="constellation3d.js?v=20260605f"></script>
   </head>
 
   <body class="font-sans relative bg-[#0b0d12]">
     <a href="#main-content" class="skip-link">Skip to portfolio content</a>
 
+    <div class="scroll-progress" aria-hidden="true">
+      <span id="scroll-progress-bar"></span>
+    </div>
+
+    <!-- site-wide atmospheric flow field (cursor-reactive ambient layer) -->
+    <canvas id="flow-field" class="flow-field" aria-hidden="true"></canvas>
+
     <div
-      class="absolute top-0 left-0 w-full h-[650px] md:h-[760px] z-[-1] overflow-hidden bg-[#0b0d12]"
+      class="absolute top-0 left-0 w-full h-[650px] md:h-[820px] z-[-1] overflow-hidden bg-[#0b0d12]"
       aria-hidden="true"
     >
       <div
@@ -217,22 +230,25 @@
         <span class="signal-dot signal-dot-two"></span>
         <span class="signal-dot signal-dot-three"></span>
       </div>
+      <div class="hero-grain" aria-hidden="true"></div>
       <div
         class="absolute inset-0 bg-gradient-to-b from-dark-900/20 via-dark-900/72 to-dark-900 z-10 pointer-events-none"
       ></div>
     </div>
 
-    <div class="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-20">
+    <div class="mx-auto max-w-6xl px-4 py-12 md:px-8 md:py-16">
+      <!-- ░░ HERO ░░ -->
       <header
-        class="mb-20 md:mb-32 text-center md:text-left flex flex-col md:flex-row md:items-start md:justify-between gap-8 relative z-20"
+        class="hero-shell mb-24 md:mb-36 text-center md:text-left relative z-20"
       >
-        <div class="md:w-[64%] fade-element">
+        <div class="md:max-w-[68%]">
           <div
-            class="flex flex-wrap items-center gap-2 justify-center md:justify-start"
+            class="flex flex-wrap items-center gap-2 justify-center md:justify-start fade-element"
           >
             <p class="status-pill">
+              <span class="live-dot" aria-hidden="true"></span>
               <span id="live-time" class="font-mono text-xs mt-[1px]"
-                >Loading time...</span
+                >Loading time…</span
               >
             </p>
             <p class="status-pill">
@@ -254,901 +270,1006 @@
               </svg>
               Suwanee, GA
             </p>
+            <p class="status-pill font-mono text-xs tracking-tight">
+              34.0515&deg;N&nbsp;&middot;&nbsp;84.0714&deg;W
+            </p>
           </div>
+
           <h1
             id="hero-title"
             data-typewriter-text="Hi, I'm Mason Cao."
             aria-label="Hi, I'm Mason Cao."
-            class="hero-display mt-8 text-5xl md:text-7xl font-extrabold text-slate-100 drop-shadow-md max-w-4xl"
+            class="hero-display mt-8 text-5xl md:text-7xl font-extrabold text-slate-100 drop-shadow-md fade-element"
           >
             Hi, I'm Mason Cao.
           </h1>
-          <p class="hero-summary">
-            I'm a Lambert High School junior who likes turning messy problems
-            into working software, especially around climate data, AI systems,
-            and tools people can actually use.
+
+          <p class="hero-summary fade-element delay-100">
+            I build
+            <span class="hero-accent">environmental-intelligence systems</span>,
+            multi-agent AI, and full-stack tools, turning fragmented, messy data
+            into software people can actually rely on. Currently a junior at
+            Lambert High School.
+          </p>
+        </div>
+
+        <div
+          class="co2-panel fade-element delay-300"
+          aria-label="Live atmospheric CO₂"
+        >
+          <div class="co2-panel-head">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span class="co2-panel-label">CO₂ · Mauna Loa</span>
+          </div>
+          <span
+            id="co2-live"
+            class="co2-panel-value"
+            data-pending="1"
+            aria-live="polite"
+            >…</span
+          >
+          <p class="co2-panel-note">
+            Mauna&nbsp;Loa, Hawai‘i. Earth's largest active volcano, and home to
+            the benchmark atmospheric CO₂ record.
           </p>
         </div>
       </header>
 
       <main id="main-content">
-        <section id="projects" class="mb-24 md:mb-36 relative z-20">
-          <h2
-            class="section-title mb-8 text-2xl font-semibold text-slate-200 fade-element"
-          >
-            Featured Projects
+        <!-- ░░ LIVE TRANSIT ░░ -->
+        <section
+          id="transit"
+          class="transit-band section-block fade-element relative z-20"
+          aria-labelledby="transit-heading"
+        >
+          <p class="section-index">Live signal · simulated</p>
+          <h2 id="transit-heading" class="section-title" data-decode>
+            Finding planets in the noise
           </h2>
+          <p class="section-lede">
+            When a planet crosses in front of its star, the star dims by a
+            fraction of a percent. Teasing that dip out of instrument noise is
+            the heart of my incoming TESS work. The curve below is simulated and
+            running live. Drag across it to scrub the orbit yourself.
+          </p>
 
-          <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 xl:gap-7"
-          >
-            <article
-              class="project-card project-card-aeris rounded-2xl p-5 relative group fade-element delay-300"
-              aria-labelledby="project-aeris"
-            >
-              <div class="project-card-main">
-                <div class="project-visual aeris-visual" aria-hidden="true">
+          <figure class="transit-stage">
+            <canvas
+              id="transit-canvas"
+              class="transit-canvas transit-canvas--scene"
+            ></canvas>
+            <canvas
+              id="transit-curve"
+              class="transit-canvas transit-canvas--curve"
+              aria-hidden="true"
+            ></canvas>
+            <div class="transit-hud" aria-hidden="true">
+              <div class="transit-hud-item">
+                <span class="transit-hud-label">rel. flux</span>
+                <span id="transit-flux" class="transit-hud-value">1.0000</span>
+              </div>
+              <div class="transit-hud-item">
+                <span class="transit-hud-label">phase</span>
+                <span id="transit-phase" class="transit-hud-value">0.00</span>
+              </div>
+              <div class="transit-hud-item transit-hud-item--state">
+                <span class="live-dot"></span>
+                <span id="transit-state" class="transit-hud-value"
+                  >baseline</span
+                >
+              </div>
+            </div>
+            <span class="transit-scrub-hint font-mono" aria-hidden="true">
+              drag to scrub
+            </span>
+          </figure>
+        </section>
+
+        <!-- ░░ NOW ░░ -->
+        <section id="now" class="section-block fade-element relative z-20">
+          <p class="section-index">01 / Now</p>
+          <h2 class="section-title" data-decode>Currently in motion</h2>
+
+          <div class="now-grid">
+            <article class="now-card now-card--live">
+              <div class="now-card-top">
+                <span class="now-tag">
+                  <span class="live-dot" aria-hidden="true"></span>
+                  Research
+                </span>
+                <span class="now-when font-mono">Summer 2026</span>
+              </div>
+              <h3 class="now-card-title">NASA TESS Exoplanet Validation</h3>
+              <p class="now-card-role">Incoming Research Intern</p>
+              <p class="now-card-copy">
+                Building Python workflows to separate likely planet transits
+                from background noise in TESS and JWST data, using AstroImageJ,
+                Jupyter, and Bayesian validation under a NASA principal
+                investigator.
+              </p>
+              <p class="now-card-link-row">
+                <a class="now-card-cta" href="#transit">
+                  See the live transit
+                  <svg
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.22 9.78a.75.75 0 0 1 0-1.06L7.94 5H4.75a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V6.06l-3.72 3.72a.75.75 0 0 1-1.06 0Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </p>
+            </article>
+
+            <article class="now-card now-card--live">
+              <div class="now-card-top">
+                <span class="now-tag">
+                  <span class="live-dot" aria-hidden="true"></span>
+                  Building
+                </span>
+                <span class="now-when font-mono">Active dev</span>
+              </div>
+              <h3 class="now-card-title">AERIS</h3>
+              <p class="now-card-role">Environmental intelligence platform</p>
+              <p class="now-card-copy">
+                Extending the anomaly-detection engine and local-vs-cloud LLM
+                evaluation toward a research write-up. Live ingestion of four
+                atmospheric data sources over Houston.
+              </p>
+            </article>
+
+            <article class="now-card now-card--live">
+              <div class="now-card-top">
+                <span class="now-tag">
+                  <span class="live-dot" aria-hidden="true"></span>
+                  Live
+                </span>
+                <span class="now-when font-mono">Seeking users</span>
+              </div>
+              <h3 class="now-card-title">FreshTrack</h3>
+              <p class="now-card-role">Food-waste tracker, deployed</p>
+              <p class="now-card-copy">
+                A full-stack pantry app that turns forgotten food into measured
+                climate impact. It's live right now, and I'm looking for people
+                to actually use it and tell me where it breaks.
+              </p>
+              <p class="now-card-link-row">
+                <a
+                  class="now-card-cta now-card-cta--solid"
+                  href="https://freshtrack.up.railway.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open the app
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path
+                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                    />
+                  </svg>
+                </a>
+              </p>
+            </article>
+
+            <article class="now-card now-card--horizon">
+              <div class="now-card-top">
+                <span class="now-tag">Long range</span>
+                <span class="now-when font-mono">Trajectory</span>
+              </div>
+              <ul class="horizon-list">
+                <li>
+                  <span class="horizon-mark font-mono">+5Y</span>
+                  <span
+                    >Ship climate &amp; AI tools researchers depend on · bench
+                    225 · first muscle-up · start coding Minecraft mod packs · a
+                    lot more urbexing</span
+                  >
+                </li>
+                <li>
+                  <span class="horizon-mark font-mono">+10Y</span>
+                  <span
+                    >Lead environmental-intelligence systems at real-world scale
+                    · get married · three kids and a dog · watch AI become a
+                    coworker instead of a replacement</span
+                  >
+                </li>
+                <li>
+                  <span class="horizon-mark font-mono">+30Y</span>
+                  <span
+                    >Help make planetary-scale climate data legible to everyone
+                    · a house in the mountains · all of Europe explored · not
+                    die from nostalgia</span
+                  >
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <!-- ░░ SELECTED WORK ░░ -->
+        <section id="projects" class="section-block fade-element relative z-20">
+          <p class="section-index">02 / Selected work</p>
+          <h2 class="section-title" data-decode>Things I've built</h2>
+          <p class="section-lede">
+            Four systems, ordered by depth. Each opens into how it was designed,
+            built, and what it does. Tap a row to drill in.
+          </p>
+
+          <div class="dossier-list">
+            <!-- AERIS -->
+            <article class="dossier" data-accent="aeris">
+              <button
+                type="button"
+                class="dossier-head"
+                aria-expanded="false"
+                aria-controls="case-aeris"
+              >
+                <span class="dossier-visual aeris-visual" aria-hidden="true">
                   <span class="scan-ring"></span>
                   <span class="scan-node node-one"></span>
                   <span class="scan-node node-two"></span>
                   <span class="scan-node node-three"></span>
-                </div>
-                <div class="project-heading">
-                  <h3
-                    id="project-aeris"
-                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
-                  >
-                    AERIS
-                  </h3>
-                  <span class="project-badge">Climate signals</span>
-                </div>
-                <p class="project-copy">
-                  Environmental intelligence system that pulls NOAA GFS,
-                  OpenWeather, Sentinel-5P, and OpenAQ into cross-checked
-                  Houston anomaly reports for localized climate research. This
-                  system models complex atmospheric systems and utilizes a
-                  three-method detector and local Llama 3 RAG pipeline. Mentored
-                  & developed under Dr. Annalisa Bracco.
-                </p>
-              </div>
-              <div class="project-links">
-                <a
-                  href="https://github.com/mason-cao/aeris"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link project-link--primary"
-                  aria-label="AERIS technical documentation"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
+                </span>
+                <span class="dossier-id font-mono">01</span>
+                <span class="dossier-meta">
+                  <span class="dossier-title-row">
+                    <span class="dossier-name">AERIS</span>
+                    <span class="project-badge">Climate signals</span>
+                  </span>
+                  <span class="dossier-tagline">
+                    Self-hosted environmental intelligence that detects climate
+                    anomalies and explains them with locally-run AI.
+                  </span>
+                  <span class="dossier-stack font-mono">
+                    Python · FastAPI · TimescaleDB · Llama&nbsp;3&nbsp;8B ·
+                    ChromaDB · React
+                  </span>
+                </span>
+                <span class="dossier-caret" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="currentColor">
                     <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                      fill-rule="evenodd"
+                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
                     />
                   </svg>
-                  Documentation
-                </a>
+                </span>
+              </button>
+              <div id="case-aeris" class="dossier-body" hidden>
+                <div class="dossier-body-inner">
+                  <dl class="case-grid">
+                    <div class="case-row">
+                      <dt>Problem</dt>
+                      <dd>
+                        The atmospheric data that explains climate events is
+                        scattered across agencies in incompatible formats. Cloud
+                        LLMs could reason over it, but 24/7 inference is
+                        economically infeasible to self-host, and small local
+                        models hallucinate on atmospheric physics.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Approach</dt>
+                      <dd>
+                        AERIS normalizes four atmospheric sources into one
+                        schema over a 50&nbsp;km radius of Houston, flags
+                        anomalies with three independent detectors (Z-score, STL
+                        decomposition, Isolation Forest), and explains causes
+                        with a local Llama&nbsp;3&nbsp;8B model grounded by a
+                        ChromaDB RAG pipeline. A label-free verification method
+                        scores claims using agreement among independent physical
+                        sensors. Mentored by Dr. Annalisa Bracco
+                        (Georgia&nbsp;Tech / CMCC).
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Stack</dt>
+                      <dd class="font-mono case-stack">
+                        Python · FastAPI · PostgreSQL + TimescaleDB · ChromaDB ·
+                        Ollama (Llama 3 8B) · scikit-learn · statsmodels · React
+                        · TypeScript · Vite · Mapbox GL JS
+                      </dd>
+                    </div>
+                  </dl>
+                  <div class="case-outcome">
+                    <ul class="metric-strip">
+                      <li>
+                        <b data-counter data-to="4">0</b
+                        ><span>data sources</span>
+                      </li>
+                      <li>
+                        <b data-counter data-to="3">0</b><span>detectors</span>
+                      </li>
+                      <li>
+                        <b>~<span data-counter data-to="50">0</span></b
+                        ><span>labeled anomalies</span>
+                      </li>
+                      <li>
+                        <b><span data-counter data-to="50">0</span>km</b
+                        ><span>Houston radius</span>
+                      </li>
+                    </ul>
+                    <a
+                      href="https://github.com/mason-cao/aeris"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-link project-link--primary"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M14 3h7v7" />
+                        <path d="M10 14L21 3" />
+                        <path
+                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                        />
+                      </svg>
+                      Documentation
+                    </a>
+                  </div>
+                </div>
               </div>
-              <p class="project-stack">
-                Claim verification • TimescaleDB • FastAPI • Llama 3 8B
-              </p>
             </article>
 
-            <article
-              class="project-card project-card-luminosity rounded-2xl p-5 relative group fade-element delay-100"
-              aria-labelledby="project-luminosity"
-            >
-              <div class="project-card-main">
-                <div
-                  class="project-visual luminosity-visual"
+            <!-- NOVA CORE -->
+            <article class="dossier" data-accent="nova">
+              <button
+                type="button"
+                class="dossier-head"
+                aria-expanded="false"
+                aria-controls="case-nova"
+              >
+                <span
+                  class="dossier-visual luminosity-visual"
                   aria-hidden="true"
                 >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="project-heading">
-                  <h3
-                    id="project-luminosity"
-                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
-                  >
-                    Nova Core
-                  </h3>
-                  <span class="project-badge">Agent mesh</span>
-                </div>
-                <p class="project-copy">
-                  Capstone project providing a scalable blueprint adaptable for
-                  corporate tracking. Users generate synthetic workspaces to run
-                  8 custom agents, inspecting SHAP-backed predictive risk,
-                  segments, and natural-language audit trails to explore
-                  resource optimization.
-                </p>
-              </div>
-              <div class="project-links">
-                <a
-                  href="https://multi-agent-customer-intelligence-d.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link project-link--primary"
-                  aria-label="Luminosity Intelligence live demo"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
+                  <span></span><span></span><span></span><span></span>
+                </span>
+                <span class="dossier-id font-mono">02</span>
+                <span class="dossier-meta">
+                  <span class="dossier-title-row">
+                    <span class="dossier-name">Nova Core</span>
+                    <span class="project-badge">Agent mesh</span>
+                  </span>
+                  <span class="dossier-tagline">
+                    An eight-agent intelligence pipeline where every metric,
+                    prediction, and recommendation is fully explainable and
+                    auditable.
+                  </span>
+                  <span class="dossier-stack font-mono">
+                    Python · FastAPI · scikit-learn + SHAP · React 19 · TanStack
+                    · SQLite
+                  </span>
+                </span>
+                <span class="dossier-caret" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="currentColor">
                     <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                      fill-rule="evenodd"
+                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
                     />
                   </svg>
-                  Live demo
-                </a>
+                </span>
+              </button>
+              <div id="case-nova" class="dossier-body" hidden>
+                <div class="dossier-body-inner">
+                  <dl class="case-grid">
+                    <div class="case-row">
+                      <dt>Problem</dt>
+                      <dd>
+                        Analytics dashboards show static, black-box numbers.
+                        Nova Core makes a dynamic system where users generate
+                        realistic data and trace every insight back to a
+                        computed agent output, proving sophisticated ML can stay
+                        fully explainable.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Approach</dt>
+                      <dd>
+                        Custom agent orchestration (no LangChain) runs eight
+                        agents in dependency order: feature engineering →
+                        segmentation → sentiment → churn → recommendations →
+                        narrative → audit → query. Churn uses GradientBoosting
+                        with per-customer SHAP attribution ("why <em>this</em>
+                        customer"), segments use explainable RFM rules, and 45
+                        cross-agent checks validate every run. Each workspace is
+                        isolated in its own SQLite database.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Stack</dt>
+                      <dd class="font-mono case-stack">
+                        Python · FastAPI · SQLAlchemy 2 · Pydantic ·
+                        scikit-learn · SHAP · pandas · React 19 · TypeScript ·
+                        Vite · TanStack Query · Railway + Vercel
+                      </dd>
+                    </div>
+                  </dl>
+                  <div class="case-outcome">
+                    <ul class="metric-strip">
+                      <li>
+                        <b data-counter data-to="8">0</b
+                        ><span>coordinated agents</span>
+                      </li>
+                      <li>
+                        <b data-counter data-to="45">0</b
+                        ><span>validation checks</span>
+                      </li>
+                      <li>
+                        <b>~<span data-counter data-to="750">0</span>K</b
+                        ><span>events / workspace</span>
+                      </li>
+                      <li>
+                        <b data-counter data-to="84">0</b><span>commits</span>
+                      </li>
+                    </ul>
+                    <a
+                      href="https://multi-agent-customer-intelligence-d.vercel.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-link project-link--primary"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M14 3h7v7" />
+                        <path d="M10 14L21 3" />
+                        <path
+                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                        />
+                      </svg>
+                      Live demo
+                    </a>
+                  </div>
+                </div>
               </div>
-              <p class="project-stack">
-                Custom agents • GradientBoosting + SHAP • FastAPI • SQLite
-                workspaces
-              </p>
             </article>
 
-            <article
-              class="project-card project-card-freshtrack rounded-2xl p-5 relative group fade-element delay-200"
-              aria-labelledby="project-freshtrack"
-            >
-              <div class="project-card-main">
-                <div
-                  class="project-visual freshtrack-visual"
+            <!-- FRESHTRACK -->
+            <article class="dossier" data-accent="fresh">
+              <button
+                type="button"
+                class="dossier-head"
+                aria-expanded="false"
+                aria-controls="case-fresh"
+              >
+                <span
+                  class="dossier-visual freshtrack-visual"
                   aria-hidden="true"
                 >
                   <span class="pantry-item item-one"></span>
                   <span class="pantry-item item-two"></span>
                   <span class="pantry-item item-three"></span>
                   <span class="pantry-item item-four"></span>
-                </div>
-                <div class="project-heading">
-                  <h3
-                    id="project-freshtrack"
-                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
-                  >
-                    FreshTrack
-                  </h3>
-                  <span class="project-badge">Food systems</span>
-                </div>
-                <p class="project-copy">
-                  Pantry management web app designed to reduce food waste, a
-                  primary driver of greenhouse gas emissions and financial harm.
-                  Features Google sign-in, a barcode scanner for easy entry,
-                  expiration alerts, recipe suggestions for ingredients nearing
-                  expiration, and household waste analytics to track personal
-                  impact.
-                </p>
-              </div>
-              <div class="project-links">
-                <a
-                  href="https://freshtrack.up.railway.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link project-link--primary"
-                  aria-label="FreshTrack live demo"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
+                </span>
+                <span class="dossier-id font-mono">03</span>
+                <span class="dossier-meta">
+                  <span class="dossier-title-row">
+                    <span class="dossier-name">FreshTrack</span>
+                    <span class="project-badge">Food systems</span>
+                  </span>
+                  <span class="dossier-tagline">
+                    A full-stack pantry app that turns forgotten food into
+                    measured climate impact.
+                  </span>
+                  <span class="dossier-stack font-mono">
+                    Next.js 16 · React 19 · Drizzle + Postgres · Auth.js ·
+                    Recharts
+                  </span>
+                </span>
+                <span class="dossier-caret" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="currentColor">
                     <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                      fill-rule="evenodd"
+                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
                     />
                   </svg>
-                  Live demo
-                </a>
+                </span>
+              </button>
+              <div id="case-fresh" class="dossier-body" hidden>
+                <div class="dossier-body-inner">
+                  <dl class="case-grid">
+                    <div class="case-row">
+                      <dt>Problem</dt>
+                      <dd>
+                        30–40% of household food is wasted, roughly $1,500 a
+                        year per family and a major, avoidable source of
+                        greenhouse-gas emissions, largely because people forget
+                        what's already in their pantry.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Approach</dt>
+                      <dd>
+                        A real-time freshness dashboard with expiration alerts,
+                        dual-fallback barcode scanning (native API + ZXing)
+                        wired to Open Food Facts for instant product autofill,
+                        an "Use It Up" engine that matches recipes to
+                        ingredients nearing expiry, and per-household waste
+                        analytics that quantify cost and impact. Multi-tenant
+                        with Google OAuth, deployed live.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Stack</dt>
+                      <dd class="font-mono case-stack">
+                        Next.js 16 App Router · React 19 · TypeScript · Drizzle
+                        ORM + PostgreSQL (Railway) · Auth.js · Tailwind v4 ·
+                        Radix UI · Recharts · Framer Motion
+                      </dd>
+                    </div>
+                  </dl>
+                  <div class="case-outcome">
+                    <ul class="metric-strip">
+                      <li>
+                        <b data-counter data-to="12">0</b
+                        ><span>+ REST endpoints</span>
+                      </li>
+                      <li><b>30–40%</b><span>food waste targeted</span></li>
+                      <li><b>$1.5K</b><span>/yr per household</span></li>
+                      <li><b>Live</b><span>on Railway</span></li>
+                    </ul>
+                    <a
+                      href="https://freshtrack.up.railway.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-link project-link--primary"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M14 3h7v7" />
+                        <path d="M10 14L21 3" />
+                        <path
+                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                        />
+                      </svg>
+                      Live demo
+                    </a>
+                  </div>
+                </div>
               </div>
-              <p class="project-stack">
-                Next.js 16 • Railway Postgres + Drizzle ORM • Auth.js • Recharts
-              </p>
             </article>
 
-            <article
-              class="project-card project-card-detox rounded-2xl p-5 relative group fade-element delay-400"
-              aria-labelledby="project-detox"
-            >
-              <div class="project-card-main">
-                <div class="project-visual detox-visual" aria-hidden="true">
+            <!-- DETOX -->
+            <article class="dossier" data-accent="detox">
+              <button
+                type="button"
+                class="dossier-head"
+                aria-expanded="false"
+                aria-controls="case-detox"
+              >
+                <span class="dossier-visual detox-visual" aria-hidden="true">
                   <span class="usage-bar usage-bar-one"></span>
                   <span class="usage-bar usage-bar-two"></span>
                   <span class="usage-bar usage-bar-three"></span>
                   <span class="usage-bar usage-bar-four"></span>
                   <span class="usage-bar usage-bar-five"></span>
-                </div>
-                <div class="project-heading">
-                  <h3
-                    id="project-detox"
-                    class="font-semibold text-slate-100 text-lg leading-tight transition-colors"
-                  >
-                    Detox
-                  </h3>
-                  <span class="project-badge">Digital ecology</span>
-                </div>
-                <p class="project-copy">
-                  Mac menu-bar screen-time app that combines local app tracking,
-                  Focus Mode with on-device blocking, privacy-preserving
-                  app-name masking, and a game-like island dashboard that turns
-                  habits into visible progress.
-                </p>
-              </div>
-              <div class="project-links">
-                <a
-                  href="https://github.com/mason-cao/detox/releases/tag/v0.1.0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link project-link--primary"
-                  aria-label="Detox Preview 0.1.0 GitHub release"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
+                </span>
+                <span class="dossier-id font-mono">04</span>
+                <span class="dossier-meta">
+                  <span class="dossier-title-row">
+                    <span class="dossier-name">Detox</span>
+                    <span class="project-badge">Digital ecology</span>
+                  </span>
+                  <span class="dossier-tagline">
+                    A gamified macOS screen-time tracker that turns reclaimed
+                    time into a living pixel island.
+                  </span>
+                  <span class="dossier-stack font-mono">
+                    Python · Flask + FastAPI · Supabase (RLS) · Redis · Chart.js
+                    · macOS
+                  </span>
+                </span>
+                <span class="dossier-caret" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="currentColor">
                     <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                      fill-rule="evenodd"
+                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
+                      clip-rule="evenodd"
                     />
                   </svg>
-                  Preview release
-                </a>
+                </span>
+              </button>
+              <div id="case-detox" class="dossier-body" hidden>
+                <div class="dossier-body-inner">
+                  <dl class="case-grid">
+                    <div class="case-row">
+                      <dt>Problem</dt>
+                      <dd>
+                        Screen-time dashboards are abstract and easy to ignore.
+                        Detox makes digital wellness tangible by converting
+                        tracked time into currency for building and upgrading an
+                        island world.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Approach</dt>
+                      <dd>
+                        A local menu-bar agent polls the frontmost app every two
+                        seconds, stores sessions in SQLite, and enforces blocks
+                        on-device. An optional self-hosted cloud layer syncs
+                        over RLS-scoped Postgres with etag-cached rule polling.
+                        Privacy-first "Ghost Mode" SHA-256-hashes app names
+                        before they ever leave the device. The dashboard is an
+                        isometric SVG island with eight themed buildings and a
+                        closed reward economy.
+                      </dd>
+                    </div>
+                    <div class="case-row">
+                      <dt>Stack</dt>
+                      <dd class="font-mono case-stack">
+                        Python (Flask, rumps) · SQLite (WAL) · FastAPI ·
+                        SQLAlchemy · Supabase Postgres + RLS · Redis · vanilla
+                        JS · Chart.js · macOS osascript
+                      </dd>
+                    </div>
+                  </dl>
+                  <div class="case-outcome">
+                    <ul class="metric-strip">
+                      <li>
+                        <b data-counter data-to="171">0</b><span>commits</span>
+                      </li>
+                      <li>
+                        <b data-counter data-to="8">0</b
+                        ><span>themed buildings</span>
+                      </li>
+                      <li>
+                        <b data-counter data-to="100">0</b
+                        ><span>-item economy</span>
+                      </li>
+                      <li><b>SHA-256</b><span>ghost mode</span></li>
+                    </ul>
+                    <a
+                      href="https://github.com/mason-cao/detox/releases/tag/v0.1.0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-link project-link--primary"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M14 3h7v7" />
+                        <path d="M10 14L21 3" />
+                        <path
+                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+                        />
+                      </svg>
+                      Preview release
+                    </a>
+                  </div>
+                </div>
               </div>
-              <p class="project-stack">
-                Python • Flask + FastAPI • SQLite • Chart.js • macOS native
-              </p>
             </article>
           </div>
+        </section>
 
-          <div class="mt-8 text-center md:text-left fade-element delay-300">
-            <a
-              href="https://github.com/mason-cao"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 text-slate-400 hover:text-slate-100 font-medium transition-colors group"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-5 h-5 group-hover:scale-110 transition-transform"
-              >
-                <path
-                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                ></path>
-              </svg>
-              See the rest of my work on GitHub &rarr;
-            </a>
+        <!-- ░░ SIGNAL LOG (live GitHub) ░░ -->
+        <section id="signal" class="section-block fade-element relative z-20">
+          <p class="section-index">03 / Signal log</p>
+          <h2 class="section-title" data-decode>Live from GitHub</h2>
+
+          <div class="signal-shell glass-card">
+            <div class="signal-head">
+              <div class="signal-head-left">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span class="font-mono signal-handle">@mason-cao</span>
+              </div>
+              <dl class="signal-stats" id="gh-stats" aria-label="GitHub stats">
+                <div>
+                  <dt>repos</dt>
+                  <dd id="gh-repos" class="font-mono">…</dd>
+                </div>
+                <div>
+                  <dt>followers</dt>
+                  <dd id="gh-followers" class="font-mono">…</dd>
+                </div>
+              </dl>
+            </div>
+            <ol class="signal-feed" id="gh-feed" aria-live="polite">
+              <li class="signal-row signal-row--skeleton">
+                <span class="signal-skel"></span>
+              </li>
+              <li class="signal-row signal-row--skeleton">
+                <span class="signal-skel"></span>
+              </li>
+              <li class="signal-row signal-row--skeleton">
+                <span class="signal-skel"></span>
+              </li>
+              <li class="signal-row signal-row--skeleton">
+                <span class="signal-skel"></span>
+              </li>
+            </ol>
+            <p class="signal-foot font-mono" id="gh-foot">
+              syncing recent public activity…
+            </p>
           </div>
         </section>
 
-        <section id="about" class="mb-12 md:mb-16 fade-element relative z-20">
-          <h2 class="section-title mb-8 text-2xl font-semibold text-slate-200">
-            Work, Service & Skills
-          </h2>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="glass-card rounded-xl p-6">
-              <h3
-                class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
-              >
-                Work & Service
-              </h3>
-              <ul class="space-y-6">
+        <!-- ░░ STACK & CREDENTIALS ░░ -->
+        <section id="stack" class="section-block fade-element relative z-20">
+          <p class="section-index">04 / Stack &amp; credentials</p>
+          <h2 class="section-title" data-decode>What I work with</h2>
+
+          <div class="stack-grid">
+            <div class="glass-card stack-card">
+              <h3 class="stack-card-title">Languages</h3>
+              <div class="chip-row">
+                <span class="chip">Python</span>
+                <span class="chip">TypeScript</span>
+                <span class="chip">Java</span>
+                <span class="chip">C</span>
+                <span class="chip">SQL</span>
+              </div>
+
+              <h3 class="stack-card-title mt-7">Frontend</h3>
+              <div class="chip-row">
+                <span class="chip chip--soft">Next.js</span>
+                <span class="chip chip--soft">Tailwind CSS</span>
+                <span class="chip chip--soft">Mapbox GL JS</span>
+                <span class="chip chip--soft">Recharts</span>
+              </div>
+
+              <h3 class="stack-card-title mt-7">Backend &amp; databases</h3>
+              <div class="chip-row">
+                <span class="chip chip--soft">FastAPI</span>
+                <span class="chip chip--soft">PostgreSQL</span>
+                <span class="chip chip--soft">TimescaleDB</span>
+                <span class="chip chip--soft">SQLAlchemy</span>
+              </div>
+
+              <h3 class="stack-card-title mt-7">Data science &amp; AI</h3>
+              <div class="chip-row">
+                <span class="chip chip--soft">scikit-learn</span>
+                <span class="chip chip--soft">pandas</span>
+                <span class="chip chip--soft">SHAP</span>
+                <span class="chip chip--soft">Ollama</span>
+                <span class="chip chip--soft">ChromaDB</span>
+              </div>
+
+              <h3 class="stack-card-title mt-7">Tools &amp; DevOps</h3>
+              <div class="chip-row">
+                <span class="chip chip--soft">Git</span>
+                <span class="chip chip--soft">Vite</span>
+                <span class="chip chip--soft">TanStack Query</span>
+              </div>
+            </div>
+
+            <div class="glass-card stack-card">
+              <h3 class="stack-card-title">Coursework &amp; certifications</h3>
+              <ul class="cred-list">
                 <li>
-                  <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-semibold text-slate-100">
-                      NASA TESS Exoplanet Validation Research
-                    </h4>
-                    <span class="text-xs text-slate-500 uppercase font-mono"
-                      >Summer 2026</span
-                    >
-                  </div>
-                  <div class="text-sm font-medium text-slate-300 mb-2">
-                    Incoming Research Intern
-                  </div>
-                  <p class="text-sm text-slate-400 leading-relaxed">
-                    This summer, I will help build Python workflows for TESS
-                    exoplanet validation under a NASA principal investigator.
-                    The work uses AstroImageJ, Jupyter, and Bayesian checks to
-                    separate likely planet transits from background noise in
-                    TESS and JWST data.
-                  </p>
+                  <span class="cred-mark font-mono">GT</span>
+                  <span
+                    >Georgia&nbsp;Tech dual enrollment (distance) · CS&nbsp;1301
+                    Introduction to Computing · CS&nbsp;1331 Introduction to
+                    Object-Oriented Programming (Java)</span
+                  >
                 </li>
                 <li>
-                  <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-semibold text-slate-100">
-                      First Step (Nonprofit)
-                    </h4>
-                    <span class="text-xs text-slate-500 uppercase font-mono"
-                      >Aug 2023 – Present</span
-                    >
-                  </div>
-                  <div class="text-sm font-medium text-slate-300 mb-2">
-                    Secretary & Director of Operations
-                  </div>
-                  <p class="text-sm text-slate-400 leading-relaxed">
-                    I help run operations for 300+ volunteers across 240+
-                    service projects. Our team has removed 2,500+ lbs of trash
-                    and raised $17,890+ for nonprofits. I also helped secure a
-                    $5,000 Bloomberg Youth Climate Action Fund grant for a
-                    microplastics research project with Georgia Tech faculty and
-                    students, and helped organize the "One Degree" campaign,
-                    which earned pledges from 80 people and 3 companies to cut
-                    event energy costs by 50%.
-                  </p>
+                  <span class="cred-mark font-mono">CERT</span>
+                  <span>IT Specialist certification (Certiport)</span>
                 </li>
                 <li>
-                  <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-semibold text-slate-100">AMS Pools</h4>
-                    <span class="text-xs text-slate-500 uppercase font-mono"
-                      >May 2024 – Present</span
-                    >
-                  </div>
-                  <div class="text-sm font-medium text-slate-300 mb-2">
-                    Pool Manager
-                  </div>
-                  <p class="text-sm text-slate-400 leading-relaxed">
-                    Promoted twice and chosen as 1 of 6 Pool Managers in the
-                    Fulton-Forsyth area. I manage daily operations, coordinate
-                    staffing, and help run emergency training across 8 pools and
-                    100+ lifeguards.
-                  </p>
+                  <span class="cred-mark font-mono">CS50</span>
+                  <span>Harvard CS50: Introduction to Computer Science</span>
+                </li>
+                <li>
+                  <span class="cred-mark font-mono">MIT</span>
+                  <span
+                    >Beaver Works (Python Core, CS &amp; Systems, Autonomous
+                    Cognitive Assistant) · 6.S191 Introduction to Deep
+                    Learning</span
+                  >
+                </li>
+                <li>
+                  <span class="cred-mark font-mono">STAN</span>
+                  <span
+                    >Stanford SAIL Pre-College (NLP) · CS224N: Natural Language
+                    Processing</span
+                  >
+                </li>
+                <li>
+                  <span class="cred-mark font-mono">NV</span>
+                  <span
+                    >NVIDIA Certified Associate: Generative AI &amp; LLMs</span
+                  >
                 </li>
               </ul>
             </div>
+          </div>
 
-            <div class="glass-card rounded-xl p-6 flex flex-col gap-6">
-              <div>
-                <h3
-                  class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
-                >
-                  Technical Skills
-                </h3>
-                <div class="mb-2">
-                  <span class="text-slate-300 text-sm font-medium"
-                    >Languages:</span
-                  >
-                </div>
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >Python</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >JavaScript/TS</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >Java</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >C</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >SQL</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >HTML/CSS</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded-md border border-slate-700 font-mono shadow-sm"
-                    >AppleScript</span
-                  >
-                </div>
-              </div>
-              <div>
-                <div class="mb-2">
-                  <span class="text-slate-300 text-sm font-medium"
-                    >Tools & Frameworks:</span
-                  >
-                </div>
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >React & Next.js</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >FastAPI & Flask</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >PostgreSQL & Timescale</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >SQLite & SQLAlchemy</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >Tailwind CSS</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >scikit-learn & pandas</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >SHAP & statsmodels</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >Vite & TanStack</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >ChromaDB & Ollama</span
-                  >
-                  <span
-                    class="px-2 py-1 bg-slate-800/60 text-slate-100 text-xs rounded-md border border-slate-700/60 font-mono shadow-sm"
-                    >Mapbox GL JS</span
-                  >
-                </div>
-              </div>
-              <div>
-                <div class="mb-2">
-                  <span class="text-slate-300 text-sm font-medium"
-                    >Coursework & Certifications:</span
-                  >
-                </div>
-                <div class="text-sm text-slate-400 leading-relaxed space-y-1.5">
-                  <p>
-                    <span class="text-slate-300 font-medium">Formal:</span>
-                    Harvard CS50 • MIT BWSI (Python Core, Computer Science and
-                    Systems, Autonomous Cognitive Assistant) • Stanford SAIL
-                    Pre-College Institute (NLP)
+          <!-- tech constellation (3D sphere of logos, drag to spin) -->
+          <div class="tech-constellation">
+            <div class="tech-sphere" data-tech-sphere>
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" class="tech-logo" title="Python" alt="Python" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" class="tech-logo" title="TypeScript" alt="TypeScript" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" class="tech-logo" title="React" alt="React" />
+              <img src="https://cdn.simpleicons.org/nextdotjs/eef1f6" class="tech-logo" title="Next.js" alt="Next.js" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" class="tech-logo" title="PostgreSQL" alt="PostgreSQL" />
+              <img src="https://cdn.simpleicons.org/fastapi" class="tech-logo" title="FastAPI" alt="FastAPI" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" class="tech-logo" title="Tailwind CSS" alt="Tailwind CSS" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" class="tech-logo" title="Git" alt="Git" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" class="tech-logo" title="Pandas" alt="Pandas" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" class="tech-logo" title="Vite" alt="Vite" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" class="tech-logo" title="Java" alt="Java" />
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" class="tech-logo" title="C" alt="C" />
+            </div>
+            <span class="tech-sphere-hint font-mono" aria-hidden="true">drag to spin</span>
+          </div>
+        </section>
+
+        <!-- ░░ LIFE TIMELINE ░░ -->
+        <section id="life" class="section-block fade-element relative z-20">
+          <p class="section-index">05 / Life so far</p>
+          <h2 class="section-title" data-decode>A timeline of moments</h2>
+          <p class="section-lede">
+            The short version of how I got here. Drag it, scroll it, or use the
+            arrows to move through.
+          </p>
+
+          <!-- TODO Mason: swap the placeholder years for real dates and add
+               your own personal milestones (moves, family, turning points). -->
+          <div class="timeline" data-timeline>
+            <div
+              class="timeline-track"
+              data-timeline-track
+              tabindex="0"
+              role="group"
+              aria-label="Life timeline, scroll horizontally"
+            >
+              <ol class="timeline-list">
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2021</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">First lines of code</h3>
+                  <p class="timeline-copy">
+                    Small scripts and game mods, mostly to see what I could
+                    make.
                   </p>
-                  <p>
-                    <span class="text-slate-300 font-medium"
-                      >Independent Studies:</span
-                    >
-                    Stanford CS224N (NLP) • MIT 6.S191 (Deep Learning)
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2023</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">Harvard CS50</h3>
+                  <p class="timeline-copy">
+                    Computer science from the ground up, end to end.
                   </p>
-                  <p>
-                    <span class="text-slate-300 font-medium"
-                      >Certifications:</span
-                    >
-                    IT Specialist in Software Development (Certiport) • NVIDIA
-                    Certified Associate (Gen AI LLMs) • Red Hat Certified System
-                    Administrator (RHCSA)
-                    <span class="italic text-slate-500">- In Progress</span>
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2024</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">MIT Beaver Works &amp; Stanford SAIL</h3>
+                  <p class="timeline-copy">
+                    Summers deep in Python, systems, and natural language.
                   </p>
-                </div>
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2024</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">NVIDIA certified</h3>
+                  <p class="timeline-copy">
+                    Generative AI &amp; LLMs, associate level.
+                  </p>
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2025</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">Detox &amp; Nova Core</h3>
+                  <p class="timeline-copy">
+                    A macOS screen-time tracker and an eight-agent intelligence
+                    pipeline.
+                  </p>
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2025</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">FreshTrack went live</h3>
+                  <p class="timeline-copy">
+                    Full-stack food-waste app, deployed and seeking real users.
+                  </p>
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">2026</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">AERIS</h3>
+                  <p class="timeline-copy">
+                    Self-hosted environmental intelligence, mentored through
+                    Georgia Tech.
+                  </p>
+                </li>
+                <li class="timeline-node">
+                  <span class="timeline-year font-mono">Summer 2026</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">NASA TESS</h3>
+                  <p class="timeline-copy">
+                    Validating exoplanet transits with a NASA principal
+                    investigator.
+                  </p>
+                </li>
+                <li class="timeline-node timeline-node--now">
+                  <span class="timeline-year font-mono">Now</span>
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <h3 class="timeline-title">Junior at Lambert High</h3>
+                  <p class="timeline-copy">
+                    Still building, still looking up. To be continued.
+                  </p>
+                </li>
+              </ol>
+            </div>
+            <div class="timeline-controls">
+              <button
+                type="button"
+                class="timeline-arrow"
+                data-timeline-prev
+                aria-label="Scroll to earlier moments"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <div class="timeline-progress" aria-hidden="true">
+                <span data-timeline-progress></span>
               </div>
+              <button
+                type="button"
+                class="timeline-arrow"
+                data-timeline-next
+                aria-label="Scroll to later moments"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" />
+                </svg>
+              </button>
             </div>
           </div>
         </section>
 
+        <!-- ░░ OFF THE CLOCK (game log) ░░ -->
         <section
-          class="mb-16 md:mb-24 relative overflow-hidden py-4 fade-element flex border-y border-slate-800 bg-dark-900/40 backdrop-blur-md shadow-xl z-20"
+          id="play"
+          class="section-block section-block--tight fade-element relative z-20"
         >
-          <div
-            class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#0b0d12] to-transparent z-10 pointer-events-none"
-          ></div>
-          <div
-            class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#0b0d12] to-transparent z-10 pointer-events-none"
-          ></div>
-
-          <div
-            class="flex flex-nowrap animate-marquee hover-pause w-max items-center"
-          >
-            <div
-              class="flex items-center space-x-12 px-6 shrink-0"
-              aria-hidden="true"
-            >
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Python"
-                alt="Python programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="TypeScript"
-                alt="TypeScript programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="React"
-                alt="React framework icon"
-              />
-              <img
-                src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Next.js"
-                alt="Next.js framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="PostgreSQL"
-                alt="PostgreSQL database icon"
-              />
-              <img
-                src="https://cdn.simpleicons.org/fastapi"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="FastAPI"
-                alt="FastAPI framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Tailwind CSS"
-                alt="Tailwind CSS framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Git"
-                alt="Git version control icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Pandas"
-                alt="Pandas data science library icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Vite"
-                alt="Vite build tool icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Java"
-                alt="Java programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="C"
-                alt="C programming language icon"
-              />
-            </div>
-
-            <div
-              class="flex items-center space-x-12 px-6 shrink-0"
-              aria-hidden="true"
-            >
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Python"
-                alt="Python programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="TypeScript"
-                alt="TypeScript programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="React"
-                alt="React framework icon"
-              />
-              <img
-                src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Next.js"
-                alt="Next.js framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="PostgreSQL"
-                alt="PostgreSQL database icon"
-              />
-              <img
-                src="https://cdn.simpleicons.org/fastapi"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="FastAPI"
-                alt="FastAPI framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Tailwind CSS"
-                alt="Tailwind CSS framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Git"
-                alt="Git version control icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Pandas"
-                alt="Pandas data science library icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Vite"
-                alt="Vite build tool icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Java"
-                alt="Java programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="C"
-                alt="C programming language icon"
-              />
-            </div>
-
-            <div class="flex items-center space-x-12 px-6 shrink-0">
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Python"
-                alt="Python programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="TypeScript"
-                alt="TypeScript programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="React"
-                alt="React framework icon"
-              />
-              <img
-                src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Next.js"
-                alt="Next.js framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="PostgreSQL"
-                alt="PostgreSQL database icon"
-              />
-              <img
-                src="https://cdn.simpleicons.org/fastapi"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="FastAPI"
-                alt="FastAPI framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Tailwind CSS"
-                alt="Tailwind CSS framework icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Git"
-                alt="Git version control icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Pandas"
-                alt="Pandas data science library icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Vite"
-                alt="Vite build tool icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="Java"
-                alt="Java programming language icon"
-              />
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-                class="h-10 w-10 md:h-12 md:w-12 transition-transform hover:scale-110 drop-shadow-md"
-                title="C"
-                alt="C programming language icon"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section id="honors" class="mb-32 fade-element relative z-20">
-          <h2 class="section-title mb-8 text-2xl font-semibold text-slate-200">
-            Honors & Extracurriculars
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="glass-card rounded-xl p-6">
-              <h3
-                class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
-              >
-                Awards & Recognition
-              </h3>
-              <ul class="space-y-4 text-sm text-slate-400">
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >USACO Gold Division:</span
-                    >
-                    Earned Gold promotion after scoring a
-                    <span class="font-mono">760</span> in the 2026 Silver
-                    Contest.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >DECA State Champion:</span
-                    >
-                    Georgia state champion, ranked
-                    <span class="font-mono">1st</span> in Entrepreneurship Team
-                    Decision Making, and International ICDC Qualifier.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >FBLA National Qualifier:</span
-                    >
-                    National qualifier and dual state medalist (<span
-                      class="font-mono"
-                      >5th</span
-                    >
-                    in Data Science & AI, <span class="font-mono">4th</span> in
-                    Networking Infrastructures).
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >Kaggle 2x Expert:</span
-                    >
-                    Earned Expert status in both Notebooks and Competitions,
-                    with <span class="font-mono">5</span> notebook bronze medals
-                    and <span class="font-mono">1</span> competition bronze
-                    medal.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >Presidential Volunteer Service Award:</span
-                    >
-                    Two-time recipient (Gold & Bronze) with
-                    <span class="font-mono">300+</span> verified community
-                    service hours.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >Academic Excellence:</span
-                    >
-                    Georgia Certificate of Merit (Top 5% of class), Dual
-                    enrollment President’s List (<span class="font-mono"
-                      >5.0</span
-                    >
-                    GPA), AP Scholar with Distinction, College Board National
-                    Recognition (2025).
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div class="glass-card rounded-xl p-6">
-              <h3
-                class="text-lg font-bold text-slate-200 mb-4 border-b border-slate-700/50 pb-2"
-              >
-                Activities
-              </h3>
-              <ul class="space-y-4 text-sm text-slate-400">
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >Varsity Swim Captain:</span
-                    >
-                    GHSA State Qualifier in the 100y Breaststroke and 200y IM;
-                    5th-highest point contributor to Lambert's 2025 Forsyth
-                    County Championship title. Swim Atlanta club swimmer (Senior
-                    Select) with championship "A" qualifying times in the 100y
-                    Breaststroke, 200y Breaststroke, and 200y IM, including the
-                    Georgia Senior State Championships and Speedo Best of the
-                    South Sectionals.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >GMEA All-State Musician:</span
-                    >
-                    Five-time All-State selectee on soprano and bass clarinet.
-                    Principal Bass Clarinetist for Lambert Wind Ensemble, with
-                    performances at The Midwest Clinic and the National Concert
-                    Band Festival.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium"
-                      >Director of Summer Math & Scratch Coding Camp:</span
-                    >
-                    Taught <span class="font-mono">52</span>
-                    students computational logic and math; helped them build and
-                    publish 100+ Scratch programs through a structured summer
-                    curriculum.
-                  </div>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-slate-300 mt-0.5">✦</span>
-                  <div>
-                    <span class="text-slate-200 font-medium">Groups:</span>
-                    Google Developer Program, National Technical Honor Society,
-                    Spanish Honor Society, and Key Club.
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="mb-24 fade-element relative z-20">
+          <p class="section-index">06 / Off the clock</p>
           <div class="games-peaked-section">
             <button
               id="open-achievements-btn"
@@ -1179,15 +1300,14 @@
               </span>
             </button>
           </div>
-          <blockquote
-            class="mx-auto max-w-2xl text-center text-base md:text-lg font-light italic text-slate-500 leading-relaxed"
-          >
+          <blockquote class="closing-quote">
             you can't add days to your life, but you can add life to your days
           </blockquote>
         </section>
       </main>
     </div>
 
+    <!-- ░░ CONTACT MODAL ░░ -->
     <div
       id="contact-modal"
       class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4"
@@ -1228,21 +1348,12 @@
           </svg>
         </button>
 
-        <h3
-          id="contact-title"
-          class="text-2xl font-bold text-slate-100 mb-6 text-center"
-        >
-          Get in touch
-        </h3>
+        <p class="achievements-kicker">// say hello</p>
+        <h3 id="contact-title" class="achievements-title">Get in touch</h3>
 
         <div class="space-y-4">
-          <a
-            href="mailto:masoncao7@gmail.com"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-slate-300/40 transition-colors group shadow-sm"
-          >
-            <div
-              class="bg-slate-300/10 p-3 rounded-lg text-slate-100 group-hover:text-white transition-colors"
-            >
+          <a href="mailto:masoncao7@gmail.com" class="contact-link">
+            <div class="contact-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -1255,22 +1366,35 @@
               </svg>
             </div>
             <div>
-              <div class="text-xs text-slate-400 font-semibold uppercase">
-                Email
-              </div>
-              <div class="font-medium text-slate-200 text-sm">
-                masoncao7@gmail.com
-              </div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">masoncao7@gmail.com</div>
+            </div>
+          </a>
+
+          <a href="https://github.com/mason-cao" class="contact-link">
+            <div class="contact-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                />
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">GitHub</div>
+              <div class="contact-value">@mason-cao</div>
             </div>
           </a>
 
           <a
             href="https://www.linkedin.com/in/mason-cao7/"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-blue-500/50 transition-colors group shadow-sm"
+            class="contact-link"
           >
-            <div
-              class="bg-blue-500/20 p-3 rounded-lg text-blue-400 group-hover:text-blue-300 transition-colors"
-            >
+            <div class="contact-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -1283,22 +1407,13 @@
               </svg>
             </div>
             <div>
-              <div class="text-xs text-slate-400 font-semibold uppercase">
-                LinkedIn
-              </div>
-              <div class="font-medium text-slate-200 text-sm">
-                in/mason-cao7
-              </div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-value">in/mason-cao7</div>
             </div>
           </a>
 
-          <a
-            href="https://www.kaggle.com/mzcao7"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-cyan-400/50 transition-colors group shadow-sm"
-          >
-            <div
-              class="bg-cyan-400/15 p-3 rounded-lg text-cyan-300 group-hover:text-cyan-200 transition-colors"
-            >
+          <a href="https://www.kaggle.com/mzcao7" class="contact-link">
+            <div class="contact-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -1311,42 +1426,15 @@
               </svg>
             </div>
             <div>
-              <div class="text-xs text-slate-400 font-semibold uppercase">
-                Kaggle
-              </div>
-              <div class="font-medium text-slate-200 text-sm">@mzcao7</div>
-            </div>
-          </a>
-
-          <a
-            href="https://www.instagram.com/m.zcao/"
-            class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-slate-300/40 transition-colors group shadow-sm"
-          >
-            <div
-              class="bg-slate-700/40 p-3 rounded-lg text-slate-300 group-hover:text-slate-100 transition-colors"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
-                />
-              </svg>
-            </div>
-            <div>
-              <div class="text-xs text-slate-400 font-semibold uppercase">
-                Instagram
-              </div>
-              <div class="font-medium text-slate-200 text-sm">@m.zcao</div>
+              <div class="contact-label">Kaggle</div>
+              <div class="contact-value">@mzcao7</div>
             </div>
           </a>
         </div>
       </div>
     </div>
 
+    <!-- ░░ PLAY LOG MODAL ░░ -->
     <div
       id="achievements-modal"
       class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4"
@@ -1478,33 +1566,74 @@
       </div>
     </div>
 
-    <nav
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 w-max glass-card border border-slate-700/50 rounded-2xl px-6 py-2 z-50"
-      aria-label="Portfolio sections"
-    >
-      <div
-        class="flex items-center justify-center text-sm font-medium text-slate-400"
+    <!-- ░░ FLOATING NAV (menu only) ░░ -->
+    <nav class="floating-nav" aria-label="Portfolio menu">
+      <button
+        id="open-cmdk-btn"
+        type="button"
+        aria-haspopup="dialog"
+        aria-controls="command-palette"
+        class="floating-nav-btn floating-nav-btn--menu"
       >
-        <button
-          id="open-contact-btn"
-          type="button"
-          aria-haspopup="dialog"
-          aria-controls="contact-modal"
-          class="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:text-slate-100 transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            class="h-5 w-5"
-          >
-            <path
-              d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2 0v1.17l6 3.75 6-3.75V4H2zm0 3.17v4.83h12V7.17L8 10.92 2 7.17z"
-            ></path>
-          </svg>
-          Contact
-        </button>
-      </div>
+        <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+          <path
+            fill-rule="evenodd"
+            d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Menu
+        <span class="floating-nav-hint">jump anywhere</span>
+        <kbd class="nav-kbd">⌘K</kbd>
+      </button>
     </nav>
+
+    <!-- ░░ COMMAND PALETTE (⌘K) ░░ -->
+    <div
+      id="command-palette"
+      class="cmdk"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command menu"
+      hidden
+    >
+      <div class="cmdk-backdrop" data-cmdk-close></div>
+      <div class="cmdk-panel" role="document">
+        <div class="cmdk-search">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <input
+            id="cmdk-input"
+            type="text"
+            role="combobox"
+            aria-controls="cmdk-list"
+            aria-expanded="true"
+            aria-autocomplete="list"
+            placeholder="Jump to a section, project, or action…"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          />
+          <span class="cmdk-esc" aria-hidden="true">esc</span>
+        </div>
+        <ul
+          id="cmdk-list"
+          class="cmdk-list"
+          role="listbox"
+          aria-label="Commands"
+        ></ul>
+        <p id="cmdk-empty" class="cmdk-empty" hidden>No matches.</p>
+        <div class="cmdk-foot" aria-hidden="true">
+          <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+          <span><kbd>↵</kbd> select</span>
+          <span><kbd>esc</kbd> close</span>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
