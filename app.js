@@ -4,77 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ).matches;
 
   // ─────────────────────────────────────────────
-  // 1. Map (Leaflet): observatory background
-  // ─────────────────────────────────────────────
-  const mapContainer = document.getElementById("background-map");
-  const mapWrapper = document.getElementById("map-wrapper");
-
-  if (mapContainer && typeof L !== "undefined") {
-    const homeCoordinates = [34.0515, -84.0714];
-
-    // Start already centered on home at a mid zoom so tiles for the final
-    // view begin loading immediately. The old version flew from zoom 5 to
-    // ~12 with tile updates suspended, so the map blanked to the dark
-    // container ("black screen") until idle fired at the end.
-    const map = L.map("background-map", {
-      center: homeCoordinates,
-      zoom: 10,
-      zoomControl: false,
-      dragging: false,
-      scrollWheelZoom: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      keyboard: false,
-      attributionControl: false,
-      zoomAnimation: true,
-      fadeAnimation: true
-    });
-
-    const tiles = L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      {
-        maxZoom: 19,
-        keepBuffer: 8,
-        updateWhenZooming: true,
-        updateWhenIdle: false
-      }
-    ).addTo(map);
-
-    const revealMap = () => {
-      if (!mapWrapper || mapWrapper.dataset.revealed === "1") return;
-      mapWrapper.dataset.revealed = "1";
-      mapWrapper.classList.remove("opacity-0");
-      mapWrapper.classList.add("opacity-100");
-    };
-
-    map.whenReady(() => map.invalidateSize());
-
-    // Only fade the map in once the first screen of tiles has painted, so
-    // the empty container is never visible. Safety timeout covers a missed
-    // load event.
-    tiles.once("load", revealMap);
-    setTimeout(revealMap, 1400);
-
-    if (prefersReducedMotion) {
-      map.setView(homeCoordinates, 12);
-    } else {
-      // Gentle, short settle (zoom 10 -> 12). The small delta plus live
-      // tile updates means the basemap stays painted the whole way.
-      setTimeout(() => {
-        map.invalidateSize();
-        map.flyTo(homeCoordinates, 12, {
-          animate: true,
-          duration: 3.4,
-          easeLinearity: 0.25
-        });
-        setTimeout(() => {
-          if (mapWrapper) mapWrapper.classList.add("animate-map-zoom");
-        }, 3800);
-      }, 700);
-    }
-  }
-
-  // ─────────────────────────────────────────────
   // 2. Live clock (Eastern time)
   // ─────────────────────────────────────────────
   const timeElement = document.getElementById("live-time");
@@ -95,28 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ─────────────────────────────────────────────
-  // 3. Hero typewriter
+  // 3. Hero kicker typewriter ("Hi, I'm")
+  //    The name itself is formed by the WebGL particle field (flow3d.js);
+  //    this just types the small kicker line above it.
   // ─────────────────────────────────────────────
-  const heroTitle = document.getElementById("hero-title");
-  const heroTitleText = heroTitle?.dataset.typewriterText;
+  const heroKicker = document.getElementById("hero-kicker");
+  const heroKickerText = heroKicker?.dataset.typewriterText;
 
-  if (heroTitle && heroTitleText) {
-    heroTitle.textContent = heroTitleText;
+  if (heroKicker && heroKickerText) {
+    heroKicker.textContent = heroKickerText;
 
     if (!prefersReducedMotion) {
-      const characters = Array.from(heroTitleText);
+      const characters = Array.from(heroKickerText);
       let index = 0;
-      heroTitle.textContent = "";
-      heroTitle.classList.add("is-typing");
+      heroKicker.textContent = "";
 
       const typeNext = () => {
-        heroTitle.textContent = characters.slice(0, index).join("");
+        heroKicker.textContent = characters.slice(0, index).join("");
         index += 1;
         if (index <= characters.length) {
-          window.setTimeout(typeNext, index === 1 ? 260 : 52);
+          window.setTimeout(typeNext, index === 1 ? 260 : 70);
         } else {
-          heroTitle.textContent = heroTitleText;
-          window.setTimeout(() => heroTitle.classList.remove("is-typing"), 850);
+          heroKicker.textContent = heroKickerText;
         }
       };
       window.setTimeout(typeNext, 360);
@@ -273,32 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-  // ─────────────────────────────────────────────
-  // 8. Scroll progress (top hairline)
-  // ─────────────────────────────────────────────
-  const progressBar = document.getElementById("scroll-progress-bar");
-  if (progressBar) {
-    let progressTicking = false;
-
-    const updateProgress = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      const p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
-      progressBar.style.transform = `scaleX(${p})`;
-      progressTicking = false;
-    };
-
-    const requestProgress = () => {
-      if (progressTicking) return;
-      progressTicking = true;
-      requestAnimationFrame(updateProgress);
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", requestProgress, { passive: true });
-    window.addEventListener("resize", requestProgress);
-  }
 
   // ─────────────────────────────────────────────
   // 9. Modals (contact + play log)
@@ -511,11 +414,97 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─────────────────────────────────────────────
   const co2El = document.getElementById("co2-live");
   if (co2El) {
+    const sparkEl = document.getElementById("co2-spark");
+    const deltaEl = document.getElementById("co2-delta");
+    let sparkVals = null;
+    let latestText = null; // { value, approx } of the most recent reading
+    let latestYoy = null;
+    let hoverIdx = null; // scrubbed index, or null = show latest
+
     const renderCo2 = (value, approx) => {
       co2El.removeAttribute("data-pending");
       co2El.innerHTML =
         (approx ? "~" : "") + value + '<span class="unit">ppm</span>';
     };
+    const renderDelta = (yoy) => {
+      if (!deltaEl) return;
+      const sign = yoy >= 0 ? "+" : "";
+      deltaEl.innerHTML =
+        '<span class="up" aria-hidden="true">▲</span>' +
+        sign +
+        yoy.toFixed(1) +
+        ' ppm <span class="sub">vs last year</span>';
+    };
+    // weekly cadence → approximate calendar label for a scrubbed point
+    const labelFor = (idx) => {
+      const weeksAgo = sparkVals.length - 1 - idx;
+      const d = new Date(Date.now() - weeksAgo * 7 * 86400000);
+      return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    };
+    const renderScrub = (idx) => {
+      renderCo2(sparkVals[idx].toFixed(1), false);
+      if (deltaEl) {
+        deltaEl.innerHTML =
+          '<span class="co2-scrub-date">' + labelFor(idx) + "</span>";
+      }
+    };
+    const restoreLatest = () => {
+      if (latestText) renderCo2(latestText.value, latestText.approx);
+      if (latestYoy != null) renderDelta(latestYoy);
+    };
+    const drawSpark = () => {
+      if (!sparkEl || !sparkVals || sparkVals.length < 2) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = sparkEl.clientWidth || 220;
+      const h = sparkEl.clientHeight || 42;
+      sparkEl.width = Math.round(w * dpr);
+      sparkEl.height = Math.round(h * dpr);
+      const ctx = sparkEl.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      const min = Math.min(...sparkVals);
+      const max = Math.max(...sparkVals);
+      const range = max - min || 1;
+      const pad = 4;
+      const X = (i) => pad + (i / (sparkVals.length - 1)) * (w - 2 * pad);
+      const Y = (v) => h - pad - ((v - min) / range) * (h - 2 * pad);
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, "rgba(56, 208, 255, 0.26)");
+      grad.addColorStop(1, "rgba(56, 208, 255, 0)");
+      ctx.beginPath();
+      sparkVals.forEach((v, i) => (i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))));
+      ctx.lineTo(X(sparkVals.length - 1), h);
+      ctx.lineTo(X(0), h);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.beginPath();
+      sparkVals.forEach((v, i) => (i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v))));
+      ctx.strokeStyle = "#38d0ff";
+      ctx.lineWidth = 1.6;
+      ctx.lineJoin = "round";
+      ctx.stroke();
+      // marker rides the latest point, or the scrubbed point while hovering
+      const mi = hoverIdx == null ? sparkVals.length - 1 : hoverIdx;
+      const mx = X(mi);
+      const my = Y(sparkVals[mi]);
+      if (hoverIdx != null) {
+        ctx.strokeStyle = "rgba(56, 208, 255, 0.34)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(mx, 0);
+        ctx.lineTo(mx, h);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(mx, my, 2.8, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffd089";
+      ctx.shadowColor = "#38d0ff";
+      ctx.shadowBlur = 8;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    };
+
     fetch("https://global-warming.org/api/co2-api")
       .then((res) => {
         if (!res.ok) throw new Error("co2 request failed");
@@ -523,12 +512,68 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then((data) => {
         const series = data && Array.isArray(data.co2) ? data.co2 : [];
-        const latest = series[series.length - 1] || {};
-        const ppm = parseFloat(latest.trend || latest.cycle);
-        if (Number.isNaN(ppm)) throw new Error("no co2 value");
-        renderCo2(ppm.toFixed(1), false);
+        const trend = series
+          .map((d) => parseFloat(d.trend))
+          .filter((n) => !Number.isNaN(n));
+        if (!trend.length) throw new Error("no co2 value");
+        const latest = trend[trend.length - 1];
+        const yoy = latest - trend[Math.max(0, trend.length - 53)]; // ~52 weeks
+        latestText = { value: latest.toFixed(1), approx: false };
+        latestYoy = yoy;
+        renderCo2(latestText.value, false);
+        renderDelta(yoy);
+        // feed the holographic globe's CO₂ gauge ring
+        window.dispatchEvent(new CustomEvent("co2:update", { detail: { ppm: latest } }));
+        sparkVals = trend.slice(-104); // ~2 years of weekly trend
+        drawSpark();
       })
-      .catch(() => renderCo2("428", true));
+      .catch(() => {
+        latestText = { value: "428", approx: true };
+        latestYoy = 2.4;
+        renderCo2("428", true);
+        renderDelta(2.4);
+        window.dispatchEvent(new CustomEvent("co2:update", { detail: { ppm: 428 } }));
+        // synthetic gentle rise so the panel still reads as a trend offline
+        sparkVals = Array.from(
+          { length: 60 },
+          (_, i) => 410 + i * 0.3 + Math.sin(i / 4) * 0.8
+        );
+        drawSpark();
+      });
+
+    // scrub the sparkline to read the trend at any week (mouse only; touch keeps
+    // native scroll). The big readout + date label track the pointer.
+    if (sparkEl) {
+      const idxFromX = (clientX) => {
+        const r = sparkEl.getBoundingClientRect();
+        const pad = 4;
+        const p = (clientX - r.left - pad) / Math.max(r.width - 2 * pad, 1);
+        const n = sparkVals.length - 1;
+        return Math.max(0, Math.min(n, Math.round(p * n)));
+      };
+      const onMove = (e) => {
+        if (!sparkVals || (e.pointerType && e.pointerType !== "mouse")) return;
+        hoverIdx = idxFromX(e.clientX);
+        renderScrub(hoverIdx);
+        drawSpark();
+      };
+      const onLeave = () => {
+        if (hoverIdx == null) return;
+        hoverIdx = null;
+        restoreLatest();
+        drawSpark();
+      };
+      sparkEl.addEventListener("pointermove", onMove);
+      sparkEl.addEventListener("pointerdown", onMove);
+      sparkEl.addEventListener("pointerleave", onLeave);
+      sparkEl.addEventListener("pointercancel", onLeave);
+    }
+
+    let co2ResizeT = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(co2ResizeT);
+      co2ResizeT = setTimeout(drawSpark, 150);
+    });
   }
 
   // ─────────────────────────────────────────────
@@ -553,8 +598,13 @@ document.addEventListener("DOMContentLoaded", () => {
       '<path d="M3 4.4h14a1 1 0 0 1 1 1v.3l-8 4.55-8-4.55v-.3a1 1 0 0 1 1-1Zm15 2.95v7.25a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.35l8 4.55 8-4.55Z"/>'
     );
 
-    const scrollToId = (id) => () => {
-      const el = document.querySelector(id);
+    // route to a deck module (falls back to scroll if the deck isn't enhanced)
+    const goModule = (id) => () => {
+      if (window.deck && typeof window.deck.setModule === "function") {
+        window.deck.setModule(id, { focus: true });
+        return;
+      }
+      const el = document.querySelector(`[data-module="${id}"]`);
       if (el)
         el.scrollIntoView({
           behavior: reduce ? "auto" : "smooth",
@@ -571,12 +621,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const commands = [
-      { group: "Navigate", title: "Now", hint: "Research and what I'm building", icon: navGlyph, keys: "now current research tess aeris", run: scrollToId("#now") },
-      { group: "Navigate", title: "Selected work", hint: "Projects", icon: navGlyph, keys: "work projects portfolio selected", run: scrollToId("#projects") },
-      { group: "Navigate", title: "Signal log", hint: "Live GitHub activity", icon: navGlyph, keys: "signal github activity log live", run: scrollToId("#signal") },
-      { group: "Navigate", title: "Stack & credentials", hint: "Tools and coursework", icon: navGlyph, keys: "stack skills tech tools credentials coursework", run: scrollToId("#stack") },
-      { group: "Navigate", title: "Life so far", hint: "A timeline of moments", icon: navGlyph, keys: "life timeline history journey moments story", run: scrollToId("#life") },
-      { group: "Navigate", title: "Off the clock", hint: "Games and the rest", icon: navGlyph, keys: "play games off the clock fun", run: scrollToId("#play") },
+      { group: "Navigate", title: "Home", hint: "Identity + live CO₂ globe", icon: navGlyph, keys: "home start identity co2 globe earth", run: goModule("home") },
+      { group: "Navigate", title: "Now", hint: "Research and what I'm building", icon: navGlyph, keys: "now current research tess aeris", run: goModule("now") },
+      { group: "Navigate", title: "Signal log", hint: "Live GitHub activity", icon: navGlyph, keys: "signal github activity log live", run: goModule("signal") },
+      { group: "Navigate", title: "Stack & credentials", hint: "Tools and coursework", icon: navGlyph, keys: "stack skills tech tools credentials coursework", run: goModule("stack") },
+      { group: "Navigate", title: "Timeline", hint: "A timeline of moments", icon: navGlyph, keys: "life timeline history journey moments story", run: goModule("timeline") },
+      { group: "Navigate", title: "Off the clock", hint: "Games and the rest", icon: navGlyph, keys: "play games off the clock fun", run: goModule("play") },
+      { group: "Navigate", title: "Comms", hint: "Email and links", icon: mailGlyph, keys: "comms contact email links reach", run: goModule("comms") },
       { group: "Projects", title: "AERIS", hint: "Environmental intelligence platform", icon: repoGlyph, keys: "aeris climate anomaly", run: openUrl("https://github.com/mason-cao/aeris") },
       { group: "Projects", title: "Multi-Agent Intelligence", hint: "Explainable ML dashboard", icon: repoGlyph, keys: "multi agent nova core dashboard shap", run: openUrl("https://github.com/mason-cao/multi-agent-customer-intelligence-dashboard") },
       { group: "Projects", title: "FreshTrack", hint: "Food-waste tracker", icon: repoGlyph, keys: "freshtrack food waste pantry", run: openUrl("https://github.com/mason-cao/freshtrack") },
@@ -746,43 +797,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ─────────────────────────────────────────────
-  // Cursor spotlight + 3D parallax tilt on cards
-  // ─────────────────────────────────────────────
-  const TILT_MAX = 6; // degrees
-  document.querySelectorAll(".now-card, .dossier").forEach((card) => {
-    const isDossier = card.classList.contains("dossier");
-    card.addEventListener(
-      "pointermove",
-      (e) => {
-        const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        card.style.setProperty("--mx", px * 100 + "%");
-        card.style.setProperty("--my", py * 100 + "%");
-        if (e.pointerType && e.pointerType !== "mouse") return;
-        // expanded dossiers stay flat (too tall to tilt nicely)
-        if (
-          prefersReducedMotion ||
-          (isDossier && card.classList.contains("is-open"))
-        ) {
-          return;
-        }
-        const ry = (px - 0.5) * 2 * TILT_MAX;
-        const rx = -(py - 0.5) * 2 * TILT_MAX;
-        card.style.transform =
-          "perspective(1100px) rotateX(" +
-          rx.toFixed(2) +
-          "deg) rotateY(" +
-          ry.toFixed(2) +
-          "deg) translateY(-4px)";
-      },
-      { passive: true }
-    );
-    card.addEventListener("pointerleave", () => {
-      card.style.transform = "";
-    });
-  });
+  // Card tilt + cursor spotlight removed: Now/Projects are no longer cards but
+  // open rows suspended in the field, so per-item 3D tilt no longer applies.
 
   // ─────────────────────────────────────────────
   // Life timeline (drag / arrows / keyboard)
@@ -909,7 +925,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Console greeting for fellow developers
   // ─────────────────────────────────────────────
   try {
-    const t = "color:#69e0c0;font:700 20px 'Space Grotesk',system-ui,sans-serif";
+    const t = "color:#38d0ff;font:700 20px 'Space Grotesk',system-ui,sans-serif";
     const b = "color:#c4cdda;font:400 13px/1.6 ui-monospace,monospace";
     const d = "color:#6e7886;font:400 12px ui-monospace,monospace";
     console.log("%cMason Cao", t);

@@ -20,12 +20,12 @@
     />
     <meta name="author" content="Mason Cao" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#0b0d12" />
+    <meta name="theme-color" content="#06090f" />
 
     <link rel="canonical" href="https://mason-cao.github.io/" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d12'/%3E%3Cpath d='M15 42V18h7l10 15 10-15h7v24h-7V29L34 42h-4l-8-13v13z' fill='%23eef1f6'/%3E%3Ccircle cx='50' cy='14' r='5' fill='%23eef1f6' fill-opacity='0.7'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306090f'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%2338d0ff' stroke-width='2.5' opacity='0.5'/%3E%3Ccircle cx='32' cy='32' r='12' fill='none' stroke='%2338d0ff' stroke-width='2' opacity='0.85'/%3E%3Ccircle cx='32' cy='32' r='5.5' fill='%238fe6ff'/%3E%3C/svg%3E"
     />
 
     <meta
@@ -160,11 +160,7 @@
       rel="stylesheet"
     />
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-    <link rel="stylesheet" href="style.css?v=20260605f" />
+    <link rel="stylesheet" href="style.css?v=20260608a" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -177,18 +173,15 @@
               mono: ["JetBrains Mono", "monospace"]
             },
             colors: {
-              dark: { 800: "#11141a", 900: "#0b0d12" }
+              dark: { 800: "#0a0f17", 900: "#06090f" }
             }
           }
         }
       };
     </script>
 
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      defer
-    ></script>
-    <script src="app.js?v=20260605f" defer></script>
+    <script src="app.js?v=20260608a" defer></script>
+    <script src="hud.js?v=20260607h" defer></script>
 
     <script type="importmap">
       {
@@ -198,840 +191,359 @@
         }
       }
     </script>
-    <script type="module" src="flow3d.js?v=20260605f"></script>
-    <script type="module" src="transit3d.js?v=20260605f"></script>
-    <script type="module" src="constellation3d.js?v=20260605f"></script>
+    <script type="module" src="flow3d.js?v=20260608a"></script>
+    <script type="module" src="field.js?v=20260607h"></script>
+    <script type="module" src="constellation3d.js?v=20260606a"></script>
+    <script type="module" src="mathgraph.js?v=20260607h"></script>
+    <script type="module" src="globe.js?v=20260608a"></script>
+    <script type="module" src="neuralnet.js?v=20260608a"></script>
+    <script type="module" src="motifs.js?v=20260608a"></script>
+    <script type="module" src="deck.js?v=20260608a"></script>
   </head>
 
-  <body class="font-sans relative bg-[#0b0d12]">
+  <body class="font-sans relative bg-[#06090f]">
     <a href="#main-content" class="skip-link">Skip to portfolio content</a>
 
-    <div class="scroll-progress" aria-hidden="true">
-      <span id="scroll-progress-bar"></span>
-    </div>
-
-    <!-- site-wide atmospheric flow field (cursor-reactive ambient layer) -->
-    <canvas id="flow-field" class="flow-field" aria-hidden="true"></canvas>
-
-    <div
-      class="absolute top-0 left-0 w-full h-[650px] md:h-[820px] z-[-1] overflow-hidden bg-[#0b0d12]"
-      aria-hidden="true"
-    >
-      <div
-        id="map-wrapper"
-        class="w-full h-full opacity-0 transition-opacity duration-1000 dark-map-wrapper"
-      >
-        <div id="background-map" class="w-full h-full"></div>
-      </div>
-      <div class="signal-field" aria-hidden="true">
-        <span class="signal-line signal-line-one"></span>
-        <span class="signal-line signal-line-two"></span>
-        <span class="signal-dot signal-dot-one"></span>
-        <span class="signal-dot signal-dot-two"></span>
-        <span class="signal-dot signal-dot-three"></span>
-      </div>
-      <div class="hero-grain" aria-hidden="true"></div>
-      <div
-        class="absolute inset-0 bg-gradient-to-b from-dark-900/20 via-dark-900/72 to-dark-900 z-10 pointer-events-none"
-      ></div>
-    </div>
-
-    <div class="mx-auto max-w-6xl px-4 py-12 md:px-8 md:py-16">
-      <!-- ░░ HERO ░░ -->
-      <header
-        class="hero-shell mb-24 md:mb-36 text-center md:text-left relative z-20"
-      >
-        <div class="md:max-w-[68%]">
-          <div
-            class="flex flex-wrap items-center gap-2 justify-center md:justify-start fade-element"
-          >
-            <p class="status-pill">
-              <span class="live-dot" aria-hidden="true"></span>
-              <span id="live-time" class="font-mono text-xs mt-[1px]"
-                >Loading time…</span
-              >
-            </p>
-            <p class="status-pill">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="w-4 h-4"
-                aria-hidden="true"
-              >
-                <path
-                  d="M10 18s5.5-5.2 5.5-10a5.5 5.5 0 0 0-11 0C4.5 12.8 10 18 10 18z"
-                />
-                <circle cx="10" cy="8" r="1.8" />
-              </svg>
-              Suwanee, GA
-            </p>
-            <p class="status-pill font-mono text-xs tracking-tight">
-              34.0515&deg;N&nbsp;&middot;&nbsp;84.0714&deg;W
-            </p>
+    <!-- ░░ BOOT SEQUENCE — Jarvis power-on (the one piece of added text) ░░ -->
+    <div id="boot" role="presentation">
+      <div class="boot-inner">
+        <span class="reactor" aria-hidden="true">
+          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round">
+            <circle cx="50" cy="50" r="46" stroke-width="1" opacity="0.25" />
+            <g class="r-spin">
+              <circle cx="50" cy="50" r="39" stroke-width="2" stroke-dasharray="5 11" opacity="0.7" />
+            </g>
+            <circle cx="50" cy="50" r="31" stroke-width="1" opacity="0.35" />
+            <g class="r-spin-rev" fill="currentColor" stroke="none" opacity="0.85">
+              <polygon points="50,20 54,31 46,31" />
+              <polygon points="50,80 54,69 46,69" />
+              <polygon points="20,50 31,46 31,54" />
+              <polygon points="80,50 69,46 69,54" />
+              <polygon points="29,29 38,33 33,38" />
+              <polygon points="71,71 62,67 67,62" />
+              <polygon points="71,29 67,38 62,33" />
+              <polygon points="29,71 33,62 38,67" />
+            </g>
+            <circle class="r-core" cx="50" cy="50" r="13" fill="rgba(56,208,255,0.16)" stroke-width="2" />
+            <circle class="r-core" cx="50" cy="50" r="5.5" fill="#8fe6ff" stroke="none" />
+          </svg>
+        </span>
+        <div class="boot-log" id="boot-log" aria-hidden="true">
+          <div class="boot-line">
+            <span>INITIALIZING ARC REACTOR</span>
+            <span class="dots">··········</span><span class="ok">OK</span>
           </div>
-
-          <h1
-            id="hero-title"
-            data-typewriter-text="Hi, I'm Mason Cao."
-            aria-label="Hi, I'm Mason Cao."
-            class="hero-display mt-8 text-5xl md:text-7xl font-extrabold text-slate-100 drop-shadow-md fade-element"
-          >
-            Hi, I'm Mason Cao.
-          </h1>
-
-          <p class="hero-summary fade-element delay-100">
-            I build
-            <span class="hero-accent">environmental-intelligence systems</span>,
-            multi-agent AI, and full-stack tools, turning fragmented, messy data
-            into software people can actually rely on. Currently a junior at
-            Lambert High School.
-          </p>
+          <div class="boot-line">
+            <span>CALIBRATING SENSOR ARRAY</span>
+            <span class="dots">··········</span><span class="ok">OK</span>
+          </div>
+          <div class="boot-line">
+            <span>MOUNTING PORTFOLIO MODULES</span>
+            <span class="dots">········</span><span class="ok">OK</span>
+          </div>
         </div>
+        <div class="boot-title" id="boot-title">MASON CAO // SYSTEMS ONLINE</div>
+      </div>
+      <span class="boot-skip">press anything to skip</span>
+    </div>
 
-        <div
-          class="co2-panel fade-element delay-300"
-          aria-label="Live atmospheric CO₂"
-        >
-          <div class="co2-panel-head">
+    <!-- site-wide atmospheric flow field; the hero name forms within it -->
+    <canvas id="flow-field" class="flow-field" aria-hidden="true"></canvas>
+    <!-- ambient isoline field, full-bleed atmosphere behind the deck -->
+    <div class="field-backdrop" data-field aria-hidden="true">
+      <canvas id="field-canvas" class="field-canvas"></canvas>
+    </div>
+    <!-- subtle full-page film grain over the atmosphere -->
+    <div class="hero-grain" aria-hidden="true"></div>
+    <!-- HUD overlays: scanline veil + cursor reticle (hud.js) -->
+    <div class="hud-scanlines" aria-hidden="true"></div>
+    <div class="hud-reticle" aria-hidden="true"></div>
+
+    <!-- ░░ COMMAND DECK — the Jarvis HUD shell ░░ -->
+    <div class="deck" id="deck" data-active-module="home">
+      <span class="deck-corner deck-corner--tl" aria-hidden="true"></span>
+      <span class="deck-corner deck-corner--tr" aria-hidden="true"></span>
+      <span class="deck-corner deck-corner--bl" aria-hidden="true"></span>
+      <span class="deck-corner deck-corner--br" aria-hidden="true"></span>
+
+      <!-- TOP STATUS RAIL -->
+      <header class="deck-topbar">
+        <button class="deck-brand" type="button" data-module-btn="home" aria-label="MASON OS — home">
+          <span class="deck-brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="9.2" opacity="0.28" />
+              <circle cx="12" cy="12" r="5.6" opacity="0.6" />
+              <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
+            </svg>
+          </span>
+          <span class="deck-brand-text">MASON<span class="deck-brand-sep">//</span>OS</span>
+        </button>
+
+        <div class="deck-telemetry">
+          <span class="status-pill">
             <span class="live-dot" aria-hidden="true"></span>
-            <span class="co2-panel-label">CO₂ · Mauna Loa</span>
-          </div>
-          <span
-            id="co2-live"
-            class="co2-panel-value"
-            data-pending="1"
-            aria-live="polite"
-            >…</span
-          >
-          <p class="co2-panel-note">
-            Mauna&nbsp;Loa, Hawai‘i. Earth's largest active volcano, and home to
-            the benchmark atmospheric CO₂ record.
-          </p>
+            <span id="live-time" class="font-mono text-xs">Loading time…</span>
+          </span>
+          <span class="status-pill">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-4 h-4"
+              aria-hidden="true"
+            >
+              <path d="M10 18s5.5-5.2 5.5-10a5.5 5.5 0 0 0-11 0C4.5 12.8 10 18 10 18z" />
+              <circle cx="10" cy="8" r="1.8" />
+            </svg>
+            Suwanee, GA
+          </span>
+          <span class="status-pill font-mono text-xs tracking-tight hide-sm">
+            34.0515&deg;N&nbsp;&middot;&nbsp;84.0714&deg;W
+          </span>
+          <span class="deck-nominal font-mono hide-md" aria-hidden="true">
+            <span class="live-dot" aria-hidden="true"></span>ALL SYSTEMS NOMINAL
+          </span>
         </div>
       </header>
 
-      <main id="main-content">
-        <!-- ░░ LIVE TRANSIT ░░ -->
-        <section
-          id="transit"
-          class="transit-band section-block fade-element relative z-20"
-          aria-labelledby="transit-heading"
-        >
-          <p class="section-index">Live signal · simulated</p>
-          <h2 id="transit-heading" class="section-title" data-decode>
-            Finding planets in the noise
-          </h2>
-          <p class="section-lede">
-            When a planet crosses in front of its star, the star dims by a
-            fraction of a percent. Teasing that dip out of instrument noise is
-            the heart of my incoming TESS work. The curve below is simulated and
-            running live. Drag across it to scrub the orbit yourself.
-          </p>
+      <!-- MODULE RAIL -->
+      <nav class="deck-rail" aria-label="Modules">
+        <button class="deck-rail-btn is-active" type="button" data-module-btn="home">
+          <span class="deck-rail-idx font-mono">00</span>
+          <span class="deck-rail-label">Home</span>
+        </button>
+        <button class="deck-rail-btn" type="button" data-module-btn="now">
+          <span class="deck-rail-idx font-mono">01</span>
+          <span class="deck-rail-label">Now</span>
+        </button>
+        <button class="deck-rail-btn" type="button" data-module-btn="signal">
+          <span class="deck-rail-idx font-mono">02</span>
+          <span class="deck-rail-label">Signal</span>
+        </button>
+        <button class="deck-rail-btn" type="button" data-module-btn="stack">
+          <span class="deck-rail-idx font-mono">03</span>
+          <span class="deck-rail-label">Stack</span>
+        </button>
+        <button class="deck-rail-btn" type="button" data-module-btn="timeline">
+          <span class="deck-rail-idx font-mono">04</span>
+          <span class="deck-rail-label">Timeline</span>
+        </button>
+        <button class="deck-rail-btn" type="button" data-module-btn="play">
+          <span class="deck-rail-idx font-mono">05</span>
+          <span class="deck-rail-label">Off-clock</span>
+        </button>
+        <button class="deck-rail-btn" type="button" data-module-btn="comms">
+          <span class="deck-rail-idx font-mono">06</span>
+          <span class="deck-rail-label">Comms</span>
+        </button>
+      </nav>
 
-          <figure class="transit-stage">
-            <canvas
-              id="transit-canvas"
-              class="transit-canvas transit-canvas--scene"
-            ></canvas>
-            <canvas
-              id="transit-curve"
-              class="transit-canvas transit-canvas--curve"
-              aria-hidden="true"
-            ></canvas>
-            <div class="transit-hud" aria-hidden="true">
-              <div class="transit-hud-item">
-                <span class="transit-hud-label">rel. flux</span>
-                <span id="transit-flux" class="transit-hud-value">1.0000</span>
-              </div>
-              <div class="transit-hud-item">
-                <span class="transit-hud-label">phase</span>
-                <span id="transit-phase" class="transit-hud-value">0.00</span>
-              </div>
-              <div class="transit-hud-item transit-hud-item--state">
-                <span class="live-dot"></span>
-                <span id="transit-state" class="transit-hud-value"
-                  >baseline</span
-                >
-              </div>
+      <!-- STAGE -->
+      <main class="deck-stage" id="main-content">
+        <!-- centerpiece layer (behind panels) -->
+        <div class="deck-centerpiece" data-centerpiece="globe" aria-hidden="true">
+          <canvas id="globe-canvas" class="cp cp-globe"></canvas>
+          <div class="cp cp-lorenz mathgraph" data-mathgraph>
+            <canvas class="mathgraph-canvas"></canvas>
+          </div>
+          <canvas id="neural-canvas" class="cp cp-neural"></canvas>
+        </div>
+
+        <!-- module readout line -->
+        <div class="deck-modline" aria-hidden="true">
+          <span class="deck-modline-idx font-mono" data-modline-idx>00</span>
+          <span class="deck-modline-sep">/</span>
+          <span class="deck-modline-name" data-modline-name>HOME</span>
+        </div>
+
+        <!-- ░░ 00 HOME ░░ -->
+        <section class="module-group is-active" data-module="home" aria-label="Home">
+          <div class="home-hero" data-panel data-depth="2">
+            <p id="hero-kicker" data-typewriter-text="Hi, I'm" class="hero-kicker">Hi, I'm</p>
+            <h1
+              id="hero-title"
+              class="hero-display hero-wordmark text-5xl sm:text-6xl md:text-7xl font-extrabold text-slate-100"
+            >
+              Mason Cao
+            </h1>
+            <p class="hero-summary">
+              I build
+              <span class="hero-accent">environmental-intelligence systems</span>,
+              multi-agent AI, and full-stack tools, turning fragmented, messy data
+              into software people can actually rely on. Currently a junior at
+              Lambert High School.
+            </p>
+          </div>
+
+          <article
+            class="hud-panel hud-panel--co2"
+            data-panel
+            data-depth="4"
+            aria-label="Live atmospheric CO₂"
+          >
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">CO₂ · MAUNA LOA</span>
+              <span class="hud-panel-ticks" aria-hidden="true"></span>
+            </header>
+            <div class="hud-panel-body">
+              <span id="co2-live" class="co2-panel-value" data-pending="1" aria-live="polite">…</span>
+              <canvas id="co2-spark" class="co2-spark" aria-hidden="true"></canvas>
+              <p id="co2-delta" class="co2-delta" aria-live="polite"></p>
             </div>
-            <span class="transit-scrub-hint font-mono" aria-hidden="true">
-              drag to scrub
-            </span>
-          </figure>
+          </article>
+
+          <article class="hud-panel hud-panel--id" data-panel data-depth="3">
+            <header class="hud-panel-bar">
+              <span class="hud-panel-label">IDENTITY</span>
+              <span class="hud-panel-ticks" aria-hidden="true"></span>
+            </header>
+            <div class="hud-panel-body">
+              <dl class="id-grid">
+                <div><dt>Callsign</dt><dd>Mason Cao</dd></div>
+                <div><dt>Role</dt><dd>Software &amp; Env-Intelligence Dev</dd></div>
+                <div><dt>Base</dt><dd>Suwanee, GA · 34.05&deg;N</dd></div>
+                <div><dt>Status</dt><dd>Junior · Lambert High</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <article class="hud-panel hud-panel--pulse" data-panel data-depth="2">
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">CURRENTLY IN MOTION</span>
+            </header>
+            <ul class="pulse-list hud-panel-body">
+              <li><span class="pulse-tag font-mono">RSCH</span> NASA TESS exoplanet validation</li>
+              <li><span class="pulse-tag font-mono">DEV</span> AERIS environmental intelligence</li>
+              <li><span class="pulse-tag font-mono">LIVE</span> FreshTrack — seeking real users</li>
+            </ul>
+          </article>
         </section>
 
-        <!-- ░░ NOW ░░ -->
-        <section id="now" class="section-block fade-element relative z-20">
-          <p class="section-index">01 / Now</p>
-          <h2 class="section-title" data-decode>Currently in motion</h2>
-
-          <div class="now-grid">
-            <article class="now-card now-card--live">
-              <div class="now-card-top">
-                <span class="now-tag">
-                  <span class="live-dot" aria-hidden="true"></span>
-                  Research
-                </span>
-                <span class="now-when font-mono">Summer 2026</span>
-              </div>
-              <h3 class="now-card-title">NASA TESS Exoplanet Validation</h3>
-              <p class="now-card-role">Incoming Research Intern</p>
-              <p class="now-card-copy">
-                Building Python workflows to separate likely planet transits
-                from background noise in TESS and JWST data, using AstroImageJ,
-                Jupyter, and Bayesian validation under a NASA principal
-                investigator.
+        <!-- ░░ 01 NOW ░░ -->
+        <section class="module-group" data-module="now" aria-label="Now — currently in motion">
+          <article class="hud-panel hud-panel--project" data-panel data-depth="3">
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">NASA TESS</span>
+              <span class="hud-panel-meta font-mono">SUMMER 2026</span>
+            </header>
+            <div class="hud-panel-body">
+              <div class="motif" data-motif="detox" aria-hidden="true"><canvas></canvas></div>
+              <p class="project-role">Incoming Research Intern · Exoplanet validation</p>
+              <p class="project-copy">
+                Building Python workflows to separate likely planet transits from
+                background noise in TESS and JWST data, using AstroImageJ, Jupyter,
+                and Bayesian validation under a NASA principal investigator.
               </p>
-              <p class="now-card-link-row">
-                <a class="now-card-cta" href="#transit">
-                  See the live transit
-                  <svg
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.22 9.78a.75.75 0 0 1 0-1.06L7.94 5H4.75a.75.75 0 0 1 0-1.5h5a.75.75 0 0 1 .75.75v5a.75.75 0 0 1-1.5 0V6.06l-3.72 3.72a.75.75 0 0 1-1.06 0Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </a>
-              </p>
-            </article>
+            </div>
+          </article>
 
-            <article class="now-card now-card--live">
-              <div class="now-card-top">
-                <span class="now-tag">
-                  <span class="live-dot" aria-hidden="true"></span>
-                  Building
-                </span>
-                <span class="now-when font-mono">Active dev</span>
-              </div>
-              <h3 class="now-card-title">AERIS</h3>
-              <p class="now-card-role">Environmental intelligence platform</p>
-              <p class="now-card-copy">
+          <article class="hud-panel hud-panel--project" data-panel data-depth="2">
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">AERIS</span>
+              <span class="hud-panel-meta font-mono">ACTIVE DEV</span>
+            </header>
+            <div class="hud-panel-body">
+              <div class="motif" data-motif="aeris" aria-hidden="true"><canvas></canvas></div>
+              <p class="project-role">Environmental intelligence platform</p>
+              <p class="project-copy">
                 Extending the anomaly-detection engine and local-vs-cloud LLM
                 evaluation toward a research write-up. Live ingestion of four
                 atmospheric data sources over Houston.
               </p>
-            </article>
-
-            <article class="now-card now-card--live">
-              <div class="now-card-top">
-                <span class="now-tag">
-                  <span class="live-dot" aria-hidden="true"></span>
-                  Live
-                </span>
-                <span class="now-when font-mono">Seeking users</span>
-              </div>
-              <h3 class="now-card-title">FreshTrack</h3>
-              <p class="now-card-role">Food-waste tracker, deployed</p>
-              <p class="now-card-copy">
-                A full-stack pantry app that turns forgotten food into measured
-                climate impact. It's live right now, and I'm looking for people
-                to actually use it and tell me where it breaks.
-              </p>
-              <p class="now-card-link-row">
-                <a
-                  class="now-card-cta now-card-cta--solid"
-                  href="https://freshtrack.up.railway.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open the app
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
-                    <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                    />
-                  </svg>
-                </a>
-              </p>
-            </article>
-
-            <article class="now-card now-card--horizon">
-              <div class="now-card-top">
-                <span class="now-tag">Long range</span>
-                <span class="now-when font-mono">Trajectory</span>
-              </div>
-              <ul class="horizon-list">
-                <li>
-                  <span class="horizon-mark font-mono">+5Y</span>
-                  <span
-                    >Ship climate &amp; AI tools researchers depend on · bench
-                    225 · first muscle-up · start coding Minecraft mod packs · a
-                    lot more urbexing</span
-                  >
-                </li>
-                <li>
-                  <span class="horizon-mark font-mono">+10Y</span>
-                  <span
-                    >Lead environmental-intelligence systems at real-world scale
-                    · get married · three kids and a dog · watch AI become a
-                    coworker instead of a replacement</span
-                  >
-                </li>
-                <li>
-                  <span class="horizon-mark font-mono">+30Y</span>
-                  <span
-                    >Help make planetary-scale climate data legible to everyone
-                    · a house in the mountains · all of Europe explored · not
-                    die from nostalgia</span
-                  >
-                </li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <!-- ░░ SELECTED WORK ░░ -->
-        <section id="projects" class="section-block fade-element relative z-20">
-          <p class="section-index">02 / Selected work</p>
-          <h2 class="section-title" data-decode>Things I've built</h2>
-          <p class="section-lede">
-            Four systems, ordered by depth. Each opens into how it was designed,
-            built, and what it does. Tap a row to drill in.
-          </p>
-
-          <div class="dossier-list">
-            <!-- AERIS -->
-            <article class="dossier" data-accent="aeris">
-              <button
-                type="button"
-                class="dossier-head"
-                aria-expanded="false"
-                aria-controls="case-aeris"
-              >
-                <span class="dossier-visual aeris-visual" aria-hidden="true">
-                  <span class="scan-ring"></span>
-                  <span class="scan-node node-one"></span>
-                  <span class="scan-node node-two"></span>
-                  <span class="scan-node node-three"></span>
-                </span>
-                <span class="dossier-id font-mono">01</span>
-                <span class="dossier-meta">
-                  <span class="dossier-title-row">
-                    <span class="dossier-name">AERIS</span>
-                    <span class="project-badge">Climate signals</span>
-                  </span>
-                  <span class="dossier-tagline">
-                    Self-hosted environmental intelligence that detects climate
-                    anomalies and explains them with locally-run AI.
-                  </span>
-                  <span class="dossier-stack font-mono">
-                    Python · FastAPI · TimescaleDB · Llama&nbsp;3&nbsp;8B ·
-                    ChromaDB · React
-                  </span>
-                </span>
-                <span class="dossier-caret" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <div id="case-aeris" class="dossier-body" hidden>
-                <div class="dossier-body-inner">
-                  <dl class="case-grid">
-                    <div class="case-row">
-                      <dt>Problem</dt>
-                      <dd>
-                        The atmospheric data that explains climate events is
-                        scattered across agencies in incompatible formats. Cloud
-                        LLMs could reason over it, but 24/7 inference is
-                        economically infeasible to self-host, and small local
-                        models hallucinate on atmospheric physics.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Approach</dt>
-                      <dd>
-                        AERIS normalizes four atmospheric sources into one
-                        schema over a 50&nbsp;km radius of Houston, flags
-                        anomalies with three independent detectors (Z-score, STL
-                        decomposition, Isolation Forest), and explains causes
-                        with a local Llama&nbsp;3&nbsp;8B model grounded by a
-                        ChromaDB RAG pipeline. A label-free verification method
-                        scores claims using agreement among independent physical
-                        sensors. Mentored by Dr. Annalisa Bracco
-                        (Georgia&nbsp;Tech / CMCC).
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Stack</dt>
-                      <dd class="font-mono case-stack">
-                        Python · FastAPI · PostgreSQL + TimescaleDB · ChromaDB ·
-                        Ollama (Llama 3 8B) · scikit-learn · statsmodels · React
-                        · TypeScript · Vite · Mapbox GL JS
-                      </dd>
-                    </div>
-                  </dl>
-                  <div class="case-outcome">
-                    <ul class="metric-strip">
-                      <li>
-                        <b data-counter data-to="4">0</b
-                        ><span>data sources</span>
-                      </li>
-                      <li>
-                        <b data-counter data-to="3">0</b><span>detectors</span>
-                      </li>
-                      <li>
-                        <b>~<span data-counter data-to="50">0</span></b
-                        ><span>labeled anomalies</span>
-                      </li>
-                      <li>
-                        <b><span data-counter data-to="50">0</span>km</b
-                        ><span>Houston radius</span>
-                      </li>
-                    </ul>
-                    <a
-                      href="https://github.com/mason-cao/aeris"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link project-link--primary"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M14 3h7v7" />
-                        <path d="M10 14L21 3" />
-                        <path
-                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                        />
-                      </svg>
-                      Documentation
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- NOVA CORE -->
-            <article class="dossier" data-accent="nova">
-              <button
-                type="button"
-                class="dossier-head"
-                aria-expanded="false"
-                aria-controls="case-nova"
-              >
-                <span
-                  class="dossier-visual luminosity-visual"
-                  aria-hidden="true"
-                >
-                  <span></span><span></span><span></span><span></span>
-                </span>
-                <span class="dossier-id font-mono">02</span>
-                <span class="dossier-meta">
-                  <span class="dossier-title-row">
-                    <span class="dossier-name">Nova Core</span>
-                    <span class="project-badge">Agent mesh</span>
-                  </span>
-                  <span class="dossier-tagline">
-                    An eight-agent intelligence pipeline where every metric,
-                    prediction, and recommendation is fully explainable and
-                    auditable.
-                  </span>
-                  <span class="dossier-stack font-mono">
-                    Python · FastAPI · scikit-learn + SHAP · React 19 · TanStack
-                    · SQLite
-                  </span>
-                </span>
-                <span class="dossier-caret" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <div id="case-nova" class="dossier-body" hidden>
-                <div class="dossier-body-inner">
-                  <dl class="case-grid">
-                    <div class="case-row">
-                      <dt>Problem</dt>
-                      <dd>
-                        Analytics dashboards show static, black-box numbers.
-                        Nova Core makes a dynamic system where users generate
-                        realistic data and trace every insight back to a
-                        computed agent output, proving sophisticated ML can stay
-                        fully explainable.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Approach</dt>
-                      <dd>
-                        Custom agent orchestration (no LangChain) runs eight
-                        agents in dependency order: feature engineering →
-                        segmentation → sentiment → churn → recommendations →
-                        narrative → audit → query. Churn uses GradientBoosting
-                        with per-customer SHAP attribution ("why <em>this</em>
-                        customer"), segments use explainable RFM rules, and 45
-                        cross-agent checks validate every run. Each workspace is
-                        isolated in its own SQLite database.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Stack</dt>
-                      <dd class="font-mono case-stack">
-                        Python · FastAPI · SQLAlchemy 2 · Pydantic ·
-                        scikit-learn · SHAP · pandas · React 19 · TypeScript ·
-                        Vite · TanStack Query · Railway + Vercel
-                      </dd>
-                    </div>
-                  </dl>
-                  <div class="case-outcome">
-                    <ul class="metric-strip">
-                      <li>
-                        <b data-counter data-to="8">0</b
-                        ><span>coordinated agents</span>
-                      </li>
-                      <li>
-                        <b data-counter data-to="45">0</b
-                        ><span>validation checks</span>
-                      </li>
-                      <li>
-                        <b>~<span data-counter data-to="750">0</span>K</b
-                        ><span>events / workspace</span>
-                      </li>
-                      <li>
-                        <b data-counter data-to="84">0</b><span>commits</span>
-                      </li>
-                    </ul>
-                    <a
-                      href="https://multi-agent-customer-intelligence-d.vercel.app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link project-link--primary"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M14 3h7v7" />
-                        <path d="M10 14L21 3" />
-                        <path
-                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                        />
-                      </svg>
-                      Live demo
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- FRESHTRACK -->
-            <article class="dossier" data-accent="fresh">
-              <button
-                type="button"
-                class="dossier-head"
-                aria-expanded="false"
-                aria-controls="case-fresh"
-              >
-                <span
-                  class="dossier-visual freshtrack-visual"
-                  aria-hidden="true"
-                >
-                  <span class="pantry-item item-one"></span>
-                  <span class="pantry-item item-two"></span>
-                  <span class="pantry-item item-three"></span>
-                  <span class="pantry-item item-four"></span>
-                </span>
-                <span class="dossier-id font-mono">03</span>
-                <span class="dossier-meta">
-                  <span class="dossier-title-row">
-                    <span class="dossier-name">FreshTrack</span>
-                    <span class="project-badge">Food systems</span>
-                  </span>
-                  <span class="dossier-tagline">
-                    A full-stack pantry app that turns forgotten food into
-                    measured climate impact.
-                  </span>
-                  <span class="dossier-stack font-mono">
-                    Next.js 16 · React 19 · Drizzle + Postgres · Auth.js ·
-                    Recharts
-                  </span>
-                </span>
-                <span class="dossier-caret" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <div id="case-fresh" class="dossier-body" hidden>
-                <div class="dossier-body-inner">
-                  <dl class="case-grid">
-                    <div class="case-row">
-                      <dt>Problem</dt>
-                      <dd>
-                        30–40% of household food is wasted, roughly $1,500 a
-                        year per family and a major, avoidable source of
-                        greenhouse-gas emissions, largely because people forget
-                        what's already in their pantry.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Approach</dt>
-                      <dd>
-                        A real-time freshness dashboard with expiration alerts,
-                        dual-fallback barcode scanning (native API + ZXing)
-                        wired to Open Food Facts for instant product autofill,
-                        an "Use It Up" engine that matches recipes to
-                        ingredients nearing expiry, and per-household waste
-                        analytics that quantify cost and impact. Multi-tenant
-                        with Google OAuth, deployed live.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Stack</dt>
-                      <dd class="font-mono case-stack">
-                        Next.js 16 App Router · React 19 · TypeScript · Drizzle
-                        ORM + PostgreSQL (Railway) · Auth.js · Tailwind v4 ·
-                        Radix UI · Recharts · Framer Motion
-                      </dd>
-                    </div>
-                  </dl>
-                  <div class="case-outcome">
-                    <ul class="metric-strip">
-                      <li>
-                        <b data-counter data-to="12">0</b
-                        ><span>+ REST endpoints</span>
-                      </li>
-                      <li><b>30–40%</b><span>food waste targeted</span></li>
-                      <li><b>$1.5K</b><span>/yr per household</span></li>
-                      <li><b>Live</b><span>on Railway</span></li>
-                    </ul>
-                    <a
-                      href="https://freshtrack.up.railway.app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link project-link--primary"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M14 3h7v7" />
-                        <path d="M10 14L21 3" />
-                        <path
-                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                        />
-                      </svg>
-                      Live demo
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- DETOX -->
-            <article class="dossier" data-accent="detox">
-              <button
-                type="button"
-                class="dossier-head"
-                aria-expanded="false"
-                aria-controls="case-detox"
-              >
-                <span class="dossier-visual detox-visual" aria-hidden="true">
-                  <span class="usage-bar usage-bar-one"></span>
-                  <span class="usage-bar usage-bar-two"></span>
-                  <span class="usage-bar usage-bar-three"></span>
-                  <span class="usage-bar usage-bar-four"></span>
-                  <span class="usage-bar usage-bar-five"></span>
-                </span>
-                <span class="dossier-id font-mono">04</span>
-                <span class="dossier-meta">
-                  <span class="dossier-title-row">
-                    <span class="dossier-name">Detox</span>
-                    <span class="project-badge">Digital ecology</span>
-                  </span>
-                  <span class="dossier-tagline">
-                    A gamified macOS screen-time tracker that turns reclaimed
-                    time into a living pixel island.
-                  </span>
-                  <span class="dossier-stack font-mono">
-                    Python · Flask + FastAPI · Supabase (RLS) · Redis · Chart.js
-                    · macOS
-                  </span>
-                </span>
-                <span class="dossier-caret" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <div id="case-detox" class="dossier-body" hidden>
-                <div class="dossier-body-inner">
-                  <dl class="case-grid">
-                    <div class="case-row">
-                      <dt>Problem</dt>
-                      <dd>
-                        Screen-time dashboards are abstract and easy to ignore.
-                        Detox makes digital wellness tangible by converting
-                        tracked time into currency for building and upgrading an
-                        island world.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Approach</dt>
-                      <dd>
-                        A local menu-bar agent polls the frontmost app every two
-                        seconds, stores sessions in SQLite, and enforces blocks
-                        on-device. An optional self-hosted cloud layer syncs
-                        over RLS-scoped Postgres with etag-cached rule polling.
-                        Privacy-first "Ghost Mode" SHA-256-hashes app names
-                        before they ever leave the device. The dashboard is an
-                        isometric SVG island with eight themed buildings and a
-                        closed reward economy.
-                      </dd>
-                    </div>
-                    <div class="case-row">
-                      <dt>Stack</dt>
-                      <dd class="font-mono case-stack">
-                        Python (Flask, rumps) · SQLite (WAL) · FastAPI ·
-                        SQLAlchemy · Supabase Postgres + RLS · Redis · vanilla
-                        JS · Chart.js · macOS osascript
-                      </dd>
-                    </div>
-                  </dl>
-                  <div class="case-outcome">
-                    <ul class="metric-strip">
-                      <li>
-                        <b data-counter data-to="171">0</b><span>commits</span>
-                      </li>
-                      <li>
-                        <b data-counter data-to="8">0</b
-                        ><span>themed buildings</span>
-                      </li>
-                      <li>
-                        <b data-counter data-to="100">0</b
-                        ><span>-item economy</span>
-                      </li>
-                      <li><b>SHA-256</b><span>ghost mode</span></li>
-                    </ul>
-                    <a
-                      href="https://github.com/mason-cao/detox/releases/tag/v0.1.0"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link project-link--primary"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M14 3h7v7" />
-                        <path d="M10 14L21 3" />
-                        <path
-                          d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                        />
-                      </svg>
-                      Preview release
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <!-- ░░ SIGNAL LOG (live GitHub) ░░ -->
-        <section id="signal" class="section-block fade-element relative z-20">
-          <p class="section-index">03 / Signal log</p>
-          <h2 class="section-title" data-decode>Live from GitHub</h2>
-
-          <div class="signal-shell glass-card">
-            <div class="signal-head">
-              <div class="signal-head-left">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span class="font-mono signal-handle">@mason-cao</span>
-              </div>
-              <dl class="signal-stats" id="gh-stats" aria-label="GitHub stats">
-                <div>
-                  <dt>repos</dt>
-                  <dd id="gh-repos" class="font-mono">…</dd>
-                </div>
-                <div>
-                  <dt>followers</dt>
-                  <dd id="gh-followers" class="font-mono">…</dd>
-                </div>
-              </dl>
             </div>
-            <ol class="signal-feed" id="gh-feed" aria-live="polite">
-              <li class="signal-row signal-row--skeleton">
-                <span class="signal-skel"></span>
+          </article>
+
+          <article class="hud-panel hud-panel--project" data-panel data-depth="4">
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">FRESHTRACK</span>
+              <span class="hud-panel-meta font-mono">SEEKING USERS</span>
+            </header>
+            <div class="hud-panel-body">
+              <div class="motif" data-motif="fresh" aria-hidden="true"><canvas></canvas></div>
+              <p class="project-role">Food-waste tracker, deployed</p>
+              <p class="project-copy">
+                A full-stack pantry app that turns forgotten food into measured
+                climate impact. It's live right now, and I'm looking for people to
+                actually use it and tell me where it breaks.
+              </p>
+              <a
+                class="hud-cta"
+                href="https://freshtrack.up.railway.app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open the app
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 3h7v7" />
+                  <path d="M10 14L21 3" />
+                  <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <article class="hud-panel hud-panel--horizon" data-panel data-depth="1">
+            <header class="hud-panel-bar">
+              <span class="hud-panel-label">LONG-RANGE HORIZON</span>
+              <span class="hud-panel-meta font-mono">TRAJECTORY</span>
+            </header>
+            <ul class="horizon-list hud-panel-body">
+              <li>
+                <span class="horizon-mark font-mono">+5Y</span>
+                <span>Ship climate &amp; AI tools researchers depend on · bench 225 · first muscle-up · start coding Minecraft mod packs · a lot more urbexing</span>
               </li>
-              <li class="signal-row signal-row--skeleton">
-                <span class="signal-skel"></span>
+              <li>
+                <span class="horizon-mark font-mono">+10Y</span>
+                <span>Lead environmental-intelligence systems at real-world scale · get married · three kids and a dog · watch AI become a coworker instead of a replacement</span>
               </li>
-              <li class="signal-row signal-row--skeleton">
-                <span class="signal-skel"></span>
+              <li>
+                <span class="horizon-mark font-mono">+30Y</span>
+                <span>Help make planetary-scale climate data legible to everyone · a house in the mountains · all of Europe explored · not die from nostalgia</span>
               </li>
-              <li class="signal-row signal-row--skeleton">
-                <span class="signal-skel"></span>
-              </li>
-            </ol>
-            <p class="signal-foot font-mono" id="gh-foot">
-              syncing recent public activity…
-            </p>
-          </div>
+            </ul>
+          </article>
         </section>
 
-        <!-- ░░ STACK & CREDENTIALS ░░ -->
-        <section id="stack" class="section-block fade-element relative z-20">
-          <p class="section-index">04 / Stack &amp; credentials</p>
-          <h2 class="section-title" data-decode>What I work with</h2>
+        <!-- ░░ 02 SIGNAL ░░ -->
+        <section class="module-group" data-module="signal" aria-label="Signal log — live from GitHub">
+          <article class="hud-panel hud-panel--signal" data-panel data-depth="2">
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label font-mono signal-handle">@mason-cao</span>
+              <dl class="signal-stats" id="gh-stats" aria-label="GitHub stats">
+                <div><dt>repos</dt><dd id="gh-repos" class="font-mono">…</dd></div>
+                <div><dt>followers</dt><dd id="gh-followers" class="font-mono">…</dd></div>
+              </dl>
+            </header>
+            <div class="hud-panel-body">
+              <ol class="signal-feed" id="gh-feed" aria-live="polite">
+                <li class="signal-row signal-row--skeleton"><span class="signal-skel"></span></li>
+                <li class="signal-row signal-row--skeleton"><span class="signal-skel"></span></li>
+                <li class="signal-row signal-row--skeleton"><span class="signal-skel"></span></li>
+                <li class="signal-row signal-row--skeleton"><span class="signal-skel"></span></li>
+              </ol>
+              <p class="signal-foot font-mono" id="gh-foot">syncing recent public activity…</p>
+            </div>
+          </article>
+        </section>
 
-          <div class="stack-grid">
-            <div class="glass-card stack-card">
+        <!-- ░░ 03 STACK ░░ -->
+        <section class="module-group" data-module="stack" aria-label="Stack and credentials">
+          <article class="hud-panel hud-panel--skills" data-panel data-depth="3">
+            <header class="hud-panel-bar">
+              <span class="hud-panel-label">TOOLCHAIN</span>
+              <span class="hud-panel-ticks" aria-hidden="true"></span>
+            </header>
+            <div class="hud-panel-body">
               <h3 class="stack-card-title">Languages</h3>
               <div class="chip-row">
                 <span class="chip">Python</span>
@@ -1040,24 +552,21 @@
                 <span class="chip">C</span>
                 <span class="chip">SQL</span>
               </div>
-
-              <h3 class="stack-card-title mt-7">Frontend</h3>
+              <h3 class="stack-card-title mt-6">Frontend</h3>
               <div class="chip-row">
                 <span class="chip chip--soft">Next.js</span>
                 <span class="chip chip--soft">Tailwind CSS</span>
                 <span class="chip chip--soft">Mapbox GL JS</span>
                 <span class="chip chip--soft">Recharts</span>
               </div>
-
-              <h3 class="stack-card-title mt-7">Backend &amp; databases</h3>
+              <h3 class="stack-card-title mt-6">Backend &amp; databases</h3>
               <div class="chip-row">
                 <span class="chip chip--soft">FastAPI</span>
                 <span class="chip chip--soft">PostgreSQL</span>
                 <span class="chip chip--soft">TimescaleDB</span>
                 <span class="chip chip--soft">SQLAlchemy</span>
               </div>
-
-              <h3 class="stack-card-title mt-7">Data science &amp; AI</h3>
+              <h3 class="stack-card-title mt-6">Data science &amp; AI</h3>
               <div class="chip-row">
                 <span class="chip chip--soft">scikit-learn</span>
                 <span class="chip chip--soft">pandas</span>
@@ -1065,246 +574,251 @@
                 <span class="chip chip--soft">Ollama</span>
                 <span class="chip chip--soft">ChromaDB</span>
               </div>
-
-              <h3 class="stack-card-title mt-7">Tools &amp; DevOps</h3>
+              <h3 class="stack-card-title mt-6">Tools &amp; DevOps</h3>
               <div class="chip-row">
                 <span class="chip chip--soft">Git</span>
                 <span class="chip chip--soft">Vite</span>
                 <span class="chip chip--soft">TanStack Query</span>
               </div>
             </div>
+          </article>
 
-            <div class="glass-card stack-card">
-              <h3 class="stack-card-title">Coursework &amp; certifications</h3>
-              <ul class="cred-list">
-                <li>
-                  <span class="cred-mark font-mono">GT</span>
-                  <span
-                    >Georgia&nbsp;Tech dual enrollment (distance) · CS&nbsp;1301
-                    Introduction to Computing · CS&nbsp;1331 Introduction to
-                    Object-Oriented Programming (Java)</span
-                  >
-                </li>
-                <li>
-                  <span class="cred-mark font-mono">CERT</span>
-                  <span>IT Specialist certification (Certiport)</span>
-                </li>
-                <li>
-                  <span class="cred-mark font-mono">CS50</span>
-                  <span>Harvard CS50: Introduction to Computer Science</span>
-                </li>
-                <li>
-                  <span class="cred-mark font-mono">MIT</span>
-                  <span
-                    >Beaver Works (Python Core, CS &amp; Systems, Autonomous
-                    Cognitive Assistant) · 6.S191 Introduction to Deep
-                    Learning</span
-                  >
-                </li>
-                <li>
-                  <span class="cred-mark font-mono">STAN</span>
-                  <span
-                    >Stanford SAIL Pre-College (NLP) · CS224N: Natural Language
-                    Processing</span
-                  >
-                </li>
-                <li>
-                  <span class="cred-mark font-mono">NV</span>
-                  <span
-                    >NVIDIA Certified Associate: Generative AI &amp; LLMs</span
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- tech constellation (3D sphere of logos, drag to spin) -->
-          <div class="tech-constellation">
-            <div class="tech-sphere" data-tech-sphere>
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" class="tech-logo" title="Python" alt="Python" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" class="tech-logo" title="TypeScript" alt="TypeScript" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" class="tech-logo" title="React" alt="React" />
-              <img src="https://cdn.simpleicons.org/nextdotjs/eef1f6" class="tech-logo" title="Next.js" alt="Next.js" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" class="tech-logo" title="PostgreSQL" alt="PostgreSQL" />
-              <img src="https://cdn.simpleicons.org/fastapi" class="tech-logo" title="FastAPI" alt="FastAPI" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" class="tech-logo" title="Tailwind CSS" alt="Tailwind CSS" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" class="tech-logo" title="Git" alt="Git" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" class="tech-logo" title="Pandas" alt="Pandas" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" class="tech-logo" title="Vite" alt="Vite" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" class="tech-logo" title="Java" alt="Java" />
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" class="tech-logo" title="C" alt="C" />
-            </div>
-            <span class="tech-sphere-hint font-mono" aria-hidden="true">drag to spin</span>
-          </div>
-        </section>
-
-        <!-- ░░ LIFE TIMELINE ░░ -->
-        <section id="life" class="section-block fade-element relative z-20">
-          <p class="section-index">05 / Life so far</p>
-          <h2 class="section-title" data-decode>A timeline of moments</h2>
-          <p class="section-lede">
-            The short version of how I got here. Drag it, scroll it, or use the
-            arrows to move through.
-          </p>
-
-          <!-- TODO Mason: swap the placeholder years for real dates and add
-               your own personal milestones (moves, family, turning points). -->
-          <div class="timeline" data-timeline>
-            <div
-              class="timeline-track"
-              data-timeline-track
-              tabindex="0"
-              role="group"
-              aria-label="Life timeline, scroll horizontally"
-            >
-              <ol class="timeline-list">
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2021</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">First lines of code</h3>
-                  <p class="timeline-copy">
-                    Small scripts and game mods, mostly to see what I could
-                    make.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2023</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">Harvard CS50</h3>
-                  <p class="timeline-copy">
-                    Computer science from the ground up, end to end.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2024</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">MIT Beaver Works &amp; Stanford SAIL</h3>
-                  <p class="timeline-copy">
-                    Summers deep in Python, systems, and natural language.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2024</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">NVIDIA certified</h3>
-                  <p class="timeline-copy">
-                    Generative AI &amp; LLMs, associate level.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2025</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">Detox &amp; Nova Core</h3>
-                  <p class="timeline-copy">
-                    A macOS screen-time tracker and an eight-agent intelligence
-                    pipeline.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2025</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">FreshTrack went live</h3>
-                  <p class="timeline-copy">
-                    Full-stack food-waste app, deployed and seeking real users.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">2026</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">AERIS</h3>
-                  <p class="timeline-copy">
-                    Self-hosted environmental intelligence, mentored through
-                    Georgia Tech.
-                  </p>
-                </li>
-                <li class="timeline-node">
-                  <span class="timeline-year font-mono">Summer 2026</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">NASA TESS</h3>
-                  <p class="timeline-copy">
-                    Validating exoplanet transits with a NASA principal
-                    investigator.
-                  </p>
-                </li>
-                <li class="timeline-node timeline-node--now">
-                  <span class="timeline-year font-mono">Now</span>
-                  <span class="timeline-dot" aria-hidden="true"></span>
-                  <h3 class="timeline-title">Junior at Lambert High</h3>
-                  <p class="timeline-copy">
-                    Still building, still looking up. To be continued.
-                  </p>
-                </li>
-              </ol>
-            </div>
-            <div class="timeline-controls">
-              <button
-                type="button"
-                class="timeline-arrow"
-                data-timeline-prev
-                aria-label="Scroll to earlier moments"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-              <div class="timeline-progress" aria-hidden="true">
-                <span data-timeline-progress></span>
+          <article class="hud-panel hud-panel--sphere" data-panel data-depth="1" data-flat>
+            <header class="hud-panel-bar">
+              <span class="hud-panel-label">CONSTELLATION</span>
+              <span class="hud-panel-meta font-mono">DRAG TO SPIN</span>
+            </header>
+            <div class="hud-panel-body tech-sphere-body">
+              <div class="tech-sphere" data-tech-sphere>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" class="tech-logo" title="Python" alt="Python" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" class="tech-logo" title="TypeScript" alt="TypeScript" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" class="tech-logo" title="React" alt="React" />
+                <img src="https://cdn.simpleicons.org/nextdotjs/eef1f6" class="tech-logo" title="Next.js" alt="Next.js" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" class="tech-logo" title="PostgreSQL" alt="PostgreSQL" />
+                <img src="https://cdn.simpleicons.org/fastapi" class="tech-logo" title="FastAPI" alt="FastAPI" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" class="tech-logo" title="Tailwind CSS" alt="Tailwind CSS" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" class="tech-logo" title="Git" alt="Git" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" class="tech-logo" title="Pandas" alt="Pandas" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" class="tech-logo" title="Vite" alt="Vite" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" class="tech-logo" title="Java" alt="Java" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" class="tech-logo" title="C" alt="C" />
               </div>
-              <button
-                type="button"
-                class="timeline-arrow"
-                data-timeline-next
-                aria-label="Scroll to later moments"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M9 6l6 6-6 6" />
-                </svg>
-              </button>
             </div>
-          </div>
+          </article>
         </section>
 
-        <!-- ░░ OFF THE CLOCK (game log) ░░ -->
-        <section
-          id="play"
-          class="section-block section-block--tight fade-element relative z-20"
-        >
-          <p class="section-index">06 / Off the clock</p>
-          <div class="games-peaked-section">
-            <button
-              id="open-achievements-btn"
-              type="button"
-              aria-haspopup="dialog"
-              aria-controls="achievements-modal"
-              class="games-trigger group"
-            >
-              <span class="games-trigger-number">17</span>
-              <span class="games-trigger-body">
-                <span class="games-trigger-label">
-                  Games Peaked
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="games-trigger-arrow"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+        <!-- ░░ 04 TIMELINE ░░ -->
+        <section class="module-group" data-module="timeline" aria-label="Life timeline">
+          <article class="hud-panel hud-panel--timeline" data-panel data-depth="2">
+            <header class="hud-panel-bar">
+              <span class="hud-panel-label">MISSION LOG</span>
+              <span class="hud-panel-meta font-mono">DRAG · SCROLL · ARROWS</span>
+            </header>
+            <div class="hud-panel-body">
+              <div class="timeline" data-timeline>
+                <div
+                  class="timeline-track"
+                  data-timeline-track
+                  tabindex="0"
+                  role="group"
+                  aria-label="Life timeline, scroll horizontally"
+                >
+                  <ol class="timeline-list">
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2021</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">First lines of code</h3>
+                      <p class="timeline-copy">Small scripts and game mods, mostly to see what I could make.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2023</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">Harvard CS50</h3>
+                      <p class="timeline-copy">Computer science from the ground up, end to end.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2024</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">MIT Beaver Works &amp; Stanford SAIL</h3>
+                      <p class="timeline-copy">Summers deep in Python, systems, and natural language.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2024</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">NVIDIA certified</h3>
+                      <p class="timeline-copy">Generative AI &amp; LLMs, associate level.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2025</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">Detox &amp; Nova Core</h3>
+                      <p class="timeline-copy">A macOS screen-time tracker and an eight-agent intelligence pipeline.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2025</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">FreshTrack went live</h3>
+                      <p class="timeline-copy">Full-stack food-waste app, deployed and seeking real users.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">2026</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">AERIS</h3>
+                      <p class="timeline-copy">Self-hosted environmental intelligence, mentored through Georgia Tech.</p>
+                    </li>
+                    <li class="timeline-node">
+                      <span class="timeline-year font-mono">Summer 2026</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">NASA TESS</h3>
+                      <p class="timeline-copy">Validating exoplanet transits with a NASA principal investigator.</p>
+                    </li>
+                    <li class="timeline-node timeline-node--now">
+                      <span class="timeline-year font-mono">Now</span>
+                      <span class="timeline-dot" aria-hidden="true"></span>
+                      <h3 class="timeline-title">Junior at Lambert High</h3>
+                      <p class="timeline-copy">Still building, still looking up. To be continued.</p>
+                    </li>
+                  </ol>
+                </div>
+                <div class="timeline-controls">
+                  <button type="button" class="timeline-arrow" data-timeline-prev aria-label="Scroll to earlier moments">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M15 18l-6-6 6-6" />
+                    </svg>
+                  </button>
+                  <div class="timeline-progress" aria-hidden="true"><span data-timeline-progress></span></div>
+                  <button type="button" class="timeline-arrow" data-timeline-next aria-label="Scroll to later moments">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- ░░ 05 OFF-CLOCK ░░ -->
+        <section class="module-group" data-module="play" aria-label="Off the clock">
+          <article class="hud-panel hud-panel--play" data-panel data-depth="3">
+            <header class="hud-panel-bar">
+              <span class="hud-panel-label">OFF-THE-CLOCK</span>
+              <span class="hud-panel-meta font-mono">PLAY LOG</span>
+            </header>
+            <div class="hud-panel-body">
+              <button
+                id="open-achievements-btn"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="achievements-modal"
+                class="games-trigger group"
+              >
+                <span class="games-trigger-number">17</span>
+                <span class="games-trigger-body">
+                  <span class="games-trigger-label">
+                    Games Peaked
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="games-trigger-arrow" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <span class="games-trigger-note">Open the full play log</span>
                 </span>
-                <span class="games-trigger-note">Open play log</span>
-              </span>
-            </button>
-          </div>
-          <blockquote class="closing-quote">
-            you can't add days to your life, but you can add life to your days
-          </blockquote>
+              </button>
+              <blockquote class="closing-quote">
+                you can't add days to your life, but you can add life to your days
+              </blockquote>
+            </div>
+          </article>
+        </section>
+
+        <!-- ░░ 06 COMMS ░░ -->
+        <section class="module-group" data-module="comms" aria-label="Contact channels">
+          <article class="hud-panel hud-panel--comms" data-panel data-depth="2">
+            <header class="hud-panel-bar">
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">OPEN COMMS</span>
+              <span class="hud-panel-meta font-mono">// SAY HELLO</span>
+            </header>
+            <div class="hud-panel-body comms-grid">
+              <a href="mailto:masoncao7@gmail.com" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                    <path d="M3 4a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H3zm0 2h14v.511l-7 4.2-7-4.2V6zm14 8H3V8.39l7 4.2 7-4.2V14z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="contact-label">Email</div>
+                  <div class="contact-value">masoncao7@gmail.com</div>
+                </div>
+              </a>
+              <a href="https://github.com/mason-cao" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="contact-label">GitHub</div>
+                  <div class="contact-value">@mason-cao</div>
+                </div>
+              </a>
+              <a href="https://www.linkedin.com/in/mason-cao7/" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="contact-label">LinkedIn</div>
+                  <div class="contact-value">in/mason-cao7</div>
+                </div>
+              </a>
+              <a href="https://www.kaggle.com/mzcao7" class="contact-link">
+                <div class="contact-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M18.825 23.859c-.022.092-.086.141-.19.141h-3.851a.331.331 0 0 1-.255-.112L9.534 17.58l-1.434 1.369v4.84c0 .141-.07.211-.211.211H4.863c-.141 0-.211-.07-.211-.211V.211C4.652.07 4.722 0 4.863 0h3.026C8.03 0 8.1.07 8.1.211v13.97l6.032-6.525a.296.296 0 0 1 .246-.105h3.673c.096 0 .158.04.185.123.028.084.01.154-.052.211l-6.148 6.356 6.746 9.398c.056.078.07.151.043.22z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="contact-label">Kaggle</div>
+                  <div class="contact-value">@mzcao7</div>
+                </div>
+              </a>
+            </div>
+          </article>
         </section>
       </main>
+
+      <!-- BOTTOM TELEMETRY BAR -->
+      <footer class="deck-bottombar">
+        <div class="deck-ticker" aria-hidden="true">
+          <div class="deck-ticker-track">
+            <span>// ENVIRONMENTAL-INTELLIGENCE SYSTEMS ONLINE</span>
+            <span>// MULTI-AGENT AI · NOMINAL</span>
+            <span>// MAUNA LOA FEED · LIVE</span>
+            <span>// GITHUB SIGNAL · SYNCED</span>
+            <span>// CLIMATE DATA · LEGIBLE</span>
+            <span>// ENVIRONMENTAL-INTELLIGENCE SYSTEMS ONLINE</span>
+            <span>// MULTI-AGENT AI · NOMINAL</span>
+            <span>// MAUNA LOA FEED · LIVE</span>
+            <span>// GITHUB SIGNAL · SYNCED</span>
+            <span>// CLIMATE DATA · LEGIBLE</span>
+          </div>
+        </div>
+        <button
+          id="open-cmdk-btn"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="command-palette"
+          class="deck-cmdk-btn"
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+          </svg>
+          <span class="deck-cmdk-text">Jump anywhere</span>
+          <kbd class="nav-kbd">⌘K</kbd>
+        </button>
+      </footer>
     </div>
 
     <!-- ░░ CONTACT MODAL ░░ -->
@@ -1324,7 +838,7 @@
 
       <div
         id="contact-box"
-        class="glass-card relative z-10 w-full max-w-sm rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
+        class="glass-card hud-frame relative z-10 w-full max-w-sm rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
       >
         <button
           id="close-modal-btn"
@@ -1451,7 +965,7 @@
 
       <div
         id="achievements-box"
-        class="glass-card achievements-box relative z-10 w-full max-w-xl rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
+        class="glass-card achievements-box hud-frame relative z-10 w-full max-w-xl rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
       >
         <button
           id="close-achievements-btn"
@@ -1566,28 +1080,6 @@
       </div>
     </div>
 
-    <!-- ░░ FLOATING NAV (menu only) ░░ -->
-    <nav class="floating-nav" aria-label="Portfolio menu">
-      <button
-        id="open-cmdk-btn"
-        type="button"
-        aria-haspopup="dialog"
-        aria-controls="command-palette"
-        class="floating-nav-btn floating-nav-btn--menu"
-      >
-        <svg viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-          <path
-            fill-rule="evenodd"
-            d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        Menu
-        <span class="floating-nav-hint">jump anywhere</span>
-        <kbd class="nav-kbd">⌘K</kbd>
-      </button>
-    </nav>
-
     <!-- ░░ COMMAND PALETTE (⌘K) ░░ -->
     <div
       id="command-palette"
@@ -1598,7 +1090,7 @@
       hidden
     >
       <div class="cmdk-backdrop" data-cmdk-close></div>
-      <div class="cmdk-panel" role="document">
+      <div class="cmdk-panel hud-frame" role="document">
         <div class="cmdk-search">
           <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path

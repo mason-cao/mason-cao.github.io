@@ -338,7 +338,6 @@ import * as THREE from "three";
   };
   const onScrub = (e) => {
     if (e.pointerType && e.pointerType !== "mouse") return;
-    scrubbing = true;
     scrubPhase = phaseFromEvent(e);
     stage.classList.add("is-scrubbing");
     if (!running) renderAll(scrubPhase);
@@ -347,13 +346,20 @@ import * as THREE from "three";
     scrubbing = false;
     stage.classList.remove("is-scrubbing");
   };
-  stage.addEventListener("pointerenter", onScrub);
-  stage.addEventListener("pointerdown", onScrub);
+  // click-and-drag to scrub (hovering must NOT scrub)
+  stage.addEventListener("pointerdown", (e) => {
+    if (e.pointerType && e.pointerType !== "mouse") return;
+    scrubbing = true;
+    try {
+      stage.setPointerCapture(e.pointerId);
+    } catch (_) {}
+    onScrub(e);
+  });
   stage.addEventListener("pointermove", (e) => {
     if (scrubbing) onScrub(e);
   });
-  stage.addEventListener("pointerleave", endScrub);
   stage.addEventListener("pointerup", endScrub);
+  stage.addEventListener("pointercancel", endScrub);
 
   resize();
   renderAll(reduce ? 0.5 : 0);
