@@ -25,8 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ─────────────────────────────────────────────
   // 3. Hero kicker typewriter ("Hi, I'm")
-  //    The name itself is formed by the WebGL particle field (flow3d.js);
-  //    this just types the small kicker line above it.
+  //    The name renders as plain styled text; this just types the small
+  //    kicker line above it. The living 3D background (globe + neural net +
+  //    Lorenz) lives in the holographic scene, not in the hero.
   // ─────────────────────────────────────────────
   const heroKicker = document.getElementById("hero-kicker");
   const heroKickerText = heroKicker?.dataset.typewriterText;
@@ -293,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeBtnId: "close-achievements-btn"
   });
 
-  // The tech stack is now a 3D constellation; see constellation3d.js.
+  // The tech stack is now a draggable logo sphere; see constellation.js.
 
   // ─────────────────────────────────────────────
   // 11. Live GitHub signal log
@@ -359,8 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const repos = [
         ["repo", "aeris", "active"],
         ["repo", "multi-agent-customer-intelligence-dashboard", "live"],
-        ["repo", "freshtrack", "live"],
-        ["repo", "detox", "preview"]
+        ["repo", "freshtrack", "live"]
       ];
       ghFeed.innerHTML = repos
         .map(([a, r, w]) => rowHtml(a, r, w, ""))
@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const rows = (Array.isArray(events) ? events : [])
           .map((ev) => ({ ...describe(ev), when: relTime(ev.created_at) }))
           .filter((r) => r.repo)
-          .slice(0, 6);
+          .slice(0, 3);
 
         if (!rows.length) throw new Error("no events");
 
@@ -576,227 +576,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ─────────────────────────────────────────────
-  // Command palette (⌘K)
-  // ─────────────────────────────────────────────
-  const palette = document.getElementById("command-palette");
-  const cmdkInput = document.getElementById("cmdk-input");
-  const cmdkList = document.getElementById("cmdk-list");
-  const cmdkEmpty = document.getElementById("cmdk-empty");
-
-  if (palette && cmdkInput && cmdkList) {
-    const reduce = prefersReducedMotion;
-    const svg = (d, vb) =>
-      `<svg viewBox="${vb || "0 0 20 20"}" fill="currentColor" aria-hidden="true">${d}</svg>`;
-    const navGlyph = svg(
-      '<path d="M10 3.2 2.8 9v6.3A1.5 1.5 0 0 0 4.3 16.8H7.6v-3.6h4.8v3.6h3.3a1.5 1.5 0 0 0 1.5-1.5V9L10 3.2Z"/>'
-    );
-    const repoGlyph = svg(
-      '<path fill-rule="evenodd" d="M10 1.6a8.4 8.4 0 0 0-2.66 16.37c.42.08.57-.18.57-.4v-1.42c-2.34.5-2.83-1.13-2.83-1.13-.38-.97-.93-1.23-.93-1.23-.76-.52.06-.51.06-.51.84.06 1.29.87 1.29.87.75 1.29 1.96.92 2.44.7.07-.55.29-.92.53-1.12-1.87-.21-3.83-.93-3.83-4.15 0-.92.33-1.66.86-2.25-.09-.21-.37-1.06.08-2.2 0 0 .7-.23 2.28.85a7.8 7.8 0 0 1 4.15 0c1.58-1.08 2.27-.85 2.27-.85.46 1.14.17 2 .09 2.2.54.59.86 1.33.86 2.25 0 3.23-1.97 3.94-3.84 4.14.3.26.57.78.57 1.57v2.31c0 .22.15.49.58.4A8.4 8.4 0 0 0 10 1.6Z" clip-rule="evenodd"/>'
-    );
-    const mailGlyph = svg(
-      '<path d="M3 4.4h14a1 1 0 0 1 1 1v.3l-8 4.55-8-4.55v-.3a1 1 0 0 1 1-1Zm15 2.95v7.25a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.35l8 4.55 8-4.55Z"/>'
-    );
-
-    // route to a deck module (falls back to scroll if the deck isn't enhanced)
-    const goModule = (id) => () => {
-      if (window.deck && typeof window.deck.setModule === "function") {
-        window.deck.setModule(id, { focus: true });
-        return;
-      }
-      const el = document.querySelector(`[data-module="${id}"]`);
-      if (el)
-        el.scrollIntoView({
-          behavior: reduce ? "auto" : "smooth",
-          block: "start"
-        });
-    };
-    const openUrl = (url) => () => window.open(url, "_blank", "noopener,noreferrer");
-    const copyEmail = () => {
-      if (navigator.clipboard)
-        navigator.clipboard.writeText("masoncao7@gmail.com").catch(() => {});
-    };
-    const openContact = () => {
-      if (contactModal) contactModal.open();
-    };
-
-    const commands = [
-      { group: "Navigate", title: "Home", hint: "Identity + live CO₂ globe", icon: navGlyph, keys: "home start identity co2 globe earth", run: goModule("home") },
-      { group: "Navigate", title: "Now", hint: "Research and what I'm building", icon: navGlyph, keys: "now current research tess aeris", run: goModule("now") },
-      { group: "Navigate", title: "Signal log", hint: "Live GitHub activity", icon: navGlyph, keys: "signal github activity log live", run: goModule("signal") },
-      { group: "Navigate", title: "Stack & credentials", hint: "Tools and coursework", icon: navGlyph, keys: "stack skills tech tools credentials coursework", run: goModule("stack") },
-      { group: "Navigate", title: "Timeline", hint: "A timeline of moments", icon: navGlyph, keys: "life timeline history journey moments story", run: goModule("timeline") },
-      { group: "Navigate", title: "Off the clock", hint: "Games and the rest", icon: navGlyph, keys: "play games off the clock fun", run: goModule("play") },
-      { group: "Navigate", title: "Comms", hint: "Email and links", icon: mailGlyph, keys: "comms contact email links reach", run: goModule("comms") },
-      { group: "Projects", title: "AERIS", hint: "Environmental intelligence platform", icon: repoGlyph, keys: "aeris climate anomaly", run: openUrl("https://github.com/mason-cao/aeris") },
-      { group: "Projects", title: "Multi-Agent Intelligence", hint: "Explainable ML dashboard", icon: repoGlyph, keys: "multi agent nova core dashboard shap", run: openUrl("https://github.com/mason-cao/multi-agent-customer-intelligence-dashboard") },
-      { group: "Projects", title: "FreshTrack", hint: "Food-waste tracker", icon: repoGlyph, keys: "freshtrack food waste pantry", run: openUrl("https://github.com/mason-cao/freshtrack") },
-      { group: "Projects", title: "deTox", hint: "Focus and screen-time app", icon: repoGlyph, keys: "detox focus screen time mac", run: openUrl("https://github.com/mason-cao/detox") },
-      { group: "Actions", title: "Copy email", hint: "masoncao7@gmail.com", icon: mailGlyph, keys: "email copy contact reach", run: copyEmail },
-      { group: "Actions", title: "Open GitHub", hint: "@mason-cao", icon: repoGlyph, keys: "github profile open", run: openUrl("https://github.com/mason-cao") },
-      { group: "Actions", title: "Contact card", hint: "Email and links", icon: mailGlyph, keys: "contact email links reach", run: openContact }
-    ];
-
-    let filtered = commands.slice();
-    let selected = 0;
-    let lastFocused = null;
-
-    const sync = () => {
-      const items = cmdkList.querySelectorAll(".cmdk-item");
-      items.forEach((el, i) => {
-        const active = i === selected;
-        el.setAttribute("aria-selected", active ? "true" : "false");
-        if (active) {
-          cmdkInput.setAttribute("aria-activedescendant", el.id);
-          el.scrollIntoView({ block: "nearest" });
-        }
-      });
-    };
-
-    const render = () => {
-      cmdkList.innerHTML = "";
-      if (!filtered.length) {
-        cmdkEmpty.hidden = false;
-        cmdkInput.removeAttribute("aria-activedescendant");
-        return;
-      }
-      cmdkEmpty.hidden = true;
-      let lastGroup = null;
-      filtered.forEach((cmd, i) => {
-        if (cmd.group !== lastGroup) {
-          const lab = document.createElement("li");
-          lab.className = "cmdk-group-label";
-          lab.setAttribute("role", "presentation");
-          lab.textContent = cmd.group;
-          cmdkList.appendChild(lab);
-          lastGroup = cmd.group;
-        }
-        const li = document.createElement("li");
-        li.className = "cmdk-item";
-        li.id = "cmdk-item-" + i;
-        li.setAttribute("role", "option");
-        li.setAttribute("aria-selected", i === selected ? "true" : "false");
-        li.innerHTML =
-          '<span class="cmdk-item-icon">' + cmd.icon + "</span>" +
-          '<span class="cmdk-item-body"><span class="cmdk-item-title">' +
-          cmd.title +
-          "</span>" +
-          (cmd.hint ? '<span class="cmdk-item-hint">' + cmd.hint + "</span>" : "") +
-          "</span>";
-        li.addEventListener("mousemove", () => {
-          if (selected !== i) {
-            selected = i;
-            sync();
-          }
-        });
-        li.addEventListener("click", () => execute(i));
-        cmdkList.appendChild(li);
-      });
-      sync();
-    };
-
-    const filter = (q) => {
-      const query = q.trim().toLowerCase();
-      filtered = query
-        ? commands.filter((c) =>
-            (c.title + " " + c.hint + " " + c.keys + " " + c.group)
-              .toLowerCase()
-              .includes(query)
-          )
-        : commands.slice();
-      selected = 0;
-      render();
-    };
-
-    const move = (delta) => {
-      if (!filtered.length) return;
-      selected = (selected + delta + filtered.length) % filtered.length;
-      sync();
-    };
-
-    const isOpen = () => palette.classList.contains("is-open");
-
-    const execute = (i) => {
-      const cmd = filtered[i];
-      if (!cmd) return;
-      close();
-      window.setTimeout(cmd.run, reduce ? 0 : 120);
-    };
-
-    const open = () => {
-      if (isOpen()) return;
-      lastFocused = document.activeElement;
-      palette.hidden = false;
-      void palette.offsetWidth;
-      palette.classList.add("is-open");
-      document.body.style.overflow = "hidden";
-      cmdkInput.value = "";
-      filter("");
-      cmdkInput.focus();
-    };
-
-    const close = () => {
-      if (!isOpen()) return;
-      palette.classList.remove("is-open");
-      document.body.style.overflow = "";
-      if (reduce) palette.hidden = true;
-      else
-        window.setTimeout(() => {
-          if (!isOpen()) palette.hidden = true;
-        }, 260);
-      if (lastFocused && lastFocused.focus) lastFocused.focus();
-    };
-
-    cmdkInput.addEventListener("input", (e) => filter(e.target.value));
-    cmdkInput.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        move(1);
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        move(-1);
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        execute(selected);
-      } else if (e.key === "Home") {
-        e.preventDefault();
-        selected = 0;
-        sync();
-      } else if (e.key === "End") {
-        e.preventDefault();
-        selected = filtered.length - 1;
-        sync();
-      }
-    });
-    palette.addEventListener("click", (e) => {
-      if (e.target.closest("[data-cmdk-close]")) close();
-    });
-
-    const triggerBtn = document.getElementById("open-cmdk-btn");
-    if (triggerBtn) triggerBtn.addEventListener("click", open);
-
-    document.addEventListener("keydown", (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        isOpen() ? close() : open();
-      } else if (e.key === "Escape" && isOpen()) {
-        e.preventDefault();
-        close();
-      } else if (e.key === "/" && !isOpen()) {
-        const t = e.target;
-        const typing =
-          t &&
-          (t.tagName === "INPUT" ||
-            t.tagName === "TEXTAREA" ||
-            t.isContentEditable);
-        if (!typing) {
-          e.preventDefault();
-          open();
-        }
-      }
-    });
-  }
-
   // Card tilt + cursor spotlight removed: Now/Projects are no longer cards but
   // open rows suspended in the field, so per-item 3D tilt no longer applies.
 
@@ -918,8 +697,9 @@ document.addEventListener("DOMContentLoaded", () => {
     update();
   });
 
-  // The atmospheric flow field is a WebGL scene; it lives in flow3d.js
-  // (loaded as a Three.js module) so it can render true 3D depth.
+  // The atmospheric depth is carried by the fixed holographic scene behind
+  // the cockpit — the neural globe (globe.js) — plus the static CSS nebula
+  // in style.css.
 
   // ─────────────────────────────────────────────
   // Console greeting for fellow developers
@@ -937,7 +717,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "%cPoking around the source? Reach me at masoncao7@gmail.com · github.com/mason-cao",
       d
     );
-    console.log("%cTip: press ⌘K (or /) to jump around.", d);
   } catch (err) {
     /* console styling unsupported */
   }

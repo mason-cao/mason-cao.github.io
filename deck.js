@@ -1,304 +1,245 @@
 /* ════════════════════════════════════════════════════════════════════
-   deck.js — the command-deck controller
+   deck.js — the Jarvis cockpit controller
 
-   Turns the page into a Jarvis HUD: a persistent frame around a central
-   stage that shows one "module" at a time as a cluster of floating,
-   draggable HUD panels. Two capability tiers:
+   On a capable desktop (fine pointer + motion + wide) the page becomes a
+   fixed, non-scrolling HUD: every [data-panel] is an absolutely-positioned
+   hologram floating over the 3D field. Grab a panel by its title bar (or
+   the hero by its body) and swipe it around; it throws with inertia and
+   settles. The whole field has mouse parallax for depth. Positions persist
+   in localStorage.
 
-     deck-on     — JS present: single-module switching (works everywhere,
-                   incl. mobile where panels just stack).
-     deck-float  — capable desktop (fine pointer, motion ok): the full
-                   cockpit — fixed viewport, absolutely-positioned panels
-                   you can grab and throw, mouse parallax, centerpiece swap.
-
-   No build step, no imports. Talks to globe/neuralnet via the
-   `deck:module` event + CSS classes on the centerpiece elements.
+   Everywhere else (mobile / touch / reduced-motion / narrow) it falls back
+   to the readable stacked page with a scroll reveal — a drag cockpit makes
+   no sense on a touch screen.
    ════════════════════════════════════════════════════════════════════ */
 (function () {
   const html = document.documentElement;
-  const deck = document.getElementById("deck");
-  if (!deck) return;
-  const stage = document.getElementById("main-content");
-  const groups = Array.from(deck.querySelectorAll(".module-group"));
-  const railBtns = Array.from(deck.querySelectorAll("[data-module-btn]"));
-  const modIdx = deck.querySelector("[data-modline-idx]");
-  const modName = deck.querySelector("[data-modline-name]");
-
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const floatMQ = matchMedia("(min-width: 761px) and (pointer: fine)");
   const forceFloat = /[?&]float=1/.test(location.search); // dev / screenshot override
-  const canFloat = () => forceFloat || floatMQ.matches;
+  const floatMQ = matchMedia("(min-width: 900px) and (pointer: fine)");
+  const canFloat = () => forceFloat || (floatMQ.matches && !reduceMotion);
+  const DRAGGABLE = false; // holograms are fixed; flip to true to re-enable drag
 
-  const MODULES = ["home", "now", "signal", "stack", "timeline", "play", "comms"];
-  const NAMES = {
-    home: "HOME", now: "NOW", signal: "SIGNAL", stack: "STACK",
-    timeline: "TIMELINE", play: "OFF-CLOCK", comms: "COMMS",
-  };
+  const stage = document.getElementById("main-content");
+  const panels = Array.from(document.querySelectorAll("[data-panel]"));
+  const heads = Array.from(document.querySelectorAll(".sec-head"));
+  const scene = document.querySelector(".hud-scene");
+  if (!stage || !panels.length) return;
 
-  /* ── centerpiece elements ── */
-  const cpGlobe = deck.querySelector(".cp-globe");
-  const cpLorenz = deck.querySelector(".cp-lorenz");
-  const cpNeural = deck.querySelector(".cp-neural");
-  if (cpGlobe) cpGlobe.classList.add("cp-interactive");
-  if (cpLorenz) cpLorenz.classList.add("cp-interactive");
+  // Cockpit layout, indexed by DOM order of [data-panel]:
+  // x/y = centre as a fraction of the stage, w = width in rem, d = parallax depth.
+  // 10 holograms ring the central neural globe: hero centred at the top,
+  // timeline centred at the bottom, four panels down each side. The two
+  // columns are balanced by content height — right side carries the three
+  // project cards + comms, left side carries signal + horizon + tech +
+  // off-clock — so neither column overflows. Inner edges sit just outside the
+  // glowing sphere. Centre column kept clear so the reactor reads as the
+  // centrepiece. Tuned with headless measurement (Playwright @ 1440×900) so
+  // no two panels overlap.
+  const LAYOUT = [
+    { x: 0.5,   y: 0.074, w: 24, d: 2 }, // 0  hero name (top-centre)
+    { x: 0.853, y: 0.149, w: 21, d: 2 }, // 1  Nova Core (right, top)
+    { x: 0.853, y: 0.411, w: 21, d: 3 }, // 2  AERIS (right, mid)
+    { x: 0.853, y: 0.686, w: 21, d: 2 }, // 3  FreshTrack (right, lower)
+    { x: 0.153, y: 0.446, w: 20, d: 1 }, // 4  horizon (left, mid — shares depth with tech/off-clock below)
+    { x: 0.153, y: 0.158, w: 20, d: 2 }, // 5  signal (left, top)
+    { x: 0.153, y: 0.703, w: 20, d: 1 }, // 6  tech stack (left, lower, flat — centred in column)
+    { x: 0.5,   y: 0.855, w: 28, d: 1 }, // 7  timeline (bottom-centre, wide)
+    { x: 0.153, y: 0.901, w: 20, d: 1 }, // 8  off-clock (bottom-left)
+    { x: 0.853, y: 0.912, w: 21, d: 1 }, // 9  comms (bottom-right)
+  ];
 
-  // per-module centerpiece plan
-  const CP = {
-    home: { primary: "globe", recede: false },
-    now: { primary: "neural", globeLinger: true },
-    signal: { primary: "globe", recede: true },
-    stack: { primary: "lorenz", globeLinger: false },
-    timeline: { primary: "globe", recede: true },
-    play: { primary: "globe", recede: true },
-    comms: { primary: "globe", recede: true },
-  };
-  const CP_EL = { globe: cpGlobe, lorenz: cpLorenz, neural: cpNeural };
-
-  function setCenterpiece(id) {
-    const cfg = CP[id] || { primary: "globe", recede: true };
-    [cpGlobe, cpLorenz, cpNeural].forEach((el) => {
-      if (el) el.classList.remove("is-active", "is-receded");
-    });
-    const prim = CP_EL[cfg.primary];
-    if (prim) {
-      prim.classList.add("is-active");
-      if (cfg.primary === "globe" && cfg.recede) prim.classList.add("is-receded");
-    }
-    if (cfg.primary !== "globe" && cfg.globeLinger && cpGlobe) {
-      cpGlobe.classList.add("is-active", "is-receded");
-    }
-  }
-
-  /* ── panel model ── */
-  // center fractions (0..1 of the stage) + width in rem, per module, DOM order
-  const LAYOUTS = {
-    home: [{ x: 0.34, y: 0.42, w: 30 }, { x: 0.83, y: 0.29, w: 16 }, { x: 0.2, y: 0.75, w: 21 }, { x: 0.75, y: 0.74, w: 22 }],
-    now: [{ x: 0.27, y: 0.34, w: 22 }, { x: 0.74, y: 0.31, w: 22 }, { x: 0.3, y: 0.73, w: 22 }, { x: 0.74, y: 0.73, w: 23 }],
-    signal: [{ x: 0.5, y: 0.5, w: 38 }],
-    stack: [{ x: 0.27, y: 0.5, w: 24 }, { x: 0.74, y: 0.5, w: 23 }],
-    timeline: [{ x: 0.5, y: 0.55, w: 52 }],
-    play: [{ x: 0.5, y: 0.5, w: 30 }],
-    comms: [{ x: 0.5, y: 0.5, w: 34 }],
-  };
-
-  const panels = [];
-  groups.forEach((g) => {
-    const mod = g.dataset.module;
-    Array.from(g.querySelectorAll("[data-panel]")).forEach((el, i) => {
-      const cfg = (LAYOUTS[mod] || [])[i] || { x: 0.5, y: 0.5, w: 22 };
-      const p = {
-        el, module: mod, idx: i,
-        depth: parseFloat(el.dataset.depth || "2"),
-        flat: el.hasAttribute("data-flat"),
-        w: cfg.w, fx: cfg.x, fy: cfg.y, grabbed: false,
-      };
-      const saved = loadPos(p);
-      if (saved) { p.fx = saved.x; p.fy = saved.y; }
-      panels.push(p);
-    });
+  const P = panels.map((el, i) => {
+    const cfg = LAYOUT[i] || { x: 0.5, y: 0.5, w: 24, d: 2 };
+    return {
+      el, i, w: cfg.w, fx: cfg.x, fy: cfg.y, d: cfg.d,
+      flat: el.classList.contains("hud-panel--sphere"),
+      grabbed: false, vx: 0, vy: 0,
+    };
   });
 
-  function saveKey(p) { return `deck:${p.module}:${p.idx}`; }
-  function loadPos(p) {
+  const W = () => stage.clientWidth || window.innerWidth;
+  const H = () => stage.clientHeight || window.innerHeight;
+  const MARGIN = 34;
+
+  const key = (p) => "deckf:" + p.i;
+  const save = (p) => { try { localStorage.setItem(key(p), JSON.stringify({ x: p.fx, y: p.fy })); } catch (_) {} };
+  const load = (p) => {
     try {
-      const s = localStorage.getItem(saveKey(p));
-      if (s) { const o = JSON.parse(s); if (typeof o.x === "number") return o; }
-    } catch (e) {}
-    return null;
-  }
-  function savePos(p) {
-    try { localStorage.setItem(saveKey(p), JSON.stringify({ x: p.fx, y: p.fy })); } catch (e) {}
-  }
+      const s = localStorage.getItem(key(p));
+      if (s) { const o = JSON.parse(s); if (typeof o.x === "number") { p.fx = o.x; p.fy = o.y; } }
+    } catch (_) {}
+  };
 
-  /* ── layout + parallax ── */
-  let current = "home";
-  let floating = false;
-  let raf = 0;
-  let parX = 0, parY = 0, tParX = 0, tParY = 0;
-
-  const stageBox = () => stage.getBoundingClientRect();
-  const activePanels = () => panels.filter((p) => p.module === current);
-
-  function positionPanel(p) {
-    const b = stageBox();
+  function place(p) {
     p.el.style.width = p.w + "rem";
-    p.el.style.left = p.fx * b.width + "px";
-    p.el.style.top = p.fy * b.height + "px";
+    p.el.style.left = p.fx * W() + "px";
+    p.el.style.top = p.fy * H() + "px";
+    if (!p.grabbed) p.el.style.transform = "translate(-50%,-50%)";
   }
-  function transformPanel(p) {
+  function applyTransform(p) {
     if (p.grabbed) return;
-    const d = p.depth;
-    const px = parX * d * 9, py = parY * d * 9;
+    const px = parX * p.d * 8, py = parY * p.d * 8;
     if (p.flat) {
-      // CSS3D content (tech sphere) breaks under nested 3D rotation — keep it 2D
       p.el.style.transform = `translate(-50%,-50%) translate(${px}px,${py}px)`;
-      return;
+    } else {
+      const ry = parX * 3.5, rx = -parY * 3.5;
+      p.el.style.transform =
+        `translate(-50%,-50%) translate(${px}px,${py}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     }
-    const ry = parX * 4, rx = -parY * 4;
-    p.el.style.transform =
-      `translate(-50%,-50%) translate(${px}px,${py}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   }
-  function layout() {
-    if (!floating) return;
-    activePanels().forEach(positionPanel);
-  }
+
+  /* ── float state + parallax/inertia loop ── */
+  let floating = false, raf = 0;
+  let parX = 0, parY = 0, tParX = 0, tParY = 0;
+  let drag = null, dragOff = { x: 0, y: 0 }, lastX = 0, lastY = 0, lastT = 0;
 
   function frame() {
-    parX += (tParX - parX) * 0.09;
-    parY += (tParY - parY) * 0.09;
-    if (floating) activePanels().forEach(transformPanel);
+    parX += (tParX - parX) * 0.08;
+    parY += (tParY - parY) * 0.08;
+    if (scene) scene.style.transform = `translate(${parX * -14}px, ${parY * -10}px)`;
+    const mx = MARGIN / W(), my = MARGIN / H();
+    P.forEach((p) => {
+      if (!p.grabbed && (Math.abs(p.vx) > 0.0002 || Math.abs(p.vy) > 0.0002)) {
+        p.fx += p.vx; p.fy += p.vy;
+        p.vx *= 0.9; p.vy *= 0.9;
+        p.fx = Math.max(mx, Math.min(1 - mx, p.fx));
+        p.fy = Math.max(my, Math.min(1 - my, p.fy));
+        place(p);
+        if (Math.abs(p.vx) < 0.0003 && Math.abs(p.vy) < 0.0003) { p.vx = p.vy = 0; save(p); }
+      }
+      applyTransform(p);
+    });
     raf = requestAnimationFrame(frame);
   }
 
-  function setFloat(on) {
-    const next = on && !reduceMotion && canFloat();
-    if (next === floating) return;
-    floating = next;
-    html.classList.toggle("deck-float", floating);
-    if (floating) {
-      layout();
-      if (!raf) raf = requestAnimationFrame(frame);
-    } else {
-      // hand layout back to the stacked CSS fallback
-      panels.forEach((p) => {
-        p.el.style.left = p.el.style.top = p.el.style.width = p.el.style.transform = "";
-      });
-      if (raf) { cancelAnimationFrame(raf); raf = 0; }
-    }
-  }
-
-  /* ── module switching ── */
-  function setModule(id, opts) {
-    if (!MODULES.includes(id)) return;
-    current = id;
-    deck.dataset.activeModule = id;
-    groups.forEach((g) => g.classList.toggle("is-active", g.dataset.module === id));
-    railBtns.forEach((b) => b.classList.toggle("is-active", b.dataset.moduleBtn === id));
-    if (modIdx) modIdx.textContent = String(MODULES.indexOf(id)).padStart(2, "0");
-    if (modName) modName.textContent = NAMES[id] || id.toUpperCase();
-    setCenterpiece(id);
-    if (floating) layout();
-    if (opts && opts.focus) {
-      const g = groups.find((gr) => gr.dataset.module === id);
-      if (g) { g.setAttribute("tabindex", "-1"); try { g.focus({ preventScroll: true }); } catch (e) { g.focus(); } }
-    }
-    try {
-      history.replaceState(null, "", id === "home" ? location.pathname + location.search : "#" + id);
-    } catch (e) {}
-    window.dispatchEvent(new CustomEvent("deck:module", { detail: { module: id } }));
-    // let canvas widgets in the newly-shown module re-measure their box
-    setTimeout(() => window.dispatchEvent(new Event("resize")), 60);
-  }
-
-  function step(dir) {
-    const i = MODULES.indexOf(current);
-    setModule(MODULES[Math.max(0, Math.min(MODULES.length - 1, i + dir))], { focus: true });
-  }
-  function resetLayout() {
-    panels.forEach((p) => {
-      try { localStorage.removeItem(saveKey(p)); } catch (e) {}
-      const cfg = (LAYOUTS[p.module] || [])[p.idx] || { x: 0.5, y: 0.5, w: 22 };
-      p.fx = cfg.x; p.fy = cfg.y;
-    });
-    layout();
-  }
-
-  /* ── grab / drag + parallax (single pointer handler set) ── */
-  let drag = null, dragOff = { x: 0, y: 0 };
-
-  stage.addEventListener("pointerdown", (e) => {
+  function onDown(e) {
+    // Panels are fixed floating holograms — dragging is disabled. Parallax
+    // (onMove) still gives them gentle depth; inner widgets (globe, tech
+    // sphere, timeline) keep their own pointer interactions.
+    if (!DRAGGABLE) return;
     if (!floating) return;
     const bar = e.target.closest(".hud-panel-bar");
-    if (!bar) return;
-    const el = bar.closest("[data-panel]");
-    const p = activePanels().find((pp) => pp.el === el);
+    const panelEl = bar ? bar.closest("[data-panel]") : e.target.closest(".hero-copy[data-panel]");
+    if (!panelEl) return;
+    const p = P.find((pp) => pp.el === panelEl);
     if (!p) return;
-    drag = p; p.grabbed = true;
-    el.classList.add("is-grabbed");
-    try { el.setPointerCapture(e.pointerId); } catch (err) {}
-    const b = stageBox();
-    dragOff.x = e.clientX - b.left - p.fx * b.width;
-    dragOff.y = e.clientY - b.top - p.fy * b.height;
-    el.style.transform = "translate(-50%,-50%)";
+    drag = p; p.grabbed = true; p.vx = p.vy = 0;
+    panelEl.classList.add("is-grabbed");
+    try { panelEl.setPointerCapture(e.pointerId); } catch (_) {}
+    const b = stage.getBoundingClientRect();
+    dragOff.x = e.clientX - b.left - p.fx * W();
+    dragOff.y = e.clientY - b.top - p.fy * H();
+    lastX = e.clientX; lastY = e.clientY; lastT = performance.now();
+    panelEl.style.transform = "translate(-50%,-50%)";
     e.preventDefault();
-  });
-
-  stage.addEventListener("pointermove", (e) => {
+  }
+  function onMove(e) {
     if (drag) {
-      const b = stageBox();
-      const m = 44;
-      let x = e.clientX - b.left - dragOff.x;
-      let y = e.clientY - b.top - dragOff.y;
-      x = Math.max(m, Math.min(b.width - m, x));
-      y = Math.max(m, Math.min(b.height - m, y));
-      drag.fx = x / b.width; drag.fy = y / b.height;
-      drag.el.style.left = x + "px";
-      drag.el.style.top = y + "px";
+      const b = stage.getBoundingClientRect();
+      let x = Math.max(MARGIN, Math.min(W() - MARGIN, e.clientX - b.left - dragOff.x));
+      let y = Math.max(MARGIN, Math.min(H() - MARGIN, e.clientY - b.top - dragOff.y));
+      drag.fx = x / W(); drag.fy = y / H();
+      drag.el.style.left = x + "px"; drag.el.style.top = y + "px";
+      const now = performance.now(), dt = Math.max(now - lastT, 8);
+      drag.vx = ((e.clientX - lastX) / W()) / dt * 16;
+      drag.vy = ((e.clientY - lastY) / H()) / dt * 16;
+      lastX = e.clientX; lastY = e.clientY; lastT = now;
       return;
     }
     if (!floating) return;
-    const b = stageBox();
-    tParX = ((e.clientX - b.left) / b.width - 0.5) * 2;
-    tParY = ((e.clientY - b.top) / b.height - 0.5) * 2;
-  });
-
-  function endDrag() {
-    if (!drag) return;
-    drag.el.classList.remove("is-grabbed");
-    drag.grabbed = false;
-    savePos(drag);
-    drag = null;
+    const b = stage.getBoundingClientRect();
+    tParX = ((e.clientX - b.left) / W() - 0.5) * 2;
+    tParY = ((e.clientY - b.top) / H() - 0.5) * 2;
   }
-  stage.addEventListener("pointerup", endDrag);
-  stage.addEventListener("pointercancel", endDrag);
-  stage.addEventListener("pointerleave", () => { tParX = 0; tParY = 0; });
+  function onUp() {
+    if (!drag) return;
+    const p = drag; drag = null;
+    p.el.classList.remove("is-grabbed");
+    p.grabbed = false;
+    const cap = 0.05;
+    p.vx = reduceMotion ? 0 : Math.max(-cap, Math.min(cap, p.vx));
+    p.vy = reduceMotion ? 0 : Math.max(-cap, Math.min(cap, p.vy));
+    save(p);
+  }
+  function onLeave() { tParX = 0; tParY = 0; }
 
-  /* ── chrome wiring ── */
-  railBtns.forEach((b) => {
-    b.addEventListener("click", (e) => { e.preventDefault(); setModule(b.dataset.moduleBtn, { focus: true }); });
-  });
+  function enterFloat() {
+    if (floating) return;
+    floating = true;
+    html.classList.add("deck-float");
+    // always use the designed no-overlap layout (ignore any old dragged state)
+    P.forEach((p) => { if (DRAGGABLE) load(p); place(p); });
+    P.forEach((p, idx) =>
+      setTimeout(() => p.el.classList.add("is-revealed"), reduceMotion ? 0 : 140 + idx * 55)
+    );
+    stage.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    document.addEventListener("pointerleave", onLeave);
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+  function exitFloat() {
+    if (!floating) return;
+    floating = false;
+    html.classList.remove("deck-float");
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    stage.removeEventListener("pointerdown", onDown);
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("pointerup", onUp);
+    window.removeEventListener("pointercancel", onUp);
+    document.removeEventListener("pointerleave", onLeave);
+    P.forEach((p) => {
+      p.el.style.left = p.el.style.top = p.el.style.width = p.el.style.transform = "";
+      p.el.classList.remove("is-revealed", "is-grabbed");
+    });
+    if (scene) scene.style.transform = "";
+  }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    if (e.target.closest("input, textarea, [contenteditable]")) return;
-    if (e.key >= "0" && e.key <= "6") {
-      const id = MODULES[+e.key];
-      if (id) { setModule(id, { focus: true }); e.preventDefault(); }
+  /* ── stacked fallback: scroll reveal ── */
+  let io = null;
+  function enterStacked() {
+    html.classList.add("reveal-ready");
+    const targets = panels.concat(heads);
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("is-revealed"));
       return;
     }
-    if (!floating) return; // arrows only hijacked in the cockpit
-    if (e.target.closest("[data-timeline-track]")) return; // timeline owns arrows
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") { step(1); e.preventDefault(); }
-    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { step(-1); e.preventDefault(); }
-  });
+    io = new IntersectionObserver(
+      (entries, obs) => entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add("is-revealed"); obs.unobserve(en.target); }
+      }),
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+    );
+    targets.forEach((el) => io.observe(el));
+  }
+  function exitStacked() {
+    if (io) { io.disconnect(); io = null; }
+  }
 
-  /* ── responsive ── */
+  /* ── mode select + responsive switching ── */
+  function setMode() {
+    if (canFloat()) { exitStacked(); enterFloat(); }
+    else { exitFloat(); enterStacked(); }
+  }
+  setMode();
+
   let rt = 0;
   window.addEventListener("resize", () => {
     clearTimeout(rt);
-    rt = setTimeout(() => { setFloat(canFloat()); layout(); }, 120);
+    rt = setTimeout(() => {
+      if (canFloat() !== floating) setMode();
+      else if (floating) P.forEach(place);
+    }, 150);
   });
-  if (floatMQ.addEventListener) floatMQ.addEventListener("change", () => setFloat(canFloat()));
+  if (floatMQ.addEventListener) floatMQ.addEventListener("change", setMode);
 
-  // deep-link / back-forward between modules
-  window.addEventListener("hashchange", () => {
-    const h = (location.hash || "").replace(/^#/, "");
-    if (MODULES.includes(h) && h !== current) setModule(h, { focus: true });
-  });
-
-  /* ── boot ── */
-  html.classList.add("deck-on");
-  const startHash = (location.hash || "").replace(/^#/, "");
-  setModule(MODULES.includes(startHash) ? startHash : "home");
-  setFloat(canFloat());
-
+  // small dev handle for resetting thrown-around panels
   window.deck = {
-    setModule,
-    next: () => step(1),
-    prev: () => step(-1),
-    resetLayout,
-    get current() { return current; },
-    modules: MODULES.slice(),
+    reset() {
+      P.forEach((p) => { try { localStorage.removeItem(key(p)); } catch (_) {}
+        const c = LAYOUT[p.i] || { x: 0.5, y: 0.5 }; p.fx = c.x; p.fy = c.y; if (floating) place(p); });
+    },
   };
-  window.dispatchEvent(new CustomEvent("deck:ready"));
 })();

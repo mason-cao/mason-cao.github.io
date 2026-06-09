@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────
-// Jarvis HUD runtime — the boot power-on sequence + a cursor reticle.
+// Jarvis HUD runtime — the boot power-on sequence.
 // The scanline veil/sweep and corner-bracket frames are pure CSS; this
-// file only drives the one-time boot and the pointer crosshair.
-// Degrades cleanly: under prefers-reduced-motion the boot is skipped and
-// no reticle is shown. Plays once per session (sessionStorage).
+// file only drives the one-time boot animation.
+// Degrades cleanly: under prefers-reduced-motion the boot is skipped.
+// Plays once per session (sessionStorage).
 // ─────────────────────────────────────────────────────────────
 (function initHud() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -67,55 +67,4 @@
     }
   }
 
-  // ─────────────── cursor reticle ───────────────
-  // a targeting halo that trails the pointer (fine pointers only)
-  const reticle = document.querySelector(".hud-reticle");
-  const finePointer = window.matchMedia("(pointer: fine)").matches;
-  if (reticle && finePointer && !reduce) {
-    reticle.innerHTML =
-      '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">' +
-      '<circle cx="24" cy="24" r="8.5" opacity="0.85"/>' +
-      '<path d="M24 1 V11 M24 37 V47 M1 24 H11 M37 24 H47" opacity="0.6"/>' +
-      '<circle cx="24" cy="24" r="1.4" fill="currentColor" stroke="none"/>' +
-      "</svg>";
-
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
-    let tx = x;
-    let ty = y;
-    let raf = null;
-    let shown = false;
-
-    const loop = () => {
-      x += (tx - x) * 0.25;
-      y += (ty - y) * 0.25;
-      reticle.style.transform = `translate(${x}px, ${y}px)`;
-      if (Math.abs(tx - x) + Math.abs(ty - y) > 0.1) {
-        raf = requestAnimationFrame(loop);
-      } else {
-        raf = null;
-      }
-    };
-
-    window.addEventListener(
-      "pointermove",
-      (e) => {
-        if (e.pointerType && e.pointerType !== "mouse") return;
-        tx = e.clientX;
-        ty = e.clientY;
-        if (!shown) {
-          shown = true;
-          reticle.classList.add("is-on");
-        }
-        if (raf == null) raf = requestAnimationFrame(loop);
-      },
-      { passive: true }
-    );
-    document.addEventListener("mouseleave", () =>
-      reticle.classList.remove("is-on")
-    );
-    document.addEventListener("mouseenter", () => {
-      if (shown) reticle.classList.add("is-on");
-    });
-  }
 })();
