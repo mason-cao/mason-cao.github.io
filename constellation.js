@@ -71,7 +71,7 @@
     activeNode = nextNode;
     if (readout) {
       readout.textContent = node
-        ? `NODE: ${nodes[node.i].label}`
+        ? nodes[node.i].label
         : "";
       readout.classList.toggle("is-active", Boolean(node));
     }
@@ -172,7 +172,7 @@
         ctx.globalAlpha = 0.34 + depth * 0.5;
         ctx.beginPath();
         ctx.arc(px, py, hitRadius + 5, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(255, 208, 137, 0.9)";
+        ctx.strokeStyle = "rgba(238, 242, 248, 0.9)";
         ctx.lineWidth = 1.4;
         ctx.stroke();
         ctx.beginPath();

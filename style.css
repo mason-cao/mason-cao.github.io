@@ -1497,11 +1497,11 @@ html.deck-float .hud-panel--sphere .tech-sphere { height: 148px; }
     box-shadow 160ms ease-out;
 }
 .tech-sphere-readout.is-active {
-  border-color: rgba(255, 208, 137, 0.5);
-  background: rgba(38, 26, 10, 0.72);
-  color: var(--gold-soft);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef2f8;
   opacity: 1;
-  box-shadow: 0 0 18px rgba(255, 184, 77, 0.14);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.08);
 }
 
 .comms-grid { display: grid; gap: 0.55rem; }

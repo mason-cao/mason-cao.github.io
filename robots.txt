@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
+# AI-readable summary for crawlers and answer engines:
+# https://mason-cao.github.io/llms.txt
 Sitemap: https://mason-cao.github.io/sitemap.xml
