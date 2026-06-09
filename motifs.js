@@ -5,8 +5,8 @@
 //   nova   → 8-agent dependency pipeline with a travelling data pulse
 //   fresh  → freshness decay particles (mint → amber → faded)
 //   detox  → focus-session orb (sweeping depletion ring)
-// Runs only while its dossier is open AND on-screen; reduced motion draws a
-// single static frame. Shares the site's mint/ink palette.
+// Runs only while on-screen; reduced motion draws a single static frame.
+// Shares the site's mint/ink palette.
 // ─────────────────────────────────────────────────────────────
 (function initMotifs() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -52,23 +52,14 @@
       }
     };
 
-    // open/close is driven by app.js via `inert` (+ `hidden` before it loads)
-    const body = fig.closest(".dossier-body");
-    const isShown = () => !!body && !body.hidden && !body.hasAttribute("inert");
-    let shown = body ? isShown() : true;
+    // motifs live in always-visible project panels: run purely on visibility
     let onScreen = false;
-    const update = () => (shown && onScreen ? start() : stop());
+    const update = () => {
+      if (!onScreen) return stop();
+      if (reduce) { resize(); draw(0); } // single static frame under reduced motion
+      else start();
+    };
 
-    if (body) {
-      new MutationObserver(() => {
-        shown = isShown();
-        if (shown && reduce) {
-          resize();
-          draw(0);
-        }
-        update();
-      }).observe(body, { attributes: true, attributeFilter: ["hidden", "inert"] });
-    }
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(
         (entries) => {
