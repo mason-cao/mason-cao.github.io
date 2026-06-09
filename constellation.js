@@ -18,8 +18,15 @@
 
   const canvas = document.createElement("canvas");
   canvas.className = "tech-sphere-canvas";
+  canvas.setAttribute("role", "img");
+  canvas.setAttribute(
+    "aria-label",
+    "Interactive rotating tech stack; hover or click icons to reveal names."
+  );
   const ctx = canvas.getContext("2d");
   if (!ctx) return; // keep the static fallback logos
+
+  const readout = mount.parentElement?.querySelector("[data-tech-readout]");
 
   // Load each logo fresh (no crossOrigin: we only draw, never read pixels,
   // so a tainted canvas is harmless and we avoid CORS load failures).
@@ -27,7 +34,13 @@
     const img = new Image();
     img.decoding = "async";
     img.src = im.src;
-    const node = { img, ready: false, label: (im.title || im.alt || "").slice(0, 2) };
+    const label = im.title || im.alt || "Unknown";
+    const node = {
+      img,
+      ready: false,
+      label,
+      short: label.slice(0, 2).toUpperCase()
+    };
     const mark = () => { node.ready = !!(img.naturalWidth > 0); };
     if (img.complete) mark();
     img.addEventListener("load", mark);
@@ -48,6 +61,36 @@
   });
 
   let w = 0, h = 0, dpr = 1, R = 1, base = 26;
+  let hitTargets = [];
+  let activeNode = null;
+  let moved = false;
+
+  const setActiveNode = (node) => {
+    const nextNode = node ? node.i : null;
+    if (activeNode === nextNode) return;
+    activeNode = nextNode;
+    if (readout) {
+      readout.textContent = node
+        ? `NODE: ${nodes[node.i].label}`
+        : "";
+      readout.classList.toggle("is-active", Boolean(node));
+    }
+    draw();
+  };
+
+  const pickNode = (clientX, clientY) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    for (let i = hitTargets.length - 1; i >= 0; i--) {
+      const target = hitTargets[i];
+      const dx = x - target.x;
+      const dy = y - target.y;
+      if (Math.hypot(dx, dy) <= target.hitRadius) return target;
+    }
+    return null;
+  };
+
   const resize = () => {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = mount.clientWidth || 300;
@@ -68,12 +111,17 @@
   let rotX = 0.35, rotY = 0, velX = 0, velY = 0.003, dragging = false, lx = 0, ly = 0;
   mount.addEventListener("pointerdown", (e) => {
     dragging = true; lx = e.clientX; ly = e.clientY;
+    moved = false;
     mount.classList.add("is-dragging");
     try { mount.setPointerCapture(e.pointerId); } catch (_) {}
   });
   window.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
+    if (!dragging) {
+      if (e.pointerType === "mouse") setActiveNode(pickNode(e.clientX, e.clientY));
+      return;
+    }
     const dx = e.clientX - lx, dy = e.clientY - ly;
+    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) moved = true;
     lx = e.clientX; ly = e.clientY;
     rotY += dx * 0.006;
     rotX = Math.max(-1.2, Math.min(1.2, rotX + dy * 0.004));
@@ -82,6 +130,16 @@
   const release = () => { dragging = false; mount.classList.remove("is-dragging"); };
   window.addEventListener("pointerup", release);
   window.addEventListener("pointercancel", release);
+  mount.addEventListener("pointerleave", () => {
+    if (!dragging) setActiveNode(null);
+  });
+  mount.addEventListener("click", (e) => {
+    if (moved) {
+      moved = false;
+      return;
+    }
+    setActiveNode(pickNode(e.clientX, e.clientY));
+  });
 
   function draw() {
     ctx.clearRect(0, 0, w, h);
@@ -98,12 +156,32 @@
       return { x, y, z, i };
     }).sort((a, b) => a.z - b.z); // painter's order: back → front
 
+    hitTargets = [];
+
     for (const p of pts) {
       const depth = (p.z + 1) / 2; // 0 far .. 1 near
       const px = cx + p.x * R;
       const py = cy + p.y * R;
       const size = base * (0.62 + depth * 0.62);
       const n = nodes[p.i];
+      const selected = p.i === activeNode;
+      const hitRadius = size * 0.62;
+      hitTargets.push({ x: px, y: py, hitRadius, depth, i: p.i });
+
+      if (selected) {
+        ctx.globalAlpha = 0.34 + depth * 0.5;
+        ctx.beginPath();
+        ctx.arc(px, py, hitRadius + 5, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(255, 208, 137, 0.9)";
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(px, py, hitRadius + 13, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(56, 208, 255, 0.22)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
       ctx.globalAlpha = 0.2 + depth * 0.8;
       if (n.ready) {
         try { ctx.drawImage(n.img, px - size / 2, py - size / 2, size, size); }
@@ -113,6 +191,11 @@
         ctx.arc(px, py, size * 0.16, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(143,230,255,0.85)";
         ctx.fill();
+        ctx.fillStyle = "rgba(6,9,15,0.9)";
+        ctx.font = "700 10px JetBrains Mono, monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(n.short, px, py);
       }
     }
     ctx.globalAlpha = 1;

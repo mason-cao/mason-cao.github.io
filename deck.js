@@ -24,6 +24,7 @@
   const panels = Array.from(document.querySelectorAll("[data-panel]"));
   const heads = Array.from(document.querySelectorAll(".sec-head"));
   const scene = document.querySelector(".hud-scene");
+  const globeEq = document.querySelector(".globe-eq");
   if (!stage || !panels.length) return;
 
   // Cockpit layout, indexed by DOM order of [data-panel]:
@@ -98,6 +99,7 @@
     parX += (tParX - parX) * 0.08;
     parY += (tParY - parY) * 0.08;
     if (scene) scene.style.transform = `translate(${parX * -14}px, ${parY * -10}px)`;
+    if (globeEq) globeEq.style.transform = `translateX(-50%) translate(${parX * 5}px,${parY * 4}px)`;
     const mx = MARGIN / W(), my = MARGIN / H();
     P.forEach((p) => {
       if (!p.grabbed && (Math.abs(p.vx) > 0.0002 || Math.abs(p.vy) > 0.0002)) {
@@ -195,6 +197,7 @@
       p.el.classList.remove("is-revealed", "is-grabbed");
     });
     if (scene) scene.style.transform = "";
+    if (globeEq) globeEq.style.transform = "";
   }
 
   /* ── stacked fallback: scroll reveal ── */

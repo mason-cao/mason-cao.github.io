@@ -4,32 +4,82 @@ document.addEventListener("DOMContentLoaded", () => {
   ).matches;
 
   // ─────────────────────────────────────────────
-  // 3. Hero kicker typewriter ("Hi, I'm")
-  //    The name renders as plain styled text; this just types the small
-  //    kicker line above it. The living 3D background (globe + neural net +
-  //    Lorenz) lives in the holographic scene, not in the hero.
+  // 3. Hero intro typewriter
+  //    The greeting and name resolve as one deliberate HUD boot sequence.
   // ─────────────────────────────────────────────
+  const HERO_START_DELAY_MS = 420;
+  const HERO_BETWEEN_LINES_MS = 280;
+  const HERO_KICKER_TYPE_MS = 92;
+  const HERO_TITLE_TYPE_MS = 115;
+  const HERO_TYPE_HOLD_MS = 1100;
+  const HERO_TYPE_FADE_MS = 420;
   const heroKicker = document.getElementById("hero-kicker");
+  const heroTitle = document.getElementById("hero-title");
   const heroKickerText = heroKicker?.dataset.typewriterText;
+  const heroTitleText = heroTitle?.dataset.typewriterText;
+
+  const typeHeroLine = (element, text, characterDelay) =>
+    new Promise((resolve) => {
+      const characters = Array.from(text);
+      let index = 0;
+      element.textContent = "";
+      element.classList.add("is-typing");
+
+      const typeNext = () => {
+        element.textContent = characters.slice(0, index).join("");
+        index += 1;
+
+        if (index <= characters.length) {
+          window.setTimeout(typeNext, index === 1 ? 180 : characterDelay);
+          return;
+        }
+
+        element.textContent = text;
+        resolve();
+      };
+
+      typeNext();
+    });
 
   if (heroKicker && heroKickerText) {
     heroKicker.textContent = heroKickerText;
+  }
 
-    if (!prefersReducedMotion) {
-      const characters = Array.from(heroKickerText);
-      let index = 0;
-      heroKicker.textContent = "";
+  if (heroTitle && heroTitleText) {
+    heroTitle.textContent = heroTitleText;
+  }
 
-      const typeNext = () => {
-        heroKicker.textContent = characters.slice(0, index).join("");
-        index += 1;
-        if (index <= characters.length) {
-          window.setTimeout(typeNext, index === 1 ? 260 : 70);
-        } else {
-          heroKicker.textContent = heroKickerText;
-        }
-      };
-      window.setTimeout(typeNext, 360);
+  if (!prefersReducedMotion && heroKicker && heroKickerText) {
+    heroKicker.setAttribute("aria-label", heroKickerText);
+    heroKicker.textContent = "";
+    if (heroTitle && heroTitleText) {
+      heroTitle.setAttribute("aria-label", heroTitleText);
+      heroTitle.textContent = "";
+    }
+
+    window.setTimeout(async () => {
+      await typeHeroLine(heroKicker, heroKickerText, HERO_KICKER_TYPE_MS);
+      heroKicker.classList.remove("is-typing");
+
+      if (heroTitle && heroTitleText) {
+        window.setTimeout(async () => {
+          heroTitle.classList.add("is-typing");
+          await typeHeroLine(heroTitle, heroTitleText, HERO_TITLE_TYPE_MS);
+          heroTitle.classList.add("is-type-complete");
+          window.setTimeout(() => {
+            heroTitle.classList.add("is-type-settling");
+            window.setTimeout(() => {
+              heroTitle.classList.remove("is-typing");
+              heroTitle.classList.remove("is-type-settling");
+            }, HERO_TYPE_FADE_MS);
+          }, HERO_TYPE_HOLD_MS);
+        }, HERO_BETWEEN_LINES_MS);
+      }
+    }, HERO_START_DELAY_MS);
+  } else if (heroTitle) {
+    heroTitle.classList.add("is-type-complete");
+    if (heroTitle && heroTitleText) {
+      heroTitle.textContent = heroTitleText;
     }
   }
 
