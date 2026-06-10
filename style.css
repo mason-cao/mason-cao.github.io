@@ -1636,9 +1636,9 @@ html.deck-float .timeline-arrow svg { width: 0.85rem; height: 0.85rem; }
 /* the heavy 3D field is a cockpit affordance; on the stacked fallback keep
    the globe faint for perf */
 @media (max-width: 900px), (pointer: coarse) {
-  .scene-globe { opacity: 0.5; }
-  .globe-rings { opacity: 0.4; }
-  .hud-scene::after { opacity: 0.6; }
+  html:not(.deck-float) .scene-globe { opacity: 0.5; }
+  html:not(.deck-float) .globe-rings { opacity: 0.4; }
+  html:not(.deck-float) .hud-scene::after { opacity: 0.6; }
 }
 
 /* ════ REDUCED MOTION — show panels immediately, no reveal/entry motion ════ */

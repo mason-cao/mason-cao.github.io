@@ -1,23 +1,27 @@
 /* ════════════════════════════════════════════════════════════════════
    deck.js — the Jarvis cockpit controller
 
-   On a capable desktop (fine pointer + motion + wide) the page becomes a
+   On a capable desktop/laptop (wide + any fine pointer + motion) the page becomes a
    fixed, non-scrolling HUD: every [data-panel] is an absolutely-positioned
    hologram floating over the 3D field. Grab a panel by its title bar (or
    the hero by its body) and swipe it around; it throws with inertia and
    settles. The whole field has mouse parallax for depth. Positions persist
    in localStorage.
 
-   Everywhere else (mobile / touch / reduced-motion / narrow) it falls back
+   Everywhere else (mobile / tablet-only touch / reduced-motion / narrow) it falls back
    to the readable stacked page with a scroll reveal — a drag cockpit makes
    no sense on a touch screen.
    ════════════════════════════════════════════════════════════════════ */
 (function () {
   const html = document.documentElement;
+  const FLOAT_MIN_WIDTH = 1080;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const forceFloat = /[?&]float=1/.test(location.search); // dev / screenshot override
-  const floatMQ = matchMedia("(min-width: 900px) and (pointer: fine)");
-  const canFloat = () => forceFloat || (floatMQ.matches && !reduceMotion);
+  const widthMQ = matchMedia(`(min-width: ${FLOAT_MIN_WIDTH}px)`);
+  const anyFinePointerMQ = matchMedia("(any-pointer: fine)");
+  const primaryFinePointerMQ = matchMedia("(pointer: fine)");
+  const hasFinePointer = () => anyFinePointerMQ.matches || primaryFinePointerMQ.matches;
+  const canFloat = () => forceFloat || (widthMQ.matches && hasFinePointer() && !reduceMotion);
   const DRAGGABLE = false; // holograms are fixed; flip to true to re-enable drag
 
   const stage = document.getElementById("main-content");
@@ -236,7 +240,10 @@
       else if (floating) P.forEach(place);
     }, 150);
   });
-  if (floatMQ.addEventListener) floatMQ.addEventListener("change", setMode);
+  [widthMQ, anyFinePointerMQ, primaryFinePointerMQ].forEach((mq) => {
+    if (mq.addEventListener) mq.addEventListener("change", setMode);
+    else if (mq.addListener) mq.addListener(setMode);
+  });
 
   // small dev handle for resetting thrown-around panels
   window.deck = {
