@@ -1542,7 +1542,7 @@ html.reveal-ready:not(.deck-float) .sec-head.is-revealed {
 
 /* ════════════════════════════════════════════════════════════════════
    COCKPIT — deck.js adds .deck-float on a capable desktop (fine pointer +
-   motion + wide). A fixed, non-scrolling viewport where every panel is an
+   motion + wide + tall). A fixed, non-scrolling viewport where every panel is an
    absolutely-positioned hologram you can grab and throw. deck.js owns each
    panel's left/top/width + a per-frame parallax transform, so panels must
    NOT CSS-transition transform here (it would smear the parallax/drag).

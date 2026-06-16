@@ -1,7 +1,7 @@
 /* ════════════════════════════════════════════════════════════════════
    deck.js — the Jarvis cockpit controller
 
-   On a capable desktop/laptop (wide + any fine pointer + motion) the page becomes a
+   On a capable desktop/laptop (wide + tall + any fine pointer + motion) the page becomes a
    fixed, non-scrolling HUD: every [data-panel] is an absolutely-positioned
    hologram floating over the 3D field. Grab a panel by its title bar (or
    the hero by its body) and swipe it around; it throws with inertia and
@@ -14,14 +14,17 @@
    ════════════════════════════════════════════════════════════════════ */
 (function () {
   const html = document.documentElement;
-  const FLOAT_MIN_WIDTH = 1080;
+  const FLOAT_MIN_WIDTH = 1200;
+  const FLOAT_MIN_HEIGHT = 900;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const forceFloat = /[?&]float=1/.test(location.search); // dev / screenshot override
   const widthMQ = matchMedia(`(min-width: ${FLOAT_MIN_WIDTH}px)`);
+  const heightMQ = matchMedia(`(min-height: ${FLOAT_MIN_HEIGHT}px)`);
   const anyFinePointerMQ = matchMedia("(any-pointer: fine)");
   const primaryFinePointerMQ = matchMedia("(pointer: fine)");
   const hasFinePointer = () => anyFinePointerMQ.matches || primaryFinePointerMQ.matches;
-  const canFloat = () => forceFloat || (widthMQ.matches && hasFinePointer() && !reduceMotion);
+  const canFloat = () =>
+    forceFloat || (widthMQ.matches && heightMQ.matches && hasFinePointer() && !reduceMotion);
   const DRAGGABLE = false; // holograms are fixed; flip to true to re-enable drag
 
   const stage = document.getElementById("main-content");
@@ -39,19 +42,19 @@
   // project cards + comms, left side carries signal + horizon + tech +
   // off-clock — so neither column overflows. Inner edges sit just outside the
   // glowing sphere. Centre column kept clear so the reactor reads as the
-  // centrepiece. Tuned with headless measurement (Playwright @ 1440×900) so
+  // centrepiece. Tuned with headless measurement (Chrome @ 1200×900) so
   // no two panels overlap.
   const LAYOUT = [
     { x: 0.5,   y: 0.074, w: 24, d: 2 }, // 0  hero name (top-centre)
-    { x: 0.853, y: 0.149, w: 21, d: 2 }, // 1  Nova Core (right, top)
-    { x: 0.853, y: 0.411, w: 21, d: 3 }, // 2  AERIS (right, mid)
-    { x: 0.853, y: 0.686, w: 21, d: 2 }, // 3  FreshTrack (right, lower)
-    { x: 0.153, y: 0.446, w: 20, d: 1 }, // 4  horizon (left, mid — shares depth with tech/off-clock below)
-    { x: 0.153, y: 0.158, w: 20, d: 2 }, // 5  signal (left, top)
-    { x: 0.153, y: 0.703, w: 20, d: 1 }, // 6  tech stack (left, lower, flat — centred in column)
+    { x: 0.84,  y: 0.149, w: 21, d: 2 }, // 1  Nova Core (right, top)
+    { x: 0.84,  y: 0.411, w: 21, d: 3 }, // 2  AERIS (right, mid)
+    { x: 0.84,  y: 0.686, w: 21, d: 2 }, // 3  FreshTrack (right, lower)
+    { x: 0.16,  y: 0.446, w: 20, d: 1 }, // 4  horizon (left, mid — shares depth with tech/off-clock below)
+    { x: 0.16,  y: 0.158, w: 20, d: 2 }, // 5  signal (left, top)
+    { x: 0.16,  y: 0.703, w: 20, d: 1 }, // 6  tech stack (left, lower, flat — centred in column)
     { x: 0.5,   y: 0.855, w: 28, d: 1 }, // 7  timeline (bottom-centre, wide)
-    { x: 0.153, y: 0.901, w: 20, d: 1 }, // 8  off-clock (bottom-left)
-    { x: 0.853, y: 0.912, w: 21, d: 1 }, // 9  comms (bottom-right)
+    { x: 0.16,  y: 0.901, w: 20, d: 1 }, // 8  off-clock (bottom-left)
+    { x: 0.84,  y: 0.912, w: 21, d: 1 }, // 9  comms (bottom-right)
   ];
 
   const P = panels.map((el, i) => {
@@ -240,7 +243,7 @@
       else if (floating) P.forEach(place);
     }, 150);
   });
-  [widthMQ, anyFinePointerMQ, primaryFinePointerMQ].forEach((mq) => {
+  [widthMQ, heightMQ, anyFinePointerMQ, primaryFinePointerMQ].forEach((mq) => {
     if (mq.addEventListener) mq.addEventListener("change", setMode);
     else if (mq.addListener) mq.addListener(setMode);
   });
