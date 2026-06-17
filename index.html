@@ -348,7 +348,7 @@
       document.documentElement.classList.add("reveal-ready");
     </script>
 
-    <link rel="stylesheet" href="style.css?v=20260610a" />
+    <link rel="stylesheet" href="style.css?v=20260616k" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -368,7 +368,7 @@
       };
     </script>
 
-    <script src="app.js?v=20260608g" defer></script>
+    <script src="app.js?v=20260616k" defer></script>
 
     <script type="importmap">
       {
@@ -379,7 +379,7 @@
       }
     </script>
     <script src="constellation.js?v=20260609h" defer></script>
-    <script type="module" src="globe.js?v=20260609d"></script>
+    <script type="module" src="globe.js?v=20260616m"></script>
     <script type="module" src="motifs.js?v=20260608a"></script>
     <script type="module" src="deck.js?v=20260616a"></script>
   </head>
@@ -390,8 +390,15 @@
     <!-- subtle full-page film grain for holographic texture -->
     <div class="hero-grain" aria-hidden="true"></div>
     <!-- ░░ LIVING 3D BACKGROUND — neural globe ░░ -->
-    <div class="hud-scene" aria-hidden="true">
-      <canvas id="globe-canvas" class="scene-layer scene-globe"></canvas>
+    <div class="hud-scene">
+      <canvas
+        id="globe-canvas"
+        class="scene-layer scene-globe"
+        role="button"
+        tabindex="0"
+        aria-label="Expand interactive neural globe"
+        aria-expanded="false"
+      ></canvas>
       <div class="globe-rings" aria-hidden="true"><i></i><i></i></div>
     </div>
     <!-- the neural globe's governing equation: the forward pass it animates -->
@@ -788,7 +795,7 @@
                       <h3 class="timeline-title">MIT BeaverWorks courses</h3>
                     </li>
                     <li class="timeline-node">
-                      <span class="timeline-year font-mono">January 2026</span>
+                      <span class="timeline-year font-mono">February 2026</span>
                       <span class="timeline-dot" aria-hidden="true"></span>
                       <h3 class="timeline-title">Achieved USACO Gold</h3>
                     </li>
@@ -815,7 +822,7 @@
                       <span class="timeline-year font-mono">June 2026</span>
                       <span class="timeline-dot" aria-hidden="true"></span>
                       <h3 class="timeline-title">
-                        Stanford SAIL &amp; NASA Intern
+                        Stanford NLP &amp; NASA Intern
                       </h3>
                     </li>
                     <li class="timeline-node timeline-node--now">

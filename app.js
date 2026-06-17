@@ -176,6 +176,102 @@ document.addEventListener("DOMContentLoaded", () => {
   // The tech stack is now a draggable logo sphere; see constellation.js.
 
   // ─────────────────────────────────────────────
+  // Neural globe focus mode
+  // ─────────────────────────────────────────────
+  const globeScene = document.querySelector(".hud-scene");
+  const globeCanvas = document.getElementById("globe-canvas");
+
+  if (globeScene && globeCanvas) {
+    let globePressX = 0;
+    let globePressY = 0;
+    let globePointerMoved = false;
+
+    const isGlobeExpanded = () =>
+      globeScene.classList.contains("is-globe-expanded");
+
+    const syncGlobeLabel = () => {
+      const expanded = isGlobeExpanded();
+      globeCanvas.setAttribute("aria-expanded", expanded ? "true" : "false");
+      globeCanvas.setAttribute(
+        "aria-label",
+        expanded ? "Interactive neural globe, focused" : "Focus interactive neural globe"
+      );
+    };
+
+    const requestGlobeResize = () => {
+      requestAnimationFrame(() => {
+        if (typeof window.dispatchEvent === "function") {
+          const resizeEvent =
+            typeof Event === "function" ? new Event("resize") : { type: "resize" };
+          window.dispatchEvent(resizeEvent);
+        }
+      });
+    };
+
+    const openGlobe = () => {
+      if (isGlobeExpanded()) return;
+      globeScene.classList.add("is-globe-expanded");
+      document.documentElement.classList.add("globe-focus");
+      syncGlobeLabel();
+      requestGlobeResize();
+    };
+
+    const closeGlobe = () => {
+      if (!isGlobeExpanded()) return;
+      globeScene.classList.remove("is-globe-expanded");
+      document.documentElement.classList.remove("globe-focus");
+      syncGlobeLabel();
+      requestGlobeResize();
+    };
+
+    const toggleGlobe = () => {
+      if (isGlobeExpanded()) closeGlobe();
+      else openGlobe();
+    };
+
+    globeScene.removeAttribute("aria-hidden");
+    globeCanvas.setAttribute("role", "button");
+    globeCanvas.setAttribute("tabindex", "0");
+    syncGlobeLabel();
+
+    globeCanvas.addEventListener("pointerdown", (e) => {
+      globePressX = e.clientX;
+      globePressY = e.clientY;
+      globePointerMoved = false;
+    });
+    globeCanvas.addEventListener("pointermove", (e) => {
+      if (Math.hypot(e.clientX - globePressX, e.clientY - globePressY) > 6) {
+        globePointerMoved = true;
+      }
+    });
+    globeCanvas.addEventListener("click", () => {
+      if (globePointerMoved) {
+        globePointerMoved = false;
+        return;
+      }
+      toggleGlobe();
+    });
+    globeCanvas.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleGlobe();
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeGlobe();
+    });
+    document.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (isGlobeExpanded() && e.target !== globeCanvas) {
+          closeGlobe();
+        }
+      },
+      true
+    );
+  }
+
+  // ─────────────────────────────────────────────
   // 11. Live GitHub signal log
   // ─────────────────────────────────────────────
   const ghFeed = document.getElementById("gh-feed");
@@ -301,11 +397,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextBtn = tl.querySelector("[data-timeline-next]");
     const progress = tl.querySelector("[data-timeline-progress]");
     const nodes = Array.from(track.querySelectorAll(".timeline-node"));
-    const firstNode = nodes[0];
-    const stepWidth = firstNode
-      ? firstNode.getBoundingClientRect().width
-      : 240;
     const behavior = prefersReducedMotion ? "auto" : "smooth";
+
+    const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+    const clampIndex = (index) => Math.max(0, Math.min(index, nodes.length - 1));
+    const nodeTargets = () => {
+      const max = maxScroll();
+      return nodes.map((node) => Math.max(0, Math.min(node.offsetLeft, max)));
+    };
+    const nearestNodeIndex = () => {
+      const targets = nodeTargets();
+      if (!targets.length) return 0;
+      let closest = 0;
+      let closestDistance = Infinity;
+      targets.forEach((target, index) => {
+        const distance = Math.abs(target - track.scrollLeft);
+        if (distance < closestDistance) {
+          closest = index;
+          closestDistance = distance;
+        }
+      });
+      return closest;
+    };
+    let activeNodeIndex = nearestNodeIndex();
+    const updateArrowState = () => {
+      if (prevBtn) prevBtn.disabled = activeNodeIndex <= 0;
+      if (nextBtn) nextBtn.disabled = activeNodeIndex >= nodes.length - 1;
+    };
+    const updateProgress = (left = track.scrollLeft) => {
+      const max = maxScroll();
+      const p = max > 0 ? left / max : 0;
+      if (progress) progress.style.width = (p * 100).toFixed(1) + "%";
+    };
+    const scrollToNode = (index) => {
+      const targets = nodeTargets();
+      if (!targets.length) return;
+      const safeIndex = clampIndex(index);
+      const left = targets[safeIndex];
+      activeNodeIndex = safeIndex;
+      updateProgress(left);
+      updateArrowState();
+      if (typeof track.scrollTo === "function") {
+        track.scrollTo({ left, behavior });
+      } else {
+        track.scrollLeft = left;
+      }
+    };
+    const moveByNode = (direction) => {
+      if (!nodes.length) return;
+      scrollToNode(activeNodeIndex + direction);
+    };
 
     // coverflow-style depth: nodes recede + rotate as they leave centre
     const applyDepth = () => {
@@ -325,11 +466,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let ticking = false;
     const update = () => {
-      const max = track.scrollWidth - track.clientWidth;
-      const p = max > 0 ? track.scrollLeft / max : 0;
-      if (progress) progress.style.width = (p * 100).toFixed(1) + "%";
-      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
-      if (nextBtn) nextBtn.disabled = track.scrollLeft >= max - 2;
+      activeNodeIndex = nearestNodeIndex();
+      updateProgress();
+      updateArrowState();
       applyDepth();
       ticking = false;
     };
@@ -340,13 +479,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (prevBtn)
-      prevBtn.addEventListener("click", () =>
-        track.scrollBy({ left: -stepWidth * 1.5, behavior })
-      );
+      prevBtn.addEventListener("click", () => moveByNode(-1));
     if (nextBtn)
-      nextBtn.addEventListener("click", () =>
-        track.scrollBy({ left: stepWidth * 1.5, behavior })
-      );
+      nextBtn.addEventListener("click", () => moveByNode(1));
 
     track.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
@@ -354,10 +489,10 @@ document.addEventListener("DOMContentLoaded", () => {
     track.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") {
         e.preventDefault();
-        track.scrollBy({ left: -stepWidth, behavior });
+        moveByNode(-1);
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
-        track.scrollBy({ left: stepWidth, behavior });
+        moveByNode(1);
       }
     });
 
