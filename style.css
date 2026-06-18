@@ -1260,7 +1260,7 @@ html.deck-float .globe-eq {
   display: block;
   position: fixed;
   left: 50%;
-  top: 13.8%;
+  top: 20.5%;
   transform: translateX(-50%);
   margin: 0;
   z-index: 7;
@@ -1601,6 +1601,157 @@ html.deck-float .hud-panel--sphere .tech-sphere { height: 148px; }
 /* home copy spacing */
 .hero-copy .hero-kicker { margin-top: 0; }
 
+.music-player {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.46rem;
+  width: max-content;
+  max-width: 10rem;
+  margin-top: -0.95rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: #dceeff;
+  transition:
+    opacity 160ms ease-out,
+    transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.music-player:hover {
+  transform: translateY(-1px);
+}
+
+html.deck-float .music-player {
+  position: fixed;
+  left: calc(50% - 17rem);
+  top: calc(50% + 11.5rem);
+  z-index: 16;
+  margin-top: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+
+html.deck-float .music-player:hover {
+  transform: translate(-50%, calc(-50% - 1px));
+}
+
+html.globe-focus .music-player {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.music-player-toggle {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.42rem;
+  height: 1.42rem;
+  border: 1px solid rgba(247, 251, 255, 0.3);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(247, 251, 255, 0.11), rgba(90, 188, 255, 0.055) 56%, rgba(7, 16, 28, 0.12) 100%);
+  color: #edf6ff;
+  box-shadow:
+    0 0 18px rgba(255, 255, 255, 0.08),
+    0 0 28px rgba(72, 196, 255, 0.1),
+    inset 0 0 12px rgba(255, 255, 255, 0.05);
+  transition:
+    background 160ms ease-out,
+    box-shadow 160ms ease-out,
+    color 160ms ease-out;
+}
+
+.music-player-toggle:hover {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(247, 251, 255, 0.16), rgba(90, 188, 255, 0.075) 56%, rgba(7, 16, 28, 0.14) 100%);
+  color: #f8fbff;
+  box-shadow:
+    0 0 24px rgba(255, 255, 255, 0.14),
+    0 0 36px rgba(72, 196, 255, 0.16),
+    inset 0 0 16px rgba(255, 255, 255, 0.07);
+}
+
+.music-player-toggle svg {
+  width: 0.68rem;
+  height: 0.68rem;
+}
+
+.music-player-toggle span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.music-player-pause-icon,
+.music-player.is-playing .music-player-play-icon {
+  display: none;
+}
+
+.music-player.is-playing .music-player-pause-icon {
+  display: block;
+}
+
+.music-player-track {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  padding-top: 0.02rem;
+  text-shadow:
+    0 0 10px rgba(196, 240, 255, 0.34),
+    0 0 20px rgba(56, 208, 255, 0.18);
+}
+
+.music-player-title,
+.music-player-artist,
+.music-player-status {
+  margin: 0;
+}
+
+.music-player-title {
+  font-family: "Space Grotesk", "Chivo", system-ui, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #eaf6ff;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.music-player-artist {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.43rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+
+.music-player-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .music-player {
+    margin-top: -1.25rem;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════════════
    SCROLL REVEAL (stacked fallback only — mobile / touch / no-cockpit).
    deck.js arms it via .reveal-ready on <html> and toggles .is-revealed.
@@ -1666,7 +1817,7 @@ html.deck-float [data-panel].is-revealed { opacity: 1; }
 /* hero sits centred at the top of the cockpit, as a title over the reactor */
 html.deck-float .hero-copy { max-width: none; text-align: center; }
 html.deck-float .hero-copy .hero-display {
-  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  font-size: clamp(2.35rem, 4.2vw, 3rem);
   color: #eaf6ff;
   text-shadow: 0 0 28px rgba(120, 200, 255, 0.45);
 }

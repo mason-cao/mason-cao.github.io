@@ -348,7 +348,7 @@
       document.documentElement.classList.add("reveal-ready");
     </script>
 
-    <link rel="stylesheet" href="style.css?v=20260616k" />
+    <link rel="stylesheet" href="style.css?v=20260617h" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -368,7 +368,7 @@
       };
     </script>
 
-    <script src="app.js?v=20260616k" defer></script>
+    <script src="app.js?v=20260617h" defer></script>
 
     <script type="importmap">
       {
@@ -381,7 +381,7 @@
     <script src="constellation.js?v=20260609h" defer></script>
     <script type="module" src="globe.js?v=20260616m"></script>
     <script type="module" src="motifs.js?v=20260608a"></script>
-    <script type="module" src="deck.js?v=20260616a"></script>
+    <script type="module" src="deck.js?v=20260617h"></script>
   </head>
 
   <body class="font-sans relative bg-[#06090f]">
@@ -431,6 +431,46 @@
               Mason Cao
             </h1>
           </div>
+          <aside class="music-player music-player--orbit" aria-label="Music player">
+            <audio
+              id="ambient-audio"
+              src="audio/dreiton-slowed.mp3"
+              preload="auto"
+              autoplay
+              loop
+            ></audio>
+            <button
+              type="button"
+              class="music-player-toggle"
+              data-audio-play
+              aria-label="Play Dreiton by C418"
+            >
+              <svg
+                class="music-player-play-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M8 5.4v13.2L18.5 12 8 5.4z" />
+              </svg>
+              <svg
+                class="music-player-pause-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M7 5h4v14H7V5zm6 0h4v14h-4V5z" />
+              </svg>
+              <span data-audio-play-label>Play</span>
+            </button>
+            <div class="music-player-track">
+              <p class="music-player-title">Dreiton</p>
+              <p class="music-player-artist">C418</p>
+            </div>
+            <p class="music-player-status" data-audio-status aria-live="polite">
+              Drop the track file to enable
+            </p>
+          </aside>
         </section>
 
         <!-- ░░ 01 NOW ░░ -->

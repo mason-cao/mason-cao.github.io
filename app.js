@@ -84,6 +84,166 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ─────────────────────────────────────────────
+  // 4. Ambient music player
+  // ─────────────────────────────────────────────
+  const musicPlayer = document.querySelector(".music-player");
+  const audio = document.getElementById("ambient-audio");
+  const playBtn = document.querySelector("[data-audio-play]");
+  const playLabel = document.querySelector("[data-audio-play-label]");
+  const audioStatus = document.querySelector("[data-audio-status]");
+
+  if (musicPlayer && audio && playBtn) {
+    const trackName = "Dreiton by C418";
+    const missingAudioMessage = "Drop the track file to enable";
+    const blockedAutoplayMessage = "Tap play to start";
+    const playbackRate = 1;
+    const startAtSeconds = 5 * 60 + 30;
+    let hasAudioError = false;
+    let hasStartedPlayback = false;
+    let autoplayUnlockArmed = false;
+    let unlockAutoplay = null;
+
+    const syncPlaybackRate = () => {
+      audio.playbackRate = playbackRate;
+      audio.defaultPlaybackRate = playbackRate;
+    };
+
+    const ensureAudible = () => {
+      audio.muted = false;
+      audio.volume = 1;
+    };
+
+    const syncStartPoint = ({ force = false } = {}) => {
+      if (hasStartedPlayback && !force) return;
+      const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+      const startTime =
+        duration > 0 ? Math.min(startAtSeconds, Math.max(duration - 0.25, 0)) : startAtSeconds;
+      try {
+        if (force || Math.abs((audio.currentTime || 0) - startTime) > 0.2) {
+          audio.currentTime = startTime;
+        }
+      } catch (_) {}
+    };
+
+    const syncPlaybackConfig = ({ forceStart = false, skipStart = false } = {}) => {
+      audio.autoplay = true;
+      audio.loop = true;
+      audio.preload = "auto";
+      syncPlaybackRate();
+      if (!skipStart) syncStartPoint({ force: forceStart || !hasStartedPlayback });
+    };
+
+    const syncPlayState = () => {
+      const isPlaying = !audio.paused;
+      musicPlayer.classList.toggle("is-playing", isPlaying);
+      playBtn.setAttribute(
+        "aria-label",
+        `${isPlaying ? "Pause" : "Play"} ${trackName}`
+      );
+      if (playLabel) playLabel.textContent = isPlaying ? "Pause" : "Play";
+      if (audioStatus) {
+        audioStatus.textContent = hasAudioError
+          ? missingAudioMessage
+          : isPlaying
+          ? "Playing local audio"
+          : blockedAutoplayMessage;
+      }
+    };
+
+    const restartFromBeginning = () => {
+      try {
+        audio.currentTime = 0;
+      } catch (_) {}
+    };
+
+    const cleanupAutoplayUnlock = () => {
+      if (!unlockAutoplay) return;
+      document.removeEventListener("click", unlockAutoplay);
+      document.removeEventListener("keydown", unlockAutoplay);
+      document.removeEventListener("touchend", unlockAutoplay);
+      unlockAutoplay = null;
+      autoplayUnlockArmed = false;
+    };
+
+    const armAutoplayUnlock = () => {
+      if (autoplayUnlockArmed) return;
+      autoplayUnlockArmed = true;
+      unlockAutoplay = (event) => {
+        if (event?.target?.closest?.("[data-audio-play]")) return;
+        cleanupAutoplayUnlock();
+        syncPlaybackConfig({ forceStart: true });
+        attemptPlay();
+      };
+      document.addEventListener("click", unlockAutoplay);
+      document.addEventListener("keydown", unlockAutoplay);
+      document.addEventListener("touchend", unlockAutoplay, { passive: true });
+    };
+
+    const attemptPlay = ({ forceStart = !hasStartedPlayback, skipStart = false } = {}) => {
+      syncPlaybackConfig({ forceStart, skipStart });
+      ensureAudible();
+      const playAttempt = audio.play();
+      if (playAttempt && typeof playAttempt.then === "function") {
+        playAttempt
+          .then(() => {
+            cleanupAutoplayUnlock();
+            hasStartedPlayback = true;
+            hasAudioError = false;
+            syncPlayState();
+          })
+          .catch((err) => {
+            hasAudioError = err?.name !== "NotAllowedError";
+            if (!hasAudioError) armAutoplayUnlock();
+            syncPlayState();
+          });
+      } else {
+        syncPlayState();
+      }
+    };
+
+    playBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        attemptPlay();
+      } else {
+        audio.pause();
+        syncPlayState();
+      }
+    });
+
+    audio.addEventListener("loadedmetadata", () => {
+      hasAudioError = false;
+      syncPlaybackConfig({ forceStart: true });
+      attemptPlay({ forceStart: true });
+    });
+    audio.addEventListener("ended", () => {
+      hasStartedPlayback = false;
+      restartFromBeginning();
+      attemptPlay({ forceStart: false, skipStart: true });
+    });
+    audio.addEventListener("play", () => {
+      hasStartedPlayback = true;
+      syncPlayState();
+    });
+    audio.addEventListener("timeupdate", () => {
+      const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+      if (!hasStartedPlayback || audio.paused || duration <= startAtSeconds + 1) return;
+      if (audio.currentTime < 1 || duration - audio.currentTime <= 0.35) {
+        restartFromBeginning();
+      }
+    });
+    audio.addEventListener("pause", syncPlayState);
+    audio.addEventListener("error", () => {
+      hasAudioError = true;
+      syncPlayState();
+    });
+
+    syncPlaybackConfig();
+    audio.load?.();
+    if (audio.readyState >= 1) attemptPlay();
+    syncPlayState();
+  }
+
+  // ─────────────────────────────────────────────
   // 9. Modals (contact + play log)
   // ─────────────────────────────────────────────
   const modalFocusableSelector =

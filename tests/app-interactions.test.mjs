@@ -184,7 +184,64 @@ function createGlobeHarness() {
   return { scene, canvas };
 }
 
-function runApp({ timeline = createTimelineHarness(), globe = createGlobeHarness() } = {}) {
+function createMusicHarness({ rejectPlay = false, rejectFirstPlayAsNotAllowed = false } = {}) {
+  const player = createElement({ classNames: ["music-player"] });
+  const audio = createElement();
+  audio.duration = 600;
+  audio.currentTime = 0;
+  audio.paused = true;
+  audio.playCalls = 0;
+  audio.pauseCalls = 0;
+  audio.loop = false;
+  audio.preload = "metadata";
+  audio.loadCalls = 0;
+  audio.muted = true;
+  audio.volume = 0;
+  audio.preservesPitch = true;
+  audio.webkitPreservesPitch = true;
+  audio.load = () => {
+    audio.loadCalls += 1;
+  };
+  audio.play = () => {
+    audio.playCalls += 1;
+    if (rejectFirstPlayAsNotAllowed && audio.playCalls === 1) {
+      const err = new Error("autoplay blocked");
+      err.name = "NotAllowedError";
+      return Promise.reject(err);
+    }
+    if (rejectPlay) return Promise.reject(new Error("missing audio file"));
+    audio.paused = false;
+    return Promise.resolve();
+  };
+  audio.pause = () => {
+    audio.pauseCalls += 1;
+    audio.paused = true;
+  };
+
+  const playButton = createElement();
+  playButton.innerHTML = "";
+  const playLabel = createElement();
+  const status = createElement();
+
+  return {
+    player,
+    audio,
+    playButton,
+    playLabel,
+    rewindButton: null,
+    forwardButton: null,
+    seek: null,
+    current: null,
+    duration: null,
+    status,
+  };
+}
+
+function runApp({
+  timeline = createTimelineHarness(),
+  globe = createGlobeHarness(),
+  music = createMusicHarness(),
+} = {}) {
   const html = createElement();
   const body = createElement();
   const deck = createElement();
@@ -198,10 +255,20 @@ function runApp({ timeline = createTimelineHarness(), globe = createGlobeHarness
     getElementById(id) {
       if (id === "deck") return deck;
       if (id === "globe-canvas") return globe.canvas;
+      if (id === "ambient-audio") return music.audio;
       return null;
     },
     querySelector(selector) {
       if (selector === ".hud-scene") return globe.scene;
+      if (selector === ".music-player") return music.player;
+      if (selector === "[data-audio-play]") return music.playButton;
+      if (selector === "[data-audio-play-label]") return music.playLabel;
+      if (selector === "[data-audio-rewind]") return music.rewindButton;
+      if (selector === "[data-audio-forward]") return music.forwardButton;
+      if (selector === "[data-audio-seek]") return music.seek;
+      if (selector === "[data-audio-current]") return music.current;
+      if (selector === "[data-audio-duration]") return music.duration;
+      if (selector === "[data-audio-status]") return music.status;
       return null;
     },
     querySelectorAll(selector) {
@@ -284,7 +351,177 @@ function runApp({ timeline = createTimelineHarness(), globe = createGlobeHarness
 
   vm.runInNewContext(appSource, context, { filename: "app.js" });
   document.dispatch("DOMContentLoaded");
-  return { timeline, globe, document, html, body, deck };
+  return { timeline, globe, music, document, html, body, deck };
+}
+
+{
+  const heroPanel = indexSource.match(
+    /<div class="hero-copy" data-panel>[\s\S]*?<\/div>/
+  )?.[0] ?? "";
+  assert.match(
+    indexSource,
+    /style\.css\?v=20260617h[\s\S]*app\.js\?v=20260617h[\s\S]*deck\.js\?v=20260617h/,
+    "player asset changes should be cache-busted"
+  );
+  assert.match(
+    indexSource,
+    /<audio[^>]+id="ambient-audio"[^>]+src="audio\/dreiton-slowed\.mp3"[^>]+preload="auto"[^>]+autoplay[^>]+loop/s,
+    "music player should point at the local Dreiton audio file and request autoplay looping"
+  );
+  assert.match(
+    indexSource,
+    /data-audio-play[\s\S]*aria-label="Play Dreiton by C418"/,
+    "music player should expose an accessible play button"
+  );
+  assert.doesNotMatch(
+    indexSource,
+    /Dreiton,\s*slowed|Dreiton slowed/i,
+    "music player should not show or announce slowed text"
+  );
+  assert.doesNotMatch(
+    heroPanel,
+    /music-player/,
+    "music player should not live inside the hero panel"
+  );
+  assert.match(
+    indexSource,
+    /<aside class="music-player music-player--orbit" aria-label="Music player">/,
+    "music player should render as a globe orbit control, not another card"
+  );
+  assert.doesNotMatch(
+    indexSource,
+    /<aside class="music-player[^"]*"[^>]*data-panel/,
+    "music player should not be registered as an extra cockpit panel"
+  );
+  assert.doesNotMatch(
+    indexSource,
+    /data-audio-rewind|data-audio-forward|data-audio-seek/,
+    "music player should stay compact without transport extras or a scrubber"
+  );
+  assert.match(
+    styleSource,
+    /\.music-player\s*{[^}]*background:\s*transparent[\s\S]*box-shadow:\s*none/s,
+    "music player should not render as a translucent HUD card"
+  );
+  assert.doesNotMatch(
+    styleSource,
+    /\.music-player::before/,
+    "music player should not draw the extra top rule"
+  );
+  assert.match(
+    styleSource,
+    /html\.deck-float\s+\.music-player\s*{[^}]*position:\s*fixed[\s\S]*left:\s*calc\(50% - 17rem\)[\s\S]*top:\s*calc\(50% \+ 11\.5rem\)/s,
+    "desktop cockpit player should attach to the lower-left globe ring"
+  );
+  assert.doesNotMatch(
+    styleSource,
+    /\.music-player:hover\s*{[^}]*border/s,
+    "music player should not gain a hover border"
+  );
+  assert.match(
+    styleSource,
+    /\.music-player-toggle\s*{[\s\S]*box-shadow:\s*0 0 18px rgba\(255, 255, 255, 0\.08\)/,
+    "play button should use the same white glow language as other controls"
+  );
+  assert.doesNotMatch(
+    styleSource,
+    /\.music-player-toggle:hover\s*{[^}]*border-color/s,
+    "play button hover should not switch to a colored border"
+  );
+  assert.doesNotMatch(
+    fs.readFileSync(new URL("../deck.js", import.meta.url), "utf8"),
+    /music player|audio screen|11 holograms/,
+    "deck layout should no longer treat music as another hologram"
+  );
+}
+
+{
+  const { music } = runApp();
+
+  assert.equal(music.audio.loop, true, "music should loop forever");
+  assert.equal(music.audio.preload, "auto", "music should preload enough data for local 5:30 seeking");
+  assert.equal(music.audio.loadCalls, 1, "music should start loading the local MP3 on page load");
+  assert.equal(music.audio.currentTime, 330, "music should start at 5:30");
+  assert.equal(music.audio.playbackRate, 1, "music should play at native speed");
+  assert.equal(music.audio.defaultPlaybackRate, 1, "music should keep native default speed");
+  assert.equal(music.audio.preservesPitch, true, "native playback should not force pitch-processing overrides");
+  assert.equal(music.audio.webkitPreservesPitch, true, "webkit pitch preservation should be left at the browser default");
+  music.audio.currentTime = 0;
+  music.audio.dispatch("loadedmetadata");
+  await Promise.resolve();
+  assert.equal(music.audio.playCalls, 1, "music should attempt to autoplay after metadata loads");
+  assert.equal(music.audio.currentTime, 330, "metadata refresh should seek back to 5:30 before autoplay");
+  assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
+}
+
+{
+  const music = createMusicHarness({ rejectFirstPlayAsNotAllowed: true });
+  const { document } = runApp({ music });
+
+  music.audio.dispatch("loadedmetadata");
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(music.audio.playCalls, 1, "initial autoplay should be attempted");
+  assert.equal(music.audio.currentTime, 330, "blocked autoplay should still prepare the 5:30 start point");
+
+  music.audio.currentTime = 0;
+  document.dispatch("click");
+  await Promise.resolve();
+  assert.equal(music.audio.playCalls, 2, "first click should retry autoplay when the browser blocks sound");
+  assert.equal(music.audio.currentTime, 330, "blocked-autoplay retry should still start from 5:30");
+  assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
+}
+
+{
+  const { music } = runApp();
+
+  music.audio.dispatch("loadedmetadata");
+  await Promise.resolve();
+  music.audio.currentTime = 599.8;
+  music.audio.dispatch("timeupdate");
+  assert.equal(music.audio.currentTime, 0, "loop guard should restart playback from the beginning after the end");
+}
+
+{
+  const { music } = runApp();
+
+  music.audio.dispatch("loadedmetadata");
+  await Promise.resolve();
+  music.audio.currentTime = 599.8;
+  music.audio.dispatch("ended");
+  await Promise.resolve();
+  assert.equal(music.audio.currentTime, 0, "ended event should restart playback from the beginning");
+}
+
+{
+  const { music } = runApp();
+
+  await music.playButton.click();
+  assert.equal(music.audio.playCalls, 1, "play button should start the audio");
+  assert.equal(music.audio.muted, false, "play button should force audible playback");
+  assert.equal(music.audio.volume, 1, "play button should restore full player volume");
+  assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
+  assert.equal(music.playLabel.textContent, "Pause");
+
+  await music.playButton.click();
+  assert.equal(music.audio.pauseCalls, 1, "play button should pause active audio");
+  assert.equal(music.playButton.getAttribute("aria-label"), "Play Dreiton by C418");
+  assert.equal(music.playLabel.textContent, "Play");
+}
+
+{
+  const music = createMusicHarness({ rejectPlay: true });
+  runApp({ music });
+
+  music.playButton.click();
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(
+    music.status.textContent,
+    "Drop the track file to enable",
+    "failed playback should keep the placeholder file instruction visible"
+  );
+  assert.equal(music.playButton.getAttribute("aria-label"), "Play Dreiton by C418");
 }
 
 {
