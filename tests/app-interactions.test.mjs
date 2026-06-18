@@ -439,9 +439,9 @@ function runApp({
   const { music } = runApp();
 
   assert.equal(music.audio.loop, true, "music should loop forever");
-  assert.equal(music.audio.preload, "auto", "music should preload enough data for local 5:30 seeking");
+  assert.equal(music.audio.preload, "auto", "music should preload enough data for local 4:00 seeking");
   assert.equal(music.audio.loadCalls, 1, "music should start loading the local MP3 on page load");
-  assert.equal(music.audio.currentTime, 330, "music should start at 5:30");
+  assert.equal(music.audio.currentTime, 240, "music should start at 4:00");
   assert.equal(music.audio.playbackRate, 1, "music should play at native speed");
   assert.equal(music.audio.defaultPlaybackRate, 1, "music should keep native default speed");
   assert.equal(music.audio.preservesPitch, true, "native playback should not force pitch-processing overrides");
@@ -450,7 +450,7 @@ function runApp({
   music.audio.dispatch("loadedmetadata");
   await Promise.resolve();
   assert.equal(music.audio.playCalls, 1, "music should attempt to autoplay after metadata loads");
-  assert.equal(music.audio.currentTime, 330, "metadata refresh should seek back to 5:30 before autoplay");
+  assert.equal(music.audio.currentTime, 240, "metadata refresh should seek back to 4:00 before autoplay");
   assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
 }
 
@@ -462,13 +462,13 @@ function runApp({
   await Promise.resolve();
   await Promise.resolve();
   assert.equal(music.audio.playCalls, 1, "initial autoplay should be attempted");
-  assert.equal(music.audio.currentTime, 330, "blocked autoplay should still prepare the 5:30 start point");
+  assert.equal(music.audio.currentTime, 240, "blocked autoplay should still prepare the 4:00 start point");
 
   music.audio.currentTime = 0;
   document.dispatch("click");
   await Promise.resolve();
   assert.equal(music.audio.playCalls, 2, "first click should retry autoplay when the browser blocks sound");
-  assert.equal(music.audio.currentTime, 330, "blocked-autoplay retry should still start from 5:30");
+  assert.equal(music.audio.currentTime, 240, "blocked-autoplay retry should still start from 4:00");
   assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
 }
 
