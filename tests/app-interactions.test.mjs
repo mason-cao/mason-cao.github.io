@@ -6,6 +6,7 @@ const appSource = fs.readFileSync(new URL("../app.js", import.meta.url), "utf8")
 const styleSource = fs.readFileSync(new URL("../style.css", import.meta.url), "utf8");
 const indexSource = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const globeSource = fs.readFileSync(new URL("../globe.js", import.meta.url), "utf8");
+const envelopePath = new URL("../audio/dreiton-envelope.json", import.meta.url);
 
 function createClassList(initial = []) {
   const classes = new Set(initial);
@@ -184,10 +185,16 @@ function createGlobeHarness() {
   return { scene, canvas };
 }
 
-function createMusicHarness({ rejectPlay = false, rejectFirstPlayAsNotAllowed = false } = {}) {
+function createMusicHarness({
+  rejectPlay = false,
+  rejectFirstPlayAsNotAllowed = false,
+  resetCurrentTimeOnLoad = false,
+  readyState = 0,
+} = {}) {
   const player = createElement({ classNames: ["music-player"] });
   const audio = createElement();
   audio.duration = 600;
+  audio.readyState = readyState;
   audio.currentTime = 0;
   audio.paused = true;
   audio.playCalls = 0;
@@ -201,6 +208,7 @@ function createMusicHarness({ rejectPlay = false, rejectFirstPlayAsNotAllowed = 
   audio.webkitPreservesPitch = true;
   audio.load = () => {
     audio.loadCalls += 1;
+    if (resetCurrentTimeOnLoad) audio.currentTime = 0;
   };
   audio.play = () => {
     audio.playCalls += 1;
@@ -360,13 +368,31 @@ function runApp({
   )?.[0] ?? "";
   assert.match(
     indexSource,
-    /style\.css\?v=20260617h[\s\S]*app\.js\?v=20260617h[\s\S]*deck\.js\?v=20260617h/,
-    "player asset changes should be cache-busted"
+    /style\.css\?v=20260617h[\s\S]*app\.js\?v=20260619e[\s\S]*globe\.js\?v=20260619h[\s\S]*deck\.js\?v=20260617h/,
+    "player and globe asset changes should be cache-busted"
   );
   assert.match(
     indexSource,
-    /<audio[^>]+id="ambient-audio"[^>]+src="audio\/dreiton-slowed\.mp3"[^>]+preload="auto"[^>]+autoplay[^>]+loop/s,
-    "music player should point at the local Dreiton audio file and request autoplay looping"
+    /<audio[^>]+id="ambient-audio"[^>]+src="audio\/dreiton-slowed\.mp3"[^>]+preload="auto"[^>]+loop/s,
+    "music player should point at the local Dreiton audio file and loop"
+  );
+  assert.doesNotMatch(
+    indexSource,
+    /<audio[^>]+id="ambient-audio"[^>]*autoplay/s,
+    "music player should not request autoplay before the first click"
+  );
+  assert.ok(
+    fs.existsSync(envelopePath),
+    "globe should have a precomputed Dreiton pulse envelope so first click does not decode audio"
+  );
+  const envelope = JSON.parse(fs.readFileSync(envelopePath, "utf8"));
+  assert.equal(envelope.source, "dreiton-slowed.mp3", "pulse envelope should document its audio source");
+  assert.equal(envelope.frameRate, 60, "pulse envelope should be sampled densely enough for smooth pulses");
+  assert.ok(envelope.duration > 490, "pulse envelope should cover the full track");
+  assert.ok(envelope.values.length > 25000, "pulse envelope should include the whole track at 60Hz");
+  assert.ok(
+    envelope.values.some((value) => value > 0.7),
+    "pulse envelope should retain prominent peaks from the track"
   );
   assert.match(
     indexSource,
@@ -440,18 +466,44 @@ function runApp({
 
   assert.equal(music.audio.loop, true, "music should loop forever");
   assert.equal(music.audio.preload, "auto", "music should preload enough data for local 4:00 seeking");
+  assert.notEqual(music.audio.autoplay, true, "music should wait for the first user click instead of autoplaying");
   assert.equal(music.audio.loadCalls, 1, "music should start loading the local MP3 on page load");
   assert.equal(music.audio.currentTime, 240, "music should start at 4:00");
   assert.equal(music.audio.playbackRate, 1, "music should play at native speed");
   assert.equal(music.audio.defaultPlaybackRate, 1, "music should keep native default speed");
   assert.equal(music.audio.preservesPitch, true, "native playback should not force pitch-processing overrides");
   assert.equal(music.audio.webkitPreservesPitch, true, "webkit pitch preservation should be left at the browser default");
+  assert.match(
+    appSource,
+    /const beginPlaybackFade = \(\) => \{[\s\S]*audio\.volume = 0[\s\S]*window\.setTimeout\(step, 45\)[\s\S]*audio\.volume = 1/,
+    "first playback should fade in quickly instead of starting the waveform at full volume"
+  );
   music.audio.currentTime = 0;
   music.audio.dispatch("loadedmetadata");
   await Promise.resolve();
-  assert.equal(music.audio.playCalls, 1, "music should attempt to autoplay after metadata loads");
-  assert.equal(music.audio.currentTime, 240, "metadata refresh should seek back to 4:00 before autoplay");
-  assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
+  assert.equal(music.audio.playCalls, 0, "metadata should not start playback before the first click");
+  assert.equal(music.audio.currentTime, 240, "metadata refresh should prepare the 4:00 start point");
+  assert.equal(music.playButton.getAttribute("aria-label"), "Play Dreiton by C418");
+}
+
+{
+  const music = createMusicHarness({ readyState: 4 });
+  runApp({ music });
+
+  assert.equal(music.audio.playCalls, 0, "ready audio should still wait for the first click");
+  assert.equal(music.audio.currentTime, 240, "ready audio should still prepare the 4:00 start point");
+}
+
+{
+  const music = createMusicHarness({ resetCurrentTimeOnLoad: true });
+  runApp({ music });
+
+  assert.equal(music.audio.loadCalls, 1, "music should still load the local MP3 on page load");
+  assert.equal(
+    music.audio.currentTime,
+    240,
+    "music should seek to 4:00 after load even when the browser resets currentTime during load"
+  );
 }
 
 {
@@ -461,21 +513,76 @@ function runApp({
   music.audio.dispatch("loadedmetadata");
   await Promise.resolve();
   await Promise.resolve();
-  assert.equal(music.audio.playCalls, 1, "initial autoplay should be attempted");
-  assert.equal(music.audio.currentTime, 240, "blocked autoplay should still prepare the 4:00 start point");
+  assert.equal(music.audio.playCalls, 0, "page load should not spend the first play attempt on autoplay");
+  assert.equal(music.audio.currentTime, 240, "metadata should still prepare the 4:00 start point");
+
+  music.audio.currentTime = 0;
+  await music.playButton.click();
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(music.audio.playCalls, 1, "first button click should be the first play attempt");
+  assert.equal(music.audio.currentTime, 240, "blocked first click should still start from 4:00");
+  assert.equal(music.playButton.getAttribute("aria-label"), "Play Dreiton by C418");
 
   music.audio.currentTime = 0;
   document.dispatch("click");
   await Promise.resolve();
-  assert.equal(music.audio.playCalls, 2, "first click should retry autoplay when the browser blocks sound");
-  assert.equal(music.audio.currentTime, 240, "blocked-autoplay retry should still start from 4:00");
+  await Promise.resolve();
+  assert.equal(music.audio.playCalls, 2, "unlock click should retry playback after browser policy blocks sound");
+  assert.equal(music.audio.currentTime, 240, "unlock retry should still start from 4:00");
   assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
 }
 
 {
   const { music } = runApp();
 
+  music.audio.currentTime = 0;
+  music.audio.paused = true;
+  music.audio.dispatch("play");
+  await music.playButton.click();
+
+  assert.equal(
+    music.audio.currentTime,
+    240,
+    "a stray play event should not prevent the first real click from seeking to 4:00"
+  );
+}
+
+{
+  const { music } = runApp();
+
   music.audio.dispatch("loadedmetadata");
+  await Promise.resolve();
+  music.audio.pause();
+  music.audio.currentTime = 0;
+  await music.playButton.click();
+
+  assert.equal(
+    music.audio.currentTime,
+    240,
+    "first manual play should seek to 4:00 even after metadata prepares the track"
+  );
+}
+
+{
+  const { music } = runApp();
+
+  music.audio.dispatch("loadedmetadata");
+  await Promise.resolve();
+  music.audio.currentTime = 0.4;
+  music.audio.dispatch("timeupdate");
+  assert.equal(
+    music.audio.currentTime,
+    0.4,
+    "loop guard should not trap normal playback at the beginning of the song"
+  );
+}
+
+{
+  const { music } = runApp();
+
+  await music.playButton.click();
+  await Promise.resolve();
   await Promise.resolve();
   music.audio.currentTime = 599.8;
   music.audio.dispatch("timeupdate");
@@ -485,7 +592,8 @@ function runApp({
 {
   const { music } = runApp();
 
-  music.audio.dispatch("loadedmetadata");
+  await music.playButton.click();
+  await Promise.resolve();
   await Promise.resolve();
   music.audio.currentTime = 599.8;
   music.audio.dispatch("ended");
@@ -497,9 +605,14 @@ function runApp({
   const { music } = runApp();
 
   await music.playButton.click();
+  await Promise.resolve();
+  await Promise.resolve();
   assert.equal(music.audio.playCalls, 1, "play button should start the audio");
   assert.equal(music.audio.muted, false, "play button should force audible playback");
-  assert.equal(music.audio.volume, 1, "play button should restore full player volume");
+  assert.ok(
+    music.audio.volume > 0 && music.audio.volume < 1,
+    "first play should ramp volume up instead of jumping to full volume"
+  );
   assert.equal(music.playButton.getAttribute("aria-label"), "Pause Dreiton by C418");
   assert.equal(music.playLabel.textContent, "Pause");
 
@@ -654,8 +767,62 @@ assert.match(
 
 assert.match(
   globeSource,
-  /const coreGroup = new THREE\.Group\(\)[\s\S]*coreGroup\.scale\.setScalar\(1 \+ focusMix \* 0\.45 \+ hoverMix \* 0\.08\)/,
+  /const coreGroup = new THREE\.Group\(\)[\s\S]*coreGroup\.scale\.setScalar\(1 \+ focusMix \* 0\.45 \+ hoverMix \* 0\.08 \+ audioPulseMix \* 0\.18\)/,
   "focused globe should enlarge the internal Three.js globe core instead of the outer ring frame"
+);
+
+assert.match(
+  globeSource,
+  /const ambientAudio = document\.getElementById\("ambient-audio"\)/,
+  "globe should read the ambient Dreiton audio element"
+);
+
+assert.match(
+  globeSource,
+  /const PULSE_ENVELOPE_SRC = "audio\/dreiton-envelope\.json\?v=20260619a"[\s\S]*const loadAudioPulseEnvelope = async \(\) =>[\s\S]*fetch\(PULSE_ENVELOPE_SRC\)[\s\S]*audioPulseEnvelope = data[\s\S]*const sampleAudioPulse = \(\) =>[\s\S]*audioPulseEnvelope\.values/,
+  "globe pulse should use a precomputed Dreiton envelope instead of decoding or analysing audio in the browser"
+);
+
+assert.doesNotMatch(
+  globeSource,
+  /AudioContext|decodeAudioData|captureStream|mozCaptureStream|createMediaStreamSource|createMediaElementSource|createAnalyser|audioContext\.destination/,
+  "globe pulse analysis should never create or decode a browser audio graph"
+);
+
+assert.match(
+  globeSource,
+  /const scheduleAudioPulseActivation = \(\) => \{[\s\S]*window\.setTimeout\(\(\) => \{[\s\S]*loadAudioPulseEnvelope\(\);[\s\S]*\}, 900\)[\s\S]*loadAudioPulseEnvelope\(\)/,
+  "globe pulse envelope should load outside the initial audio click path"
+);
+
+assert.doesNotMatch(
+  globeSource,
+  /const sampleAudioPulse = \(\) => \{[\s\S]*fetch\(/,
+  "sampling the globe pulse should not fetch or decode audio during animation frames"
+);
+
+assert.match(
+  globeSource,
+  /ambientAudio\.paused[\s\S]*hoverTarget === 0[\s\S]*focusTarget === 0[\s\S]*!reduce/,
+  "audio pulse should run only while playing and stop under hover, focus, or reduced motion"
+);
+
+assert.match(
+  globeSource,
+  /const level = Math\.min\(rawLevel \* 1\.45, 1\)[\s\S]*const lowerBeat = Math\.pow\(level, 0\.95\) \* 0\.62[\s\S]*const transient = Math\.max\(0, level - audioEnergy\)[\s\S]*const bigBeat = Math\.pow\(Math\.min\(transient \* 6\.0, 1\), 1\.08\) \* 1\.45[\s\S]*return Math\.min\(lowerBeat \+ bigBeat, 1\)/,
+  "globe pulse should keep subtle lower-beat movement while making bigger beats more prominent"
+);
+
+assert.match(
+  globeSource,
+  /const pulseEase = targetAudioPulse > audioPulseMix \? 1 - Math\.pow\(0\.91, frameRatio\) : 1 - Math\.pow\(0\.965, frameRatio\)[\s\S]*audioPulseMix \+= \(targetAudioPulse - audioPulseMix\) \* pulseEase/,
+  "globe pulse should ease by frame time so it stays smooth across uneven frames"
+);
+
+assert.match(
+  globeSource,
+  /const dt = Math\.min\(Math\.max\(\(now - lastFrameTime\) \/ 1000, 0\), 0\.05\)[\s\S]*const frameRatio = dt \* 60[\s\S]*coreGroup\.scale\.setScalar\(1 \+ focusMix \* 0\.45 \+ hoverMix \* 0\.08 \+ audioPulseMix \* 0\.18\)[\s\S]*if \(!dragging\) \{[\s\S]*rotY \+= velY \* frameRatio[\s\S]*velY \+= \(0\.0016 - velY\) \* \(1 - Math\.pow\(0\.98, frameRatio\)\)[\s\S]*rotX \+= velX \* frameRatio[\s\S]*velX \*= Math\.pow\(0\.94, frameRatio\)[\s\S]*group\.rotation\.x = rotX[\s\S]*group\.rotation\.y = rotY/,
+  "audio pulse should only affect inner scale while rotation uses frame-time-normalized motion"
 );
 
 assert.match(

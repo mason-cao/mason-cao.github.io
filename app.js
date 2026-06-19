@@ -100,17 +100,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const startAtSeconds = 4 * 60;
     let hasAudioError = false;
     let hasStartedPlayback = false;
+    let hasManualPlaybackStarted = false;
     let autoplayUnlockArmed = false;
     let unlockAutoplay = null;
+    let playbackFadeTimer = null;
 
     const syncPlaybackRate = () => {
       audio.playbackRate = playbackRate;
       audio.defaultPlaybackRate = playbackRate;
     };
 
-    const ensureAudible = () => {
+    const stopPlaybackFade = () => {
+      if (playbackFadeTimer != null) {
+        window.clearTimeout(playbackFadeTimer);
+        playbackFadeTimer = null;
+      }
+    };
+
+    const beginPlaybackFade = () => {
+      stopPlaybackFade();
+      audio.volume = 0;
+      const fadeStart = Date.now();
+      const fadeMs = 420;
+      const step = () => {
+        const progress = Math.min((Date.now() - fadeStart) / fadeMs, 1);
+        audio.volume = progress;
+        if (progress < 1) {
+          playbackFadeTimer = window.setTimeout(step, 45);
+          return;
+        }
+        audio.volume = 1;
+        playbackFadeTimer = null;
+      };
+      playbackFadeTimer = window.setTimeout(step, 45);
+    };
+
+    const ensureAudible = ({ fadeIn = false } = {}) => {
       audio.muted = false;
-      audio.volume = 1;
+      stopPlaybackFade();
+      audio.volume = fadeIn ? 0 : 1;
     };
 
     const syncStartPoint = ({ force = false } = {}) => {
@@ -126,7 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const syncPlaybackConfig = ({ forceStart = false, skipStart = false } = {}) => {
-      audio.autoplay = true;
+      audio.autoplay = false;
+      audio.removeAttribute?.("autoplay");
       audio.loop = true;
       audio.preload = "auto";
       syncPlaybackRate();
@@ -172,39 +201,61 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event?.target?.closest?.("[data-audio-play]")) return;
         cleanupAutoplayUnlock();
         syncPlaybackConfig({ forceStart: true });
-        attemptPlay();
+        const shouldFadeIn = !hasManualPlaybackStarted;
+        attemptPlay({
+          forceStart: shouldFadeIn,
+          fadeIn: shouldFadeIn,
+          markManualStart: true,
+        });
       };
       document.addEventListener("click", unlockAutoplay);
       document.addEventListener("keydown", unlockAutoplay);
       document.addEventListener("touchend", unlockAutoplay, { passive: true });
     };
 
-    const attemptPlay = ({ forceStart = !hasStartedPlayback, skipStart = false } = {}) => {
+    const attemptPlay = ({
+      forceStart = !hasStartedPlayback,
+      skipStart = false,
+      fadeIn = false,
+      markManualStart = false,
+    } = {}) => {
       syncPlaybackConfig({ forceStart, skipStart });
-      ensureAudible();
+      ensureAudible({ fadeIn });
       const playAttempt = audio.play();
       if (playAttempt && typeof playAttempt.then === "function") {
         playAttempt
           .then(() => {
             cleanupAutoplayUnlock();
             hasStartedPlayback = true;
+            if (markManualStart) hasManualPlaybackStarted = true;
             hasAudioError = false;
+            if (fadeIn) beginPlaybackFade();
             syncPlayState();
           })
           .catch((err) => {
+            stopPlaybackFade();
             hasAudioError = err?.name !== "NotAllowedError";
             if (!hasAudioError) armAutoplayUnlock();
             syncPlayState();
           });
       } else {
+        hasStartedPlayback = true;
+        if (markManualStart) hasManualPlaybackStarted = true;
+        if (fadeIn) beginPlaybackFade();
         syncPlayState();
       }
     };
 
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
-        attemptPlay();
+        const shouldFadeIn = !hasManualPlaybackStarted;
+        attemptPlay({
+          forceStart: shouldFadeIn,
+          fadeIn: shouldFadeIn,
+          markManualStart: true,
+        });
       } else {
+        stopPlaybackFade();
         audio.pause();
         syncPlayState();
       }
@@ -212,8 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audio.addEventListener("loadedmetadata", () => {
       hasAudioError = false;
-      syncPlaybackConfig({ forceStart: true });
-      attemptPlay({ forceStart: true });
+      syncPlaybackConfig({ forceStart: !hasStartedPlayback });
+      syncPlayState();
     });
     audio.addEventListener("ended", () => {
       hasStartedPlayback = false;
@@ -221,25 +272,27 @@ document.addEventListener("DOMContentLoaded", () => {
       attemptPlay({ forceStart: false, skipStart: true });
     });
     audio.addEventListener("play", () => {
-      hasStartedPlayback = true;
       syncPlayState();
     });
     audio.addEventListener("timeupdate", () => {
       const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
       if (!hasStartedPlayback || audio.paused || duration <= startAtSeconds + 1) return;
-      if (audio.currentTime < 1 || duration - audio.currentTime <= 0.35) {
+      if (duration - audio.currentTime <= 0.35) {
         restartFromBeginning();
       }
     });
-    audio.addEventListener("pause", syncPlayState);
+    audio.addEventListener("pause", () => {
+      stopPlaybackFade();
+      syncPlayState();
+    });
     audio.addEventListener("error", () => {
+      stopPlaybackFade();
       hasAudioError = true;
       syncPlayState();
     });
 
-    syncPlaybackConfig();
     audio.load?.();
-    if (audio.readyState >= 1) attemptPlay();
+    syncPlaybackConfig();
     syncPlayState();
   }
 

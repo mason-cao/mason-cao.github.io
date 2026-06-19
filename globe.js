@@ -318,8 +318,16 @@ import * as THREE from "three";
 
   // ── drag to spin (inertia), like the Lorenz centerpiece ──
   const globeShell = canvas.closest(".hud-scene");
+  const ambientAudio = document.getElementById("ambient-audio");
+  const PULSE_ENVELOPE_SRC = "audio/dreiton-envelope.json?v=20260619a";
   let focusMix = 0, hoverMix = 0;
   let focusTarget = 0, hoverTarget = 0;
+  let audioPulseEnvelope = null;
+  let audioPulseMix = 0;
+  let audioEnergy = 0;
+  let audioPulseReady = false;
+  let audioPulseLoading = false;
+  let audioActivationTimer = null;
   let rotX = 0.5, rotY = 0.2, velX = 0, velY = 0.0016;
   let dragging = false, lastX = 0, lastY = 0;
   canvas.addEventListener("pointerenter", () => { hoverTarget = 1; });
@@ -339,6 +347,63 @@ import * as THREE from "three";
   window.addEventListener("pointerup", release);
   window.addEventListener("pointercancel", release);
 
+  const loadAudioPulseEnvelope = async () => {
+    if (!ambientAudio) return false;
+    if (audioPulseReady || audioPulseLoading) return audioPulseReady;
+    audioPulseLoading = true;
+    try {
+      const response = await fetch(PULSE_ENVELOPE_SRC);
+      if (!response.ok) return false;
+      const data = await response.json();
+      if (!Array.isArray(data.values) || !data.values.length || !data.frameRate) return false;
+      audioPulseEnvelope = data;
+      audioPulseReady = true;
+      return audioPulseReady;
+    } catch (_) {
+      return false;
+    } finally {
+      audioPulseLoading = false;
+    }
+  };
+
+  const scheduleAudioPulseActivation = () => {
+    if (audioActivationTimer != null) window.clearTimeout(audioActivationTimer);
+    audioActivationTimer = window.setTimeout(() => {
+      audioActivationTimer = null;
+      loadAudioPulseEnvelope();
+    }, 900);
+  };
+  ambientAudio?.addEventListener("playing", scheduleAudioPulseActivation);
+  window.setTimeout(() => {
+    loadAudioPulseEnvelope();
+  }, 1800);
+
+  const sampleAudioPulse = () => {
+    const shouldDriveAudioPulse =
+      ambientAudio &&
+      !ambientAudio.paused &&
+      hoverTarget === 0 &&
+      focusTarget === 0 &&
+      !reduce;
+    if (!shouldDriveAudioPulse || !audioPulseReady) return 0;
+    const values = audioPulseEnvelope.values;
+    if (!values?.length) return 0;
+
+    const frameRate = audioPulseEnvelope.frameRate || 60;
+    const currentTime = Number.isFinite(ambientAudio.currentTime) ? ambientAudio.currentTime : 0;
+    const position = (currentTime * frameRate) % values.length;
+    const index = Math.floor(position);
+    const nextIndex = (index + 1) % values.length;
+    const blend = position - index;
+    const rawLevel = (((values[index] || 0) * (1 - blend)) + ((values[nextIndex] || 0) * blend)) / 1000;
+    const level = Math.min(rawLevel * 1.45, 1);
+    const lowerBeat = Math.pow(level, 0.95) * 0.62;
+    const transient = Math.max(0, level - audioEnergy);
+    const bigBeat = Math.pow(Math.min(transient * 6.0, 1), 1.08) * 1.45;
+    audioEnergy += (level - audioEnergy) * (level > audioEnergy ? 0.045 : 0.025);
+    return Math.min(lowerBeat + bigBeat, 1);
+  };
+
   const resize = () => {
     const s = sizeOf(); w = s.w; h = s.h;
     renderer.setSize(w, h, false);
@@ -351,29 +416,43 @@ import * as THREE from "three";
   const render = () => renderer.render(scene, camera);
   let raf = null;
   const t0 = performance.now();
-  const frame = () => {
-    const t = (performance.now() - t0) / 1000;
+  let lastFrameTime = t0;
+  const frame = (now = performance.now()) => {
+    const dt = Math.min(Math.max((now - lastFrameTime) / 1000, 0), 0.05);
+    const frameRatio = dt * 60;
+    lastFrameTime = now;
+    const t = (now - t0) / 1000;
     pUniforms.uTime.value = t;
     wireUniforms.uTime.value = t;
     runForwardPass(t);
     focusTarget = globeShell?.classList.contains("is-globe-expanded") ? 1 : 0;
-    focusMix += (focusTarget - focusMix) * 0.16;
-    hoverMix += (hoverTarget - hoverMix) * 0.18;
+    focusMix += (focusTarget - focusMix) * (1 - Math.pow(0.84, frameRatio));
+    hoverMix += (hoverTarget - hoverMix) * (1 - Math.pow(0.82, frameRatio));
+    const targetAudioPulse = sampleAudioPulse();
+    const pulseEase = targetAudioPulse > audioPulseMix ? 1 - Math.pow(0.91, frameRatio) : 1 - Math.pow(0.965, frameRatio);
+    audioPulseMix += (targetAudioPulse - audioPulseMix) * pulseEase;
     wireUniforms.uFocus.value = focusMix;
     pUniforms.uFocus.value = focusMix;
     atmoUniforms.uFocus.value = focusMix;
-    coreGroup.scale.setScalar(1 + focusMix * 0.45 + hoverMix * 0.08);
+    coreGroup.scale.setScalar(1 + focusMix * 0.45 + hoverMix * 0.08 + audioPulseMix * 0.18);
     camera.position.z = BASE_CAMERA_Z + focusMix * 1.25;
     if (!dragging) {
-      rotY += velY; velY += (0.0016 - velY) * 0.02;
-      rotX += velX; velX *= 0.94;
+      rotY += velY * frameRatio;
+      velY += (0.0016 - velY) * (1 - Math.pow(0.98, frameRatio));
+      rotX += velX * frameRatio;
+      velX *= Math.pow(0.94, frameRatio);
     }
     group.rotation.x = rotX;
     group.rotation.y = rotY;
     render();
     raf = requestAnimationFrame(frame);
   };
-  const start = () => { if (raf == null && !reduce) raf = requestAnimationFrame(frame); };
+  const start = () => {
+    if (raf == null && !reduce) {
+      lastFrameTime = performance.now();
+      raf = requestAnimationFrame(frame);
+    }
+  };
   const stop = () => { if (raf != null) { cancelAnimationFrame(raf); raf = null; } };
 
   render(); // one frame so it shows immediately / under reduced motion
