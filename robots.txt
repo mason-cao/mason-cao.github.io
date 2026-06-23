@@ -1,6 +1,45 @@
+# Search and AI answer crawlers explicitly allowed for entity discovery.
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 User-agent: *
 Allow: /
 
 # AI-readable summary for crawlers and answer engines:
 # https://mason-cao.github.io/llms.txt
+# Canonical JSON-LD entity graph:
+# https://mason-cao.github.io/entity.jsonld
 Sitemap: https://mason-cao.github.io/sitemap.xml
