@@ -634,45 +634,17 @@
       rel="stylesheet"
     />
 
-    <!-- arm scroll-reveal before first paint so panels never flash in -->
+    <!-- arm scroll-reveal + FX boot takeover before first paint (and before
+         any ES module evaluates — import hoisting would defeat a flag set
+         inside main.js) so panels never flash in -->
     <script>
       document.documentElement.classList.add("reveal-ready");
+      window.__mcBootTakeover = !window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
     </script>
 
-    <link rel="stylesheet" href="style.css?v=20260617h" />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ["Space Grotesk", "Chivo", "system-ui", "sans-serif"],
-              sans: ["Chivo", "SF Pro Display", "system-ui", "sans-serif"],
-              mono: ["JetBrains Mono", "monospace"]
-            },
-            colors: {
-              dark: { 800: "#0a0f17", 900: "#06090f" }
-            }
-          }
-        }
-      };
-    </script>
-
-    <script src="app.js?v=20260619e" defer></script>
-
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
-        }
-      }
-    </script>
-    <script src="constellation.js?v=20260609h" defer></script>
-    <script type="module" src="globe.js?v=20260619h"></script>
-    <script type="module" src="motifs.js?v=20260608a"></script>
-    <script type="module" src="deck.js?v=20260617h"></script>
+    <script type="module" src="/src/main.js"></script>
   </head>
 
   <body class="font-sans relative bg-[#06090f]">

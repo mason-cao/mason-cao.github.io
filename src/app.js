@@ -57,25 +57,54 @@ document.addEventListener("DOMContentLoaded", () => {
       heroTitle.textContent = "";
     }
 
-    window.setTimeout(async () => {
-      await typeHeroLine(heroKicker, heroKickerText, HERO_KICKER_TYPE_MS);
-      heroKicker.classList.remove("is-typing");
+    const startHeroType = () => {
+      window.setTimeout(async () => {
+        await typeHeroLine(heroKicker, heroKickerText, HERO_KICKER_TYPE_MS);
+        heroKicker.classList.remove("is-typing");
 
-      if (heroTitle && heroTitleText) {
-        window.setTimeout(async () => {
-          heroTitle.classList.add("is-typing");
-          await typeHeroLine(heroTitle, heroTitleText, HERO_TITLE_TYPE_MS);
-          heroTitle.classList.add("is-type-complete");
-          window.setTimeout(() => {
-            heroTitle.classList.add("is-type-settling");
+        if (heroTitle && heroTitleText) {
+          window.setTimeout(async () => {
+            heroTitle.classList.add("is-typing");
+            await typeHeroLine(heroTitle, heroTitleText, HERO_TITLE_TYPE_MS);
+            heroTitle.classList.add("is-type-complete");
             window.setTimeout(() => {
-              heroTitle.classList.remove("is-typing");
-              heroTitle.classList.remove("is-type-settling");
-            }, HERO_TYPE_FADE_MS);
-          }, HERO_TYPE_HOLD_MS);
-        }, HERO_BETWEEN_LINES_MS);
-      }
-    }, HERO_START_DELAY_MS);
+              heroTitle.classList.add("is-type-settling");
+              window.setTimeout(() => {
+                heroTitle.classList.remove("is-typing");
+                heroTitle.classList.remove("is-type-settling");
+              }, HERO_TYPE_FADE_MS);
+            }, HERO_TYPE_HOLD_MS);
+          }, HERO_BETWEEN_LINES_MS);
+        }
+      }, HERO_START_DELAY_MS);
+    };
+
+    // during the FX boot sequence the name types only once the holograms
+    // have materialized; boot.js fires mc:hero:start. The safety fallback
+    // only fires when no gate/boot is actually in progress (the user may sit
+    // at the INITIALIZE gate indefinitely — that is not a failure).
+    if (window.__mcBootTakeover) {
+      let heroStarted = false;
+      const go = () => {
+        if (heroStarted) return;
+        heroStarted = true;
+        startHeroType();
+      };
+      document.addEventListener("mc:hero:start", go, { once: true });
+      const armFallback = () => {
+        window.setTimeout(() => {
+          const cls = document.documentElement.classList;
+          if (cls.contains("mc-preboot") || cls.contains("mc-booting")) {
+            armFallback();
+          } else {
+            go();
+          }
+        }, 7000);
+      };
+      armFallback();
+    } else {
+      startHeroType();
+    }
   } else if (heroTitle) {
     heroTitle.classList.add("is-type-complete");
     if (heroTitle && heroTitleText) {

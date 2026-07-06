@@ -1,0 +1,22 @@
+{
+  "name": "mason-cao.github.io",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 8642 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 8642 --strictPort"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "postprocessing": "^6.37.8",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.16",
+    "playwright": "^1.61.1",
+    "tailwindcss": "^4.1.16",
+    "vite": "^7.3.0"
+  }
+}

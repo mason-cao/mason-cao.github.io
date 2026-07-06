@@ -8,6 +8,13 @@
 // Pauses when hidden; falls back silently with no WebGL / reduced motion.
 // ─────────────────────────────────────────────────────────────
 import * as THREE from "three";
+import {
+  EffectComposer,
+  RenderPass,
+  EffectPass,
+  BloomEffect,
+  ChromaticAberrationEffect,
+} from "postprocessing";
 
 (function initGlobe() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -50,6 +57,50 @@ import * as THREE from "three";
   // runs from -(camZ+R) (far side) to -(camZ-R) (near side). Shaders fade the
   // far hemisphere so the sphere reads as a solid 3D volume, not a flat web.
   const CAMZ = camera.position.z;
+
+  // ── boot / FX state ──
+  // bootMix gates the whole globe's alpha + scale: 0 while the FX boot
+  // sequence holds the dark screen, ramping to 1 on ignite(). pulseKick and
+  // joltKick are impulse channels fed by clicks/shockwaves, decayed per frame.
+  let bootTarget = !reduce && window.__mcBootTakeover ? 0 : 1;
+  let bootMix = bootTarget;
+  let pulseKick = 0;
+  let joltKick = 0;
+
+  // ── HDR post chain: true bloom + a whisper of chromatic aberration turn
+  // the line-art into an actual light-emitting hologram. Fine-pointer,
+  // motion-enabled contexts only; falls back to the bare renderer.
+  let composer = null;
+  let bloom = null;
+  let chroma = null;
+  const CA_BASE = 0.00042;
+  const BLOOM_BASE = 0.82;
+  const wantPost = !reduce && window.matchMedia("(pointer: fine)").matches;
+  if (wantPost) {
+    try {
+      composer = new EffectComposer(renderer, {
+        frameBufferType: THREE.HalfFloatType,
+      });
+      composer.addPass(new RenderPass(scene, camera));
+      bloom = new BloomEffect({
+        mipmapBlur: true,
+        intensity: BLOOM_BASE,
+        radius: 0.62,
+        luminanceThreshold: 0.32,
+        luminanceSmoothing: 0.28,
+      });
+      chroma = new ChromaticAberrationEffect({
+        offset: new THREE.Vector2(CA_BASE, CA_BASE * 0.6),
+        radialModulation: true,
+        modulationOffset: 0.28,
+      });
+      composer.addPass(new EffectPass(camera, bloom, chroma));
+    } catch (_) {
+      composer = null;
+      bloom = null;
+      chroma = null;
+    }
+  }
 
   // ── geodesic mesh → neural network: edges are SYNAPSES that carry travelling
   // signal pulses and brighten under the firing sweep; the geodesic vertices
@@ -183,6 +234,7 @@ import * as THREE from "three";
     uCamZ: { value: CAMZ },
     uR: { value: R },
     uFocus: { value: 0 },
+    uBoot: { value: bootMix },
   };
   const wire = new THREE.LineSegments(
     wireGeo,
@@ -206,7 +258,7 @@ import * as THREE from "three";
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform float uTime; uniform float uFocus; uniform vec3 uColor; uniform vec3 uColor2;
+        uniform float uTime; uniform float uFocus; uniform float uBoot; uniform vec3 uColor; uniform vec3 uColor2;
         varying float vEdgeT; varying float vPhase; varying float vPath; varying float vAct; varying float vDepth;
         void main(){
           // a bright signal travelling along the synapse, node → node
@@ -219,7 +271,7 @@ import * as THREE from "three";
           float depthMul = 0.22 + 0.78 * vDepth;
           vec3 col = mix(mix(uColor, uColor2, lit), vec3(0.96, 0.99, 1.0), min(pathSignal * 0.7 + movingSignal * 0.55, 1.0));
           float a = min((0.07 + lit * 0.58 + pathSignal * 0.48 + movingSignal * 0.75) * depthMul * (1.0 + movingSignal * 1.9), 1.0);
-          gl_FragColor = vec4(col, a);
+          gl_FragColor = vec4(col, a * uBoot);
         }
       `,
     })
@@ -242,6 +294,7 @@ import * as THREE from "three";
     uCamZ: { value: CAMZ },
     uR: { value: R },
     uFocus: { value: 0 },
+    uBoot: { value: bootMix },
   };
   const points = new THREE.Points(
     nGeo,
@@ -264,7 +317,7 @@ import * as THREE from "three";
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform float uFocus; uniform vec3 uColor; uniform vec3 uColor2;
+        uniform float uFocus; uniform float uBoot; uniform vec3 uColor; uniform vec3 uColor2;
         varying float vAct; varying float vDepth;
         void main(){
           vec2 uv = gl_PointCoord - 0.5;
@@ -275,7 +328,7 @@ import * as THREE from "three";
           float depthMul = 0.3 + 0.7 * vDepth;
           vec3 col = mix(mix(uColor, uColor2, vAct), vec3(0.92, 0.98, 1.0), uFocus * 0.48);
           float alpha = ((soft * (0.48 + vAct * 0.62)) + halo * (vAct + uFocus * 0.45)) * depthMul;
-          gl_FragColor = vec4(col, min(alpha * (1.0 + uFocus * 1.05), 1.0));
+          gl_FragColor = vec4(col, min(alpha * (1.0 + uFocus * 1.05), 1.0) * uBoot);
         }
       `,
     })
@@ -287,6 +340,7 @@ import * as THREE from "three";
   const atmoUniforms = {
     uColor: { value: CYAN },
     uFocus: { value: 0 },
+    uBoot: { value: bootMix },
   };
   const atmo = new THREE.Mesh(
     new THREE.SphereGeometry(R * 1.22, 48, 48),
@@ -306,10 +360,10 @@ import * as THREE from "three";
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform float uFocus; uniform vec3 uColor; varying vec3 vN; varying vec3 vView;
+        uniform float uFocus; uniform float uBoot; uniform vec3 uColor; varying vec3 vN; varying vec3 vView;
         void main(){
           float f = pow(1.0 - abs(dot(vN, vView)), 2.6);
-          gl_FragColor = vec4(uColor, f * 1.15 * (1.0 - uFocus * 0.88));
+          gl_FragColor = vec4(uColor, f * 0.95 * (1.0 - uFocus * 0.88) * uBoot);
         }
       `,
     })
@@ -407,13 +461,15 @@ import * as THREE from "three";
   const resize = () => {
     const s = sizeOf(); w = s.w; h = s.h;
     renderer.setSize(w, h, false);
+    if (composer) composer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   };
   resize();
   runForwardPass(0);
 
-  const render = () => renderer.render(scene, camera);
+  const render = () =>
+    composer ? composer.render() : renderer.render(scene, camera);
   let raf = null;
   const t0 = performance.now();
   let lastFrameTime = t0;
@@ -431,13 +487,36 @@ import * as THREE from "three";
     const targetAudioPulse = sampleAudioPulse();
     const pulseEase = targetAudioPulse > audioPulseMix ? 1 - Math.pow(0.91, frameRatio) : 1 - Math.pow(0.965, frameRatio);
     audioPulseMix += (targetAudioPulse - audioPulseMix) * pulseEase;
+
+    // ── boot ignition + click impulses ──
+    bootMix += (bootTarget - bootMix) * (1 - Math.pow(0.93, frameRatio));
+    pulseKick *= Math.pow(0.9, frameRatio);
+    joltKick *= Math.pow(0.86, frameRatio);
+    const bootEase = bootMix * bootMix * (3 - 2 * bootMix);
+    const flare = Math.max(0, bootMix * (1 - bootMix) * 4); // peaks mid-ignition
+
     wireUniforms.uFocus.value = focusMix;
     pUniforms.uFocus.value = focusMix;
     atmoUniforms.uFocus.value = focusMix;
-    coreGroup.scale.setScalar(1 + focusMix * 0.45 + hoverMix * 0.08 + audioPulseMix * 0.18);
-    camera.position.z = BASE_CAMERA_Z + focusMix * 1.25;
+    wireUniforms.uBoot.value = bootEase;
+    pUniforms.uBoot.value = bootEase;
+    atmoUniforms.uBoot.value = bootEase;
+    if (bloom) {
+      bloom.intensity =
+        BLOOM_BASE + flare * 2.6 + pulseKick * 1.35 + audioPulseMix * 0.5 + focusMix * 0.4;
+    }
+    if (chroma) {
+      const off = CA_BASE + joltKick * 0.0035 + flare * 0.0016;
+      chroma.offset.set(off, off * 0.6);
+    }
+
+    const bootScale = 0.32 + bootEase * 0.68;
+    coreGroup.scale.setScalar(
+      bootScale * (1 + focusMix * 0.45 + hoverMix * 0.08 + audioPulseMix * 0.18 + pulseKick * 0.1)
+    );
+    camera.position.z = BASE_CAMERA_Z + focusMix * 1.25 + (1 - bootEase) * 2.2;
     if (!dragging) {
-      rotY += velY * frameRatio;
+      rotY += velY * frameRatio + flare * 0.02 * frameRatio; // ignition spin-up
       velY += (0.0016 - velY) * (1 - Math.pow(0.98, frameRatio));
       rotX += velX * frameRatio;
       velX *= Math.pow(0.94, frameRatio);
@@ -486,4 +565,30 @@ import * as THREE from "three";
   }
 
   sync();
+
+  // ── public FX hooks (boot sequence + interaction shockwaves) ──
+  // Safety: if the boot sequence never calls ignite() (crash, no float mode),
+  // the globe still lights itself after a beat so the page is never dark.
+  const igniteFallback = window.setTimeout(() => {
+    bootTarget = 1;
+  }, 6500);
+  window.__mcGlobe = {
+    ignite() {
+      window.clearTimeout(igniteFallback);
+      bootTarget = 1;
+      if (!reduce) start();
+      else render();
+    },
+    pulse(strength = 0.5) {
+      pulseKick = Math.min(pulseKick + strength, 1.6);
+    },
+    jolt(strength = 0.5) {
+      joltKick = Math.min(joltKick + strength, 1.5);
+    },
+    /** power the globe back down (used by the REBOOT control) */
+    dim() {
+      bootTarget = 0;
+      if (!reduce) start();
+    },
+  };
 })();

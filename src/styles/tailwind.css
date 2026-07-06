@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Mirrors the old inline tailwind.config from index.html (Play CDN era). */
+@theme {
+  --font-display: "Space Grotesk", "Chivo", system-ui, sans-serif;
+  --font-sans: "Chivo", "SF Pro Display", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-dark-800: #0a0f17;
+  --color-dark-900: #06090f;
+}

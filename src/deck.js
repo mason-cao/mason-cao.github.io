@@ -179,9 +179,15 @@
     html.classList.add("deck-float");
     // always use the designed no-overlap layout (ignore any old dragged state)
     P.forEach((p) => { if (DRAGGABLE) load(p); place(p); });
-    P.forEach((p, idx) =>
-      setTimeout(() => p.el.classList.add("is-revealed"), reduceMotion ? 0 : 140 + idx * 55)
-    );
+    // the FX boot sequence choreographs the reveal itself; this plain
+    // stagger is the fallback when no boot takeover is active (reduced
+    // motion, boot already finished, or boot failure).
+    const reveal = () =>
+      P.forEach((p, idx) =>
+        setTimeout(() => p.el.classList.add("is-revealed"), reduceMotion ? 0 : 140 + idx * 55)
+      );
+    if (window.__mcBootTakeover) window.__mcBootReveal = reveal;
+    else reveal();
     stage.addEventListener("pointerdown", onDown);
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
