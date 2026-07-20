@@ -18,6 +18,15 @@
   --cyan-dim: #1f7fb0;
   --gold: #ffb84d;
   --gold-soft: #ffd089;
+  /* Cockpit dimensions use a canonical scale, while deck.js expands the
+     logical stage to keep its visible bounds flush with the viewport. */
+  --deck-scale: 1;
+  --deck-stage-width: 1200px;
+  --deck-stage-height: 900px;
+  --deck-globe-size: 720px;
+  --deck-ring-size: 700px;
+  --deck-ring-radius: 350px;
+  --deck-equation-offset: 265px;
   /* legacy "mint" token names kept, aliased to cyan, so every existing
      var() reference flips to the HUD palette automatically */
   --live: var(--cyan);
@@ -1002,7 +1011,7 @@ body::before {
 }
 
 /* ──────────────────────────  RESPONSIVE  ────────────────────────── */
-@media (max-width: 720px) {
+@media (max-width: 699px) {
   .signal-row {
     grid-template-columns: 4.5rem 1fr;
     gap: 0.6rem;
@@ -1260,12 +1269,12 @@ html.deck-float .globe-eq {
   display: block;
   position: fixed;
   left: 50%;
-  top: 20.5%;
+  top: calc(50% - var(--deck-equation-offset) * var(--deck-scale));
   transform: translateX(-50%);
   margin: 0;
   z-index: 7;
   font-family: "JetBrains Mono", monospace;
-  font-size: 1.08rem;
+  font-size: calc(1.08rem * var(--deck-scale));
   font-weight: 700;
   letter-spacing: 0.12em;
   white-space: nowrap;
@@ -1323,6 +1332,13 @@ canvas.scene-globe:active,
     drop-shadow(0 0 42px rgba(56, 208, 255, 0.38))
     drop-shadow(0 0 108px rgba(56, 208, 255, 0.2));
 }
+/* In cockpit mode the globe follows the exact same canonical scale as the
+   panel stage. The stacked phone backdrop keeps the fluid vmin sizing above. */
+html.deck-float canvas.scene-globe,
+html.deck-float .hud-scene.is-globe-expanded canvas.scene-globe {
+  width: calc(var(--deck-globe-size) * var(--deck-scale));
+  height: calc(var(--deck-globe-size) * var(--deck-scale));
+}
 /* soft backlight centred on the globe to seat the field in depth */
 .hud-scene::after {
   content: "";
@@ -1354,6 +1370,11 @@ canvas.scene-globe:active,
   height: min(78vmin, 50rem);
   transform: translate(-50%, -50%);
   opacity: 0.05;
+}
+html.deck-float .globe-rings,
+html.deck-float .hud-scene.is-globe-expanded .globe-rings {
+  width: calc(var(--deck-ring-size) * var(--deck-scale));
+  height: calc(var(--deck-ring-size) * var(--deck-scale));
 }
 .globe-rings::before,
 .globe-rings::after {
@@ -1626,7 +1647,7 @@ html.deck-float .hud-panel--sphere .tech-sphere { height: 148px; }
 }
 
 html.deck-float .music-player {
-  position: fixed;
+  position: absolute;
   left: calc(50% - 17rem);
   top: calc(50% + 11.5rem);
   z-index: 16;
@@ -1753,7 +1774,7 @@ html.globe-focus .music-player {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   SCROLL REVEAL (stacked fallback only — mobile / touch / no-cockpit).
+   SCROLL REVEAL (stacked fallback only — narrow phones / no-cockpit).
    deck.js arms it via .reveal-ready on <html> and toggles .is-revealed.
    Gated with :not(.deck-float) so it never hides the cockpit's panels.
    ════════════════════════════════════════════════════════════════════ */
@@ -1773,11 +1794,11 @@ html.reveal-ready:not(.deck-float) .sec-head.is-revealed {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   COCKPIT — deck.js adds .deck-float on a capable desktop (fine pointer +
-   motion + wide + tall). A fixed, non-scrolling viewport where every panel is an
-   absolutely-positioned hologram you can grab and throw. deck.js owns each
-   panel's left/top/width + a per-frame parallax transform, so panels must
-   NOT CSS-transition transform here (it would smear the parallax/drag).
+   COCKPIT — deck.js adds .deck-float on computer-sized screens. Panel sizes
+   scale from a 1200 × 900 reference, but the stage itself fills the viewport
+   so the original wide side-column spacing is preserved. deck.js owns each
+   panel's left/top/width + a per-frame parallax transform, so panels must NOT
+   CSS-transition transform here.
    ════════════════════════════════════════════════════════════════════ */
 html.deck-float,
 html.deck-float body { height: 100%; overflow: hidden; }
@@ -1788,7 +1809,12 @@ html.deck-float .deck-stage {
 }
 html.deck-float .deck-stage {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
+  width: var(--deck-stage-width);
+  height: var(--deck-stage-height);
+  transform: translate(-50%, -50%) scale(var(--deck-scale));
+  transform-origin: center;
   display: block;
   max-width: none;
   margin: 0;
@@ -1817,7 +1843,7 @@ html.deck-float [data-panel].is-revealed { opacity: 1; }
 /* hero sits centred at the top of the cockpit, as a title over the reactor */
 html.deck-float .hero-copy { max-width: none; text-align: center; }
 html.deck-float .hero-copy .hero-display {
-  font-size: clamp(2.35rem, 4.2vw, 3rem);
+  font-size: 3rem;
   color: #eaf6ff;
   text-shadow: 0 0 28px rgba(120, 200, 255, 0.45);
 }

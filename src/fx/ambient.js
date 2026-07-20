@@ -204,25 +204,27 @@ const initEq = () => {
   player.insertBefore(eq, player.querySelector(".music-player-track"));
 };
 
-export function initAmbient() {
+export function initAmbient({ reduced = false } = {}) {
   const chrome = initChrome();
-  const radar = initRadar();
-  initSweep();
-  initMotes();
+  const radar = reduced ? null : initRadar();
+  if (!reduced) {
+    initSweep();
+    initMotes();
+  }
   initEq();
 
   // chrome + radar come online with the boot sequence and step back during
   // a reboot
   const on = () => {
     chrome.classList.add("is-on");
-    radar.classList.add("is-on");
+    radar?.classList.add("is-on");
   };
   const off = () => {
     chrome.classList.remove("is-on");
-    radar.classList.remove("is-on");
+    radar?.classList.remove("is-on");
   };
   document.addEventListener("mc:boot:done", on);
   document.addEventListener("mc:boot:reset", off);
 
-  initFlicker();
+  if (!reduced) initFlicker();
 }

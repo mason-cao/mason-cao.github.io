@@ -1,30 +1,32 @@
 /* ════════════════════════════════════════════════════════════════════
    deck.js — the Jarvis cockpit controller
 
-   On a capable desktop/laptop (wide + tall + any fine pointer + motion) the page becomes a
-   fixed, non-scrolling HUD: every [data-panel] is an absolutely-positioned
-   hologram floating over the 3D field. Grab a panel by its title bar (or
-   the hero by its body) and swipe it around; it throws with inertia and
-   settles. The whole field has mouse parallax for depth. Positions persist
-   in localStorage.
+   Every laptop/desktop gets the same fixed, non-scrolling HUD. Panel sizing
+   is authored against a canonical 1200 × 900 reference, while the logical
+   stage expands to fill the viewport so the original wide outer spacing is
+   preserved. That keeps the central globe open and the side holograms close
+   to the viewport edges across display resolutions and browser zoom levels.
 
-   Everywhere else (mobile / tablet-only touch / reduced-motion / narrow) it falls back
-   to the readable stacked page with a scroll reveal — a drag cockpit makes
-   no sense on a touch screen.
+   Genuinely narrow phone viewports keep the readable stacked page. Reduced
+   motion changes only the animation, never the selected layout.
    ════════════════════════════════════════════════════════════════════ */
 (function () {
   const html = document.documentElement;
-  const FLOAT_MIN_WIDTH = 1200;
-  const FLOAT_MIN_HEIGHT = 900;
+  const FALLBACK_FLOAT_MIN_WIDTH = 700;
+  const COMPUTER_MIN_SHORT_EDGE = 600;
+  const STAGE_WIDTH = 1200;
+  const STAGE_HEIGHT = 900;
+  const MAX_STAGE_SCALE = 1.2;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const forceFloat = /[?&]float=1/.test(location.search); // dev / screenshot override
-  const widthMQ = matchMedia(`(min-width: ${FLOAT_MIN_WIDTH}px)`);
-  const heightMQ = matchMedia(`(min-height: ${FLOAT_MIN_HEIGHT}px)`);
-  const anyFinePointerMQ = matchMedia("(any-pointer: fine)");
-  const primaryFinePointerMQ = matchMedia("(pointer: fine)");
-  const hasFinePointer = () => anyFinePointerMQ.matches || primaryFinePointerMQ.matches;
-  const canFloat = () =>
-    forceFloat || (widthMQ.matches && heightMQ.matches && hasFinePointer() && !reduceMotion);
+  const widthMQ = matchMedia(`(min-width: ${FALLBACK_FLOAT_MIN_WIDTH}px)`);
+  const hasComputerSizedScreen = () => {
+    const screenWidth = Number(window.screen?.width) || 0;
+    const screenHeight = Number(window.screen?.height) || 0;
+    if (!screenWidth || !screenHeight) return widthMQ.matches;
+    return Math.min(screenWidth, screenHeight) >= COMPUTER_MIN_SHORT_EDGE;
+  };
+  const canFloat = () => forceFloat || hasComputerSizedScreen();
   const DRAGGABLE = false; // holograms are fixed; flip to true to re-enable drag
 
   const stage = document.getElementById("main-content");
@@ -46,21 +48,22 @@
   // no two panels overlap.
   const LAYOUT = [
     { x: 0.5,   y: 0.074, w: 24, d: 2 }, // 0  hero name (top-centre)
-    { x: 0.84,  y: 0.149, w: 21, d: 2 }, // 1  Nova Core (right, top)
-    { x: 0.84,  y: 0.411, w: 21, d: 3 }, // 2  AERIS (right, mid)
-    { x: 0.84,  y: 0.686, w: 21, d: 2 }, // 3  FreshTrack (right, lower)
-    { x: 0.16,  y: 0.446, w: 20, d: 1 }, // 4  horizon (left, mid — shares depth with tech/off-clock below)
-    { x: 0.16,  y: 0.158, w: 20, d: 2 }, // 5  signal (left, top)
-    { x: 0.16,  y: 0.703, w: 20, d: 1 }, // 6  tech stack (left, lower, flat — centred in column)
-    { x: 0.5,   y: 0.855, w: 28, d: 1 }, // 7  timeline (bottom-centre, wide)
-    { x: 0.16,  y: 0.901, w: 20, d: 1 }, // 8  off-clock (bottom-left)
-    { x: 0.84,  y: 0.912, w: 21, d: 1 }, // 9  comms (bottom-right)
+    { x: 0.84,  y: 0.149, w: 21, d: 2, ax: "right" }, // 1  Nova Core
+    { x: 0.84,  y: 0.411, w: 21, d: 3, ax: "right" }, // 2  AERIS
+    { x: 0.84,  y: 0.686, w: 21, d: 2, ax: "right" }, // 3  FreshTrack
+    { x: 0.16,  y: 0.446, w: 20, d: 1, ax: "left" }, // 4  horizon
+    { x: 0.16,  y: 0.158, w: 20, d: 2, ax: "left" }, // 5  signal
+    { x: 0.16,  y: 0.703, w: 20, d: 1, ax: "left" }, // 6  tech stack
+    { x: 0.5,   y: 0.855, w: 28, d: 1, ay: "bottom" }, // 7  timeline
+    { x: 0.16,  y: 0.901, w: 20, d: 1, ax: "left", ay: "bottom" }, // 8  off-clock
+    { x: 0.84,  y: 0.912, w: 21, d: 1, ax: "right", ay: "bottom" }, // 9  comms
   ];
 
   const P = panels.map((el, i) => {
     const cfg = LAYOUT[i] || { x: 0.5, y: 0.5, w: 24, d: 2 };
     return {
       el, i, w: cfg.w, fx: cfg.x, fy: cfg.y, d: cfg.d,
+      ax: cfg.ax, ay: cfg.ay,
       flat: el.classList.contains("hud-panel--sphere"),
       grabbed: false, vx: 0, vy: 0,
     };
@@ -81,8 +84,28 @@
 
   function place(p) {
     p.el.style.width = p.w + "rem";
-    p.el.style.left = p.fx * W() + "px";
-    p.el.style.top = p.fy * H() + "px";
+    const stageWidth = W();
+    const stageHeight = H();
+    const halfWidth = p.el.offsetWidth / 2;
+    const halfHeight = p.el.offsetHeight / 2;
+    let x = p.fx * stageWidth;
+    let y = p.fy * stageHeight;
+
+    if (p.ax === "left") x = MARGIN + halfWidth;
+    if (p.ax === "right") x = stageWidth - MARGIN - halfWidth;
+    if (p.ay === "bottom") y = stageHeight - MARGIN - halfHeight;
+
+    // Final containment protects against font-metric and async-content
+    // differences between computers without changing the intended anchors.
+    const minX = halfWidth + MARGIN;
+    const maxX = stageWidth - halfWidth - MARGIN;
+    const minY = halfHeight + MARGIN;
+    const maxY = stageHeight - halfHeight - MARGIN;
+    x = minX <= maxX ? Math.max(minX, Math.min(maxX, x)) : stageWidth / 2;
+    y = minY <= maxY ? Math.max(minY, Math.min(maxY, y)) : stageHeight / 2;
+
+    p.el.style.left = x + "px";
+    p.el.style.top = y + "px";
     if (!p.grabbed) p.el.style.transform = "translate(-50%,-50%)";
   }
   function applyTransform(p) {
@@ -99,14 +122,38 @@
 
   /* ── float state + parallax/inertia loop ── */
   let floating = false, raf = 0;
+  let stageScale = 1;
   let parX = 0, parY = 0, tParX = 0, tParY = 0;
   let drag = null, dragOff = { x: 0, y: 0 }, lastX = 0, lastY = 0, lastT = 0;
+
+  function syncStageScale() {
+    const viewportWidth = html.clientWidth || window.innerWidth;
+    const viewportHeight = html.clientHeight || window.innerHeight;
+    stageScale = Math.min(
+      viewportWidth / STAGE_WIDTH,
+      viewportHeight / STAGE_HEIGHT,
+      MAX_STAGE_SCALE
+    );
+    stageScale = Math.max(stageScale, 0.01);
+    html.style.setProperty("--deck-scale", String(stageScale));
+    // The parent transform scales panel dimensions uniformly. Expanding the
+    // logical stage by the inverse scale keeps its visible bounds flush with
+    // the viewport, restoring the original 16% / 84% panel positions.
+    html.style.setProperty("--deck-stage-width", `${viewportWidth / stageScale}px`);
+    html.style.setProperty("--deck-stage-height", `${viewportHeight / stageScale}px`);
+  }
 
   function frame() {
     parX += (tParX - parX) * 0.08;
     parY += (tParY - parY) * 0.08;
-    if (scene) scene.style.transform = `translate(${parX * -14}px, ${parY * -10}px)`;
-    if (globeEq) globeEq.style.transform = `translateX(-50%) translate(${parX * 5}px,${parY * 4}px)`;
+    if (scene) {
+      scene.style.transform =
+        `translate(${parX * -14 * stageScale}px, ${parY * -10 * stageScale}px)`;
+    }
+    if (globeEq) {
+      globeEq.style.transform =
+        `translateX(-50%) translate(${parX * 5 * stageScale}px,${parY * 4 * stageScale}px)`;
+    }
     const mx = MARGIN / W(), my = MARGIN / H();
     P.forEach((p) => {
       if (!p.grabbed && (Math.abs(p.vx) > 0.0002 || Math.abs(p.vy) > 0.0002)) {
@@ -158,8 +205,8 @@
     }
     if (!floating) return;
     const b = stage.getBoundingClientRect();
-    tParX = ((e.clientX - b.left) / W() - 0.5) * 2;
-    tParY = ((e.clientY - b.top) / H() - 0.5) * 2;
+    tParX = Math.max(-1, Math.min(1, ((e.clientX - b.left) / b.width - 0.5) * 2));
+    tParY = Math.max(-1, Math.min(1, ((e.clientY - b.top) / b.height - 0.5) * 2));
   }
   function onUp() {
     if (!drag) return;
@@ -177,6 +224,7 @@
     if (floating) return;
     floating = true;
     html.classList.add("deck-float");
+    syncStageScale();
     // always use the designed no-overlap layout (ignore any old dragged state)
     P.forEach((p) => { if (DRAGGABLE) load(p); place(p); });
     // the FX boot sequence choreographs the reveal itself; this plain
@@ -198,7 +246,11 @@
   function exitFloat() {
     if (!floating) return;
     floating = false;
+    stageScale = 1;
     html.classList.remove("deck-float");
+    html.style.removeProperty("--deck-scale");
+    html.style.removeProperty("--deck-stage-width");
+    html.style.removeProperty("--deck-stage-height");
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
     stage.removeEventListener("pointerdown", onDown);
     window.removeEventListener("pointermove", onMove);
@@ -240,18 +292,30 @@
     else { exitFloat(); enterStacked(); }
   }
   setMode();
+  document.fonts?.ready.then(() => {
+    if (floating) P.forEach(place);
+  });
 
   let rt = 0;
   window.addEventListener("resize", () => {
     clearTimeout(rt);
     rt = setTimeout(() => {
       if (canFloat() !== floating) setMode();
-      else if (floating) P.forEach(place);
+      else if (floating) {
+        syncStageScale();
+        P.forEach(place);
+      }
     }, 150);
   });
-  [widthMQ, heightMQ, anyFinePointerMQ, primaryFinePointerMQ].forEach((mq) => {
+  [widthMQ].forEach((mq) => {
     if (mq.addEventListener) mq.addEventListener("change", setMode);
     else if (mq.addListener) mq.addListener(setMode);
+  });
+  window.visualViewport?.addEventListener("resize", () => {
+    if (floating) {
+      syncStageScale();
+      P.forEach(place);
+    }
   });
 
   // small dev handle for resetting thrown-around panels

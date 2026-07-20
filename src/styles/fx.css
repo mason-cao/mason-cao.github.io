@@ -361,9 +361,13 @@ html.globe-focus .mc-chrome {
   left: 50%;
   top: 50%;
   z-index: 2;
-  width: min(78vmin, 50rem);
-  height: min(78vmin, 50rem);
-  margin: calc(min(78vmin, 50rem) / -2) 0 0 calc(min(78vmin, 50rem) / -2);
+  width: calc(var(--deck-ring-size) * var(--deck-scale));
+  height: calc(var(--deck-ring-size) * var(--deck-scale));
+  margin:
+    calc(-1 * var(--deck-ring-radius) * var(--deck-scale))
+    0
+    0
+    calc(-1 * var(--deck-ring-radius) * var(--deck-scale));
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
@@ -622,11 +626,10 @@ html.globe-focus .mc-radar {
   }
 }
 
-/* ════════════════ REDUCED MOTION — kill everything ════════════════ */
+/* ════════════════ REDUCED MOTION — keep controls, hide motion layers ════════════════ */
 @media (prefers-reduced-motion: reduce) {
   .mc-gate,
   .mc-boot,
-  .mc-chrome,
   .mc-radar,
   .mc-sweep,
   .mc-reticle,

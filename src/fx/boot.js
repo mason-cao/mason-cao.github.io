@@ -97,7 +97,7 @@ const typeLine = (pre, text, dur) => {
   });
 };
 
-export function initBoot({ float }) {
+export function initBoot({ float, reduced = false }) {
   // Stacked / mobile: no overlay cinema — light the globe, type the name,
   // hand reveal back to the scroll observer.
   if (!float) {
@@ -108,9 +108,6 @@ export function initBoot({ float }) {
     return;
   }
 
-  const devSkip = /[?&]noboot=1/.test(location.search);
-  html.classList.add("mc-preboot");
-
   const finishInstantly = () => {
     html.classList.remove("mc-preboot", "mc-booting");
     window.__mcBootTakeover = false;
@@ -119,6 +116,21 @@ export function initBoot({ float }) {
     emit("mc:hero:start");
     emit("mc:boot:done");
   };
+
+  // Reduced motion keeps the complete cockpit and its controls, but resolves
+  // boot and reboot without the full-screen cinematic.
+  if (reduced) {
+    finishInstantly();
+    document.addEventListener("mc:reboot", () => {
+      emit("mc:boot:reset");
+      window.__mcGlobe?.dim?.();
+      window.setTimeout(finishInstantly, 80);
+    });
+    return;
+  }
+
+  const devSkip = /[?&]noboot=1/.test(location.search);
+  html.classList.add("mc-preboot");
 
   if (devSkip) {
     finishInstantly();
