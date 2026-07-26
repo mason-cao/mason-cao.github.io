@@ -69,8 +69,15 @@
     };
   });
 
-  const W = () => stage.clientWidth || window.innerWidth;
-  const H = () => stage.clientHeight || window.innerHeight;
+  // Placement must use the logical cockpit dimensions, not the stage's live
+  // client box. Immediately after `deck-float` is added, that box can still
+  // report the old stacked layout for a frame. Reduced motion makes that race
+  // especially visible because the panels are revealed immediately, shifting
+  // right-anchored and centred holograms toward the left.
+  let logicalStageWidth = STAGE_WIDTH;
+  let logicalStageHeight = STAGE_HEIGHT;
+  const W = () => logicalStageWidth;
+  const H = () => logicalStageHeight;
   const MARGIN = 34;
 
   const key = (p) => "deckf:" + p.i;
@@ -122,6 +129,7 @@
 
   /* ── float state + parallax/inertia loop ── */
   let floating = false, raf = 0;
+  let panelResizeObserver = null;
   let stageScale = 1;
   let parX = 0, parY = 0, tParX = 0, tParY = 0;
   let drag = null, dragOff = { x: 0, y: 0 }, lastX = 0, lastY = 0, lastT = 0;
@@ -135,12 +143,14 @@
       MAX_STAGE_SCALE
     );
     stageScale = Math.max(stageScale, 0.01);
+    logicalStageWidth = viewportWidth / stageScale;
+    logicalStageHeight = viewportHeight / stageScale;
     html.style.setProperty("--deck-scale", String(stageScale));
     // The parent transform scales panel dimensions uniformly. Expanding the
     // logical stage by the inverse scale keeps its visible bounds flush with
     // the viewport, restoring the original 16% / 84% panel positions.
-    html.style.setProperty("--deck-stage-width", `${viewportWidth / stageScale}px`);
-    html.style.setProperty("--deck-stage-height", `${viewportHeight / stageScale}px`);
+    html.style.setProperty("--deck-stage-width", `${logicalStageWidth}px`);
+    html.style.setProperty("--deck-stage-height", `${logicalStageHeight}px`);
   }
 
   function frame() {
@@ -220,6 +230,25 @@
   }
   function onLeave() { tParX = 0; tParY = 0; }
 
+  function watchPanelSizes() {
+    if (!("ResizeObserver" in window)) {
+      requestAnimationFrame(() => {
+        if (floating) P.forEach(place);
+      });
+      return;
+    }
+
+    panelResizeObserver?.disconnect();
+    panelResizeObserver = new ResizeObserver((entries) => {
+      if (!floating) return;
+      entries.forEach(({ target }) => {
+        const panel = P.find((p) => p.el === target);
+        if (panel) place(panel);
+      });
+    });
+    P.forEach((p) => panelResizeObserver.observe(p.el));
+  }
+
   function enterFloat() {
     if (floating) return;
     floating = true;
@@ -227,6 +256,10 @@
     syncStageScale();
     // always use the designed no-overlap layout (ignore any old dragged state)
     P.forEach((p) => { if (DRAGGABLE) load(p); place(p); });
+    // The module runs before the rest of the startup initialisers have settled
+    // panel heights. Re-anchor panels when their compact dimensions arrive;
+    // reduced motion otherwise reveals the pre-compaction measurements.
+    watchPanelSizes();
     // the FX boot sequence choreographs the reveal itself; this plain
     // stagger is the fallback when no boot takeover is active (reduced
     // motion, boot already finished, or boot failure).
@@ -247,6 +280,10 @@
     if (!floating) return;
     floating = false;
     stageScale = 1;
+    logicalStageWidth = STAGE_WIDTH;
+    logicalStageHeight = STAGE_HEIGHT;
+    panelResizeObserver?.disconnect();
+    panelResizeObserver = null;
     html.classList.remove("deck-float");
     html.style.removeProperty("--deck-scale");
     html.style.removeProperty("--deck-stage-width");
