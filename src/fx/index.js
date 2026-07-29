@@ -15,7 +15,8 @@ const finePointer = window.matchMedia("(pointer: fine)").matches;
 
 // Ambient first: the cockpit chrome subscribes to boot lifecycle events that
 // initBoot may emit synchronously. Reduced motion keeps the useful telemetry,
-// sound toggle, and reboot control while omitting ambient animation layers.
+// interface-sound toggle, and reboot control while omitting music and ambient
+// animation layers.
 if (float) {
   initAmbient({ reduced: reduce });
   if (finePointer && !reduce) initInteract();

@@ -117,8 +117,8 @@ export function initBoot({ float, reduced = false }) {
     emit("mc:boot:done");
   };
 
-  // Reduced motion keeps the complete cockpit and its controls, but resolves
-  // boot and reboot without the full-screen cinematic.
+  // Reduced motion keeps the cockpit's utility controls, but resolves boot
+  // and reboot without either the music feature or full-screen cinematic.
   if (reduced) {
     finishInstantly();
     document.addEventListener("mc:reboot", () => {

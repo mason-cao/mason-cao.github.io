@@ -121,7 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const playLabel = document.querySelector("[data-audio-play-label]");
   const audioStatus = document.querySelector("[data-audio-status]");
 
-  if (musicPlayer && audio && playBtn) {
+  // The ambient track is intentionally absent from the reduced-motion
+  // experience. Keeping this guard aligned with the CSS also prevents the
+  // MP3 from loading or playback listeners from being armed in that mode.
+  if (!prefersReducedMotion && musicPlayer && audio && playBtn) {
     const trackName = "Dreiton by C418";
     const missingAudioMessage = "Drop the track file to enable";
     const blockedAutoplayMessage = "Tap play to start";
@@ -320,8 +323,8 @@ document.addEventListener("DOMContentLoaded", () => {
       syncPlayState();
     });
 
-    audio.load?.();
     syncPlaybackConfig();
+    audio.load?.();
     syncPlayState();
   }
 

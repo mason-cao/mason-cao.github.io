@@ -1906,6 +1906,9 @@ html.deck-float .timeline-arrow svg { width: 0.85rem; height: 0.85rem; }
 
 /* ════ REDUCED MOTION — show panels immediately, no reveal/entry motion ════ */
 @media (prefers-reduced-motion: reduce) {
+  .music-player {
+    display: none;
+  }
   html.reveal-ready:not(.deck-float) [data-panel],
   html.reveal-ready:not(.deck-float) .sec-head {
     opacity: 1;

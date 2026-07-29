@@ -210,8 +210,8 @@ export function initAmbient({ reduced = false } = {}) {
   if (!reduced) {
     initSweep();
     initMotes();
+    initEq();
   }
-  initEq();
 
   // chrome + radar come online with the boot sequence and step back during
   // a reboot
