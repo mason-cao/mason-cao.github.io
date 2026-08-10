@@ -331,6 +331,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─────────────────────────────────────────────
   // 9. Modals (contact + play log)
   // ─────────────────────────────────────────────
+  const playLogRows = Array.from(
+    document.querySelectorAll("#achievements-modal .achievement-row")
+  );
+  const playLogCount = playLogRows.reduce((count, row) => {
+    if (!row.classList.contains("achievement-row--stacked")) return count + 1;
+    const stackedEntries =
+      row.querySelector("dd")?.querySelectorAll(":scope > span").length || 0;
+    return count + Math.max(stackedEntries, 1);
+  }, 0);
+  document.querySelectorAll("[data-play-log-count]").forEach((el) => {
+    el.textContent = String(playLogCount);
+  });
+
+  const playLogTrigger = document.getElementById("open-achievements-btn");
+  if (playLogTrigger && playLogCount) {
+    playLogTrigger.setAttribute(
+      "aria-label",
+      `Open play log with ${playLogCount} achievements`
+    );
+  }
+
   const modalFocusableSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 

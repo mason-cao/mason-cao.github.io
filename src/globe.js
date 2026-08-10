@@ -5,7 +5,8 @@
 // carry travelling signal pulses and brighten under a firing sweep, and the
 // vertices are glowing neurons. A Fresnel atmosphere rim and front/back depth
 // fade give it 3D volume. Drag to spin.
-// Pauses when hidden; falls back silently with no WebGL / reduced motion.
+// Pauses when hidden; falls back silently with no WebGL. Reduced motion keeps
+// a gentler rotating, draggable globe while suppressing its busier effects.
 // ─────────────────────────────────────────────────────────────
 import * as THREE from "three";
 import {
@@ -382,7 +383,10 @@ import {
   let audioPulseReady = false;
   let audioPulseLoading = false;
   let audioActivationTimer = null;
-  let rotX = 0.5, rotY = 0.2, velX = 0, velY = 0.0016;
+  const IDLE_SPIN = reduce ? 0.00055 : 0.0016;
+  const SIGNAL_SPEED = reduce ? 0.45 : 1;
+  const FORWARD_PASS_INTERVAL_MS = reduce ? 1000 / 12 : 0;
+  let rotX = 0.5, rotY = 0.2, velX = 0, velY = IDLE_SPIN;
   let dragging = false, lastX = 0, lastY = 0;
   canvas.addEventListener("pointerenter", () => { hoverTarget = 1; });
   canvas.addEventListener("pointerleave", () => { hoverTarget = 0; });
@@ -473,17 +477,27 @@ import {
   let raf = null;
   const t0 = performance.now();
   let lastFrameTime = t0;
+  let lastForwardPassTime = t0;
   const frame = (now = performance.now()) => {
     const dt = Math.min(Math.max((now - lastFrameTime) / 1000, 0), 0.05);
     const frameRatio = dt * 60;
     lastFrameTime = now;
     const t = (now - t0) / 1000;
-    pUniforms.uTime.value = t;
-    wireUniforms.uTime.value = t;
-    runForwardPass(t);
+    const signalTime = t * SIGNAL_SPEED;
+    pUniforms.uTime.value = signalTime;
+    wireUniforms.uTime.value = signalTime;
+    if (now - lastForwardPassTime >= FORWARD_PASS_INTERVAL_MS) {
+      runForwardPass(signalTime);
+      lastForwardPassTime = now;
+    }
     focusTarget = globeShell?.classList.contains("is-globe-expanded") ? 1 : 0;
-    focusMix += (focusTarget - focusMix) * (1 - Math.pow(0.84, frameRatio));
-    hoverMix += (hoverTarget - hoverMix) * (1 - Math.pow(0.82, frameRatio));
+    if (reduce) {
+      focusMix = focusTarget;
+      hoverMix = 0;
+    } else {
+      focusMix += (focusTarget - focusMix) * (1 - Math.pow(0.84, frameRatio));
+      hoverMix += (hoverTarget - hoverMix) * (1 - Math.pow(0.82, frameRatio));
+    }
     const targetAudioPulse = sampleAudioPulse();
     const pulseEase = targetAudioPulse > audioPulseMix ? 1 - Math.pow(0.91, frameRatio) : 1 - Math.pow(0.965, frameRatio);
     audioPulseMix += (targetAudioPulse - audioPulseMix) * pulseEase;
@@ -517,7 +531,7 @@ import {
     camera.position.z = BASE_CAMERA_Z + focusMix * 1.25 + (1 - bootEase) * 2.2;
     if (!dragging) {
       rotY += velY * frameRatio + flare * 0.02 * frameRatio; // ignition spin-up
-      velY += (0.0016 - velY) * (1 - Math.pow(0.98, frameRatio));
+      velY += (IDLE_SPIN - velY) * (1 - Math.pow(0.98, frameRatio));
       rotX += velX * frameRatio;
       velX *= Math.pow(0.94, frameRatio);
     }
@@ -527,7 +541,7 @@ import {
     raf = requestAnimationFrame(frame);
   };
   const start = () => {
-    if (raf == null && !reduce) {
+    if (raf == null) {
       lastFrameTime = performance.now();
       raf = requestAnimationFrame(frame);
     }
@@ -576,8 +590,7 @@ import {
     ignite() {
       window.clearTimeout(igniteFallback);
       bootTarget = 1;
-      if (!reduce) start();
-      else render();
+      start();
     },
     pulse(strength = 0.5) {
       pulseKick = Math.min(pulseKick + strength, 1.6);
@@ -588,7 +601,7 @@ import {
     /** power the globe back down (used by the REBOOT control) */
     dim() {
       bootTarget = 0;
-      if (!reduce) start();
+      start();
     },
   };
 })();

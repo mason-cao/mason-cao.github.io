@@ -868,10 +868,26 @@ body::before {
 .achievements-box {
   font-family: system-ui, sans-serif;
   max-height: calc(100vh - 2rem);
-  max-height: min(calc(100dvh - 2rem), 44rem);
+  max-height: calc(100dvh - 2rem);
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(143, 230, 255, 0.5) rgba(238, 241, 246, 0.05);
   -webkit-overflow-scrolling: touch;
+}
+
+.achievements-box::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+.achievements-box::-webkit-scrollbar-track {
+  background: rgba(238, 241, 246, 0.05);
+}
+
+.achievements-box::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(143, 230, 255, 0.5);
 }
 
 .achievements-kicker {
