@@ -18,6 +18,11 @@ import {
 } from "postprocessing";
 
 (function initGlobe() {
+  // The reactor renders identically whether or not reduced motion is set:
+  // same HDR bloom + chromatic aberration, same idle spin, same signal speed,
+  // same hover/focus response. `reduce` now gates only the boot ignition ramp,
+  // so the cinematic takeover is still skipped and the globe simply starts at
+  // full strength (PRODUCT.md: same final layout, without the cinema).
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = document.getElementById("globe-canvas");
   if (!canvas) return;
@@ -76,7 +81,7 @@ import {
   let chroma = null;
   const CA_BASE = 0.00042;
   const BLOOM_BASE = 0.82;
-  const wantPost = !reduce && window.matchMedia("(pointer: fine)").matches;
+  const wantPost = window.matchMedia("(pointer: fine)").matches;
   if (wantPost) {
     try {
       composer = new EffectComposer(renderer, {
@@ -383,9 +388,7 @@ import {
   let audioPulseReady = false;
   let audioPulseLoading = false;
   let audioActivationTimer = null;
-  const IDLE_SPIN = reduce ? 0.00055 : 0.0016;
-  const SIGNAL_SPEED = reduce ? 0.45 : 1;
-  const FORWARD_PASS_INTERVAL_MS = reduce ? 1000 / 12 : 0;
+  const IDLE_SPIN = 0.0016;
   let rotX = 0.5, rotY = 0.2, velX = 0, velY = IDLE_SPIN;
   let dragging = false, lastX = 0, lastY = 0;
   canvas.addEventListener("pointerenter", () => { hoverTarget = 1; });
@@ -441,8 +444,7 @@ import {
       ambientAudio &&
       !ambientAudio.paused &&
       hoverTarget === 0 &&
-      focusTarget === 0 &&
-      !reduce;
+      focusTarget === 0;
     if (!shouldDriveAudioPulse || !audioPulseReady) return 0;
     const values = audioPulseEnvelope.values;
     if (!values?.length) return 0;
@@ -477,27 +479,17 @@ import {
   let raf = null;
   const t0 = performance.now();
   let lastFrameTime = t0;
-  let lastForwardPassTime = t0;
   const frame = (now = performance.now()) => {
     const dt = Math.min(Math.max((now - lastFrameTime) / 1000, 0), 0.05);
     const frameRatio = dt * 60;
     lastFrameTime = now;
     const t = (now - t0) / 1000;
-    const signalTime = t * SIGNAL_SPEED;
-    pUniforms.uTime.value = signalTime;
-    wireUniforms.uTime.value = signalTime;
-    if (now - lastForwardPassTime >= FORWARD_PASS_INTERVAL_MS) {
-      runForwardPass(signalTime);
-      lastForwardPassTime = now;
-    }
+    pUniforms.uTime.value = t;
+    wireUniforms.uTime.value = t;
+    runForwardPass(t);
     focusTarget = globeShell?.classList.contains("is-globe-expanded") ? 1 : 0;
-    if (reduce) {
-      focusMix = focusTarget;
-      hoverMix = 0;
-    } else {
-      focusMix += (focusTarget - focusMix) * (1 - Math.pow(0.84, frameRatio));
-      hoverMix += (hoverTarget - hoverMix) * (1 - Math.pow(0.82, frameRatio));
-    }
+    focusMix += (focusTarget - focusMix) * (1 - Math.pow(0.84, frameRatio));
+    hoverMix += (hoverTarget - hoverMix) * (1 - Math.pow(0.82, frameRatio));
     const targetAudioPulse = sampleAudioPulse();
     const pulseEase = targetAudioPulse > audioPulseMix ? 1 - Math.pow(0.91, frameRatio) : 1 - Math.pow(0.965, frameRatio);
     audioPulseMix += (targetAudioPulse - audioPulseMix) * pulseEase;

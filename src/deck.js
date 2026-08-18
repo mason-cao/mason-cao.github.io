@@ -38,25 +38,28 @@
 
   // Cockpit layout, indexed by DOM order of [data-panel]:
   // x/y = centre as a fraction of the stage, w = width in rem, d = parallax depth.
-  // 10 holograms ring the central neural globe: hero centred at the top,
-  // timeline centred at the bottom, four panels down each side. The two
-  // columns are balanced by content height — right side carries the three
-  // project cards + comms, left side carries signal + horizon + tech +
-  // off-clock — so neither column overflows. Inner edges sit just outside the
-  // glowing sphere. Centre column kept clear so the reactor reads as the
-  // centrepiece. Tuned with headless measurement (Chrome @ 1200×900) so
-  // no two panels overlap.
+  // 11 holograms ring the central neural globe: hero centred at the top,
+  // timeline centred at the bottom, panels stacked down each side. The two
+  // columns are balanced by content height — right side carries the four
+  // project cards (Nova Core, AERIS, FreshTrack, First Step) + comms, left
+  // side carries signal + horizon + tech + off-clock — so neither column
+  // overflows. The right stack only fits five holograms because the project
+  // copy is deliberately short (2–3 lines each); lengthening it will push the
+  // column past the bottom margin. Inner edges sit just outside the glowing
+  // sphere. Centre column kept clear so the reactor reads as the centrepiece.
+  // Tuned with headless measurement (Chrome @ 1200×900) so no two overlap.
   const LAYOUT = [
     { x: 0.5,   y: 0.074, w: 24, d: 2 }, // 0  hero name (top-centre)
-    { x: 0.84,  y: 0.149, w: 21, d: 2, ax: "right" }, // 1  Nova Core
-    { x: 0.84,  y: 0.411, w: 21, d: 3, ax: "right" }, // 2  AERIS
-    { x: 0.84,  y: 0.686, w: 21, d: 2, ax: "right" }, // 3  FreshTrack
-    { x: 0.16,  y: 0.446, w: 20, d: 1, ax: "left" }, // 4  horizon
-    { x: 0.16,  y: 0.158, w: 20, d: 2, ax: "left" }, // 5  signal
-    { x: 0.16,  y: 0.703, w: 20, d: 1, ax: "left" }, // 6  tech stack
-    { x: 0.5,   y: 0.855, w: 28, d: 1, ay: "bottom" }, // 7  timeline
-    { x: 0.16,  y: 0.901, w: 20, d: 1, ax: "left", ay: "bottom" }, // 8  off-clock
-    { x: 0.84,  y: 0.912, w: 21, d: 1, ax: "right", ay: "bottom" }, // 9  comms
+    { x: 0.84,  y: 0.132, w: 21, d: 2, ax: "right" }, // 1  Nova Core
+    { x: 0.84,  y: 0.330, w: 21, d: 3, ax: "right" }, // 2  AERIS
+    { x: 0.84,  y: 0.527, w: 21, d: 2, ax: "right" }, // 3  FreshTrack
+    { x: 0.84,  y: 0.725, w: 21, d: 3, ax: "right" }, // 4  First Step
+    { x: 0.16,  y: 0.451, w: 20, d: 1, ax: "left" }, // 5  horizon
+    { x: 0.16,  y: 0.174, w: 20, d: 2, ax: "left" }, // 6  signal
+    { x: 0.16,  y: 0.695, w: 20, d: 1, ax: "left" }, // 7  tech stack
+    { x: 0.5,   y: 0.855, w: 28, d: 1, ay: "bottom" }, // 8  timeline
+    { x: 0.16,  y: 0.901, w: 20, d: 1, ax: "left", ay: "bottom" }, // 9  off-clock
+    { x: 0.84,  y: 0.912, w: 21, d: 1, ax: "right", ay: "bottom" }, // 10 comms
   ];
 
   const P = panels.map((el, i) => {

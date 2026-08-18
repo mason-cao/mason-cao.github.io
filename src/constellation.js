@@ -8,9 +8,13 @@
 // context inside it — so the CSS3D logos collapsed to nothing. A canvas
 // is immune to that, needs no CDN module, and falls back to labelled dots
 // if a logo image fails to load.
+//
+// The idle spin deliberately keeps running under prefers-reduced-motion:
+// it is a slow, constant rotation with no flashing, scrolling or parallax,
+// and the sphere reads as broken when frozen. Everything else on the site
+// still honours the preference.
 // ─────────────────────────────────────────────────────────────
 (function initConstellation() {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const mount = document.querySelector("[data-tech-sphere]");
   if (!mount) return;
   const imgEls = Array.from(mount.querySelectorAll("img"));
@@ -212,11 +216,11 @@
     draw();
     raf = requestAnimationFrame(frame);
   };
-  const start = () => { if (raf == null && !reduce) raf = requestAnimationFrame(frame); };
+  const start = () => { if (raf == null) raf = requestAnimationFrame(frame); };
   const stop = () => { if (raf != null) { cancelAnimationFrame(raf); raf = null; } };
 
   resize();
-  draw(); // one correct frame immediately / under reduced motion
+  draw(); // one correct frame immediately, before the loop takes over
 
   // The cockpit (deck.js) sets the card's final height AFTER this script runs,
   // so the canvas would otherwise stay sized to the wrong height and the sphere
@@ -234,12 +238,12 @@
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stop(); else start();
   });
-  if (!reduce && "IntersectionObserver" in window) {
+  if ("IntersectionObserver" in window) {
     new IntersectionObserver(
       (entries) => entries.forEach((en) => (en.isIntersecting ? start() : stop())),
       { threshold: 0.05 }
     ).observe(mount);
-  } else if (!reduce) {
+  } else {
     start();
   }
 })();

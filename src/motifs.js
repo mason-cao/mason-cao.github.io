@@ -4,6 +4,7 @@
 //   aeris  → climate anomaly stream with flagged detections
 //   nova   → 8-agent dependency pipeline with a travelling data pulse
 //   fresh  → freshness decay particles (mint → amber → faded)
+//   first  → footprints advancing along a trail, one step at a time
 //   detox  → focus-session orb (sweeping depletion ring)
 // Runs only while on-screen; reduced motion draws a single static frame.
 // Shares the site's mint/ink palette.
@@ -221,6 +222,51 @@
           ctx.fillStyle = `rgba(${col}, ${a})`;
           ctx.fill();
         });
+      };
+    }
+
+    if (kind === "first") {
+      // a trail of footprints walking left→right, each one landing with a
+      // ripple — "everything begins with a first step"
+      const N = 9;
+      return (t) => {
+        const { w, h } = dims();
+        ctx.clearRect(0, 0, w, h);
+        const midY = h * 0.62;
+        // the path already walked
+        ctx.beginPath();
+        ctx.moveTo(0, midY + 6);
+        ctx.lineTo(w, midY + 6);
+        ctx.strokeStyle = line(0.07);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        const lead = (t * 0.55) % (N + 2);
+        for (let i = 0; i < N; i++) {
+          const u = i / (N - 1);
+          const x = (0.07 + 0.86 * u) * w;
+          const y = midY + (i % 2 ? 7 : -7);
+          // steps fade in as the walker passes, then linger
+          const age = lead - i;
+          if (age < 0) continue;
+          const a = Math.max(0, Math.min(1, age / 0.6)) * Math.max(0.18, 1 - age / (N + 2));
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(i % 2 ? 0.22 : -0.22);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 3.4, 5.4, 0, 0, Math.PI * 2);
+          ctx.fillStyle = mint(a * 0.85);
+          ctx.fill();
+          ctx.restore();
+          // ripple on the freshly landed step
+          if (age < 1) {
+            ctx.beginPath();
+            ctx.arc(x, y, 6 + age * 13, 0, Math.PI * 2);
+            ctx.strokeStyle = mint(0.45 * (1 - age));
+            ctx.lineWidth = 1.3;
+            ctx.stroke();
+          }
+        }
       };
     }
 
