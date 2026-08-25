@@ -48,7 +48,7 @@ body {
 
 /* Always-on atmospheric depth: a fixed cyan nebula behind everything so the
    page always reads as a deep HUD field rather than flat black, even before
-   the WebGL neural globe paints (and under prefers-reduced-motion / no-WebGL).
+   the WebGL neural globe paints (and when WebGL is unavailable).
    A single warm gold bloom keeps the repulsor accent alive. Sits behind the
    3D scene (z:0) and all content. */
 body::before {
@@ -215,11 +215,6 @@ body::before {
     opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-grain {
-    opacity: 0.35;
-  }
-}
 
 .horizon-list {
   display: flex;
@@ -251,7 +246,7 @@ body::before {
 
 .horizon-list li + li {
   border-top: 1px dashed rgba(238, 241, 246, 0.1);
-  padding-top: 0.85rem;
+  padding-top: 0.5rem;
 }
 
 /* per-project signature motif (2D canvas) at the top of each project panel */
@@ -482,40 +477,6 @@ body::before {
   border-color: var(--line);
 }
 
-.cred-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.cred-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: #c0cad7;
-}
-
-.cred-list li:last-child {
-  border-bottom: none;
-}
-
-.cred-mark {
-  flex: none;
-  width: 3rem;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--ink);
-  padding-top: 0.15rem;
-}
-
 /* ── tech constellation (3D logo sphere) ── */
 .tech-constellation {
   position: relative;
@@ -584,82 +545,182 @@ body::before {
   }
 }
 
-/* ──────────────────────────  GAMES / PLAY LOG  ────────────────────────── */
-.games-peaked-section {
+/* ────────────────────────────  CREDENTIALS  ──────────────────────────── */
+/* Verified-record list. Rows are deliberately dense: the left cockpit column
+   is fully packed (see deck.js LAYOUT), so every row is two tight lines and
+   the panel carries its count in the bar rather than a footer. */
+.cred-list {
   display: flex;
-  justify-content: center;
-  margin-bottom: 3.5rem;
+  flex-direction: column;
+  gap: 0.18rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.games-trigger {
-  display: inline-flex;
+.cred-list li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cred-row {
+  display: flex;
+  width: 100%;
   align-items: center;
-  gap: 1rem;
-  width: min(100%, 27rem);
-  border: 1px solid var(--line);
-  border-radius: 1rem;
+  gap: 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
   background: transparent;
-  padding: 1.1rem 1.3rem;
+  padding: 0.26rem 0.4rem;
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 220ms ease-out,
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    border-color 200ms ease-out,
+    background-color 200ms ease-out,
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.games-trigger:hover,
-.games-trigger:focus-visible {
-  border-color: var(--mint);
-  transform: translateY(-2px);
+.cred-row:hover,
+.cred-row:focus-visible {
+  border-color: rgba(56, 208, 255, 0.4);
+  background: rgba(56, 208, 255, 0.06);
+  transform: translateX(2px);
 }
 
-.games-trigger:focus-visible {
+.cred-row:focus-visible {
   outline: none;
 }
 
-.games-trigger-number {
-  color: var(--mint-bright);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 2.25rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.games-trigger-body {
+.cred-main {
   display: flex;
   min-width: 0;
+  flex: 1;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.05rem;
 }
 
-.games-trigger-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: #d9e0ea;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+.cred-name {
+  overflow: hidden;
+  color: #e6ecf4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.games-trigger-note {
+.cred-org {
+  overflow: hidden;
   color: #7e8896;
-  font-size: 0.86rem;
+  font-size: 0.66rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.games-trigger-arrow {
-  width: 0.8rem;
-  height: 0.8rem;
-  color: var(--accent-deep);
+/* the verification tell — reads as a HUD status light, not a button */
+.cred-chip {
+  flex-shrink: 0;
+  border: 1px solid rgba(56, 208, 255, 0.35);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.3rem;
+  color: var(--cyan, #38d0ff);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.75;
   transition:
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    color 220ms ease-out;
+    opacity 200ms ease-out,
+    border-color 200ms ease-out;
 }
 
-.games-trigger:hover .games-trigger-arrow,
-.games-trigger:focus-visible .games-trigger-arrow {
-  color: var(--ink);
+.cred-row:hover .cred-chip,
+.cred-row:focus-visible .cred-chip {
+  border-color: var(--cyan, #38d0ff);
+  opacity: 1;
+}
+
+/* ── proof viewer ── */
+.proof-box {
+  max-height: min(88vh, 52rem);
+  overflow-y: auto;
+}
+
+/* the close button is absolutely positioned top-right; keep the heading text
+   from running underneath it on narrow viewports */
+.proof-box .achievements-kicker,
+.proof-box .achievements-title {
+  padding-right: 2.5rem;
+}
+
+.proof-figure {
+  margin: 1rem 0 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: rgba(4, 8, 14, 0.6);
+  overflow: hidden;
+}
+
+.proof-figure img {
+  display: block;
+  width: 100%;
+  max-height: 58vh;
+  object-fit: contain;
+}
+
+.proof-caption {
+  margin: 0;
+  color: #98a2b0;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.proof-doc {
+  margin-top: 1rem;
+}
+
+.proof-doc[hidden] {
+  display: none;
+}
+
+/* ── off-the-clock doorway (lives in the Comms panel) ── */
+.play-log-link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  padding: 0.5rem 0.1rem 0;
+  color: #7e8896;
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  transition: color 200ms ease-out;
+}
+
+.play-log-link:hover,
+.play-log-link:focus-visible {
+  color: var(--cyan, #38d0ff);
+}
+
+.play-log-link:focus-visible {
+  outline: none;
+}
+
+.play-log-link-arrow {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex-shrink: 0;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.play-log-link:hover .play-log-link-arrow,
+.play-log-link:focus-visible .play-log-link-arrow {
   transform: translateX(3px);
 }
 
@@ -1106,7 +1167,6 @@ body::before {
 .timeline-year {
   text-shadow: 0 0 10px rgba(56, 208, 255, 0.35);
 }
-.games-trigger-number,
 .signal-stats dd {
   text-shadow: 0 0 16px rgba(56, 208, 255, 0.26);
 }
@@ -1126,26 +1186,11 @@ a:focus-visible,
   outline-offset: 3px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .live-dot,
-  .signal-skel {
-    animation: none !important;
-  }
-}
 
 /* ════════════════════════════════════════════════════════════════════
    COMMAND DECK — the Jarvis HUD shell
-   Dual-mode: a readable stacked page by default (no-JS / mobile / reduced
-   motion), and a fixed single-screen floating-panel cockpit once deck.js
+   Dual-mode: a readable stacked page by default (no-JS / mobile), and a
+   fixed single-screen floating-panel cockpit once deck.js
    adds `deck-on` to <html> on a capable desktop.
    ════════════════════════════════════════════════════════════════════ */
 
@@ -1586,7 +1631,7 @@ html.deck-float .hud-scene.is-globe-expanded .globe-rings {
   padding: 0;
 }
 .hud-panel--sphere .tech-sphere { height: 320px; }
-html.deck-float .hud-panel--sphere .tech-sphere { height: 128px; }
+html.deck-float .hud-panel--sphere .tech-sphere { height: 112px; }
 .tech-sphere-canvas { display: block; width: 100%; height: 100%; }
 .tech-sphere-readout {
   position: absolute;
@@ -1906,6 +1951,66 @@ html.deck-float .timeline-controls { margin-top: 0.35rem; }
 html.deck-float .timeline-arrow { width: 1.9rem; height: 1.9rem; }
 html.deck-float .timeline-arrow svg { width: 0.85rem; height: 0.85rem; }
 
+/* ── cockpit column budget ──
+   The left column (signal → horizon → tech sphere → credentials) has to fit
+   inside 832px at the canonical 1200×900 stage, with no slack. Adding the
+   credentials panel put it ~130px over, so these trims buy the space back out
+   of padding rather than content — and deliberately spare the tech sphere,
+   which is the column's main visual moment. Cockpit-only: the stacked page
+   keeps its roomier spacing. Re-measure before changing any of these. */
+html.deck-float .hud-panel--signal .hud-panel-body,
+html.deck-float .hud-panel--horizon .horizon-list,
+html.deck-float .hud-panel--credentials .hud-panel-body {
+  padding-top: 0.42rem;
+  padding-bottom: 0.42rem;
+}
+html.deck-float .signal-row { padding: 0.2rem 0; }
+html.deck-float .signal-foot { padding-top: 0.45rem; }
+html.deck-float .horizon-list { gap: 0.25rem; }
+html.deck-float .horizon-list li + li { padding-top: 0.3rem; }
+html.deck-float .horizon-list li { line-height: 1.35; font-size: 0.8rem; }
+/* the repos/followers pairs stack dt-over-dd, which made the signal bar two
+   lines tall; inline them so the bar matches every other panel's */
+html.deck-float .signal-stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  text-align: left;
+}
+html.deck-float .hud-panel--signal .signal-stats { gap: 0.7rem; }
+html.deck-float .cred-name { font-size: 0.72rem; }
+html.deck-float .cred-org { font-size: 0.6rem; }
+html.deck-float .cred-row { padding: 0.15rem 0.35rem; }
+html.deck-float .cred-list { gap: 0.12rem; }
+html.deck-float .cred-name, html.deck-float .cred-org { line-height: 1.2; }
+
+/* comms grew by the off-the-clock line; keep the panel at its former height so
+   the right column still clears the First Step card above it */
+html.deck-float .hud-panel--comms .hud-panel-body {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+/* Four bubbles at cockpit width would wrap to 2×2 and blow the right column,
+   and the value line was already ellipsized to "masonca…" there — no
+   information lost by dropping it. One 4-across icon row instead; the stacked
+   page keeps the full two-column layout with addresses spelled out. */
+html.deck-float .comms-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.3rem;
+}
+html.deck-float .contact-link {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.4rem 0.2rem;
+  text-align: center;
+}
+html.deck-float .contact-icon { padding: 0.28rem; }
+html.deck-float .contact-icon svg { width: 0.95rem; height: 0.95rem; }
+html.deck-float .contact-value { display: none; }
+html.deck-float .contact-label { font-size: 0.53rem; letter-spacing: 0.05em; }
+html.deck-float .play-log-link { margin-top: 0.35rem; padding-top: 0.35rem; }
+
 /* ════ RESPONSIVE — stacked-fallback trims ════ */
 @media (max-width: 540px) {
   .hud-panel-body { padding: 0.85rem 0.85rem 0.95rem; }
@@ -1920,17 +2025,3 @@ html.deck-float .timeline-arrow svg { width: 0.85rem; height: 0.85rem; }
   html:not(.deck-float) .hud-scene::after { opacity: 0.6; }
 }
 
-/* ════ REDUCED MOTION — show panels immediately, no reveal/entry motion ════ */
-@media (prefers-reduced-motion: reduce) {
-  .music-player {
-    display: none;
-  }
-  html.reveal-ready:not(.deck-float) [data-panel],
-  html.reveal-ready:not(.deck-float) .sec-head {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  html.deck-float [data-panel] { opacity: 1; transition: none; }
-  .hud-panel { transition: none; }
-}

@@ -30,4 +30,6 @@ Generic template portfolios, plain stacked card pages used as the primary deskto
 
 ## Accessibility & Inclusion
 
-Keep semantic headings and content available to assistive technology, preserve keyboard focus states and skip navigation, and honor reduced-motion preferences by showing the same final command-deck layout without requiring the full cinematic animation. Maintain a readable stacked experience for genuinely narrow phone viewports.
+Keep semantic headings and content available to assistive technology, and preserve keyboard focus states and skip navigation. Maintain a readable stacked experience for genuinely narrow phone viewports.
+
+The OS `prefers-reduced-motion` setting is deliberately **not** honored: every visitor gets the full cockpit — boot cinema, parallax, ambient radar, panel flicker, interaction FX, and the music player. This is an authored trade-off against the usual accessibility guidance, chosen so the experience is never split into two versions. It is centralized in `src/motion.js` and can be reverted from that one file.

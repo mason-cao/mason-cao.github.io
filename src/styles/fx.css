@@ -3,7 +3,7 @@
    Everything here is JS-created (fx/*.js) and float-cockpit-only, so the
    stacked/mobile page never pays for it. z-map: scene 0 · grain 1 ·
    motes/radar 2 · deck 10 · chrome 60 · sweep 65 · modals 100 ·
-   globe-expanded 120 · shock 135 · reticle 140 · gate 200 · boot 210.
+   globe-expanded 120 · shock 135 · gate 200 · boot 210.
    ════════════════════════════════════════════════════════════════════ */
 
 /* ── pre-boot: hold the stage dark until ignition ── */
@@ -19,7 +19,6 @@ html.mc-preboot .music-player {
 /* safety: FX chrome only exists in the float cockpit */
 html:not(.deck-float) .mc-chrome,
 html:not(.deck-float) .mc-radar,
-html:not(.deck-float) .mc-reticle,
 html:not(.deck-float) .mc-motes,
 html:not(.deck-float) .mc-sweep {
   display: none !important;
@@ -517,54 +516,6 @@ html.globe-focus .mc-radar {
   }
 }
 
-/* ════════════════ CURSOR RETICLE ════════════════ */
-.mc-reticle {
-  position: fixed;
-  left: -17px;
-  top: -17px;
-  z-index: 140;
-  width: 34px;
-  height: 34px;
-  pointer-events: none;
-  opacity: 0;
-  mix-blend-mode: screen;
-  transition: opacity 300ms ease-out;
-}
-.mc-reticle.is-visible {
-  opacity: 1;
-}
-.mc-reticle-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px dashed rgba(143, 230, 255, 0.6);
-  animation: mc-reticle-spin 7s linear infinite;
-  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms ease-out;
-}
-.mc-reticle-dot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 3px;
-  height: 3px;
-  margin: -1.5px 0 0 -1.5px;
-  border-radius: 50%;
-  background: var(--cyan-bright);
-  box-shadow: 0 0 8px rgba(143, 230, 255, 0.9);
-}
-.mc-reticle.is-hot .mc-reticle-ring {
-  transform: scale(1.55);
-  border-color: rgba(255, 255, 255, 0.85);
-}
-@keyframes mc-reticle-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.mc-reticle.is-hot .mc-reticle-ring {
-  animation-duration: 2.2s;
-}
-
 /* ════════════════ CLICK SHOCKWAVE ════════════════ */
 .mc-shock {
   position: fixed;
@@ -626,15 +577,3 @@ html.globe-focus .mc-radar {
   }
 }
 
-/* ════════════════ REDUCED MOTION — keep controls, hide motion layers ════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  .mc-gate,
-  .mc-boot,
-  .mc-radar,
-  .mc-sweep,
-  .mc-reticle,
-  .mc-motes,
-  .mc-shock {
-    display: none !important;
-  }
-}

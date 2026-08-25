@@ -181,8 +181,8 @@
                   8-agent customer intelligence platform
                 </p>
                 <p class="project-copy">
-                  Feature engineering, churn models with SHAP, isolated
-                  databases per workspace.
+                  Reads a company's customer data to flag who's about to
+                  leave, then uses SHAP to explain why.
                 </p>
                 <a
                   class="hud-cta"
@@ -318,7 +318,7 @@
                 </div>
                 <p class="project-role">Youth-led nonprofit, Join us!</p>
                 <p class="project-copy">
-                  250+ members, microplastics mapping, 240+ events, $17.9k
+                  300+ members, microplastics research, 250+ events, $18k+
                   raised.
                 </p>
                 <a
@@ -662,49 +662,176 @@
           </article>
         </section>
 
-        <!-- ░░ 05 OFF-CLOCK ░░ -->
+        <!-- ░░ 05 CREDENTIALS ░░ -->
+        <!-- Verifiable record. Each row opens the proof viewer with the
+             original screenshot or document, so the claim and its evidence
+             never drift apart. Row copy states only what its proof shows;
+             wider context lives in the modal caption. -->
         <section
           class="module-group"
-          data-module="play"
-          aria-label="Off the clock"
+          data-module="credentials"
+          aria-label="Verified credentials"
         >
           <header class="sec-head">
             <span class="sec-head-idx">05</span>
-            <h2 class="sec-head-name">Off the clock</h2>
+            <h2 class="sec-head-name">Credentials</h2>
           </header>
-          <article class="hud-panel hud-panel--play" data-panel>
+          <article class="hud-panel hud-panel--credentials" data-panel>
             <header class="hud-panel-bar">
-              <span class="hud-panel-label">OFF THE CLOCK</span>
+              <span class="live-dot" aria-hidden="true"></span>
+              <span class="hud-panel-label">CREDENTIALS</span>
             </header>
             <div class="hud-panel-body">
-              <button
-                id="open-achievements-btn"
-                type="button"
-                aria-haspopup="dialog"
-                aria-controls="achievements-modal"
-                class="games-trigger group"
-              >
-                <span class="games-trigger-number" data-play-log-count>20</span>
-                <span class="games-trigger-body">
-                  <span class="games-trigger-label">
-                    Games Peaked
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      class="games-trigger-arrow"
-                      aria-hidden="true"
+              <ul class="cred-list">
+                <li>
+                  <button
+                    type="button"
+                    class="cred-row"
+                    aria-haspopup="dialog"
+                    aria-controls="proof-modal"
+                    data-cred
+                    data-cred-title="NASA SCHAR Research Intern"
+                    data-cred-meta="George Mason University &middot; Summer 2026"
+                    data-cred-img="credentials/nasa-schar-internship.jpg"
+                    data-cred-alt="Selection email for the 2026 NASA SCHAR Data Science Research Internship, naming one of five selected researchers"
+                    data-cred-caption="Selection email from Dr. Peter Plavchan, Principal Investigator of the NASA Landolt Space Mission. One of five researchers chosen for the fully funded 2026 SCHAR data science track, running Bayesian and time-series analysis on NASA TESS and JWST datasets. The onboarding form link is redacted."
+                  >
+                    <span class="cred-main">
+                      <span class="cred-name">NASA SCHAR Research Intern</span>
+                      <span class="cred-org"
+                        >1 of 5 selected &middot; Summer 2026</span
+                      >
+                    </span>
+                    <span class="cred-chip font-mono" aria-hidden="true"
+                      >PROOF</span
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  <span class="games-trigger-note">Open the full play log</span>
-                </span>
-              </button>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="cred-row"
+                    aria-haspopup="dialog"
+                    aria-controls="proof-modal"
+                    data-cred
+                    data-cred-title="USACO Gold Division"
+                    data-cred-meta="USA Computing Olympiad &middot; 2026"
+                    data-cred-img="credentials/usaco-gold.png"
+                    data-cred-alt="USACO results page showing Gold division, 2026 Third Contest, score 715"
+                    data-cred-caption="Official USACO results for the 2026 Third Contest, Gold Division. Scored 715 of 1000 across three problems, from a field of 1,245 competitors. Reached Gold in both grade 10 and grade 11."
+                  >
+                    <span class="cred-main">
+                      <span class="cred-name">USACO Gold Division</span>
+                      <span class="cred-org"
+                        >Third Contest 2026 &middot; 715/1000</span
+                      >
+                    </span>
+                    <span class="cred-chip font-mono" aria-hidden="true"
+                      >PROOF</span
+                    >
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="cred-row"
+                    aria-haspopup="dialog"
+                    aria-controls="proof-modal"
+                    data-cred
+                    data-cred-title="Responsible AI Award"
+                    data-cred-meta="USAII Global AI Hackathon &middot; 2026"
+                    data-cred-img="credentials/usaii-responsible-ai.jpg"
+                    data-cred-alt="USAII Global AI Hackathon 2026 winners sheet listing the Responsible AI Award to Team Green Spark AI"
+                    data-cred-caption="Official winners announcement. Team Green Spark AI (Ismum Al-Araf, Mason Cao, Perez Gomez) took the Responsible AI Award for &lsquo;My School&rsquo;s Hidden Footprint&rsquo;, one of five awards out of 808 qualifying teams."
+                    data-cred-doc="credentials/usaii-hackathon-2026-winners.pdf"
+                    data-cred-doc-label="Open the full winners document (PDF)"
+                  >
+                    <span class="cred-main">
+                      <span class="cred-name">Responsible AI Award</span>
+                      <span class="cred-org"
+                        >USAII 2026 &middot; Team Green Spark AI</span
+                      >
+                    </span>
+                    <span class="cred-chip font-mono" aria-hidden="true"
+                      >PROOF</span
+                    >
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="cred-row"
+                    aria-haspopup="dialog"
+                    aria-controls="proof-modal"
+                    data-cred
+                    data-cred-title="7th Place, Networking Infrastructures"
+                    data-cred-meta="FBLA National Leadership Conference"
+                    data-cred-img="credentials/fbla-networking.jpg"
+                    data-cred-alt="FBLA National Leadership Conference awards stage, 7th place Networking Infrastructures, Mason Cao, Lambert High School"
+                    data-cred-caption="FBLA National Leadership Conference awards session. Placed 7th nationally in Networking Infrastructures, competing for Lambert High School, Georgia."
+                  >
+                    <span class="cred-main">
+                      <span class="cred-name"
+                        >7th Nationally, Networking</span
+                      >
+                      <span class="cred-org"
+                        >FBLA National Leadership Conf.</span
+                      >
+                    </span>
+                    <span class="cred-chip font-mono" aria-hidden="true"
+                      >PROOF</span
+                    >
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="cred-row"
+                    aria-haspopup="dialog"
+                    aria-controls="proof-modal"
+                    data-cred
+                    data-cred-title="1st Place, Entrepreneurship Team Decision Making"
+                    data-cred-meta="DECA &middot; Lambert High School"
+                    data-cred-img="credentials/deca-entrepreneurship.jpg"
+                    data-cred-alt="DECA awards stage, first place Entrepreneurship Team Decision Making, Mason Cao and Xavier Ryu, Lambert High School"
+                    data-cred-caption="DECA awards session. First place in Entrepreneurship Team Decision Making with Xavier Ryu for Lambert High School, and an International Career Development Conference qualification."
+                  >
+                    <span class="cred-main">
+                      <span class="cred-name">1st Place, Entrepreneurship</span>
+                      <span class="cred-org">DECA ETDM &middot; ICDC qualifier</span>
+                    </span>
+                    <span class="cred-chip font-mono" aria-hidden="true"
+                      >PROOF</span
+                    >
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="cred-row"
+                    aria-haspopup="dialog"
+                    aria-controls="proof-modal"
+                    data-cred
+                    data-cred-title="Founder &amp; Instructor"
+                    data-cred-meta="Sharon Forks Library Summer Coding Camp"
+                    data-cred-img="credentials/coding-camp.jpg"
+                    data-cred-alt="First page of the Summer Math and Scratch Coding Camp syllabus, instructor Mason Cao"
+                    data-cred-caption="The six-week Math &amp; Scratch curriculum I wrote and taught at Sharon Forks Library. Ran 2.5-hour sessions for grades 4 to 8, each pairing a math concept with a Scratch build. Free for three summers; 52 students, 100+ projects shipped."
+                    data-cred-doc="credentials/coding-camp-syllabus.pdf"
+                    data-cred-doc-label="Open the full syllabus (PDF)"
+                  >
+                    <span class="cred-main">
+                      <span class="cred-name">Founder &amp; Instructor</span>
+                      <span class="cred-org"
+                        >Sharon Forks Summer Coding Camp</span
+                      >
+                    </span>
+                    <span class="cred-chip font-mono" aria-hidden="true"
+                      >PROOF</span
+                    >
+                  </button>
+                </li>
+              </ul>
             </div>
           </article>
         </section>
@@ -764,7 +891,82 @@
                   <div class="contact-value">in/mason-cao7</div>
                 </div>
               </a>
+              <a
+                href="https://github.com/mason-cao"
+                class="contact-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div class="contact-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="contact-label">GitHub</div>
+                  <div class="contact-value">mason-cao</div>
+                </div>
+              </a>
+              <a
+                href="mason-cao-cv.pdf"
+                class="contact-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div class="contact-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7.414A2 2 0 0017.414 6L14 2.586A2 2 0 0012.586 2H4zm9 1.914L16.086 7H14a1 1 0 01-1-1V3.914zM5.5 9.5h9a.75.75 0 010 1.5h-9a.75.75 0 010-1.5zm0 3h9a.75.75 0 010 1.5h-9a.75.75 0 010-1.5zm0-6h4a.75.75 0 010 1.5h-4a.75.75 0 010-1.5z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="contact-label">CV</div>
+                  <div class="contact-value">Full r&eacute;sum&eacute; (PDF)</div>
+                </div>
+              </a>
             </div>
+            <!-- off-the-clock lives here now: the play log kept its
+                   modal, only the doorway shrank to a single line -->
+              <button
+                id="open-achievements-btn"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="achievements-modal"
+                class="play-log-link"
+              >
+                <span class="play-log-link-text">
+                  off the clock &middot;
+                  <span data-play-log-count>20</span> games peaked
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="play-log-link-arrow"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
           </article>
         </section>
       </main>
@@ -1006,5 +1208,86 @@
         </p>
       </div>
     </div>
+
+    <!-- ░░ PROOF VIEWER ░░ -->
+    <!-- One generic viewer; every .cred-row fills it from its data-cred-*
+         attributes, so credential copy stays in the markup above. -->
+    <div
+      id="proof-modal"
+      class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="proof-title"
+      aria-hidden="true"
+      inert
+    >
+      <div
+        id="proof-backdrop"
+        class="absolute inset-0 bg-dark-900/80 backdrop-blur-md cursor-pointer"
+      ></div>
+
+      <div
+        id="proof-box"
+        class="glass-card proof-box hud-frame relative z-10 w-full max-w-3xl rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
+      >
+        <button
+          id="close-proof-btn"
+          type="button"
+          aria-label="Close proof viewer"
+          class="modal-close-button absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <p class="achievements-kicker" data-proof-meta></p>
+        <h3 id="proof-title" class="achievements-title" data-proof-title></h3>
+
+        <figure class="proof-figure">
+          <img data-proof-img src="" alt="" decoding="async" />
+        </figure>
+
+        <p class="proof-caption" data-proof-caption></p>
+
+        <a
+          class="hud-cta proof-doc"
+          data-proof-doc
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          hidden
+        >
+          <span data-proof-doc-label></span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M14 3h7v7" />
+            <path d="M10 14L21 3" />
+            <path
+              d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+
   </body>
 </html>

@@ -6,11 +6,13 @@
 //   fresh  → freshness decay particles (mint → amber → faded)
 //   first  → footprints advancing along a trail, one step at a time
 //   detox  → focus-session orb (sweeping depletion ring)
-// Runs only while on-screen; reduced motion draws a single static frame.
+// Runs only while on-screen.
 // Shares the site's mint/ink palette.
 // ─────────────────────────────────────────────────────────────
+import { prefersReducedMotion } from "./motion.js";
+
 (function initMotifs() {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduce = prefersReducedMotion;
   const MINT = "56, 208, 255"; // cyan — matches the HUD palette
   const AMBER = "255, 184, 77";
   const INK = "238, 241, 246";

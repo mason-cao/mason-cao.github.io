@@ -9,10 +9,9 @@
 // is immune to that, needs no CDN module, and falls back to labelled dots
 // if a logo image fails to load.
 //
-// The idle spin deliberately keeps running under prefers-reduced-motion:
-// it is a slow, constant rotation with no flashing, scrolling or parallax,
-// and the sphere reads as broken when frozen. Everything else on the site
-// still honours the preference.
+// The idle spin is a slow, constant rotation with no flashing, scrolling or
+// parallax; the sphere reads as broken when frozen. See motion.js — the site
+// no longer branches on the OS reduce-motion setting at all.
 // ─────────────────────────────────────────────────────────────
 (function initConstellation() {
   const mount = document.querySelector("[data-tech-sphere]");

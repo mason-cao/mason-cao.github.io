@@ -5,8 +5,7 @@
 // carry travelling signal pulses and brighten under a firing sweep, and the
 // vertices are glowing neurons. A Fresnel atmosphere rim and front/back depth
 // fade give it 3D volume. Drag to spin.
-// Pauses when hidden; falls back silently with no WebGL. Reduced motion keeps
-// a gentler rotating, draggable globe while suppressing its busier effects.
+// Pauses when hidden; falls back silently with no WebGL.
 // ─────────────────────────────────────────────────────────────
 import * as THREE from "three";
 import {
@@ -16,14 +15,12 @@ import {
   BloomEffect,
   ChromaticAberrationEffect,
 } from "postprocessing";
+import { prefersReducedMotion } from "./motion.js";
 
 (function initGlobe() {
-  // The reactor renders identically whether or not reduced motion is set:
-  // same HDR bloom + chromatic aberration, same idle spin, same signal speed,
-  // same hover/focus response. `reduce` now gates only the boot ignition ramp,
-  // so the cinematic takeover is still skipped and the globe simply starts at
-  // full strength (PRODUCT.md: same final layout, without the cinema).
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // `reduce` gates only the boot ignition ramp. It reads from motion.js,
+  // which is hardcoded false — the reactor always plays its full takeover.
+  const reduce = prefersReducedMotion;
   const canvas = document.getElementById("globe-canvas");
   if (!canvas) return;
 

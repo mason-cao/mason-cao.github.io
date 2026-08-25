@@ -1,7 +1,6 @@
 // ─────────────────────────────────────────────────────────────
 // interact.js — the page erupts when touched.
 //
-//   · HUD reticle that trails the cursor and flares over interactives
 //   · click shockwaves: expanding ring + globe pulse + chromatic jolt
 //   · panel hover: scan-sweep + label scramble-decode + blip
 //   · magnetic CTAs that lean toward the cursor
@@ -15,51 +14,6 @@ import { sfx } from "./sfx.js";
 gsap.registerPlugin(ScrambleTextPlugin);
 
 const html = document.documentElement;
-const HOT_SELECTOR =
-  'a, button, [role="button"], .timeline-track, [data-tech-sphere], canvas.scene-globe';
-
-const initReticle = () => {
-  const ret = document.createElement("div");
-  ret.className = "mc-reticle";
-  ret.setAttribute("aria-hidden", "true");
-  ret.innerHTML = '<i class="mc-reticle-ring"></i><i class="mc-reticle-dot"></i>';
-  document.body.appendChild(ret);
-
-  let tx = window.innerWidth / 2;
-  let ty = window.innerHeight / 2;
-  let x = tx;
-  let y = ty;
-  let seen = false;
-
-  window.addEventListener(
-    "pointermove",
-    (e) => {
-      if (e.pointerType && e.pointerType !== "mouse") return;
-      tx = e.clientX;
-      ty = e.clientY;
-      if (!seen) {
-        seen = true;
-        x = tx;
-        y = ty;
-        ret.classList.add("is-visible");
-      }
-    },
-    { passive: true }
-  );
-
-  const loop = () => {
-    x += (tx - x) * 0.22;
-    y += (ty - y) * 0.22;
-    ret.style.transform = `translate(${x}px, ${y}px)`;
-    requestAnimationFrame(loop);
-  };
-  requestAnimationFrame(loop);
-
-  document.addEventListener("mouseover", (e) => {
-    ret.classList.toggle("is-hot", Boolean(e.target.closest?.(HOT_SELECTOR)));
-  });
-};
-
 const initShockwaves = () => {
   document.addEventListener("pointerdown", (e) => {
     if (e.pointerType && e.pointerType !== "mouse") return;
@@ -109,7 +63,7 @@ const initPanelHover = () => {
 
 const initMagnetic = () => {
   const strength = 7;
-  document.querySelectorAll(".hud-cta, .games-trigger").forEach((el) => {
+  document.querySelectorAll(".hud-cta").forEach((el) => {
     const xTo = gsap.quickTo(el, "x", { duration: 0.35, ease: "power3.out" });
     const yTo = gsap.quickTo(el, "y", { duration: 0.35, ease: "power3.out" });
     el.addEventListener("pointermove", (e) => {
@@ -125,7 +79,6 @@ const initMagnetic = () => {
 };
 
 export function initInteract() {
-  initReticle();
   initShockwaves();
   initPanelHover();
   initMagnetic();

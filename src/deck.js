@@ -7,9 +7,11 @@
    preserved. That keeps the central globe open and the side holograms close
    to the viewport edges across display resolutions and browser zoom levels.
 
-   Genuinely narrow phone viewports keep the readable stacked page. Reduced
-   motion changes only the animation, never the selected layout.
+   Genuinely narrow phone viewports keep the readable stacked page. The OS
+   reduce-motion setting is deliberately ignored site-wide; see motion.js.
    ════════════════════════════════════════════════════════════════════ */
+import { prefersReducedMotion } from "./motion.js";
+
 (function () {
   const html = document.documentElement;
   const FALLBACK_FLOAT_MIN_WIDTH = 700;
@@ -17,7 +19,7 @@
   const STAGE_WIDTH = 1200;
   const STAGE_HEIGHT = 900;
   const MAX_STAGE_SCALE = 1.2;
-  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduceMotion = prefersReducedMotion;
   const forceFloat = /[?&]float=1/.test(location.search); // dev / screenshot override
   const widthMQ = matchMedia(`(min-width: ${FALLBACK_FLOAT_MIN_WIDTH}px)`);
   const hasComputerSizedScreen = () => {
@@ -42,24 +44,30 @@
   // timeline centred at the bottom, panels stacked down each side. The two
   // columns are balanced by content height — right side carries the four
   // project cards (Nova Core, AERIS, FreshTrack, First Step) + comms, left
-  // side carries signal + horizon + tech + off-clock — so neither column
-  // overflows. The right stack only fits five holograms because the project
-  // copy is deliberately short (2–3 lines each); lengthening it will push the
-  // column past the bottom margin. Inner edges sit just outside the glowing
-  // sphere. Centre column kept clear so the reactor reads as the centrepiece.
-  // Tuned with headless measurement (Chrome @ 1200×900) so no two overlap.
+  // side carries signal + horizon + tech + credentials — so neither column
+  // overflows. Both stacks fit five holograms only because their copy is
+  // deliberately short; lengthening it will push a column past the bottom
+  // margin. Inner edges sit just outside the glowing sphere. Centre column
+  // kept clear so the reactor reads as the centrepiece.
+  //
+  // Both columns are packed to within ~7px of the 832px runway (34px margin
+  // to 34px margin at the canonical 1200×900 stage), so these values are a
+  // solved layout, not a preference. The credentials panel is the tall one;
+  // the density trims that paid for it live under the "cockpit column budget"
+  // heading in style.css. Change a panel's content height and you must re-run
+  // the headless measurement (Chrome @ 1200×900) and re-solve these anchors.
   const LAYOUT = [
     { x: 0.5,   y: 0.074, w: 24, d: 2 }, // 0  hero name (top-centre)
-    { x: 0.84,  y: 0.132, w: 21, d: 2, ax: "right" }, // 1  Nova Core
-    { x: 0.84,  y: 0.330, w: 21, d: 3, ax: "right" }, // 2  AERIS
-    { x: 0.84,  y: 0.527, w: 21, d: 2, ax: "right" }, // 3  FreshTrack
-    { x: 0.84,  y: 0.725, w: 21, d: 3, ax: "right" }, // 4  First Step
-    { x: 0.16,  y: 0.451, w: 20, d: 1, ax: "left" }, // 5  horizon
-    { x: 0.16,  y: 0.174, w: 20, d: 2, ax: "left" }, // 6  signal
-    { x: 0.16,  y: 0.695, w: 20, d: 1, ax: "left" }, // 7  tech stack
+    { x: 0.84,  y: 0.1318, w: 21, d: 2, ax: "right" }, // 1  Nova Core
+    { x: 0.84,  y: 0.3271, w: 21, d: 3, ax: "right" }, // 2  AERIS
+    { x: 0.84,  y: 0.5223, w: 21, d: 2, ax: "right" }, // 3  FreshTrack
+    { x: 0.84,  y: 0.7176, w: 21, d: 3, ax: "right" }, // 4  First Step
+    { x: 0.16,  y: 0.3598, w: 20, d: 1, ax: "left" }, // 5  horizon
+    { x: 0.16,  y: 0.1373, w: 20, d: 2, ax: "left" }, // 6  signal
+    { x: 0.16,  y: 0.5777, w: 20, d: 1, ax: "left" }, // 7  tech stack
     { x: 0.5,   y: 0.855, w: 28, d: 1, ay: "bottom" }, // 8  timeline
-    { x: 0.16,  y: 0.901, w: 20, d: 1, ax: "left", ay: "bottom" }, // 9  off-clock
-    { x: 0.84,  y: 0.912, w: 21, d: 1, ax: "right", ay: "bottom" }, // 10 comms
+    { x: 0.16,  y: 0.8231, w: 20, d: 1, ax: "left", ay: "bottom" }, // 9  credentials
+    { x: 0.84,  y: 0.8905, w: 21, d: 1, ax: "right", ay: "bottom" }, // 10 comms
   ];
 
   const P = panels.map((el, i) => {

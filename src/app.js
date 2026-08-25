@@ -1,7 +1,7 @@
+import { prefersReducedMotion as motionPref } from "./motion.js";
+
 document.addEventListener("DOMContentLoaded", () => {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+  const prefersReducedMotion = motionPref;
 
   // ─────────────────────────────────────────────
   // 3. Hero intro typewriter
@@ -438,6 +438,55 @@ document.addEventListener("DOMContentLoaded", () => {
     backdropId: "achievements-backdrop",
     closeBtnId: "close-achievements-btn"
   });
+
+  // Proof viewer: one modal reused by every credential row. All copy lives in
+  // the markup as data-cred-* fields, so a new credential is a markup-only
+  // change. Values arrive entity-decoded, so textContent is both correct here
+  // and keeps the viewer from being an HTML sink.
+  const proofModal = setupModal({
+    modalId: "proof-modal",
+    boxId: "proof-box",
+    backdropId: "proof-backdrop",
+    closeBtnId: "close-proof-btn"
+  });
+
+  if (proofModal) {
+    const proofTitle = document.querySelector("[data-proof-title]");
+    const proofMeta = document.querySelector("[data-proof-meta]");
+    const proofImg = document.querySelector("[data-proof-img]");
+    const proofCaption = document.querySelector("[data-proof-caption]");
+    const proofDoc = document.querySelector("[data-proof-doc]");
+    const proofDocLabel = document.querySelector("[data-proof-doc-label]");
+
+    const credRows = Array.from(document.querySelectorAll("[data-cred]"));
+
+    credRows.forEach((row) => {
+      const d = row.dataset;
+      row.setAttribute("aria-label", `${d.credTitle}: open verification`);
+      row.addEventListener("click", (e) => {
+        if (proofTitle) proofTitle.textContent = d.credTitle || "";
+        if (proofMeta) proofMeta.textContent = `// ${d.credMeta || ""}`;
+        if (proofCaption) proofCaption.textContent = d.credCaption || "";
+        if (proofImg) {
+          proofImg.src = d.credImg || "";
+          proofImg.alt = d.credAlt || "";
+        }
+        if (proofDoc) {
+          if (d.credDoc) {
+            proofDoc.href = d.credDoc;
+            proofDoc.hidden = false;
+            if (proofDocLabel) {
+              proofDocLabel.textContent = d.credDocLabel || "Open the document";
+            }
+          } else {
+            proofDoc.hidden = true;
+            proofDoc.removeAttribute("href");
+          }
+        }
+        proofModal.open(e);
+      });
+    });
+  }
 
   // The tech stack is now a draggable logo sphere; see constellation.js.
 
