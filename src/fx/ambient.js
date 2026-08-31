@@ -1,96 +1,13 @@
 // ─────────────────────────────────────────────────────────────
 // ambient.js — the cockpit never sits still.
 //
-//   · viewport chrome: corner brackets + live telemetry (clock, FPS,
-//     uptime, coordinates) + REBOOT / SND controls
 //   · radar sweep arm rotating around the reactor
 //   · random holographic flicker on panels
 //   · a slow full-screen scanline pass every ~20s
 //   · drifting dust motes on a fixed canvas between field and glass
-//   · a tiny equalizer beside the music player, alive while playing
 //
 // Float cockpit + motion only. Everything pauses when the tab hides.
 // ─────────────────────────────────────────────────────────────
-import { sfx } from "./sfx.js";
-
-const html = document.documentElement;
-
-const buildChrome = () => {
-  const chrome = document.createElement("div");
-  chrome.className = "mc-chrome";
-  chrome.innerHTML = `
-    <i class="mc-corner mc-corner--tl" aria-hidden="true"></i>
-    <i class="mc-corner mc-corner--tr" aria-hidden="true"></i>
-    <i class="mc-corner mc-corner--bl" aria-hidden="true"></i>
-    <i class="mc-corner mc-corner--br" aria-hidden="true"></i>
-    <div class="mc-tel mc-tel--tl font-mono" aria-hidden="true">
-      <span class="mc-tel-dot"></span>SYS·NOMINAL&ensp;<span data-mc-clock>--:--:--</span>
-    </div>
-    <div class="mc-tel mc-tel--tr font-mono" aria-hidden="true">
-      <span data-mc-fps>--</span>FPS&ensp;·&ensp;UPTIME <span data-mc-up>00:00</span>
-    </div>
-    <div class="mc-tel mc-tel--bl font-mono">
-      <button type="button" data-mc-reboot aria-label="Replay boot sequence">⟲ REBOOT</button>
-      <button type="button" data-mc-snd aria-label="Toggle interface sound">SND·ON</button>
-    </div>
-    <div class="mc-tel mc-tel--br font-mono" aria-hidden="true">
-      34.05°N 84.07°W&ensp;·&ensp;MC.OS v5.2
-    </div>`;
-  return chrome;
-};
-
-const initChrome = () => {
-  const chrome = buildChrome();
-  document.body.appendChild(chrome);
-
-  // clock + uptime
-  const clockEl = chrome.querySelector("[data-mc-clock]");
-  const upEl = chrome.querySelector("[data-mc-up]");
-  const t0 = Date.now();
-  const tickClock = () => {
-    clockEl.textContent = new Date().toLocaleTimeString("en-US", { hour12: false });
-    const s = Math.floor((Date.now() - t0) / 1000);
-    upEl.textContent =
-      String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
-  };
-  tickClock();
-  setInterval(tickClock, 1000);
-
-  // FPS meter (sampled twice a second off the shared rAF heartbeat)
-  const fpsEl = chrome.querySelector("[data-mc-fps]");
-  let frames = 0;
-  let last = performance.now();
-  const fpsLoop = (now) => {
-    frames += 1;
-    if (now - last >= 500) {
-      fpsEl.textContent = String(Math.round((frames * 1000) / (now - last)));
-      frames = 0;
-      last = now;
-    }
-    requestAnimationFrame(fpsLoop);
-  };
-  requestAnimationFrame(fpsLoop);
-
-  // controls
-  const sndBtn = chrome.querySelector("[data-mc-snd]");
-  const syncSnd = () => {
-    sndBtn.textContent = sfx.muted ? "SND·OFF" : "SND·ON";
-    sndBtn.classList.toggle("is-off", sfx.muted);
-  };
-  syncSnd();
-  sndBtn.addEventListener("click", () => {
-    sfx.setMuted(!sfx.muted);
-    syncSnd();
-    sfx.tick();
-  });
-  chrome.querySelector("[data-mc-reboot]").addEventListener("click", () => {
-    sfx.tick();
-    document.dispatchEvent(new CustomEvent("mc:reboot"));
-  });
-
-  return chrome;
-};
-
 const initRadar = () => {
   const radar = document.createElement("div");
   radar.className = "mc-radar";
@@ -109,7 +26,7 @@ const initSweep = () => {
   };
   sweep.addEventListener("animationend", () => sweep.classList.remove("is-running"));
   setInterval(() => {
-    if (!document.hidden && !html.classList.contains("mc-booting")) pass();
+    if (!document.hidden) pass();
   }, 21000);
   window.setTimeout(pass, 6000);
 };
@@ -117,7 +34,7 @@ const initSweep = () => {
 const initFlicker = () => {
   const schedule = () => {
     window.setTimeout(() => {
-      if (!document.hidden && !html.classList.contains("mc-booting")) {
+      if (!document.hidden) {
         const panels = Array.from(document.querySelectorAll(".hud-panel.is-revealed"));
         const target = panels[Math.floor(Math.random() * panels.length)];
         if (target) {
@@ -194,37 +111,13 @@ const initMotes = () => {
   start();
 };
 
-const initEq = () => {
-  const player = document.querySelector(".music-player");
-  if (!player) return;
-  const eq = document.createElement("span");
-  eq.className = "mc-eq";
-  eq.setAttribute("aria-hidden", "true");
-  eq.innerHTML = "<i></i><i></i><i></i><i></i><i></i>";
-  player.insertBefore(eq, player.querySelector(".music-player-track"));
-};
-
 export function initAmbient({ reduced = false } = {}) {
-  const chrome = initChrome();
   const radar = reduced ? null : initRadar();
+  radar?.classList.add("is-on");
   if (!reduced) {
     initSweep();
     initMotes();
-    initEq();
   }
-
-  // chrome + radar come online with the boot sequence and step back during
-  // a reboot
-  const on = () => {
-    chrome.classList.add("is-on");
-    radar?.classList.add("is-on");
-  };
-  const off = () => {
-    chrome.classList.remove("is-on");
-    radar?.classList.remove("is-on");
-  };
-  document.addEventListener("mc:boot:done", on);
-  document.addEventListener("mc:boot:reset", off);
 
   if (!reduced) initFlicker();
 }

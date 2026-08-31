@@ -6,11 +6,10 @@ My personal website, in a Jarvis HUD UI w/Holograms and a neural network.
 
 ## Stack
 
-- **Vite** — build + dev server (HMR)
-- **Three.js + postprocessing** — neural globe with HDR bloom & chromatic aberration
-- **GSAP** — boot-sequence choreography, scramble text, magnetic buttons
-- **Tailwind CSS v4** — utility classes (build-time, via `@tailwindcss/vite`)
-- **Web Audio API** — synthesized JARVIS SFX, zero audio assets
+- **Vite**: build + dev server (HMR)
+- **Three.js + postprocessing**: neural globe with HDR bloom and chromatic aberration
+- **GSAP**: scramble text, magnetic buttons, and interface motion
+- **Tailwind CSS v4**: utility classes (build-time, via `@tailwindcss/vite`)
 
 ## Develop
 
@@ -21,8 +20,7 @@ npm run build    # production bundle → dist/
 npm run preview  # serve dist/ locally
 ```
 
-Dev query flags: `?float=1` forces the cockpit on small windows, `?noboot=1`
-skips the boot cinema, `?autoboot=1` runs it without the INITIALIZE gate.
+Dev query flag: `?float=1` forces the cockpit on small windows.
 
 ## Deploy
 

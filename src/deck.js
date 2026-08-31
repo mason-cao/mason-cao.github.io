@@ -39,7 +39,8 @@ import { prefersReducedMotion } from "./motion.js";
   if (!stage || !panels.length) return;
 
   // Cockpit layout, indexed by DOM order of [data-panel]:
-  // x/y = centre as a fraction of the stage, w = width in rem, d = parallax depth.
+  // x/y = centre as a fraction of the stage, w = minimum width in rem,
+  // maxW = the wider desktop width, and d = parallax depth.
   // 11 holograms ring the central neural globe: hero centred at the top,
   // timeline centred at the bottom, panels stacked down each side. The two
   // columns are balanced by content height — right side carries the four
@@ -58,22 +59,22 @@ import { prefersReducedMotion } from "./motion.js";
   // the headless measurement (Chrome @ 1200×900) and re-solve these anchors.
   const LAYOUT = [
     { x: 0.5,   y: 0.074, w: 24, d: 2 }, // 0  hero name (top-centre)
-    { x: 0.84,  y: 0.1318, w: 21, d: 2, ax: "right" }, // 1  Nova Core
-    { x: 0.84,  y: 0.3271, w: 21, d: 3, ax: "right" }, // 2  AERIS
-    { x: 0.84,  y: 0.5223, w: 21, d: 2, ax: "right" }, // 3  FreshTrack
-    { x: 0.84,  y: 0.7176, w: 21, d: 3, ax: "right" }, // 4  First Step
-    { x: 0.16,  y: 0.3598, w: 20, d: 1, ax: "left" }, // 5  horizon
-    { x: 0.16,  y: 0.1373, w: 20, d: 2, ax: "left" }, // 6  signal
-    { x: 0.16,  y: 0.5777, w: 20, d: 1, ax: "left" }, // 7  tech stack
+    { x: 0.84,  y: 0.1318, w: 21, maxW: 23, d: 2, ax: "right" }, // 1  Nova Core
+    { x: 0.84,  y: 0.3271, w: 21, maxW: 23, d: 3, ax: "right" }, // 2  AERIS
+    { x: 0.84,  y: 0.5223, w: 21, maxW: 23, d: 2, ax: "right" }, // 3  FreshTrack
+    { x: 0.84,  y: 0.7176, w: 21, maxW: 23, d: 3, ax: "right" }, // 4  First Step
+    { x: 0.16,  y: 0.3598, w: 20, maxW: 23, d: 1, ax: "left" }, // 5  horizon
+    { x: 0.16,  y: 0.1373, w: 20, maxW: 23, d: 2, ax: "left" }, // 6  signal
+    { x: 0.16,  y: 0.5777, w: 20, maxW: 23, d: 1, ax: "left" }, // 7  tech stack
     { x: 0.5,   y: 0.855, w: 28, d: 1, ay: "bottom" }, // 8  timeline
-    { x: 0.16,  y: 0.8231, w: 20, d: 1, ax: "left", ay: "bottom" }, // 9  credentials
-    { x: 0.84,  y: 0.8905, w: 21, d: 1, ax: "right", ay: "bottom" }, // 10 comms
+    { x: 0.16,  y: 0.8231, w: 20, maxW: 23, d: 1, ax: "left", ay: "bottom" }, // 9  credentials
+    { x: 0.84,  y: 0.8905, w: 21, maxW: 23, d: 1, ax: "right", ay: "bottom" }, // 10 comms
   ];
 
   const P = panels.map((el, i) => {
     const cfg = LAYOUT[i] || { x: 0.5, y: 0.5, w: 24, d: 2 };
     return {
-      el, i, w: cfg.w, fx: cfg.x, fy: cfg.y, d: cfg.d,
+      el, i, w: cfg.w, maxW: cfg.maxW || cfg.w, fx: cfg.x, fy: cfg.y, d: cfg.d,
       ax: cfg.ax, ay: cfg.ay,
       flat: el.classList.contains("hud-panel--sphere"),
       grabbed: false, vx: 0, vy: 0,
@@ -90,6 +91,9 @@ import { prefersReducedMotion } from "./motion.js";
   const W = () => logicalStageWidth;
   const H = () => logicalStageHeight;
   const MARGIN = 34;
+  const GLOBE_VISUAL_RADIUS = 300;
+  const GLOBE_PANEL_GAP = 18;
+  const ROOT_FONT_SIZE = Number.parseFloat(getComputedStyle(html).fontSize) || 16;
 
   const key = (p) => "deckf:" + p.i;
   const save = (p) => { try { localStorage.setItem(key(p), JSON.stringify({ x: p.fx, y: p.fy })); } catch (_) {} };
@@ -101,9 +105,13 @@ import { prefersReducedMotion } from "./motion.js";
   };
 
   function place(p) {
-    p.el.style.width = p.w + "rem";
     const stageWidth = W();
     const stageHeight = H();
+    const availableWidthRem =
+      (stageWidth / 2 - GLOBE_VISUAL_RADIUS - GLOBE_PANEL_GAP - MARGIN) /
+      ROOT_FONT_SIZE;
+    const widthRem = Math.max(p.w, Math.min(p.maxW, availableWidthRem));
+    p.el.style.width = widthRem + "rem";
     const halfWidth = p.el.offsetWidth / 2;
     const halfHeight = p.el.offsetHeight / 2;
     let x = p.fx * stageWidth;
@@ -271,15 +279,12 @@ import { prefersReducedMotion } from "./motion.js";
     // panel heights. Re-anchor panels when their compact dimensions arrive;
     // reduced motion otherwise reveals the pre-compaction measurements.
     watchPanelSizes();
-    // the FX boot sequence choreographs the reveal itself; this plain
-    // stagger is the fallback when no boot takeover is active (reduced
-    // motion, boot already finished, or boot failure).
+    // Bring the portfolio into view with a short, restrained stagger.
     const reveal = () =>
       P.forEach((p, idx) =>
         setTimeout(() => p.el.classList.add("is-revealed"), reduceMotion ? 0 : 140 + idx * 55)
       );
-    if (window.__mcBootTakeover) window.__mcBootReveal = reveal;
-    else reveal();
+    reveal();
     stage.addEventListener("pointerdown", onDown);
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);

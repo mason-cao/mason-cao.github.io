@@ -14,17 +14,18 @@ Present Mason's projects, experiments, credentials, interests, and contact paths
 
 ## Brand Personality
 
-Technical, cinematic, ambitious. The experience should feel like a personal operating system coming online: authored, precise, energetic, and more distinctive than a conventional developer portfolio.
+Technical, cinematic, ambitious. The experience should feel like an authored personal command deck: precise, energetic, and more distinctive than a conventional developer portfolio.
 
 ## Anti-references
 
-Generic template portfolios, plain stacked card pages used as the primary desktop experience, quiet minimalism that removes the boot sequence or neural globe, decorative cyberpunk styling without usable content, and responsive behavior that selects a completely different identity based on pointer hardware or ordinary laptop height.
+Generic template portfolios, plain stacked card pages used as the primary desktop experience, quiet minimalism that removes the neural globe, decorative telemetry with no useful purpose, forced splash screens, and responsive behavior that selects a completely different identity based on pointer hardware or ordinary laptop height.
 
 ## Design Principles
 
 - Preserve the command-deck identity across desktop and laptop contexts.
 - Keep the neural globe centered as the system's visual anchor.
-- Make the initialization sequence feel intentional and cinematic.
+- Let visitors enter the portfolio immediately, without an initialization gate.
+- Keep peripheral chrome quiet and remove readouts that do not help visitors navigate or understand the work.
 - Present real project substance beneath the spectacle.
 - Adapt the composition proportionally before changing its information architecture.
 
@@ -32,4 +33,4 @@ Generic template portfolios, plain stacked card pages used as the primary deskto
 
 Keep semantic headings and content available to assistive technology, and preserve keyboard focus states and skip navigation. Maintain a readable stacked experience for genuinely narrow phone viewports.
 
-The OS `prefers-reduced-motion` setting is deliberately **not** honored: every visitor gets the full cockpit — boot cinema, parallax, ambient radar, panel flicker, interaction FX, and the music player. This is an authored trade-off against the usual accessibility guidance, chosen so the experience is never split into two versions. It is centralized in `src/motion.js` and can be reverted from that one file.
+The OS `prefers-reduced-motion` setting is deliberately **not** honored: every visitor gets the full cockpit, parallax, ambient radar, panel flicker, and interaction FX. This is an authored trade-off against the usual accessibility guidance, chosen so the experience is never split into two versions. It is centralized in `src/motion.js` and can be reverted from that one file.

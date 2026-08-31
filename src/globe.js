@@ -15,12 +15,8 @@ import {
   BloomEffect,
   ChromaticAberrationEffect,
 } from "postprocessing";
-import { prefersReducedMotion } from "./motion.js";
 
 (function initGlobe() {
-  // `reduce` gates only the boot ignition ramp. It reads from motion.js,
-  // which is hardcoded false — the reactor always plays its full takeover.
-  const reduce = prefersReducedMotion;
   const canvas = document.getElementById("globe-canvas");
   if (!canvas) return;
 
@@ -61,12 +57,7 @@ import { prefersReducedMotion } from "./motion.js";
   // far hemisphere so the sphere reads as a solid 3D volume, not a flat web.
   const CAMZ = camera.position.z;
 
-  // ── boot / FX state ──
-  // bootMix gates the whole globe's alpha + scale: 0 while the FX boot
-  // sequence holds the dark screen, ramping to 1 on ignite(). pulseKick and
-  // joltKick are impulse channels fed by clicks/shockwaves, decayed per frame.
-  let bootTarget = !reduce && window.__mcBootTakeover ? 0 : 1;
-  let bootMix = bootTarget;
+  // Click-driven impulse channels, decayed per frame.
   let pulseKick = 0;
   let joltKick = 0;
 
@@ -237,7 +228,6 @@ import { prefersReducedMotion } from "./motion.js";
     uCamZ: { value: CAMZ },
     uR: { value: R },
     uFocus: { value: 0 },
-    uBoot: { value: bootMix },
   };
   const wire = new THREE.LineSegments(
     wireGeo,
@@ -261,7 +251,7 @@ import { prefersReducedMotion } from "./motion.js";
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform float uTime; uniform float uFocus; uniform float uBoot; uniform vec3 uColor; uniform vec3 uColor2;
+        uniform float uTime; uniform float uFocus; uniform vec3 uColor; uniform vec3 uColor2;
         varying float vEdgeT; varying float vPhase; varying float vPath; varying float vAct; varying float vDepth;
         void main(){
           // a bright signal travelling along the synapse, node → node
@@ -274,7 +264,7 @@ import { prefersReducedMotion } from "./motion.js";
           float depthMul = 0.22 + 0.78 * vDepth;
           vec3 col = mix(mix(uColor, uColor2, lit), vec3(0.96, 0.99, 1.0), min(pathSignal * 0.7 + movingSignal * 0.55, 1.0));
           float a = min((0.07 + lit * 0.58 + pathSignal * 0.48 + movingSignal * 0.75) * depthMul * (1.0 + movingSignal * 1.9), 1.0);
-          gl_FragColor = vec4(col, a * uBoot);
+          gl_FragColor = vec4(col, a);
         }
       `,
     })
@@ -297,7 +287,6 @@ import { prefersReducedMotion } from "./motion.js";
     uCamZ: { value: CAMZ },
     uR: { value: R },
     uFocus: { value: 0 },
-    uBoot: { value: bootMix },
   };
   const points = new THREE.Points(
     nGeo,
@@ -320,7 +309,7 @@ import { prefersReducedMotion } from "./motion.js";
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform float uFocus; uniform float uBoot; uniform vec3 uColor; uniform vec3 uColor2;
+        uniform float uFocus; uniform vec3 uColor; uniform vec3 uColor2;
         varying float vAct; varying float vDepth;
         void main(){
           vec2 uv = gl_PointCoord - 0.5;
@@ -331,7 +320,7 @@ import { prefersReducedMotion } from "./motion.js";
           float depthMul = 0.3 + 0.7 * vDepth;
           vec3 col = mix(mix(uColor, uColor2, vAct), vec3(0.92, 0.98, 1.0), uFocus * 0.48);
           float alpha = ((soft * (0.48 + vAct * 0.62)) + halo * (vAct + uFocus * 0.45)) * depthMul;
-          gl_FragColor = vec4(col, min(alpha * (1.0 + uFocus * 1.05), 1.0) * uBoot);
+          gl_FragColor = vec4(col, min(alpha * (1.0 + uFocus * 1.05), 1.0));
         }
       `,
     })
@@ -343,7 +332,6 @@ import { prefersReducedMotion } from "./motion.js";
   const atmoUniforms = {
     uColor: { value: CYAN },
     uFocus: { value: 0 },
-    uBoot: { value: bootMix },
   };
   const atmo = new THREE.Mesh(
     new THREE.SphereGeometry(R * 1.22, 48, 48),
@@ -363,10 +351,10 @@ import { prefersReducedMotion } from "./motion.js";
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform float uFocus; uniform float uBoot; uniform vec3 uColor; varying vec3 vN; varying vec3 vView;
+        uniform float uFocus; uniform vec3 uColor; varying vec3 vN; varying vec3 vView;
         void main(){
           float f = pow(1.0 - abs(dot(vN, vView)), 2.6);
-          gl_FragColor = vec4(uColor, f * 0.95 * (1.0 - uFocus * 0.88) * uBoot);
+          gl_FragColor = vec4(uColor, f * 0.95 * (1.0 - uFocus * 0.88));
         }
       `,
     })
@@ -375,16 +363,8 @@ import { prefersReducedMotion } from "./motion.js";
 
   // ── drag to spin (inertia), like the Lorenz centerpiece ──
   const globeShell = canvas.closest(".hud-scene");
-  const ambientAudio = document.getElementById("ambient-audio");
-  const PULSE_ENVELOPE_SRC = "audio/dreiton-envelope.json?v=20260619a";
   let focusMix = 0, hoverMix = 0;
   let focusTarget = 0, hoverTarget = 0;
-  let audioPulseEnvelope = null;
-  let audioPulseMix = 0;
-  let audioEnergy = 0;
-  let audioPulseReady = false;
-  let audioPulseLoading = false;
-  let audioActivationTimer = null;
   const IDLE_SPIN = 0.0016;
   let rotX = 0.5, rotY = 0.2, velX = 0, velY = IDLE_SPIN;
   let dragging = false, lastX = 0, lastY = 0;
@@ -404,62 +384,6 @@ import { prefersReducedMotion } from "./motion.js";
   const release = () => { dragging = false; };
   window.addEventListener("pointerup", release);
   window.addEventListener("pointercancel", release);
-
-  const loadAudioPulseEnvelope = async () => {
-    if (!ambientAudio) return false;
-    if (audioPulseReady || audioPulseLoading) return audioPulseReady;
-    audioPulseLoading = true;
-    try {
-      const response = await fetch(PULSE_ENVELOPE_SRC);
-      if (!response.ok) return false;
-      const data = await response.json();
-      if (!Array.isArray(data.values) || !data.values.length || !data.frameRate) return false;
-      audioPulseEnvelope = data;
-      audioPulseReady = true;
-      return audioPulseReady;
-    } catch (_) {
-      return false;
-    } finally {
-      audioPulseLoading = false;
-    }
-  };
-
-  const scheduleAudioPulseActivation = () => {
-    if (audioActivationTimer != null) window.clearTimeout(audioActivationTimer);
-    audioActivationTimer = window.setTimeout(() => {
-      audioActivationTimer = null;
-      loadAudioPulseEnvelope();
-    }, 900);
-  };
-  ambientAudio?.addEventListener("playing", scheduleAudioPulseActivation);
-  window.setTimeout(() => {
-    loadAudioPulseEnvelope();
-  }, 1800);
-
-  const sampleAudioPulse = () => {
-    const shouldDriveAudioPulse =
-      ambientAudio &&
-      !ambientAudio.paused &&
-      hoverTarget === 0 &&
-      focusTarget === 0;
-    if (!shouldDriveAudioPulse || !audioPulseReady) return 0;
-    const values = audioPulseEnvelope.values;
-    if (!values?.length) return 0;
-
-    const frameRate = audioPulseEnvelope.frameRate || 60;
-    const currentTime = Number.isFinite(ambientAudio.currentTime) ? ambientAudio.currentTime : 0;
-    const position = (currentTime * frameRate) % values.length;
-    const index = Math.floor(position);
-    const nextIndex = (index + 1) % values.length;
-    const blend = position - index;
-    const rawLevel = (((values[index] || 0) * (1 - blend)) + ((values[nextIndex] || 0) * blend)) / 1000;
-    const level = Math.min(rawLevel * 1.45, 1);
-    const lowerBeat = Math.pow(level, 0.95) * 0.62;
-    const transient = Math.max(0, level - audioEnergy);
-    const bigBeat = Math.pow(Math.min(transient * 6.0, 1), 1.08) * 1.45;
-    audioEnergy += (level - audioEnergy) * (level > audioEnergy ? 0.045 : 0.025);
-    return Math.min(lowerBeat + bigBeat, 1);
-  };
 
   const resize = () => {
     const s = sizeOf(); w = s.w; h = s.h;
@@ -487,39 +411,29 @@ import { prefersReducedMotion } from "./motion.js";
     focusTarget = globeShell?.classList.contains("is-globe-expanded") ? 1 : 0;
     focusMix += (focusTarget - focusMix) * (1 - Math.pow(0.84, frameRatio));
     hoverMix += (hoverTarget - hoverMix) * (1 - Math.pow(0.82, frameRatio));
-    const targetAudioPulse = sampleAudioPulse();
-    const pulseEase = targetAudioPulse > audioPulseMix ? 1 - Math.pow(0.91, frameRatio) : 1 - Math.pow(0.965, frameRatio);
-    audioPulseMix += (targetAudioPulse - audioPulseMix) * pulseEase;
 
-    // ── boot ignition + click impulses ──
-    bootMix += (bootTarget - bootMix) * (1 - Math.pow(0.93, frameRatio));
+    // ── click impulses ──
     pulseKick *= Math.pow(0.9, frameRatio);
     joltKick *= Math.pow(0.86, frameRatio);
-    const bootEase = bootMix * bootMix * (3 - 2 * bootMix);
-    const flare = Math.max(0, bootMix * (1 - bootMix) * 4); // peaks mid-ignition
 
     wireUniforms.uFocus.value = focusMix;
     pUniforms.uFocus.value = focusMix;
     atmoUniforms.uFocus.value = focusMix;
-    wireUniforms.uBoot.value = bootEase;
-    pUniforms.uBoot.value = bootEase;
-    atmoUniforms.uBoot.value = bootEase;
     if (bloom) {
       bloom.intensity =
-        BLOOM_BASE + flare * 2.6 + pulseKick * 1.35 + audioPulseMix * 0.5 + focusMix * 0.4;
+        BLOOM_BASE + pulseKick * 1.35 + focusMix * 0.4;
     }
     if (chroma) {
-      const off = CA_BASE + joltKick * 0.0035 + flare * 0.0016;
+      const off = CA_BASE + joltKick * 0.0035;
       chroma.offset.set(off, off * 0.6);
     }
 
-    const bootScale = 0.32 + bootEase * 0.68;
     coreGroup.scale.setScalar(
-      bootScale * (1 + focusMix * 0.45 + hoverMix * 0.08 + audioPulseMix * 0.18 + pulseKick * 0.1)
+      1 + focusMix * 0.45 + hoverMix * 0.08 + pulseKick * 0.1
     );
-    camera.position.z = BASE_CAMERA_Z + focusMix * 1.25 + (1 - bootEase) * 2.2;
+    camera.position.z = BASE_CAMERA_Z + focusMix * 1.25;
     if (!dragging) {
-      rotY += velY * frameRatio + flare * 0.02 * frameRatio; // ignition spin-up
+      rotY += velY * frameRatio;
       velY += (IDLE_SPIN - velY) * (1 - Math.pow(0.98, frameRatio));
       rotX += velX * frameRatio;
       velX *= Math.pow(0.94, frameRatio);
@@ -569,28 +483,13 @@ import { prefersReducedMotion } from "./motion.js";
 
   sync();
 
-  // ── public FX hooks (boot sequence + interaction shockwaves) ──
-  // Safety: if the boot sequence never calls ignite() (crash, no float mode),
-  // the globe still lights itself after a beat so the page is never dark.
-  const igniteFallback = window.setTimeout(() => {
-    bootTarget = 1;
-  }, 6500);
+  // ── public hooks for interaction effects ──
   window.__mcGlobe = {
-    ignite() {
-      window.clearTimeout(igniteFallback);
-      bootTarget = 1;
-      start();
-    },
     pulse(strength = 0.5) {
       pulseKick = Math.min(pulseKick + strength, 1.6);
     },
     jolt(strength = 0.5) {
       joltKick = Math.min(joltKick + strength, 1.5);
-    },
-    /** power the globe back down (used by the REBOOT control) */
-    dim() {
-      bootTarget = 0;
-      start();
     },
   };
 })();

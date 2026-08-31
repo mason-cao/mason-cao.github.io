@@ -9,15 +9,12 @@
 // ─────────────────────────────────────────────────────────────
 import { gsap } from "gsap";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
-import { sfx } from "./sfx.js";
 
 gsap.registerPlugin(ScrambleTextPlugin);
 
-const html = document.documentElement;
 const initShockwaves = () => {
   document.addEventListener("pointerdown", (e) => {
     if (e.pointerType && e.pointerType !== "mouse") return;
-    if (html.classList.contains("mc-booting") || html.classList.contains("mc-preboot")) return;
     const ring = document.createElement("i");
     ring.className = "mc-shock";
     ring.style.left = e.clientX + "px";
@@ -25,7 +22,6 @@ const initShockwaves = () => {
     document.body.appendChild(ring);
     ring.addEventListener("animationend", () => ring.remove());
     window.setTimeout(() => ring.remove(), 900); // safety
-    sfx.tick();
     window.__mcGlobe?.pulse(0.55);
     window.__mcGlobe?.jolt(0.4);
   });
@@ -43,8 +39,6 @@ const initPanelHover = () => {
 
     panel.classList.add("is-scanning");
     window.setTimeout(() => panel.classList.remove("is-scanning"), 700);
-    sfx.hover();
-
     const label = panel.querySelector(".hud-panel-label");
     if (label && !label.dataset.mcScrambling) {
       label.dataset.mcScrambling = "1";
