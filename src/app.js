@@ -1,643 +1,193 @@
-import { prefersReducedMotion as motionPref } from "./motion.js";
+// Credential proof viewer and the live GitHub numbers.
+//
+// The proof viewer is a single native <dialog> reused by every credential
+// row. Native <dialog> gives focus trapping, Escape-to-close, inerting of
+// the background and focus restoration for free : v2 hand-rolled all four
+// in ~70 lines.
 
-document.addEventListener("DOMContentLoaded", () => {
-  const prefersReducedMotion = motionPref;
+/* ── Proof viewer ──────────────────────────────────────────────────── */
 
-  // ─────────────────────────────────────────────
-  // 3. Hero intro typewriter
-  // ─────────────────────────────────────────────
-  const HERO_START_DELAY_MS = 420;
-  const HERO_BETWEEN_LINES_MS = 280;
-  const HERO_KICKER_TYPE_MS = 92;
-  const HERO_TITLE_TYPE_MS = 115;
-  const HERO_TYPE_HOLD_MS = 1100;
-  const HERO_TYPE_FADE_MS = 420;
-  const heroKicker = document.getElementById("hero-kicker");
-  const heroTitle = document.getElementById("hero-title");
-  const heroKickerText = heroKicker?.dataset.typewriterText;
-  const heroTitleText = heroTitle?.dataset.typewriterText;
+function initProofViewer() {
+  const dialog = document.getElementById("proof");
+  if (!dialog) return;
 
-  const typeHeroLine = (element, text, characterDelay) =>
-    new Promise((resolve) => {
-      const characters = Array.from(text);
-      let index = 0;
-      element.textContent = "";
-      element.classList.add("is-typing");
+  const field = (name) => dialog.querySelector(`[data-proof-${name}]`);
+  const title = field("title");
+  const meta = field("meta");
+  const img = field("img");
+  const caption = field("caption");
+  const doc = field("doc");
 
-      const typeNext = () => {
-        element.textContent = characters.slice(0, index).join("");
-        index += 1;
+  document.querySelectorAll("[data-cred]").forEach((row) => {
+    row.addEventListener("click", () => {
+      const d = row.dataset;
 
-        if (index <= characters.length) {
-          window.setTimeout(typeNext, index === 1 ? 180 : characterDelay);
-          return;
-        }
+      title.textContent = d.credTitle || "";
+      meta.textContent = d.credMeta || "";
+      caption.textContent = d.credCaption || "";
+      img.src = d.credImg || "";
+      img.alt = d.credAlt || "";
 
-        element.textContent = text;
-        resolve();
-      };
+      if (d.credDoc) {
+        doc.href = d.credDoc;
+        doc.textContent = d.credDocLabel || "Open the document";
+        doc.hidden = false;
+      } else {
+        doc.hidden = true;
+        doc.removeAttribute("href");
+      }
 
-      typeNext();
+      dialog.showModal();
     });
-
-  if (heroKicker && heroKickerText) {
-    heroKicker.textContent = heroKickerText;
-  }
-
-  if (heroTitle && heroTitleText) {
-    heroTitle.textContent = heroTitleText;
-  }
-
-  if (!prefersReducedMotion && heroKicker && heroKickerText) {
-    heroKicker.setAttribute("aria-label", heroKickerText);
-    heroKicker.textContent = "";
-    if (heroTitle && heroTitleText) {
-      heroTitle.setAttribute("aria-label", heroTitleText);
-      heroTitle.textContent = "";
-    }
-
-    const startHeroType = () => {
-      window.setTimeout(async () => {
-        await typeHeroLine(heroKicker, heroKickerText, HERO_KICKER_TYPE_MS);
-        heroKicker.classList.remove("is-typing");
-
-        if (heroTitle && heroTitleText) {
-          window.setTimeout(async () => {
-            heroTitle.classList.add("is-typing");
-            await typeHeroLine(heroTitle, heroTitleText, HERO_TITLE_TYPE_MS);
-            heroTitle.classList.add("is-type-complete");
-            window.setTimeout(() => {
-              heroTitle.classList.add("is-type-settling");
-              window.setTimeout(() => {
-                heroTitle.classList.remove("is-typing");
-                heroTitle.classList.remove("is-type-settling");
-              }, HERO_TYPE_FADE_MS);
-            }, HERO_TYPE_HOLD_MS);
-          }, HERO_BETWEEN_LINES_MS);
-        }
-      }, HERO_START_DELAY_MS);
-    };
-
-    startHeroType();
-  } else if (heroTitle) {
-    heroTitle.classList.add("is-type-complete");
-    if (heroTitle && heroTitleText) {
-      heroTitle.textContent = heroTitleText;
-    }
-  }
-
-  // ─────────────────────────────────────────────
-  // 9. Modals (contact + play log)
-  // ─────────────────────────────────────────────
-  const playLogRows = Array.from(
-    document.querySelectorAll("#achievements-modal .achievement-row")
-  );
-  const playLogCount = playLogRows.reduce((count, row) => {
-    if (!row.classList.contains("achievement-row--stacked")) return count + 1;
-    const stackedEntries =
-      row.querySelector("dd")?.querySelectorAll(":scope > span").length || 0;
-    return count + Math.max(stackedEntries, 1);
-  }, 0);
-  document.querySelectorAll("[data-play-log-count]").forEach((el) => {
-    el.textContent = String(playLogCount);
   });
 
-  const playLogTrigger = document.getElementById("open-achievements-btn");
-  if (playLogTrigger && playLogCount) {
-    playLogTrigger.setAttribute(
-      "aria-label",
-      `Open play log with ${playLogCount} achievements`
-    );
+  dialog
+    .querySelector("[data-proof-close]")
+    ?.addEventListener("click", () => dialog.close());
+
+  // Click outside the content to dismiss.
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+}
+
+/* ── Live GitHub numbers ───────────────────────────────────────────── */
+
+// Unauthenticated, 60 requests/hour per IP. On any failure the sentence
+// still reads : it just loses its numbers.
+async function initGithub() {
+  const slots = document.querySelectorAll("[data-gh]");
+  if (!slots.length) return;
+
+  try {
+    const res = await fetch("https://api.github.com/users/mason-cao", {
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!res.ok) return;
+
+    const data = await res.json();
+    const values = {
+      repos: data.public_repos,
+      followers: data.followers,
+    };
+
+    slots.forEach((el) => {
+      const value = values[el.dataset.gh];
+      if (!Number.isFinite(value)) return;
+      el.dataset.count = String(value);
+      el.textContent = String(value);
+      el.closest("[data-gh-wrap]")?.removeAttribute("hidden");
+    });
+  } catch {
+    /* numbers omitted; prose unchanged */
   }
+}
 
-  const modalFocusableSelector =
-    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+/* ── Project row ───────────────────────────────────────────────────── */
 
-  const setupModal = ({ openBtnId, modalId, boxId, backdropId, closeBtnId }) => {
-    const openBtn = openBtnId ? document.getElementById(openBtnId) : null;
-    const modal = document.getElementById(modalId);
-    const box = document.getElementById(boxId);
-    const backdrop = document.getElementById(backdropId);
-    const closeBtn = document.getElementById(closeBtnId);
-    if (!modal || !box) return null;
+// The row stays inside the text column and is moved by the arrows, so the
+// section never overflows its boundary.
+function initProjectRow() {
+  const row = document.querySelector("[data-project-row]");
+  const arrows = document.querySelectorAll("[data-row-scroll]");
+  if (!row || !arrows.length) return;
 
-    let lastFocusedElement = null;
-
-    const open = (e) => {
-      if (e && typeof e.preventDefault === "function") e.preventDefault();
-      lastFocusedElement = document.activeElement;
-      modal.setAttribute("aria-hidden", "false");
-      modal.removeAttribute("inert");
-      modal.classList.remove("opacity-0", "pointer-events-none");
-      box.classList.remove("scale-95");
-      box.classList.add("scale-100");
-      document.body.style.overflow = "hidden";
-      if (openBtn) openBtn.classList.add("active");
-      requestAnimationFrame(() => {
-        if (closeBtn) closeBtn.focus();
-      });
-    };
-
-    const close = () => {
-      modal.setAttribute("aria-hidden", "true");
-      modal.setAttribute("inert", "");
-      modal.classList.add("opacity-0", "pointer-events-none");
-      box.classList.remove("scale-100");
-      box.classList.add("scale-95");
-      document.body.style.overflow = "";
-      if (openBtn) openBtn.classList.remove("active");
-      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
-        lastFocusedElement.focus();
-      }
-    };
-
-    const trapFocus = (e) => {
-      const focusable = Array.from(
-        modal.querySelectorAll(modalFocusableSelector)
-      );
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    const handleKeydown = (e) => {
-      if (modal.getAttribute("aria-hidden") === "true") return;
-      if (e.key === "Escape") close();
-      else if (e.key === "Tab") trapFocus(e);
-    };
-
-    if (openBtn) openBtn.addEventListener("click", open);
-    if (closeBtn) closeBtn.addEventListener("click", close);
-    if (backdrop) backdrop.addEventListener("click", close);
-    document.addEventListener("keydown", handleKeydown);
-
-    return { open, close };
+  const sync = () => {
+    const max = row.scrollWidth - row.clientWidth - 1;
+    arrows.forEach((b) => {
+      const back = Number(b.dataset.rowScroll) < 0;
+      b.disabled = back ? row.scrollLeft <= 0 : row.scrollLeft >= max;
+    });
   };
 
-  // Contact has no on-page trigger anymore; it is opened from the menu.
-  const contactModal = setupModal({
-    modalId: "contact-modal",
-    boxId: "contact-box",
-    backdropId: "contact-backdrop",
-    closeBtnId: "close-modal-btn"
+  arrows.forEach((b) =>
+    b.addEventListener("click", () => {
+      const card = row.querySelector(".card");
+      const step = card ? card.offsetWidth + 14 : row.clientWidth * 0.8;
+      row.scrollBy({ left: step * Number(b.dataset.rowScroll), behavior: "smooth" });
+    })
+  );
+
+  row.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  sync();
+}
+
+/* ── Section nav ───────────────────────────────────────────────────── */
+
+function initSectionNav() {
+  const nav = document.querySelector(".secnav");
+  const links = Array.from(document.querySelectorAll(".secnav a"));
+  if (!nav || !links.length) return;
+
+  // The bar appears while scrolling and retires on its own once you stop.
+  let hideTimer;
+  const show = () => {
+    if (window.scrollY > 40) nav.classList.add("is-visible");
+    window.clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() => nav.classList.remove("is-visible"), 1600);
+  };
+  window.addEventListener("scroll", show, { passive: true });
+  nav.addEventListener("pointerenter", () => window.clearTimeout(hideTimer));
+  nav.addEventListener("pointerleave", show);
+
+  const byId = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
+  const sections = Array.from(byId.keys())
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  const mark = (id) => {
+    links.forEach((a) => a.removeAttribute("aria-current"));
+    byId.get(id)?.setAttribute("aria-current", "true");
+  };
+
+  // Position-based rather than an IntersectionObserver band: the last
+  // sections are short and sit at the end of the document, so a band in the
+  // middle of the viewport never reached them and they never lit up.
+  // A click pins its target until the reader scrolls themselves. Without
+  // this, clicking a section near the end of the page bottoms out the
+  // scroll and the "at end" rule below immediately steals the highlight.
+  let pinned = null;
+
+  const update = () => {
+    if (pinned) return;
+    const line = window.scrollY + window.innerHeight * 0.36;
+    let current = sections[0];
+    for (const sec of sections) if (sec.offsetTop <= line) current = sec;
+    // once the page bottoms out, the final section is the one being read
+    const atEnd =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 4;
+    if (atEnd) current = sections[sections.length - 1];
+    if (current) mark(current.id);
+  };
+
+  // Clicking should light the target immediately, not wait for the scroll.
+  links.forEach((a) =>
+    a.addEventListener("click", () => {
+      pinned = a.getAttribute("href").slice(1);
+      mark(pinned);
+      show();
+    })
+  );
+
+  const unpin = () => {
+    pinned = null;
+  };
+  window.addEventListener("wheel", unpin, { passive: true });
+  window.addEventListener("touchmove", unpin, { passive: true });
+  window.addEventListener("keydown", (e) => {
+    if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(e.key)) unpin();
   });
 
-  setupModal({
-    openBtnId: "open-achievements-btn",
-    modalId: "achievements-modal",
-    boxId: "achievements-box",
-    backdropId: "achievements-backdrop",
-    closeBtnId: "close-achievements-btn"
-  });
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
 
-  // Proof viewer: one modal reused by every credential row. All copy lives in
-  // the markup as data-cred-* fields, so a new credential is a markup-only
-  // change. Values arrive entity-decoded, so textContent is both correct here
-  // and keeps the viewer from being an HTML sink.
-  const proofModal = setupModal({
-    modalId: "proof-modal",
-    boxId: "proof-box",
-    backdropId: "proof-backdrop",
-    closeBtnId: "close-proof-btn"
-  });
-
-  if (proofModal) {
-    const proofTitle = document.querySelector("[data-proof-title]");
-    const proofMeta = document.querySelector("[data-proof-meta]");
-    const proofImg = document.querySelector("[data-proof-img]");
-    const proofCaption = document.querySelector("[data-proof-caption]");
-    const proofDoc = document.querySelector("[data-proof-doc]");
-    const proofDocLabel = document.querySelector("[data-proof-doc-label]");
-
-    const credRows = Array.from(document.querySelectorAll("[data-cred]"));
-
-    credRows.forEach((row) => {
-      const d = row.dataset;
-      row.setAttribute("aria-label", `${d.credTitle}: open verification`);
-      row.addEventListener("click", (e) => {
-        if (proofTitle) proofTitle.textContent = d.credTitle || "";
-        if (proofMeta) proofMeta.textContent = `// ${d.credMeta || ""}`;
-        if (proofCaption) proofCaption.textContent = d.credCaption || "";
-        if (proofImg) {
-          proofImg.src = d.credImg || "";
-          proofImg.alt = d.credAlt || "";
-        }
-        if (proofDoc) {
-          if (d.credDoc) {
-            proofDoc.href = d.credDoc;
-            proofDoc.hidden = false;
-            if (proofDocLabel) {
-              proofDocLabel.textContent = d.credDocLabel || "Open the document";
-            }
-          } else {
-            proofDoc.hidden = true;
-            proofDoc.removeAttribute("href");
-          }
-        }
-        proofModal.open(e);
-      });
-    });
-  }
-
-  // The tech stack is now a draggable logo sphere; see constellation.js.
-
-  // ─────────────────────────────────────────────
-  // Neural globe focus mode
-  // ─────────────────────────────────────────────
-  const globeScene = document.querySelector(".hud-scene");
-  const globeCanvas = document.getElementById("globe-canvas");
-
-  if (globeScene && globeCanvas) {
-    let globePressX = 0;
-    let globePressY = 0;
-    let globePointerMoved = false;
-
-    const isGlobeExpanded = () =>
-      globeScene.classList.contains("is-globe-expanded");
-
-    const syncGlobeLabel = () => {
-      const expanded = isGlobeExpanded();
-      globeCanvas.setAttribute("aria-expanded", expanded ? "true" : "false");
-      globeCanvas.setAttribute(
-        "aria-label",
-        expanded ? "Interactive neural globe, focused" : "Focus interactive neural globe"
-      );
-    };
-
-    const requestGlobeResize = () => {
-      requestAnimationFrame(() => {
-        if (typeof window.dispatchEvent === "function") {
-          const resizeEvent =
-            typeof Event === "function" ? new Event("resize") : { type: "resize" };
-          window.dispatchEvent(resizeEvent);
-        }
-      });
-    };
-
-    const openGlobe = () => {
-      if (isGlobeExpanded()) return;
-      globeScene.classList.add("is-globe-expanded");
-      document.documentElement.classList.add("globe-focus");
-      syncGlobeLabel();
-      requestGlobeResize();
-    };
-
-    const closeGlobe = () => {
-      if (!isGlobeExpanded()) return;
-      globeScene.classList.remove("is-globe-expanded");
-      document.documentElement.classList.remove("globe-focus");
-      syncGlobeLabel();
-      requestGlobeResize();
-    };
-
-    const toggleGlobe = () => {
-      if (isGlobeExpanded()) closeGlobe();
-      else openGlobe();
-    };
-
-    globeScene.removeAttribute("aria-hidden");
-    globeCanvas.setAttribute("role", "button");
-    globeCanvas.setAttribute("tabindex", "0");
-    syncGlobeLabel();
-
-    globeCanvas.addEventListener("pointerdown", (e) => {
-      globePressX = e.clientX;
-      globePressY = e.clientY;
-      globePointerMoved = false;
-    });
-    globeCanvas.addEventListener("pointermove", (e) => {
-      if (Math.hypot(e.clientX - globePressX, e.clientY - globePressY) > 6) {
-        globePointerMoved = true;
-      }
-    });
-    globeCanvas.addEventListener("click", () => {
-      if (globePointerMoved) {
-        globePointerMoved = false;
-        return;
-      }
-      toggleGlobe();
-    });
-    globeCanvas.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleGlobe();
-      }
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeGlobe();
-    });
-    document.addEventListener(
-      "pointerdown",
-      (e) => {
-        if (isGlobeExpanded() && e.target !== globeCanvas) {
-          closeGlobe();
-        }
-      },
-      true
-    );
-  }
-
-  // ─────────────────────────────────────────────
-  // 11. Live GitHub signal log
-  // ─────────────────────────────────────────────
-  const ghFeed = document.getElementById("gh-feed");
-  const ghFoot = document.getElementById("gh-foot");
-
-  if (ghFeed) {
-    const USER = "mason-cao";
-
-    const relTime = (iso) => {
-      const diff = (Date.now() - new Date(iso).getTime()) / 1000;
-      if (diff < 60) return "just now";
-      if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-      if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-      if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
-      return `${Math.floor(diff / 604800)}w ago`;
-    };
-
-    const shortRepo = (full) => (full || "").split("/").slice(1).join("/");
-
-    const describe = (ev) => {
-      const repo = shortRepo(ev.repo?.name);
-      switch (ev.type) {
-        case "PushEvent": {
-          const n = ev.payload?.commits?.length || ev.payload?.size || 1;
-          return { action: "push", repo, detail: `${n} commit${n > 1 ? "s" : ""}` };
-        }
-        case "CreateEvent":
-          return { action: "create", repo, detail: ev.payload?.ref_type || "" };
-        case "PullRequestEvent":
-          return { action: "PR", repo, detail: ev.payload?.action || "" };
-        case "IssuesEvent":
-          return { action: "issue", repo, detail: ev.payload?.action || "" };
-        case "ReleaseEvent":
-          return { action: "release", repo, detail: ev.payload?.release?.tag_name || "" };
-        case "WatchEvent":
-          return { action: "star", repo, detail: "" };
-        case "ForkEvent":
-          return { action: "fork", repo, detail: "" };
-        case "DeleteEvent":
-          return { action: "delete", repo, detail: ev.payload?.ref_type || "" };
-        default:
-          return { action: (ev.type || "event").replace("Event", "").toLowerCase(), repo, detail: "" };
-      }
-    };
-
-    const escapeHtml = (s) =>
-      String(s).replace(/[&<>"']/g, (c) =>
-        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
-      );
-
-    const rowHtml = (action, repo, when, detail) => `
-      <li class="signal-row">
-        <span class="signal-action">${escapeHtml(action)}</span>
-        <span class="signal-repo"><b>${USER}/</b>${escapeHtml(repo)}${
-      detail ? ` <span style="color:var(--accent-deep)">· ${escapeHtml(detail)}</span>` : ""
-    }</span>
-        <span class="signal-when">${escapeHtml(when)}</span>
-      </li>`;
-
-    const renderFallback = () => {
-      const repos = [
-        ["repo", "aeris", "active"],
-        ["repo", "multi-agent-customer-intelligence-dashboard", "live"],
-        ["repo", "freshtrack", "live"]
-      ];
-      ghFeed.innerHTML = repos
-        .map(([a, r, w]) => rowHtml(a, r, w, ""))
-        .join("");
-      if (ghFoot) {
-        ghFoot.innerHTML =
-          'live feed rate-limited, browse on <a href="https://github.com/mason-cao" target="_blank" rel="noopener noreferrer">github.com/mason-cao</a>';
-      }
-    };
-
-    const load = async () => {
-      try {
-        const [userRes, eventsRes] = await Promise.all([
-          fetch(`https://api.github.com/users/${USER}`),
-          fetch(`https://api.github.com/users/${USER}/events/public?per_page=30`)
-        ]);
-        if (!userRes.ok || !eventsRes.ok) throw new Error("github request failed");
-
-        const user = await userRes.json();
-        const events = await eventsRes.json();
-
-        const repoEl = document.getElementById("gh-repos");
-        const followEl = document.getElementById("gh-followers");
-        if (repoEl) repoEl.textContent = user.public_repos ?? "…";
-        if (followEl) followEl.textContent = user.followers ?? "…";
-
-        const rows = (Array.isArray(events) ? events : [])
-          .map((ev) => ({ ...describe(ev), when: relTime(ev.created_at) }))
-          .filter((r) => r.repo)
-          .slice(0, 3);
-
-        if (!rows.length) throw new Error("no events");
-
-        ghFeed.innerHTML = rows
-          .map((r) => rowHtml(r.action, r.repo, r.when, r.detail))
-          .join("");
-        if (ghFoot) {
-          ghFoot.innerHTML =
-            'live from the GitHub API · <a href="https://github.com/mason-cao" target="_blank" rel="noopener noreferrer">github.com/mason-cao</a>';
-        }
-      } catch (err) {
-        renderFallback();
-      }
-    };
-
-    load();
-  }
-
-  // Card tilt + cursor spotlight removed: Now/Projects are no longer cards but
-  // open rows suspended in the field, so per-item 3D tilt no longer applies.
-
-  // ─────────────────────────────────────────────
-  // Life timeline (drag / arrows / keyboard)
-  // ─────────────────────────────────────────────
-  document.querySelectorAll("[data-timeline]").forEach((tl) => {
-    const track = tl.querySelector("[data-timeline-track]");
-    if (!track) return;
-    const prevBtn = tl.querySelector("[data-timeline-prev]");
-    const nextBtn = tl.querySelector("[data-timeline-next]");
-    const progress = tl.querySelector("[data-timeline-progress]");
-    const nodes = Array.from(track.querySelectorAll(".timeline-node"));
-    const behavior = prefersReducedMotion ? "auto" : "smooth";
-
-    const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
-    const clampIndex = (index) => Math.max(0, Math.min(index, nodes.length - 1));
-    const nodeTargets = () => {
-      const max = maxScroll();
-      return nodes.map((node) => Math.max(0, Math.min(node.offsetLeft, max)));
-    };
-    const nearestNodeIndex = () => {
-      const targets = nodeTargets();
-      if (!targets.length) return 0;
-      let closest = 0;
-      let closestDistance = Infinity;
-      targets.forEach((target, index) => {
-        const distance = Math.abs(target - track.scrollLeft);
-        if (distance < closestDistance) {
-          closest = index;
-          closestDistance = distance;
-        }
-      });
-      return closest;
-    };
-    let activeNodeIndex = nearestNodeIndex();
-    const updateArrowState = () => {
-      if (prevBtn) prevBtn.disabled = activeNodeIndex <= 0;
-      if (nextBtn) nextBtn.disabled = activeNodeIndex >= nodes.length - 1;
-    };
-    const updateProgress = (left = track.scrollLeft) => {
-      const max = maxScroll();
-      const p = max > 0 ? left / max : 0;
-      if (progress) progress.style.width = (p * 100).toFixed(1) + "%";
-    };
-    const scrollToNode = (index) => {
-      const targets = nodeTargets();
-      if (!targets.length) return;
-      const safeIndex = clampIndex(index);
-      const left = targets[safeIndex];
-      activeNodeIndex = safeIndex;
-      updateProgress(left);
-      updateArrowState();
-      if (typeof track.scrollTo === "function") {
-        track.scrollTo({ left, behavior });
-      } else {
-        track.scrollLeft = left;
-      }
-    };
-    const moveByNode = (direction) => {
-      if (!nodes.length) return;
-      scrollToNode(activeNodeIndex + direction);
-    };
-
-    // coverflow-style depth: nodes recede + rotate as they leave centre
-    const applyDepth = () => {
-      if (prefersReducedMotion) return;
-      const tr = track.getBoundingClientRect();
-      const cx = tr.left + tr.width / 2;
-      for (const node of nodes) {
-        const r = node.getBoundingClientRect();
-        const d = Math.max(-1, Math.min(1, ((r.left + r.width / 2) - cx) / (tr.width * 0.62)));
-        const ry = -d * 22;
-        const scale = 1 - Math.min(Math.abs(d) * 0.16, 0.2);
-        node.style.transform =
-          "perspective(1100px) rotateY(" + ry.toFixed(2) + "deg) scale(" + scale.toFixed(3) + ")";
-        node.style.opacity = (1 - Math.min(Math.abs(d) * 0.55, 0.55)).toFixed(3);
-      }
-    };
-
-    let ticking = false;
-    const update = () => {
-      activeNodeIndex = nearestNodeIndex();
-      updateProgress();
-      updateArrowState();
-      applyDepth();
-      ticking = false;
-    };
-    const requestUpdate = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    };
-
-    if (prevBtn)
-      prevBtn.addEventListener("click", () => moveByNode(-1));
-    if (nextBtn)
-      nextBtn.addEventListener("click", () => moveByNode(1));
-
-    track.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
-
-    track.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        moveByNode(-1);
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        moveByNode(1);
-      }
-    });
-
-    // drag-to-scroll (mouse)
-    let dragging = false;
-    let startX = 0;
-    let startLeft = 0;
-    let moved = false;
-    track.addEventListener("pointerdown", (e) => {
-      if (e.pointerType !== "mouse") return;
-      dragging = true;
-      moved = false;
-      startX = e.clientX;
-      startLeft = track.scrollLeft;
-      track.classList.add("is-dragging");
-      try {
-        track.setPointerCapture(e.pointerId);
-      } catch (_) {}
-    });
-    track.addEventListener("pointermove", (e) => {
-      if (!dragging) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 3) moved = true;
-      track.scrollLeft = startLeft - dx;
-    });
-    const endDrag = (e) => {
-      if (!dragging) return;
-      dragging = false;
-      track.classList.remove("is-dragging");
-      try {
-        track.releasePointerCapture(e.pointerId);
-      } catch (_) {}
-    };
-    track.addEventListener("pointerup", endDrag);
-    track.addEventListener("pointercancel", endDrag);
-    // swallow the click that ends a drag so it doesn't select/jump
-    track.addEventListener(
-      "click",
-      (e) => {
-        if (moved) {
-          e.preventDefault();
-          e.stopPropagation();
-          moved = false;
-        }
-      },
-      true
-    );
-
-    update();
-  });
-
-  // The atmospheric depth is carried by the fixed holographic scene behind
-  // the cockpit — the neural globe (globe.js) — plus the static CSS nebula
-  // in style.css.
-
-  // ─────────────────────────────────────────────
-  // Console greeting for fellow developers
-  // ─────────────────────────────────────────────
-  try {
-    const t = "color:#38d0ff;font:700 20px 'Space Grotesk',system-ui,sans-serif";
-    const b = "color:#c4cdda;font:400 13px/1.6 ui-monospace,monospace";
-    const d = "color:#6e7886;font:400 12px ui-monospace,monospace";
-    console.log("%cMason Cao", t);
-    console.log(
-      "%cI build environmental-intelligence systems, multi-agent AI, and full-stack tools.",
-      b
-    );
-    console.log(
-      "%cPoking around the source? Reach me at masoncao7@gmail.com · github.com/mason-cao",
-      d
-    );
-  } catch (err) {
-    /* console styling unsupported */
-  }
-});
+export function initApp() {
+  initProofViewer();
+  initGithub();
+  initProjectRow();
+  initSectionNav();
+}
