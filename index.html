@@ -1,27 +1,24 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
-    <meta
-      name="google-site-verification"
-      content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw"
-    />
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="google-site-verification" content="IH8oOGjugh_4_5Ffwe9ruYPeYVOKnWZBd653sANC4vw" />
 
     <title>Mason Cao</title>
-
-    <meta
-      name="description"
-      content="A personal site for the projects, experiments, and notes I'm building around AI, environmental data, productivity tools, and community-focused software."
-    />
+    <meta name="description" content="High school senior in Suwanee, Georgia. I build software for air quality and food waste, and research the data behind it." />
     <meta name="author" content="Mason Cao" />
-    <meta
-      name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-    />
-    <meta name="theme-color" content="#06090f" />
-
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#18181b" />
     <link rel="canonical" href="https://mason-cao.github.io/" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Mason Cao" />
+    <meta property="og:description" content="Software for air quality and food waste, and research on the data behind it." />
+    <meta property="og:url" content="https://mason-cao.github.io/" />
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Figtree.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/JetBrainsMono.woff2" crossorigin />
 
     <script type="application/ld+json">
       {
@@ -30,12 +27,15 @@
         "@id": "https://mason-cao.github.io/#profile",
         "url": "https://mason-cao.github.io/",
         "name": "Mason Cao",
-        "description": "A personal site for projects, experiments, and notes about AI, environmental data, productivity tools, and community-focused software.",
+        "description": "Software for air quality and food waste, and research on the data behind it.",
         "mainEntity": {
           "@type": "Person",
           "@id": "https://mason-cao.github.io/#person",
           "name": "Mason Cao",
           "url": "https://mason-cao.github.io/",
+          "address": { "@type": "PostalAddress", "addressLocality": "Suwanee", "addressRegion": "GA", "addressCountry": "US" },
+          "alumniOf": { "@type": "HighSchool", "name": "Lambert High School" },
+          "knowsAbout": ["Environmental data science", "Air quality modelling", "Machine learning", "Competitive programming"],
           "sameAs": [
             "https://github.com/mason-cao",
             "https://www.kaggle.com/mzcao7",
@@ -45,1202 +45,298 @@
       }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Arm scroll reveal before first paint so panels never flash in. -->
+    <!-- Marks that scripting is live, so the scroll-reveal CSS may hide
+         content. Without this class every section stays visible. Inline and
+         before paint so revealed content never flashes in. -->
     <script>
-      document.documentElement.classList.add("reveal-ready");
+      document.documentElement.classList.add("js");
     </script>
 
     <script type="module" src="/src/main.js"></script>
   </head>
 
-  <body class="font-sans relative bg-[#06090f]">
-    <a href="#main-content" class="skip-link">Skip to portfolio content</a>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
 
-    <!-- subtle full-page film grain for holographic texture -->
-    <div class="hero-grain" aria-hidden="true"></div>
-    <!-- ░░ LIVING 3D BACKGROUND — neural globe ░░ -->
-    <div class="hud-scene">
-      <canvas
-        id="globe-canvas"
-        class="scene-layer scene-globe"
-        role="button"
-        tabindex="0"
-        aria-label="Expand interactive neural globe"
-        aria-expanded="false"
-      ></canvas>
-      <div class="globe-rings" aria-hidden="true"><i></i><i></i></div>
-    </div>
-    <!-- the neural globe's governing equation: the forward pass it animates -->
-    <p class="globe-eq" aria-label="Neural network forward pass equation">
-      a<sub>j</sub> = σ(Σ w<sub>ij</sub> a<sub>i</sub> + b<sub>j</sub>)
-    </p>
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <img class="hero-still" src="/map-atlanta.webp" alt="" width="1600" height="640" onerror="this.remove()" />
+        <div class="hero-map" id="hero-map"></div>
+      </div>
 
-    <!-- ░░ JARVIS HUD — fixed cockpit; drag the holograms over the 3D field ░░ -->
-    <div class="deck" id="deck">
-      <main class="deck-stage" id="main-content">
-        <!-- ░░ 00 HOME ░░ -->
-        <section
-          class="module-group module-home"
-          data-module="home"
-          aria-label="Home"
-        >
-          <div class="hero-copy" data-panel>
-            <p
-              id="hero-kicker"
-              data-typewriter-text="Welcome, I'm"
-              class="hero-kicker"
-            >
-              Welcome, I'm
-            </p>
-            <h1
-              id="hero-title"
-              data-typewriter-text="Mason Cao"
-              class="hero-display hero-wordmark text-5xl sm:text-6xl md:text-7xl font-extrabold text-slate-100"
-            >
-              Mason Cao
-            </h1>
+      <p class="hero-chip" data-aqi hidden>
+        <span class="aqi-dot" data-aqi-dot></span>
+        AQI <span data-aqi-value>0</span> · <span data-aqi-label></span> · Atlanta
+      </p>
+
+      <div class="wrap hero-inner">
+        <div>
+          <p class="hero-hi" data-typed="Hi,">Hi,</p>
+          <h1 class="hero-name">I'm Mason.</h1>
+        </div>
+        <img class="hero-portrait" src="/mason.webp" alt="Mason Cao" width="120" height="120" onerror="this.remove()" />
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <p class="hero-thesis">
+          I'm a high school senior in Suwanee, Georgia. I build
+          purpose-oriented software for air quality and food waste, and I
+          research the data behind it.
+        </p>
+      </div>
+
+      <section id="building" class="wrap">
+        <div class="sec-head">
+          <h2 class="sec-title reveal">What I'm building<a href="#building" aria-label="Link to this section">#</a></h2>
+          <div class="row-nav">
+            <button class="row-arrow" type="button" data-row-scroll="-1" aria-label="Scroll projects left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button class="row-arrow" type="button" data-row-scroll="1" aria-label="Scroll projects right">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
           </div>
-        </section>
+        </div>
 
-        <!-- ░░ 01 NOW ░░ -->
-        <section
-          class="module-group"
-          data-module="now"
-          aria-label="Now, currently in motion"
-        >
-          <header class="sec-head">
-            <span class="sec-head-idx">01</span>
-            <h2 class="sec-head-name">Now</h2>
-          </header>
-          <div class="panel-grid panel-grid--2">
-            <article class="hud-panel hud-panel--project" data-panel>
-              <header class="hud-panel-bar">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span class="hud-panel-label">NOVA CORE</span>
-                <span class="hud-panel-meta font-mono">LIVE</span>
-              </header>
-              <div class="hud-panel-body">
-                <div class="motif" data-motif="nova" aria-hidden="true">
-                  <canvas></canvas>
-                </div>
-                <p class="project-role">
-                  8-agent customer intelligence platform
-                </p>
-                <p class="project-copy">
-                  Reads a company's customer data to flag who's about to
-                  leave, then uses SHAP to explain why.
-                </p>
-                <a
-                  class="hud-cta"
-                  href="https://nova-core-systems.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open the app
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
-                    <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </article>
-
-            <article
-              class="hud-panel hud-panel--project"
-              data-panel
-              data-depth="2"
-            >
-              <header class="hud-panel-bar">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span class="hud-panel-label">A.E.R.I.S</span>
-                <span class="hud-panel-meta font-mono"
-                  >CURRENTLY RESEARCHING</span
-                >
-              </header>
-              <div class="hud-panel-body">
-                <div class="motif" data-motif="aeris" aria-hidden="true">
-                  <canvas></canvas>
-                </div>
-                <p class="project-role">Environmental intelligence platform</p>
-                <p class="project-copy">
-                  Seven live air-quality feeds, anomaly detection. Research
-                  with Dr. Annalisa Bracco.
-                </p>
-                <a
-                  class="hud-cta"
-                  href="https://github.com/mason-cao/aeris"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  See where we're at
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
-                    <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </article>
-
-            <article
-              class="hud-panel hud-panel--project"
-              data-panel
-              data-depth="4"
-            >
-              <header class="hud-panel-bar">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span class="hud-panel-label">FRESHTRACK</span>
-                <span class="hud-panel-meta font-mono">SEEKING USERS</span>
-              </header>
-              <div class="hud-panel-body">
-                <div class="motif" data-motif="fresh" aria-hidden="true">
-                  <canvas></canvas>
-                </div>
-                <p class="project-role">Food-waste tracker, deployed</p>
-                <p class="project-copy">
-                  Scan a barcode, get expiry alerts and recipes for whatever's
-                  about to go bad.
-                </p>
-                <a
-                  class="hud-cta"
-                  href="https://freshtrack.up.railway.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open the app
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
-                    <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </article>
-
-            <article
-              class="hud-panel hud-panel--project"
-              data-panel
-              data-depth="3"
-            >
-              <header class="hud-panel-bar">
-                <span class="live-dot" aria-hidden="true"></span>
-                <span class="hud-panel-label">FIRST STEP</span>
-                <span class="hud-panel-meta font-mono">METRO ATLANTA</span>
-              </header>
-              <div class="hud-panel-body">
-                <div class="motif" data-motif="first" aria-hidden="true">
-                  <canvas></canvas>
-                </div>
-                <p class="project-role">Youth-led nonprofit, Join us!</p>
-                <p class="project-copy">
-                  300+ members, microplastics research, 250+ events, $18k+
-                  raised.
-                </p>
-                <a
-                  class="hud-cta"
-                  href="https://firststep-lac.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open the site
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
-                    <path
-                      d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </article>
-
-            <article
-              class="hud-panel hud-panel--horizon"
-              data-panel
-              data-depth="1"
-            >
-              <header class="hud-panel-bar">
-                <span class="hud-panel-label"
-                  >WHAT I'D LIKE TO SEE IN LIFE</span
-                >
-              </header>
-              <ul class="horizon-list hud-panel-body">
-                <li>
-                  <span class="horizon-mark font-mono">+5Y</span>
-                  <span
-                    >Make AI sustainable and energy efficient · Bench 225 ·
-                    First muscle-up</span
-                  >
-                </li>
-                <li>
-                  <span class="horizon-mark font-mono">+15Y</span>
-                  <span
-                    >Automate environmental intelligence · 3 kids and a dog ·
-                    AGI in brain-computer interfaces</span
-                  >
-                </li>
-                <li>
-                  <span class="horizon-mark font-mono">+30Y</span>
-                  <span
-                    >Support my wife's depreciating bakery · Protect planetary
-                    climate data · A home on a secluded beach</span
-                  >
-                </li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <!-- ░░ 02 SIGNAL ░░ -->
-        <section
-          class="module-group"
-          data-module="signal"
-          aria-label="Signal log, live from GitHub"
-        >
-          <header class="sec-head">
-            <span class="sec-head-idx">02</span>
-            <h2 class="sec-head-name">Signal</h2>
-          </header>
-          <article class="hud-panel hud-panel--signal" data-panel>
-            <header class="hud-panel-bar">
-              <span class="live-dot" aria-hidden="true"></span>
-              <span class="hud-panel-label font-mono signal-handle"
-                >@mason-cao</span
-              >
-              <dl class="signal-stats" id="gh-stats" aria-label="GitHub stats">
-                <div>
-                  <dt>repos</dt>
-                  <dd id="gh-repos" class="font-mono">…</dd>
-                </div>
-                <div>
-                  <dt>followers</dt>
-                  <dd id="gh-followers" class="font-mono">…</dd>
-                </div>
-              </dl>
-            </header>
-            <div class="hud-panel-body">
-              <ol class="signal-feed" id="gh-feed" aria-live="polite">
-                <li class="signal-row signal-row--skeleton">
-                  <span class="signal-skel"></span>
-                </li>
-                <li class="signal-row signal-row--skeleton">
-                  <span class="signal-skel"></span>
-                </li>
-                <li class="signal-row signal-row--skeleton">
-                  <span class="signal-skel"></span>
-                </li>
-              </ol>
-              <p class="signal-foot font-mono" id="gh-foot">
-                syncing recent public activity…
+        <div class="projects" data-project-row>
+          <a class="card reveal" href="https://nova-core-systems.vercel.app" target="_blank" rel="noopener">
+            <img class="card-halo" src="/projects/nova-core.svg" alt="" aria-hidden="true" />
+            <div class="card-stage">
+              <img class="card-shot" src="/projects/nova-core.svg" alt="" loading="lazy" />
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Nova Core</h3>
+              <p class="card-desc">
+                Eight AI agents read a company's customer data, flag who's
+                about to leave, and say why.
               </p>
-            </div>
-          </article>
-        </section>
-
-        <!-- ░░ 03 STACK ░░ -->
-        <section
-          class="module-group"
-          data-module="stack"
-          aria-label="Stack and credentials"
-        >
-          <header class="sec-head">
-            <span class="sec-head-idx">03</span>
-            <h2 class="sec-head-name">Stack</h2>
-          </header>
-          <article class="hud-panel hud-panel--sphere" data-panel data-flat>
-            <header class="hud-panel-bar">
-              <span class="hud-panel-label">MY TECH STACK</span>
-              <span class="hud-panel-meta font-mono">DRAG TO SPIN</span>
-            </header>
-            <div class="hud-panel-body tech-sphere-body">
-              <div class="tech-sphere" data-tech-sphere>
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-                  class="tech-logo"
-                  title="Python"
-                  alt="Python"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-                  class="tech-logo"
-                  title="TypeScript"
-                  alt="TypeScript"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-                  class="tech-logo"
-                  title="React"
-                  alt="React"
-                />
-                <img
-                  src="https://cdn.simpleicons.org/nextdotjs/eef1f6"
-                  class="tech-logo"
-                  title="Next.js"
-                  alt="Next.js"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
-                  class="tech-logo"
-                  title="PostgreSQL"
-                  alt="PostgreSQL"
-                />
-                <img
-                  src="https://cdn.simpleicons.org/fastapi"
-                  class="tech-logo"
-                  title="FastAPI"
-                  alt="FastAPI"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-                  class="tech-logo"
-                  title="Tailwind CSS"
-                  alt="Tailwind CSS"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
-                  class="tech-logo"
-                  title="Git"
-                  alt="Git"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"
-                  class="tech-logo"
-                  title="Pandas"
-                  alt="Pandas"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
-                  class="tech-logo"
-                  title="Vite"
-                  alt="Vite"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-                  class="tech-logo"
-                  title="Java"
-                  alt="Java"
-                />
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
-                  class="tech-logo"
-                  title="C"
-                  alt="C"
-                />
-              </div>
-              <p
-                class="tech-sphere-readout font-mono"
-                data-tech-readout
-                aria-live="polite"
-              ></p>
-            </div>
-          </article>
-        </section>
-
-        <!-- ░░ 04 TIMELINE ░░ -->
-        <section
-          class="module-group"
-          data-module="timeline"
-          aria-label="Life timeline"
-        >
-          <header class="sec-head">
-            <span class="sec-head-idx">04</span>
-            <h2 class="sec-head-name">Timeline</h2>
-          </header>
-          <article class="hud-panel hud-panel--timeline" data-panel>
-            <header class="hud-panel-bar">
-              <span class="hud-panel-label">MY LIFE</span>
-            </header>
-            <div class="hud-panel-body">
-              <div class="timeline" data-timeline>
-                <div
-                  class="timeline-track"
-                  data-timeline-track
-                  tabindex="0"
-                  role="group"
-                  aria-label="Life timeline, scroll horizontally"
-                >
-                  <ol class="timeline-list">
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">May 2009</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">Born</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">May 2019</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">Changed elementary schools</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">August 2021</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">First lines of code</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">December 2023</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">Completed Harvard CS50</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">June 2024</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">MIT BeaverWorks courses</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">February 2026</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">Achieved USACO Gold</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">March 2026</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">
-                        Coded my first real apps: Detox &amp; Nova Core
-                      </h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">April 2026</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">
-                        Started research under Dr. Annalisa Bracco
-                      </h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">April 2026</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">FreshTrack went live</h3>
-                    </li>
-                    <li class="timeline-node">
-                      <span class="timeline-year font-mono">June 2026</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">
-                        Stanford NLP &amp; NASA Intern
-                      </h3>
-                    </li>
-                    <li class="timeline-node timeline-node--now">
-                      <span class="timeline-year font-mono">Present</span>
-                      <span class="timeline-dot" aria-hidden="true"></span>
-                      <h3 class="timeline-title">To be continued...</h3>
-                    </li>
-                  </ol>
-                </div>
-                <div class="timeline-controls">
-                  <button
-                    type="button"
-                    class="timeline-arrow"
-                    data-timeline-prev
-                    aria-label="Scroll to earlier moments"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                  </button>
-                  <div class="timeline-progress" aria-hidden="true">
-                    <span data-timeline-progress></span>
-                  </div>
-                  <button
-                    type="button"
-                    class="timeline-arrow"
-                    data-timeline-next
-                    aria-label="Scroll to later moments"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M9 6l6 6-6 6" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </article>
-        </section>
-
-        <!-- ░░ 05 CREDENTIALS ░░ -->
-        <!-- Verifiable record. Each row opens the proof viewer with the
-             original screenshot or document, so the claim and its evidence
-             never drift apart. Row copy states only what its proof shows;
-             wider context lives in the modal caption. -->
-        <section
-          class="module-group"
-          data-module="credentials"
-          aria-label="Verified credentials"
-        >
-          <header class="sec-head">
-            <span class="sec-head-idx">05</span>
-            <h2 class="sec-head-name">Credentials</h2>
-          </header>
-          <article class="hud-panel hud-panel--credentials" data-panel>
-            <header class="hud-panel-bar">
-              <span class="live-dot" aria-hidden="true"></span>
-              <span class="hud-panel-label">CREDENTIALS</span>
-            </header>
-            <div class="hud-panel-body">
-              <ul class="cred-list">
-                <li>
-                  <button
-                    type="button"
-                    class="cred-row"
-                    aria-haspopup="dialog"
-                    aria-controls="proof-modal"
-                    data-cred
-                    data-cred-title="NASA SCHAR Research Intern"
-                    data-cred-meta="George Mason University &middot; Summer 2026"
-                    data-cred-img="credentials/nasa-schar-internship.jpg"
-                    data-cred-alt="Selection email for the 2026 NASA SCHAR Data Science Research Internship, naming one of five selected researchers"
-                    data-cred-caption="Selection email from Dr. Peter Plavchan, Principal Investigator of the NASA Landolt Space Mission. One of five researchers chosen for the fully funded 2026 SCHAR data science track, running Bayesian and time-series analysis on NASA TESS and JWST datasets. The onboarding form link is redacted."
-                  >
-                    <span class="cred-main">
-                      <span class="cred-name">NASA SCHAR Research Intern</span>
-                      <span class="cred-org"
-                        >1 of 5 selected &middot; Summer 2026</span
-                      >
-                    </span>
-                    <span class="cred-chip font-mono" aria-hidden="true"
-                      >PROOF</span
-                    >
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="cred-row"
-                    aria-haspopup="dialog"
-                    aria-controls="proof-modal"
-                    data-cred
-                    data-cred-title="USACO Gold Division"
-                    data-cred-meta="USA Computing Olympiad &middot; 2026"
-                    data-cred-img="credentials/usaco-gold.png"
-                    data-cred-alt="USACO results page showing Gold division, 2026 Third Contest, score 715"
-                    data-cred-caption="Official USACO results for the 2026 Third Contest, Gold Division. Scored 715 of 1000 across three problems, from a field of 1,245 competitors. Reached Gold in both grade 10 and grade 11."
-                  >
-                    <span class="cred-main">
-                      <span class="cred-name">USACO Gold Division</span>
-                      <span class="cred-org"
-                        >Third Contest 2026 &middot; 715/1000</span
-                      >
-                    </span>
-                    <span class="cred-chip font-mono" aria-hidden="true"
-                      >PROOF</span
-                    >
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="cred-row"
-                    aria-haspopup="dialog"
-                    aria-controls="proof-modal"
-                    data-cred
-                    data-cred-title="Responsible AI Award"
-                    data-cred-meta="USAII Global AI Hackathon &middot; 2026"
-                    data-cred-img="credentials/usaii-responsible-ai.jpg"
-                    data-cred-alt="USAII Global AI Hackathon 2026 winners sheet listing the Responsible AI Award to Team Green Spark AI"
-                    data-cred-caption="Official winners announcement. Team Green Spark AI (Ismum Al-Araf, Mason Cao, Perez Gomez) took the Responsible AI Award for &lsquo;My School&rsquo;s Hidden Footprint&rsquo;, one of five awards out of 808 qualifying teams."
-                    data-cred-doc="credentials/usaii-hackathon-2026-winners.pdf"
-                    data-cred-doc-label="Open the full winners document (PDF)"
-                  >
-                    <span class="cred-main">
-                      <span class="cred-name">Responsible AI Award</span>
-                      <span class="cred-org"
-                        >USAII 2026 &middot; Team Green Spark AI</span
-                      >
-                    </span>
-                    <span class="cred-chip font-mono" aria-hidden="true"
-                      >PROOF</span
-                    >
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="cred-row"
-                    aria-haspopup="dialog"
-                    aria-controls="proof-modal"
-                    data-cred
-                    data-cred-title="7th Place, Networking Infrastructures"
-                    data-cred-meta="FBLA National Leadership Conference"
-                    data-cred-img="credentials/fbla-networking.jpg"
-                    data-cred-alt="FBLA National Leadership Conference awards stage, 7th place Networking Infrastructures, Mason Cao, Lambert High School"
-                    data-cred-caption="FBLA National Leadership Conference awards session. Placed 7th nationally in Networking Infrastructures, competing for Lambert High School, Georgia."
-                  >
-                    <span class="cred-main">
-                      <span class="cred-name"
-                        >7th Nationally, Networking</span
-                      >
-                      <span class="cred-org"
-                        >FBLA National Leadership Conf.</span
-                      >
-                    </span>
-                    <span class="cred-chip font-mono" aria-hidden="true"
-                      >PROOF</span
-                    >
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="cred-row"
-                    aria-haspopup="dialog"
-                    aria-controls="proof-modal"
-                    data-cred
-                    data-cred-title="1st Place, Entrepreneurship Team Decision Making"
-                    data-cred-meta="DECA &middot; Lambert High School"
-                    data-cred-img="credentials/deca-entrepreneurship.jpg"
-                    data-cred-alt="DECA awards stage, first place Entrepreneurship Team Decision Making, Mason Cao and Xavier Ryu, Lambert High School"
-                    data-cred-caption="DECA awards session. First place in Entrepreneurship Team Decision Making with Xavier Ryu for Lambert High School, and an International Career Development Conference qualification."
-                  >
-                    <span class="cred-main">
-                      <span class="cred-name">1st Place, Entrepreneurship</span>
-                      <span class="cred-org">DECA ETDM &middot; ICDC qualifier</span>
-                    </span>
-                    <span class="cred-chip font-mono" aria-hidden="true"
-                      >PROOF</span
-                    >
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="cred-row"
-                    aria-haspopup="dialog"
-                    aria-controls="proof-modal"
-                    data-cred
-                    data-cred-title="Founder &amp; Instructor"
-                    data-cred-meta="Sharon Forks Library Summer Coding Camp"
-                    data-cred-img="credentials/coding-camp.jpg"
-                    data-cred-alt="First page of the Summer Math and Scratch Coding Camp syllabus, instructor Mason Cao"
-                    data-cred-caption="The six-week Math &amp; Scratch curriculum I wrote and taught at Sharon Forks Library. Ran 2.5-hour sessions for grades 4 to 8, each pairing a math concept with a Scratch build. Free for three summers; 52 students, 100+ projects shipped."
-                    data-cred-doc="credentials/coding-camp-syllabus.pdf"
-                    data-cred-doc-label="Open the full syllabus (PDF)"
-                  >
-                    <span class="cred-main">
-                      <span class="cred-name">Founder &amp; Instructor</span>
-                      <span class="cred-org"
-                        >Sharon Forks Summer Coding Camp</span
-                      >
-                    </span>
-                    <span class="cred-chip font-mono" aria-hidden="true"
-                      >PROOF</span
-                    >
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </article>
-        </section>
-
-        <!-- ░░ 06 COMMS ░░ -->
-        <section
-          class="module-group"
-          data-module="comms"
-          aria-label="Contact channels"
-        >
-          <header class="sec-head">
-            <span class="sec-head-idx">06</span>
-            <h2 class="sec-head-name">Comms</h2>
-          </header>
-          <article class="hud-panel hud-panel--comms" data-panel>
-            <header class="hud-panel-bar">
-              <span class="live-dot" aria-hidden="true"></span>
-              <span class="hud-panel-label">CONTACT ME</span>
-            </header>
-            <div class="hud-panel-body comms-grid">
-              <a href="mailto:masoncao7@gmail.com" class="contact-link">
-                <div class="contact-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      d="M3 4a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H3zm0 2h14v.511l-7 4.2-7-4.2V6zm14 8H3V8.39l7 4.2 7-4.2V14z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div class="contact-label">Email</div>
-                  <div class="contact-value">masoncao7@gmail.com</div>
-                </div>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/mason-cao7/"
-                class="contact-link"
-              >
-                <div class="contact-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div class="contact-label">LinkedIn</div>
-                  <div class="contact-value">in/mason-cao7</div>
-                </div>
-              </a>
-              <a
-                href="https://github.com/mason-cao"
-                class="contact-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div class="contact-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div class="contact-label">GitHub</div>
-                  <div class="contact-value">mason-cao</div>
-                </div>
-              </a>
-              <a
-                href="mason-cao-cv.pdf"
-                class="contact-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div class="contact-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7.414A2 2 0 0017.414 6L14 2.586A2 2 0 0012.586 2H4zm9 1.914L16.086 7H14a1 1 0 01-1-1V3.914zM5.5 9.5h9a.75.75 0 010 1.5h-9a.75.75 0 010-1.5zm0 3h9a.75.75 0 010 1.5h-9a.75.75 0 010-1.5zm0-6h4a.75.75 0 010 1.5h-4a.75.75 0 010-1.5z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div class="contact-label">CV</div>
-                  <div class="contact-value">Full r&eacute;sum&eacute; (PDF)</div>
-                </div>
-              </a>
-            </div>
-            <!-- off-the-clock lives here now: the play log kept its
-                   modal, only the doorway shrank to a single line -->
-              <button
-                id="open-achievements-btn"
-                type="button"
-                aria-haspopup="dialog"
-                aria-controls="achievements-modal"
-                class="play-log-link"
-              >
-                <span class="play-log-link-text">
-                  off the clock &middot;
-                  <span data-play-log-count>20</span> games peaked
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="play-log-link-arrow"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.22 4.22a.75.75 0 011.06 0l3.25 3.25a.75.75 0 010 1.06l-3.25 3.25a.75.75 0 11-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 010-1.06z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-          </article>
-        </section>
-      </main>
-    </div>
-
-    <!-- ░░ CONTACT MODAL ░░ -->
-    <div
-      id="contact-modal"
-      class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="contact-title"
-      aria-hidden="true"
-      inert
-    >
-      <div
-        id="contact-backdrop"
-        class="absolute inset-0 bg-dark-900/80 backdrop-blur-md cursor-pointer"
-      ></div>
-
-      <div
-        id="contact-box"
-        class="glass-card hud-frame relative z-10 w-full max-w-sm rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
-      >
-        <button
-          id="close-modal-btn"
-          type="button"
-          aria-label="Close contact options"
-          class="modal-close-button absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        <h3 id="contact-title" class="achievements-title">Get in touch</h3>
-
-        <div class="space-y-4">
-          <a href="mailto:masoncao7@gmail.com" class="contact-link">
-            <div class="contact-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  d="M3 4a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H3zm0 2h14v.511l-7 4.2-7-4.2V6zm14 8H3V8.39l7 4.2 7-4.2V14z"
-                />
-              </svg>
-            </div>
-            <div>
-              <div class="contact-label">Email</div>
-              <div class="contact-value">masoncao7@gmail.com</div>
             </div>
           </a>
 
-          <a
-            href="https://www.linkedin.com/in/mason-cao7/"
-            class="contact-link"
-          >
-            <div class="contact-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                />
-              </svg>
+          <a class="card reveal" href="https://github.com/mason-cao/aeris" target="_blank" rel="noopener">
+            <img class="card-halo" src="/projects/aeris.svg" alt="" aria-hidden="true" />
+            <div class="card-stage">
+              <img class="card-shot" src="/projects/aeris.svg" alt="" loading="lazy" />
             </div>
-            <div>
-              <div class="contact-label">LinkedIn</div>
-              <div class="contact-value">in/mason-cao7</div>
+            <div class="card-body">
+              <h3 class="card-title">A.E.R.I.S</h3>
+              <p class="card-desc">
+                Checks AI air quality claims against real sensor data, with no
+                expert labelling needed.
+              </p>
+            </div>
+          </a>
+
+          <a class="card reveal" href="https://myfreshtrack.app" target="_blank" rel="noopener">
+            <img class="card-halo" src="/projects/freshtrack.svg" alt="" aria-hidden="true" />
+            <div class="card-stage">
+              <img class="card-shot" src="/projects/freshtrack.svg" alt="" loading="lazy" />
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">FreshTrack</h3>
+              <p class="card-desc">
+                Scan a barcode, get expiry alerts and recipes before food goes
+                bad. 100+ users.
+              </p>
+            </div>
+          </a>
+
+          <a class="card reveal" href="https://firststep-lac.vercel.app" target="_blank" rel="noopener">
+            <img class="card-halo" src="/projects/first-step.svg" alt="" aria-hidden="true" />
+            <div class="card-stage">
+              <img class="card-shot" src="/projects/first-step.svg" alt="" loading="lazy" />
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">First Step</h3>
+              <p class="card-desc">
+                Student run environmental nonprofit in metro Atlanta. 300+
+                volunteers, 250+ events.
+              </p>
             </div>
           </a>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- ░░ PLAY LOG MODAL ░░ -->
-    <div
-      id="achievements-modal"
-      class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="achievements-title"
-      aria-hidden="true"
-      inert
-    >
-      <div
-        id="achievements-backdrop"
-        class="absolute inset-0 bg-dark-900/80 backdrop-blur-md cursor-pointer"
-      ></div>
-
-      <div
-        id="achievements-box"
-        class="glass-card achievements-box hud-frame relative z-10 w-full max-w-xl rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
-      >
-        <button
-          id="close-achievements-btn"
-          type="button"
-          aria-label="Close achievements"
-          class="modal-close-button absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        <p class="achievements-kicker">
-          // off-the-clock &middot; <span data-play-log-count>20</span> peaks
+      <section id="research" class="wrap">
+        <h2 class="sec-title reveal">Research<a href="#research" aria-label="Link to this section">#</a></h2>
+        <p>
+          I research air quality with Dr. Annalisa Bracco at Georgia Tech and
+          Dr. Lester Mackey, a MacArthur Fellow who does machine learning at
+          Microsoft Research and Stanford. We have an abstract in at AGU Fall
+          Meeting 2026.
         </p>
-        <h3 id="achievements-title" class="achievements-title">Play log</h3>
-
-        <dl class="achievements-list">
-          <div class="achievement-row">
-            <dt>Marvel Rivals</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Peak rank: Eternity</dd>
-          </div>
-          <div class="achievement-row achievement-row--stacked">
-            <dt>Minecraft (Modern PvP)</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>
-              <span>SMP &middot; HT3</span>
-              <span>NethPot &middot; LT3</span>
-            </dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Valorant</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Ascendant 1</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Brawl Stars</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>
-              60K trophies &middot; 8&times; Legendary Rank &middot; 8 yrs
-            </dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Clash of Clans</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Legend League 5,038 &middot; TH11</dd>
-          </div>
-          <div class="achievement-row achievement-row--stacked">
-            <dt>Hypixel</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>
-              <span>Skyblock &middot; 1.5B net worth</span>
-              <span>Bedwars &middot; 160&#9733; &middot; 1.5 FKDR</span>
-              <span>Duels &middot; Classic Legend 3</span>
-            </dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Clash Royale</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Royal Champion &middot; 15K trophies &middot; 10 yrs</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Fortnite</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Elite &middot; BR</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Volleyball Legends</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Pro</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Warframe</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>MR 20 &middot; 100% Steel Path</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Zelda: Breath of the Wild</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>100% &middot; 900 Korok seeds</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Monkey Type</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>168 max WPM (15s) &middot; 147 avg WPM &middot; 166 tests</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Block Blast</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>3K wins &middot; 788,030 high score</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>GamePigeon Word Hunt</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>2.5K wins &middot; 52K high score</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Bee Swarm Simulator</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>22,937,568,264,314 total honey</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Pok&eacute;mon GO</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Level 46</dd>
-          </div>
-          <div class="achievement-row">
-            <dt>Cookie Run Kingdom</dt>
-            <span class="leader" aria-hidden="true"></span>
-            <dd>Kingdom 54 &middot; Arena Elite 1</dd>
-          </div>
-        </dl>
-
-        <p class="achievements-footer">
-          jack of all trades, master of none. just for fun.
+        <p>
+          Last summer I was one of five students selected for NASA SCHAR, a
+          fully funded research internship at George Mason. I worked NASA TESS
+          and JWST data under Dr. Peter Plavchan, principal investigator of
+          NASA's Landolt Space Mission, and first-authored a paper on
+          TOI 3505.01.
         </p>
+        <p>
+          I also spent a summer at Stanford studying natural language
+          processing, where I built language models from scratch and a tool
+          that learns when browsing turns into distraction.
+        </p>
+      </section>
+
+      <section id="endeavors" class="wrap">
+        <h2 class="sec-title reveal">Endeavors<a href="#endeavors" aria-label="Link to this section">#</a></h2>
+
+        <ul class="cred-list">
+          <li><button class="cred-row" data-cred
+            data-cred-title="NASA SCHAR Research Intern"
+            data-cred-meta="George Mason University · Summer 2026"
+            data-cred-img="/credentials/nasa-schar-internship.jpg"
+            data-cred-alt="Selection email for the 2026 NASA SCHAR Data Science Research Internship, naming one of five selected researchers"
+            data-cred-caption="Selection email from Dr. Peter Plavchan, Principal Investigator of the NASA Landolt Space Mission. One of five researchers chosen for the fully funded 2026 SCHAR data science track, running Bayesian and time-series analysis on NASA TESS and JWST datasets. The onboarding form link is redacted.">
+            <img class="cred-thumb" src="/credentials/thumbs/nasa-schar-internship.webp" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cred-title">NASA SCHAR Research Intern</span>
+            <span class="cred-meta">George Mason</span>
+            <span class="cred-year">2026</span>
+          </button></li>
+
+          <li><button class="cred-row" data-cred
+            data-cred-title="USACO Gold Division"
+            data-cred-meta="USA Computing Olympiad · 2026"
+            data-cred-img="/credentials/usaco-gold.png"
+            data-cred-alt="USACO results page showing Gold division, 2026 Third Contest, score 715"
+            data-cred-caption="Official USACO results for the 2026 Third Contest, Gold Division. Scored 715 of 1000 across three problems, from a field of 1,245 competitors. Reached Gold in both grade 10 and grade 11.">
+            <img class="cred-thumb" src="/credentials/thumbs/usaco-gold.webp" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cred-title">USACO Gold, twice</span>
+            <span class="cred-meta">715 of 1000</span>
+            <span class="cred-year">2026</span>
+          </button></li>
+
+          <li><button class="cred-row" data-cred
+            data-cred-title="Responsible AI Award"
+            data-cred-meta="USAII Global AI Hackathon · 2026"
+            data-cred-img="/credentials/usaii-responsible-ai.jpg"
+            data-cred-alt="USAII Global AI Hackathon 2026 winners sheet listing the Responsible AI Award to Team Green Spark AI"
+            data-cred-caption="Official winners announcement. Team Green Spark AI (Ismum Al-Araf, Mason Cao, Perez Gomez) took the Responsible AI Award for ‘My School’s Hidden Footprint’, one of five awards out of 808 qualifying teams."
+            data-cred-doc="/credentials/usaii-hackathon-2026-winners.pdf"
+            data-cred-doc-label="Open the full winners document (PDF)">
+            <img class="cred-thumb" src="/credentials/thumbs/usaii-responsible-ai.webp" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cred-title">Responsible AI Award</span>
+            <span class="cred-meta">1 of 5 from 808 teams</span>
+            <span class="cred-year">2026</span>
+          </button></li>
+
+          <li><button class="cred-row" data-cred
+            data-cred-title="7th Place, Networking Infrastructures"
+            data-cred-meta="FBLA National Leadership Conference"
+            data-cred-img="/credentials/fbla-networking.jpg"
+            data-cred-alt="FBLA National Leadership Conference awards stage, 7th place Networking Infrastructures, Mason Cao, Lambert High School"
+            data-cred-caption="FBLA National Leadership Conference awards session. Placed 7th nationally in Networking Infrastructures, competing for Lambert High School, Georgia.">
+            <img class="cred-thumb" src="/credentials/thumbs/fbla-networking.webp" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cred-title">7th nationally, Networking</span>
+            <span class="cred-meta">FBLA Nationals</span>
+            <span class="cred-year">2026</span>
+          </button></li>
+
+          <li><button class="cred-row" data-cred
+            data-cred-title="DECA State Champion, Entrepreneurship Team Decision Making"
+            data-cred-meta="DECA · Lambert High School"
+            data-cred-img="/credentials/deca-entrepreneurship.jpg"
+            data-cred-alt="DECA awards stage, first place Entrepreneurship Team Decision Making, Mason Cao and Xavier Ryu, Lambert High School"
+            data-cred-caption="DECA awards session. First place in Entrepreneurship Team Decision Making with Xavier Ryu for Lambert High School, and an International Career Development Conference qualification.">
+            <img class="cred-thumb" src="/credentials/thumbs/deca-entrepreneurship.webp" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cred-title">DECA State Champion</span>
+            <span class="cred-meta">Entrepreneurship</span>
+            <span class="cred-year">2026</span>
+          </button></li>
+
+          <li><button class="cred-row" data-cred
+            data-cred-title="Founder &amp; Instructor"
+            data-cred-meta="Sharon Forks Library Summer Coding Camp"
+            data-cred-img="/credentials/coding-camp.jpg"
+            data-cred-alt="First page of the Summer Math and Scratch Coding Camp syllabus, instructor Mason Cao"
+            data-cred-caption="The six-week Math &amp; Scratch curriculum I wrote and taught at Sharon Forks Library. Ran 2.5-hour sessions for grades 4 to 8, each pairing a math concept with a Scratch build. Free for three summers; 52 students, 100+ projects shipped."
+            data-cred-doc="/credentials/coding-camp-syllabus.pdf"
+            data-cred-doc-label="Open the full syllabus (PDF)">
+            <img class="cred-thumb" src="/credentials/thumbs/coding-camp.webp" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cred-title">Founder, free coding camp</span>
+            <span class="cred-meta">52 students</span>
+            <span class="cred-year">2023</span>
+          </button></li>
+        </ul>
+      </section>
+
+      <section id="stack" class="wrap">
+        <h2 class="sec-title reveal">Stack<a href="#stack" aria-label="Link to this section">#</a></h2>
+        <div class="stack-row reveal">
+          <svg viewBox="0 0 24 24" role="img" aria-label="Python"><title>Python</title><path fill="#3776AB" d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="TypeScript"><title>TypeScript</title><path fill="#3178C6" d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="React"><title>React</title><path fill="#61DAFB" d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="Next.js"><title>Next.js</title><path fill="rgba(255,255,255,0.92)" d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="FastAPI"><title>FastAPI</title><path fill="#009688" d="M12 .0387C5.3729.0384.0003 5.3931 0 11.9988c-.001 6.6066 5.372 11.9628 12 11.9625 6.628.0003 12.001-5.3559 12-11.9625-.0003-6.6057-5.3729-11.9604-12-11.96m-.829 5.4153h7.55l-7.5805 5.3284h5.1828L5.279 18.5436q2.9466-6.5444 5.892-13.0896"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="PostgreSQL"><title>PostgreSQL</title><path fill="#4169E1" d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="pandas"><title>pandas</title><path fill="rgba(255,255,255,0.92)" d="M16.922 0h2.623v18.104h-2.623zm-4.126 12.94h2.623v2.57h-2.623zm0-7.037h2.623v5.446h-2.623zm0 11.197h2.623v5.446h-2.623zM4.456 5.896h2.622V24H4.455zm4.213 2.559h2.623v2.57H8.67zm0 4.151h2.623v5.447H8.67zm0-11.187h2.623v5.446H8.67Z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="Hugging Face"><title>Hugging Face</title><path fill="#FFD21E" d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="Git"><title>Git</title><path fill="#F03C2E" d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></svg>
+          <svg viewBox="0 0 24 24" role="img" aria-label="Tailwind CSS"><title>Tailwind CSS</title><path fill="#06B6D4" d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></svg>
+        </div>
+        <p>
+          Mostly Python and TypeScript. I publish machine learning notebooks on
+          Kaggle, and everything I build is on
+          <a href="https://github.com/mason-cao" target="_blank" rel="noopener">github.com/mason-cao</a><span data-gh-wrap hidden> (<span class="mono" data-gh="repos">0</span> public repos)</span>.
+        </p>
+      </section>
+
+      <section id="next" class="wrap">
+        <h2 class="sec-title reveal">What's next<a href="#next" aria-label="Link to this section">#</a></h2>
+        <ul class="horizon reveal">
+          <li>
+            <span class="horizon-when">2031</span>
+            <span>Make AI sustainable and energy efficient · bench 225 · first muscle-up</span>
+          </li>
+          <li>
+            <span class="horizon-when">2041</span>
+            <span>Automate environmental intelligence · three kids and a dog · AGI in brain-computer interfaces</span>
+          </li>
+          <li>
+            <span class="horizon-when">2056</span>
+            <span>Support my wife's depreciating bakery · protect planetary climate data · a home on a secluded beach</span>
+          </li>
+        </ul>
+      </section>
+
+      <section id="contact" class="wrap">
+        <h2 class="sec-title reveal">Say hi<a href="#contact" aria-label="Link to this section">#</a></h2>
+        <p>Happy to hear from you!</p>
+        <div class="chips reveal">
+          <a class="chip" href="mailto:masoncao7@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9 6 9-6M3 6h18v12H3z"/></svg>masoncao7@gmail.com</a>
+          <a class="chip" href="https://github.com/mason-cao" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>mason-cao</a>
+          <a class="chip" href="https://www.linkedin.com/in/mason-cao7/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.2 9.6v9.2M5.2 6.1v.01M10.6 18.8V9.6m0 4.1a3.1 3.1 0 0 1 6.2 0v5.1"/></svg>mason-cao7</a>
+          <a class="chip" href="https://www.kaggle.com/mzcao7" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#20BEFF" d="M.1025 7.3475c-.0681 0-.1022.0341-.1022.102v6.752c0 .0681.034.1022.1022.1022h.7049c.068 0 .1022-.034.1022-.1023v-1.481l.4187-.3985 1.5016 1.91c.041.0477.0884.0716.143.0716h.9091c.0476 0 .0748-.0135.0817-.0407.0135-.041.0066-.075-.0206-.1023l-1.9816-2.4618 1.9002-1.8384c.0204-.0205.0237-.051.01-.092-.0137-.0339-.0408-.051-.0816-.051h-.9398c-.0477 0-.0953.024-.143.0716L.9096 11.607V7.4496c0-.0679-.0342-.102-.1022-.102zm18.0417 0c-.068 0-.102.0341-.102.102v6.752c0 .0681.034.102.102.102h.705c.068 0 .102-.034.102-.102v-6.752c0-.068-.034-.102-.102-.102zM5.961 9.6254c-.5653 0-1.11.1806-1.6343.5415-.0545.0545-.0648.102-.0307.143l.3676.5208c.0272.0477.0717.0545.133.0204.3948-.2722.783-.4086 1.1644-.4086.2927 0 .5158.0886.669.2656.1532.1771.2197.3917.1992.6436-.6606.0681-1.1545.1495-1.4813.245-.8308.2383-1.2461.6913-1.2461 1.3586 0 .4222.1533.7695.4598 1.0419.3132.2654.6845.3982 1.1134.3982.4698 0 .8545-.1125 1.1542-.3372v.1432c0 .0682.0374.102.1123.102h.7048c.068 0 .102-.0338.102-.102V11.372c0-.6604-.2245-1.1406-.6739-1.4403-.3065-.2043-.6776-.3063-1.1134-.3063zm4.3225 0c-.6742 0-1.195.2622-1.5627.7865-.3133.4359-.4699.9671-.4699 1.5936 0 .6604.1634 1.2087.4903 1.6444.3744.4972.892.7455 1.5526.7455.5313 0 .9567-.1327 1.2768-.3982v.531c0 .858-.4122 1.287-1.236 1.287-.361 0-.732-.1907-1.1132-.572a.098.098 0 00-.0716-.0306c-.034 0-.0613.0102-.0817.0307l-.4802.48c-.0408.0613-.0375.1124.0103.1532.1361.1157.2554.2129.3576.2911.102.0783.1905.1413.2656.189.354.1975.7284.2961 1.1235.2961.6808 0 1.207-.1925 1.5781-.577.3711-.3848.5567-.9484.5567-1.6903V9.8196c0-.068-.034-.102-.102-.102h-.705c-.0682 0-.1021.034-.1021.102v.2043c-.3471-.2657-.7763-.3985-1.287-.3985zm4.8021 0c-.6742 0-1.195.2622-1.5627.7865-.3132.4359-.4699.9671-.4699 1.5936 0 .6604.1633 1.2087.4903 1.6444.3744.4972.892.7455 1.5526.7455.5311 0 .9566-.1327 1.2768-.3982v.531c0 .858-.4122 1.287-1.236 1.287-.361 0-.732-.1907-1.1133-.572a.098.098 0 00-.0716-.0306c-.034 0-.0612.0102-.0816.0307l-.48.48c-.0409.0613-.0376.1124.01.1532.1363.1157.2555.2129.3576.2911.1021.0783.1906.1413.2657.189.354.1975.7285.2961 1.1237.2961.6808 0 1.2068-.1925 1.5781-.577.371-.3848.5565-.9484.5565-1.6903V9.8196c0-.068-.034-.102-.102-.102h-.7049c-.0682 0-.1022.034-.1022.102v.2043c-.3474-.2657-.7763-.3985-1.287-.3985zm6.7457 0c-.6537 0-1.185.211-1.5936.6332-.4427.4632-.664 1.0283-.664 1.6956 0 .7083.225 1.2905.6743 1.7467.463.463 1.042.6945 1.7366.6945.6467 0 1.2154-.1838 1.7057-.5515.0545-.041.0545-.0884 0-.143l-.4802-.4903c-.041-.0409-.0919-.0409-.1533 0-.2998.2112-.6368.3167-1.0112.3167-.4222 0-.7729-.119-1.052-.3576-.2452-.2248-.3882-.5038-.429-.8375h3.3197c.0679 0 .1022-.0341.1022-.1023l.01-.2244c.0341-.6878-.1668-1.26-.6025-1.7162-.4224-.4426-.9432-.664-1.5627-.664zm-.0206.7865c.3268 0 .6062.1056.8377.3166.2452.211.371.4734.378.7865h-2.4618c.0613-.3269.2077-.5925.4392-.7968.2313-.2042.5004-.3063.8069-.3063zm-11.4249.102c.6196 0 1.0146.2181 1.1848.6538v1.6854c-.1702.4358-.5755.6538-1.2155.6538-.3133 0-.5687-.0986-.7661-.2963-.2656-.2518-.3983-.6538-.3983-1.2053 0-.9941.3984-1.4914 1.1951-1.4914zm4.802 0c.6196 0 1.0148.2181 1.1851.6538h-.0002v1.6854c-.1703.4358-.5755.6538-1.2155.6538-.3132 0-.5686-.0986-.7661-.2963-.2655-.2518-.3983-.6538-.3983-1.2053 0-.9941.3983-1.4914 1.195-1.4914zm-8.3586 1.6547v1.0215c-.286.286-.6675.412-1.1441.3779-.1703-.0135-.32-.0663-.4493-.1582-.1294-.0919-.2045-.2129-.2249-.3627-.0341-.2657.1158-.47.4495-.6129.2452-.1088.7013-.1974 1.3688-.2656z"/></svg>mzcao7</a>
+          <a class="chip" href="/mason-cao-cv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6v18h12V7zM14 3v4h4"/></svg>CV</a>
+          <a class="chip" href="/play/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11h4M9 9v4M15.5 11v.01M18 13v.01M6 8h12a3 3 0 0 1 3 3v3a3 3 0 0 1-5.2 2H8.2A3 3 0 0 1 3 14v-3a3 3 0 0 1 3-3z"/></svg>What I play</a>
+        </div>
+      </section>
+    </main>
+
+    <nav class="secnav" aria-label="Sections">
+      <a href="#building"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h6v6H4zM14 5h6v6h-6zM4 15h6v4H4zM14 15h6v4h-6z"/></svg><span>Building</span></a>
+      <a href="#research"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 4v5.2L6 17.4A2 2 0 0 0 7.7 20.5h8.6a2 2 0 0 0 1.7-3.1L13.5 9.2V4M9 4h6M8.6 14h6.8"/></svg><span>Research</span></a>
+      <a href="#endeavors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.8l2.3 4.7 5.2.8-3.8 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1L4.5 9.3l5.2-.8z"/></svg><span>Endeavors</span></a>
+      <a href="#stack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l8.5 4.4L12 12.4 3.5 8zM3.5 12.4l8.5 4.4 8.5-4.4M3.5 16.6l8.5 4.4 8.5-4.4"/></svg><span>Stack</span></a>
+      <a href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-14A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5z"/></svg><span>Say hi</span></a>
+    </nav>
+
+    <dialog id="proof" aria-labelledby="proof-title">
+      <div class="dialog-head">
+        <div>
+          <h2 class="dialog-title" id="proof-title" data-proof-title></h2>
+          <p class="dialog-meta" data-proof-meta></p>
+        </div>
+        <button class="dialog-close" data-proof-close type="button">Close</button>
       </div>
-    </div>
-
-    <!-- ░░ PROOF VIEWER ░░ -->
-    <!-- One generic viewer; every .cred-row fills it from its data-cred-*
-         attributes, so credential copy stays in the markup above. -->
-    <div
-      id="proof-modal"
-      class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="proof-title"
-      aria-hidden="true"
-      inert
-    >
-      <div
-        id="proof-backdrop"
-        class="absolute inset-0 bg-dark-900/80 backdrop-blur-md cursor-pointer"
-      ></div>
-
-      <div
-        id="proof-box"
-        class="glass-card proof-box hud-frame relative z-10 w-full max-w-3xl rounded-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 shadow-2xl"
-      >
-        <button
-          id="close-proof-btn"
-          type="button"
-          aria-label="Close proof viewer"
-          class="modal-close-button absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        <p class="achievements-kicker" data-proof-meta></p>
-        <h3 id="proof-title" class="achievements-title" data-proof-title></h3>
-
-        <figure class="proof-figure">
-          <img data-proof-img src="" alt="" decoding="async" />
-        </figure>
-
-        <p class="proof-caption" data-proof-caption></p>
-
-        <a
-          class="hud-cta proof-doc"
-          data-proof-doc
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-          hidden
-        >
-          <span data-proof-doc-label></span>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M14 3h7v7" />
-            <path d="M10 14L21 3" />
-            <path
-              d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-            />
-          </svg>
-        </a>
+      <div class="dialog-body">
+        <img data-proof-img src="" alt="" />
+        <p class="dialog-caption" data-proof-caption></p>
+        <p><a data-proof-doc href="" target="_blank" rel="noopener" hidden></a></p>
       </div>
-    </div>
-
+    </dialog>
   </body>
 </html>

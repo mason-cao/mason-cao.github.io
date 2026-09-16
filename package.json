@@ -1,22 +1,27 @@
 {
   "name": "mason-cao.github.io",
   "private": true,
-  "version": "2.0.0",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --port 8642 --strictPort",
     "build": "vite build",
-    "preview": "vite preview --port 8642 --strictPort"
-  },
-  "dependencies": {
-    "gsap": "^3.13.0",
-    "postprocessing": "^6.37.8",
-    "three": "^0.182.0"
+    "preview": "vite preview --port 8642 --strictPort",
+    "shots": "node scripts/capture-screenshots.mjs && node scripts/shrink-screenshots.mjs",
+    "map-still": "node scripts/capture-map-still.mjs",
+    "review": "node scripts/review-shot.mjs"
   },
   "devDependencies": {
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@tailwindcss/vite": "^4.1.16",
     "playwright": "^1.61.1",
+    "sharp": "^0.35.4",
+    "simple-icons": "^16.31.0",
     "tailwindcss": "^4.1.16",
     "vite": "^7.3.0"
+  },
+  "dependencies": {
+    "maplibre-gl": "^6.10.0"
   }
 }

@@ -1,10 +1,65 @@
 @import "tailwindcss";
 
-/* Mirrors the old inline tailwind.config from index.html (Play CDN era). */
+/* ── Lexend + JetBrains Mono, self-hosted. No Google Fonts round-trip.
+   Lexend is a legibility-research typeface; it is what gives the page its
+   warmth at light weights. ─────────────────────────────────────────────── */
+@font-face {
+  font-family: "Figtree";
+  src: url("/fonts/Figtree.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono.woff2") format("woff2-variations");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+/* ── Design tokens. Single source of truth for utilities and style.css. ──
+   The whole identity rests on one rule: weights 300 and 400 only, never
+   bold. See docs/superpowers/specs/2026-09-15-ui-overhaul-design.md §4. */
 @theme {
-  --font-display: "Space Grotesk", "Chivo", system-ui, sans-serif;
-  --font-sans: "Chivo", "SF Pro Display", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --color-dark-800: #0a0f17;
-  --color-dark-900: #06090f;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: #18181b;
+  --color-surface: #27272a;
+  --color-hairline: rgba(255, 255, 255, 0.1);
+  --color-ink: #ffffff;
+  --color-body: rgba(255, 255, 255, 0.72);
+  --color-meta: rgba(255, 255, 255, 0.52);
+  --color-accent: #38bdf8;
+
+  /* The page's only other color is live data: the hero AQI dot takes its
+     value from the current reading, per EPA bands. */
+  --color-aqi-good: #4ade80;
+  --color-aqi-moderate: #facc15;
+  --color-aqi-usg: #fb923c;
+  --color-aqi-unhealthy: #f87171;
+  --color-aqi-very: #c084fc;
+  --color-aqi-hazardous: #fb7185;
+
+  --measure: 768px;
+  --radius-card: 10px;
+
+  --ease-out-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Motion durations live outside @theme so plain CSS can read them too. */
+:root {
+  --dur-fast: 0.2s;
+  --dur-mid: 0.3s;
+  --dur-slow: 0.5s;
+  --dur-fade: 0.8s;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --gutter: 20px;
+  --section-gap: 80px;
+  color-scheme: dark;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --section-gap: 56px;
+  }
 }

@@ -6,31 +6,54 @@ brand
 
 ## Users
 
-Potential collaborators, recruiters, technical peers, and curious visitors exploring Mason Cao's work in AI, environmental intelligence, productivity tools, and community-focused software. They should be able to understand the work while experiencing a memorable demonstration of technical craft.
+College admissions officers first — they arrive from an application, give a
+linked site 60–120 seconds, and often open it on a phone or a restricted school
+laptop. Collaborators, recruiters and technical peers second. Their needs
+converge: what was built, what the evidence is, in ninety seconds.
 
 ## Product Purpose
 
-Present Mason's projects, experiments, credentials, interests, and contact paths as an interactive personal portfolio. Success means visitors remember the Jarvis-inspired command deck, recognize the neural globe as the visual centerpiece, and can still reach the underlying portfolio information.
+Present Mason's work so it is legible in under ninety seconds and reads as one
+thesis — **computer science for environmental systems and sustainability**.
+Success means a reader can name what he builds, see that the projects are real,
+and open a document proving any credential, without scrolling past anything that
+does not earn its place.
 
 ## Brand Personality
 
-Technical, cinematic, ambitious. The experience should feel like an authored personal command deck: precise, energetic, and more distinctive than a conventional developer portfolio.
+Quiet, precise, evidence-led. Restraint is the signal: two type weights, one
+accent, and a page whose craft shows in working correctly rather than in
+spectacle. Every claim carries a number.
 
 ## Anti-references
 
-Generic template portfolios, plain stacked card pages used as the primary desktop experience, quiet minimalism that removes the neural globe, decorative telemetry with no useful purpose, forced splash screens, and responsive behavior that selects a completely different identity based on pointer hardware or ordinary laptop height.
+Spectacle that spends the reader's time before it informs them. Stacked
+uppercase badges where a sentence would read faster. Layouts that depend on a
+pointer, a wide window, or a fast GPU. Decoration that carries no information.
+Numbers stated as adjectives ("many", "popular") instead of counts.
 
 ## Design Principles
 
-- Preserve the command-deck identity across desktop and laptop contexts.
-- Keep the neural globe centered as the system's visual anchor.
-- Let visitors enter the portfolio immediately, without an initialization gate.
-- Keep peripheral chrome quiet and remove readouts that do not help visitors navigate or understand the work.
-- Present real project substance beneath the spectacle.
-- Adapt the composition proportionally before changing its information architecture.
+- Say it in sentences, not badges.
+- Every claim carries its number.
+- The page's only colour beyond monochrome is real data — the hero AQI dot is
+  coloured by the live reading, and card halos are derived from the screenshots
+  behind them.
+- Two type weights, 300 and 400. No bold anywhere.
+- Every external dependency degrades to *less content*, never to a broken or
+  loading state.
+- Projects before credentials: the application already lists the awards, so the
+  site's job is the work it cannot show.
 
 ## Accessibility & Inclusion
 
-Keep semantic headings and content available to assistive technology, and preserve keyboard focus states and skip navigation. Maintain a readable stacked experience for genuinely narrow phone viewports.
+`prefers-reduced-motion` is honoured. The v2 override — which hard-coded
+`prefersReducedMotion = false` so every visitor got the cockpit — is reverted;
+nothing in v3's vocabulary (a 0.5s entrance, a slow halo drift, a 0.6s icon
+draw) justifies overriding an OS accessibility setting.
 
-The OS `prefers-reduced-motion` setting is deliberately **not** honored: every visitor gets the full cockpit, parallax, ambient radar, panel flicker, and interaction FX. This is an authored trade-off against the usual accessibility guidance, chosen so the experience is never split into two versions. It is centralized in `src/motion.js` and can be reverted from that one file.
+Scroll-reveal hides content only behind an `html.js` class, so a blocked or
+failed script leaves every section visible rather than permanently transparent.
+The hero map is decorative and `aria-hidden`; the AQI chip is exposed as text.
+Card hover motifs are enhancement only — no information lives solely in a hover
+state. A print stylesheet inverts the page to black-on-white and expands links.
