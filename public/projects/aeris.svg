@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <defs>
-    <linearGradient id="ae" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#a5f3fc"/><stop offset="1" stop-color="#0e7490"/>
-    </linearGradient>
-  </defs>
-  <path d="M96 172h214a54 54 0 1 0-52-68" stroke="url(#ae)" stroke-width="30" stroke-linecap="round"/>
-  <path d="M96 268h258a54 54 0 1 1-52 68" stroke="url(#ae)" stroke-width="30" stroke-linecap="round" opacity=".78"/>
-  <path d="M96 364h150" stroke="url(#ae)" stroke-width="30" stroke-linecap="round" opacity=".5"/>
-  <circle cx="330" cy="420" r="30" fill="url(#ae)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">A.E.R.I.S.</title>
+  <desc id="desc">Two flowing air profiles form an open A, with a sensor point above the current.</desc>
+  <path d="M27 175C65 168 76 48 122 48C169 48 183 149 228 149V172C167 172 155 73 123 73C95 73 83 192 32 199Z" fill="oklch(87% 0.1 195)"/>
+  <path d="M87 186C110 166 120 117 143 117C173 117 184 192 228 183V206C173 217 157 144 144 144C134 144 123 182 105 201Z" fill="oklch(68% 0.14 232)"/>
+  <circle cx="202" cy="68" r="12" fill="oklch(92% 0.07 150)"/>
 </svg>

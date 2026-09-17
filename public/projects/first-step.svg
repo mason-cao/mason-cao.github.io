@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">First Step</title>
+  <desc id="desc">A winding trail cut through a leaf, beginning with a golden stepping stone.</desc>
   <defs>
-    <linearGradient id="fs" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fcd34d"/><stop offset="1" stop-color="#c2410c"/>
-    </linearGradient>
+    <mask id="trail" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256">
+      <rect width="256" height="256" fill="white"/>
+      <path d="M68 207C64 176 86 161 125 151C172 139 166 114 138 111C110 108 124 76 189 51" stroke="black" stroke-width="19" stroke-linecap="round"/>
+    </mask>
   </defs>
-  <rect x="70" y="330" width="116" height="104" rx="26" fill="url(#fs)" opacity=".55"/>
-  <rect x="198" y="248" width="116" height="186" rx="26" fill="url(#fs)" opacity=".78"/>
-  <rect x="326" y="150" width="116" height="284" rx="26" fill="url(#fs)"/>
-  <circle cx="384" cy="92" r="42" fill="url(#fs)"/>
-  <path d="M128 300c60-86 124-132 194-176" stroke="url(#fs)" stroke-width="18" stroke-linecap="round" stroke-dasharray="4 40" opacity=".85"/>
+  <path d="M52 196C37 119 82 46 207 37C215 155 154 220 52 196Z" fill="oklch(81% 0.1 141)" mask="url(#trail)"/>
+  <path d="M40 211C48 205 59 208 63 216C67 225 60 235 52 237C43 239 34 231 34 223C34 218 36 214 40 211Z" fill="oklch(86% 0.12 82)"/>
 </svg>

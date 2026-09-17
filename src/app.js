@@ -15,6 +15,7 @@ function initProofViewer() {
   const title = field("title");
   const meta = field("meta");
   const img = field("img");
+  const gallery = field("gallery");
   const caption = field("caption");
   const doc = field("doc");
 
@@ -28,6 +29,14 @@ function initProofViewer() {
       img.src = d.credImg || "";
       img.alt = d.credAlt || "";
 
+      const slides = document.getElementById(d.credGallery || "");
+      const hasSlides = slides instanceof HTMLTemplateElement;
+      gallery.replaceChildren();
+      if (hasSlides) gallery.append(slides.content.cloneNode(true));
+      gallery.hidden = !hasSlides;
+      img.hidden = hasSlides;
+      dialog.classList.toggle("has-slides", hasSlides);
+
       if (d.credDoc) {
         doc.href = d.credDoc;
         doc.textContent = d.credDocLabel || "Open the document";
@@ -38,6 +47,7 @@ function initProofViewer() {
       }
 
       dialog.showModal();
+      dialog.scrollTop = 0;
     });
   });
 
