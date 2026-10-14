@@ -6,7 +6,7 @@ import { mkdir } from "node:fs/promises";
 const SHOTS = [
   { slug: "nova-core", url: "https://nova-core-systems.vercel.app" },
   { slug: "freshtrack", url: "https://myfreshtrack.app" },
-  { slug: "first-step", url: "https://firststep-lac.vercel.app" },
+  { slug: "first-step", url: "https://firststepatlanta.org" },
 ];
 
 await mkdir("public/projects", { recursive: true });
